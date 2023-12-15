@@ -15,7 +15,7 @@ argon2-cffi = "^21.3.0"
 hiredis = "^2.2.3"
 redis = "^5.0.1"
 
-Django = "^4.2.2"
+Django = "^5.0"
 django-environ = "^0.10.0"
 django-model-utils = "^4.3.1"
 django-allauth = "^0.54.0"
