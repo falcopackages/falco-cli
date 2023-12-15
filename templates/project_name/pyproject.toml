@@ -11,7 +11,7 @@ packages = [{ include = "{{ project_name }}" }]
 python = "^3.10"
 
 Pillow = "^10.1.0"
-argon2-cffi = "^21.3.0"
+argon2-cffi = "^23.1.0"
 hiredis = "^2.2.3"
 redis = "^5.0.1"
 
