@@ -16,7 +16,7 @@ hiredis = "^2.2.3"
 redis = "^5.0.1"
 
 Django = "^4.2.2"
-django-environ = "^0.10.0"
+django-environ = "^0.11.2"
 django-model-utils = "^4.3.1"
 django-allauth = "^0.54.0"
 django-template-partials = "^23.3.post1"
