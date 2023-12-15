@@ -1,0 +1,110 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+        args: ['--maxkb=1000']
+
+  - repo: https://github.com/myint/autoflake
+    rev: v2.2.1
+    hooks:
+      - id: autoflake
+        exclude: .*/__init__.py
+        alias: autoformat
+        args:
+          - --in-place
+          - --remove-all-unused-imports
+          - --expand-star-imports
+          - --remove-duplicate-keys
+          - --remove-unused-variables
+
+  - repo: https://github.com/asottile/reorder_python_imports
+    rev: v3.12.0
+    hooks:
+      - id: reorder-python-imports
+        alias: autoformat
+
+  - repo: https://github.com/rtts/djhtml
+    rev: 3.0.6
+    hooks:
+      - id: djhtml
+        entry: djhtml --tabwidth 4
+        alias: autoformat
+
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: 0.1.5
+    hooks:
+      - id: ruff
+        args: [--fix]
+        alias: linting
+      - id: ruff-format
+        alias: autoformat
+
+  - repo: https://github.com/asottile/blacken-docs
+    rev: 1.16.0
+    hooks:
+      - id: blacken-docs
+        alias: autoformat
+
+  - repo: https://github.com/thibaudcolas/curlylint
+    rev: v0.13.1
+    hooks:
+      - id: curlylint
+        alias: linting
+
+  - repo: https://github.com/adamchainz/django-upgrade
+    rev: 1.15.0
+    hooks:
+      - id: django-upgrade
+        args: [ --target-version, "4.2" ]
+
+  - repo: https://github.com/python-poetry/poetry
+    rev: "1.7.0"
+    hooks:
+      - id: poetry-check
+      - id: poetry-lock
+      - id: poetry-export
+        name: poetry-export-prod
+        args:
+          [
+            "-f",
+            "requirements.txt",
+            "-o",
+            "requirements.txt",
+            "--without-hashes"
+          ]
+      - id: poetry-export
+        name: poetry-export-docs
+        args:
+          [
+            "-f",
+            "requirements.txt",
+            "-o",
+            "docs/requirements.txt",
+            "--without-hashes",
+            "--only",
+            "docs",
+          ]
+      - id: poetry-export
+        name: poetry-export-dev
+        args:
+          [
+            "-f",
+            "requirements.txt",
+            "-o",
+            "requirements-dev.txt",
+            "--without-hashes",
+            "--with",
+            "dev",
+          ]
+
+
+#  - repo: https://github.com/pre-commit/mirrors-mypy
+#    rev: 1.7.0
+#    hooks:
+#    -   id: mypy

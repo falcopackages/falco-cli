@@ -1,0 +1,118 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "falco"
+dynamic = ["version"]
+description = ''
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+keywords = ["django", "python", "cookiecutter", "project-template"]
+authors = [
+  { name = "Tobi DEGNON", email = "tobidegnon@proton.me" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+  "Framework :: Django :: 4",
+  "Framework :: Django :: 4.0",
+  "Framework :: Django :: 4.1",
+  "Intended Audience :: Developers",
+  "Natural Language :: English",
+]
+dependencies = [
+  "django<5",
+  "tomli",
+  "tomli-w",
+  "hupper",
+  "cappa",
+  "rich",
+  "httpx",
+  "honcho",
+  "python-dotenv",
+  "dict-deep",
+]
+
+[project.scripts]
+falco = "falco.__main__:main"
+
+[project.urls]
+Documentation = "https://falco.oluwatobi.dev/"
+Issues = "https://github.com/tobi-de/falco/issues"
+Source = "https://github.com/tobi-de/falco"
+
+[tool.hatch.version]
+path = "src/falco/__about__.py"
+
+[tool.hatch.envs.default]
+dependencies = [
+  "coverage[toml]>=6.5",
+  "pytest",
+  "ipython",
+]
+[tool.hatch.envs.default.scripts]
+#falco = "python src/falco/__main__.py"
+test = "pytest {args:tests}"
+test-cov = "coverage run -m pytest {args:tests}"
+cov-report = [
+  "- coverage combine",
+  "coverage report",
+]
+cov = [
+  "test-cov",
+  "cov-report",
+]
+
+[tool.hatch.envs.docs]
+dependencies = [
+  "sphinx",
+  "sphinx-autobuild",
+  "myst-parser",
+  "shibuya",
+  "sphinx-design",
+  "sphinx-tabs",
+  "sphinx-copybutton",
+  "sphinx-togglebutton",
+  "sphinx-autorun",
+  "rich-codex",
+]
+
+[tool.hatch.envs.docs.scripts]
+serve = "sphinx-autobuild docs docs/_build/html --port 8002"
+gen-docs-imgs = "rich-codex --configs docs/.rich-codex.yml  --skip-git-checks --no-confirm --terminal-theme MONOKAI"
+
+[[tool.hatch.envs.all.matrix]]
+python = ["3.8", "3.9", "3.10", "3.11", "3.12"]
+
+[tool.hatch.envs.types]
+dependencies = [
+  "mypy>=1.0.0",
+]
+[tool.hatch.envs.types.scripts]
+check = "mypy --install-types --non-interactive {args:src/falco tests}"
+
+[tool.coverage.run]
+source_pkgs = ["falco", "tests"]
+branch = true
+parallel = true
+omit = [
+  "src/falco/__about__.py",
+]
+
+[tool.coverage.paths]
+falco = ["src/falco", "*/falco/src/falco"]
+tests = ["tests", "*/falco/tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]

@@ -1,0 +1,36 @@
+outputs:
+  - command: "falco --help"
+    img_paths:
+      - docs/images/falco.svg
+
+  - command: "falco start-project --help"
+    img_paths:
+      - docs/images/start-project.svg
+
+  - command: "tree -L 3 templates/start_project/project_name"
+    img_paths:
+      - docs/images/project-tree.svg
+
+  - command: "falco crud --help"
+    img_paths:
+      - docs/images/crud.svg
+
+  - command: "falco work --help"
+    img_paths:
+      - docs/images/work.svg
+
+  - command: "falco htmx --help"
+    img_paths:
+      - docs/images/htmx.svg
+
+  - command: "falco htmx-ext --help"
+    img_paths:
+      - docs/images/htmx-ext.svg
+
+  - command: "falco sync-dotenv --help"
+    img_paths:
+      - docs/images/sync-dotenv.svg
+
+  - command: "falco rm-migrations --help"
+    img_paths:
+      - docs/images/rm-migrations.svg

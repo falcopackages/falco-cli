@@ -1,0 +1,100 @@
+[tool.poetry]
+name = "{{ project_name }}"
+version = "0.1.0"
+description = ""
+authors = ["Tobi-De <tobidegnon@proton.me>"]
+license = ""
+readme = "README.md"
+packages = [{ include = "{{ project_name }}" }]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+Pillow = "^10.1.0"
+argon2-cffi = "^21.3.0"
+hiredis = "^2.2.3"
+redis = "^5.0.1"
+
+Django = "^4.2.2"
+django-environ = "^0.10.0"
+django-model-utils = "^4.3.1"
+django-allauth = "^0.54.0"
+django-template-partials = "^23.3.post1"
+django-extensions = "^3.2.3"
+django-htmx = "^1.15.0"
+django-anymail = "^10.0"
+boto3 = "^1.26.160"
+
+whitenoise = { extras = ["brotli"], version = "^6.5.0" }
+granian = "^0.6"
+psycopg = { extras = ["c"], version = "^3.1.12" }
+sentry-sdk = "^1.26.0"
+
+[tool.poetry.group.dev.dependencies]
+django-browser-reload = "^1.10.0"
+django-debug-toolbar = "^4.1.0"
+django-fastdev = "^1.7.3"
+Werkzeug = { extras = ["watchdog"], version = "^3.0.1" }
+dj-notebook = "^0.6.1"
+
+coverage = "^7.2.7"
+pytest = "^7.4.0"
+pytest-django = "^4.5.2"
+pytest-sugar = "^0.9.7"
+
+mypy = "^1.4.1"
+django-stubs = { extras = ["compatible-mypy"], version = "^4.2.1" }
+poethepoet = "^0.24.3"
+
+[tool.poe.tasks]
+r = { cmd = "python manage.py runserver", help = "Start dev serve" }
+u = { cmd = "python manage.py makesuperuser", help = "Create a new superuser using environment varibales, look in your .env.template file" }
+m = { cmd = "python manage.py migrate", help = "Apply migrations" }
+mk = { cmd = "python manage.py makemigrations", help = "Make migrations" }
+rd = { cmd = "python manage.py reset_db --noinput", help = "Delete and recreate your database" }
+rm = { cmd = "cuzzy rm-migrations {{ project_name }}", help = "Delete all migrations files" }
+RD = ["rd", "rm", "mk", "m"] # Reset your database, delete all migrations files, make news migrations for all apps, apply all migrations
+
+# "https://github.com/charliermarsh/ruff"
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+select = [
+    "E", # https://github.com/charliermarsh/ruff#pycodestylet
+    "F", # https://github.com/charliermarsh/ruff#pyflakes
+    "UP", # https://github.com/charliermarsh/ruff#pyupgrade
+    "N", # https://github.com/charliermarsh/ruff#pep8-naming
+    "S", # https://github.com/charliermarsh/ruff#flake8-bandit
+    "C", # https://github.com/charliermarsh/ruff#flake8-comprehensions
+    "B", # https://github.com/charliermarsh/ruff#flake8-bugbear
+    "T" # https://github.com/charliermarsh/ruff#flake8-print
+]
+extend-exclude = [
+    "*/migrations/*"
+]
+
+# Allow unused variables when underscore-prefixed.
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+[tool.mypy]
+python_version = "3.10"
+check_untyped_defs = true
+ignore_missing_imports = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+warn_unused_configs = true
+plugins = ["mypy_django_plugin.main"]
+exclude = ["/migrations/"]
+
+[tool.django-stubs]
+django_settings_module = "config.settings"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
