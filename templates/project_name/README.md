@@ -1,6 +1,6 @@
 # {{ project_name }}
 
-[![falco](https://img.shields.io/badge/built%20with-fuzzy--couscous-success)](https://github.com/Tobi-De/falco)
+[![falco](https://img.shields.io/badge/built%20with-falco-success)](https://github.com/Tobi-De/falco)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![linting: pylint](https://img.shields.io/badge/linting-pylint-yellowgreen)](https://github.com/PyCQA/pylint)
 

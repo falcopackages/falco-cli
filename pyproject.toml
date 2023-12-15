@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "falco"
+name = "falco-cli"
 dynamic = ["version"]
 description = ''
 readme = "README.md"
@@ -51,6 +51,9 @@ Source = "https://github.com/tobi-de/falco"
 [tool.hatch.version]
 path = "src/falco/__about__.py"
 
+[tool.hatch.build.targets.wheel]
+packages = ["src/falco"]
+
 [tool.hatch.envs.default]
 dependencies = [
   "coverage[toml]>=6.5",
@@ -58,7 +61,6 @@ dependencies = [
   "ipython",
 ]
 [tool.hatch.envs.default.scripts]
-#falco = "python src/falco/__main__.py"
 test = "pytest {args:tests}"
 test-cov = "coverage run -m pytest {args:tests}"
 cov-report = [
