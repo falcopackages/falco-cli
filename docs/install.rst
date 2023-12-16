@@ -7,7 +7,7 @@ Falco is available on PyPI and can be installed with pip or your favorite Python
 
 .. code-block:: shell
 
-    pip install falco
+    pip install falco-cli
 
 
 Next Up

@@ -42,9 +42,6 @@ class StartProject:
 
         self.update_authors()
 
-        if self.branch != "main":
-            self.apply_branch_patch()
-
         if Prompt.ask("Do you want to install the dependencies? (y/N)", choices=["y", "n"]) == "y":
             self.install_dependencies()
 
@@ -58,25 +55,18 @@ class StartProject:
 
     def init_project(self) -> None:
         with simple_progress("Initializing your new django project... :sunglasses:"):
-            if template_dir := get_template_dir(self.branch):
-                # run the django-admin command
-                subprocess.run(
-                    [
-                        "django-admin",
-                        "startproject",
-                        self.project_name,
-                        "--template",
-                        template_dir,
-                        "-e=py,html,toml,md,json,js,sh",
-                        "--exclude=docs",
-                        "--exclude=fuzzy_couscous",
-                        "--exclude=.github",
-                        "--exclude=.idea",
-                    ]
-                )
+            # run the django-admin command
+            subprocess.run(
+                [
+                    "django-admin",
+                    "startproject",
+                    self.project_name,
+                    "--template",
+                    "templates/project_name",
+                    "-e=py,html,toml,md,json,js,sh,yml,ipynb",
+                ]
+            )
 
-            else:
-                raise cappa.Exit("Couldn't download or find the template to use, check your connection.")
 
     def update_authors(self) -> None:
         name, email = self.get_git_user_infos()
@@ -89,23 +79,6 @@ class StartProject:
         deep_set(project_config, "tool.poetry.authors", [f"{name} <{email}>"])
         write_toml(pyproject_file, project_config)
 
-    def apply_branch_patch(self) -> None:
-        pass
-
-    def install_dependencies(self) -> None:
-        with Progress(
-            SpinnerColumn(),
-            TextColumn("[progress.description]{task.description}"),
-            transient=True,
-        ) as progress:
-            progress.add_task(description="Installing dependencies... :boom:", total=None)
-            subprocess.call(
-                ["poetry install --with dev"],
-                cwd=self.project_path,
-                stdout=subprocess.DEVNULL,
-                stderr=subprocess.DEVNULL,
-                shell=True,
-            )
 
     @staticmethod
     def get_git_user_infos():

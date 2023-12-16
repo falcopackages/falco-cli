@@ -28,7 +28,8 @@ for deeper understanding.
 External Ressources
 -------------------
 
-Here are my top picks of resources that'll help you become a better django and web developer in general.
+Before diving into the guides, here are my top recommendations for external resources that'll help you become a better django and web
+developer in general.
 
 **The obvious ones**
 
@@ -62,7 +63,7 @@ Here are my top picks of resources that'll help you become a better django and w
     .. grid-item-card:: WYAGNI
         :link: https://codeanthropology.substack.com/p/yagni-and-waygni?
 
-        When Are You Gonna Need It?. A look at how we reduce scope, what we lose along the way, and what we could gain if we didn't. With a short story from the startup trenches.
+        When Are You Gonna Need It? A look at how we reduce scope, what we lose along the way, and what we could gain if we didn't. With a short story from the startup trenches.
 
     .. grid-item-card:: 12 Factor App
         :link: https://12factor.net/
@@ -70,7 +71,7 @@ Here are my top picks of resources that'll help you become a better django and w
         The twelve-factor app is a methodology for building software-as-a-service applications. These best practices are designed to enable applications to be built with portability and resilience when deployed to the web.
 
 
-**Good old content, blog articles and videos**
+**Good old content: blog articles and videos**
 
 .. grid:: 2
 
@@ -89,7 +90,7 @@ Here are my top picks of resources that'll help you become a better django and w
 
 .. grid:: 2
 
-    .. grid-item-card:: GrugBrain dev
+    .. grid-item-card:: The Grug Brained Developer
         :link: https://grugbrain.dev
 
         A layman's guide to thinking like the self-aware smol brained.

@@ -9,7 +9,7 @@ lifecycle of your project, from project setup to deployment.
 
    .. code:: console
 
-      $ pip install falco
+      $ pip install falco-cli
 
 
 The entrypoint for the CLI is the ``falco`` command. It is used to run the commands that are available to you.

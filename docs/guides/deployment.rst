@@ -1,10 +1,47 @@
 :description: Smooth Deployment Strategies for django projects
 
-Smooth Deployment Strategies
+Deployment Strategies
 ============================
 
-This template was configured to simplify deployment on `caprover <https://caprover.com/>`__, since that is what I use 99% of the time.
+Deployment is not a solved solution for me, it is still a pain, no matter how many time I do it, it never goes smoothly. If you can afford it I'll recommand
+a managed solution (the cloud), if you any reason you decide to go the self-hosting route, I'll recommand you use a P.A.A.S (Platform as a Service) solution
+to ease your burden or a least docker as a bare minimum. Deployment is not worth your blood and energy my friend.
 
+
+Django Deployment Checklist
+
+Someone else computer a.k.a the cloud
+-------------------------------------
+
+I don't have much experienc with these, but are relatively similarly price and quite easy to use, so you can just use one.
+
+
+* `Fly <https://fly.io/>`_
+* `Render <https://render.com/>`_
+* `AWS Elastic Beanstalk <https://aws.amazon.com/elasticbeanstalk/>`_
+* `Heroku <https://www.heroku.com/>`_
+* `Railway <https://railway.app/>`_ 
+
+
+Self hosting
+------------
+
+If you are new to it, the term **self-hosting** might be misguidind, usually people use self-hosting to just mean you rent a vps and to the work yourself
+instead of paying someone else to do it for you. It might be cheaper but if you want to do real **self-hosting** you technically need to by you own hardware.
+But I digress, the point of this section is to present you tools that will easier your burden if you decide de rent a server instead of using a managed solution.
+I find that self-hosted solutions are generally cheaper than managed/hosted solutions, but I don’t have much experience with managed solutions,
+so I could be wrong, do your own research and if you can afford it, try them out to see what works best for you.
+
+
+P.A.A.S (Platform as a Service)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. hint::
+   
+   My personal favorite is `caprover <https://caprover.com/>`_
+
+
+**CapRover**
 
    "CapRover is an extremely easy to use app/database deployment & web server manager for your NodeJS, Python, PHP, ASP.NET, Ruby, MySQL, MongoDB, Postgres, WordPress (and etc…) applications!"
 
@@ -14,29 +51,49 @@ This template was configured to simplify deployment on `caprover <https://caprov
 CapRover is a self-hosted `PaaS <https://en.wikipedia.org/wiki/Platform_as_a_service>`__ solution, think `heroku <https://www.heroku.com/>`__ but on your own servers.
 Nowadays, I tend to prefer PaaS solutions over manual deployment and configuration, as they are easy to use with little configuration to deploy most apps.
 Software is usually quite a pain to deploy and even though I’ve gotten better at it over time, I’ll always choose a managed solution over manual deployment.
-Some other options than **CapRover** are:
-
--  `Dokku <https://dokku.com/>`__ (self hosted)
--  `Fly <https://fly.io/>`__ (hosted)
--  `Render <https://render.com/>`__ (hosted)
--  `Coolify <https://github.com/coollabsio/coolify>`__ (self hosted)
--  `DigitalOcean App Platform <https://www.digitalocean.com/products/app-platform>`__ (hosted)
--  `AWS Elastic Beanstalk <https://aws.amazon.com/elasticbeanstalk/>`__ (hosted)
--  `Btn <https://btn.dev/>`__ (hosted and not ready yet)
-
-!!! Info
-I recently discovered `django-simple-deploy <https://github.com/ehmatthes/django-simple-deploy>`__ which can configure your django project for some of the alternatives to
-caprover I listed above.
-
-I find that self-hosted solutions are generally cheaper than managed/hosted solutions, but I don’t have much experience with managed solutions,
-so I could be wrong, do your own research and if you can afford it, try them out to see what works best for you.
 
 After installing CaProver with the `getting started guide <https://caprover.com/docs/get-started.html>`__, there is not much left to do, create a new application and in the section ``deployment``.
 configure your application using the third method ``Method 3: Deploy from Github/Bitbucket/Gitlab``.
 
-!!! Info
-If you use github, instead of entering your password directly into the ``password`` field, you can use a `personal access token <https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token>`__,
-which is a more secure option.
+.. tip::
 
-!!! Tip
-Checkout `caprover automatic deploy <https://caprover.com/docs/deployment-methods.html#automatic-deploy-using-github-bitbucket-and-etc>`__ to automate the deployment of your applications.
+   If you use github, instead of entering your password directly into the ``password`` field, you can use a `personal access token <https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token>`__,
+   which is a more secure option.
+
+.. note::
+
+   Checkout `caprover automatic deploy <https://caprover.com/docs/deployment-methods.html#automatic-deploy-using-github-bitbucket-and-etc>`__ to automate the deployment of your applications.
+
+
+If you have generate a template with the ``falco`` cli or you have a dockerfile at your disposal, the only config you need in your projec to run caprover is this
+
+.. code-block:: text
+   :caption: captain-definition
+
+   {
+      "schemaVersion": 2,
+      "dockerfilePath": "./docker/Dockerfile" # the path to your dockerfile
+   }
+
+-  `Dokku <https://dokku.com/>`_
+-  `Coolify <https://github.com/coollabsio/coolify>`_
+-  `DigitalOcean App Platform <https://www.digitalocean.com/products/app-platform>`_
+
+
+Barebone VPS
+^^^^^^^^^^^^
+
+.. hint::
+
+   My personal pick is Linode
+
+* `Linode <https://www.linode.com/>`_
+* `DigitalOcean <https://www.digitalocean.com/>`_
+* `Vultr <https://www.vultr.com/>`_
+* `PythonAnywhere <https://www.pythonanywhere.com/>`_
+
+
+I recently discovered `django-simple-deploy <https://github.com/ehmatthes/django-simple-deploy>`__ which can configure your django project.
+
+
+

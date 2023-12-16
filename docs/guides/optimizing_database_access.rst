@@ -26,6 +26,8 @@ Do the work early
 Caching with Redis
 -------------------
 
+https://github.com/Suor/django-cacheops
+
 
 Using indexes
 -------------
@@ -38,4 +40,6 @@ Denormalization
 
 Cursor based pagination
 -----------------------
+
+
 
