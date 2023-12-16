@@ -49,4 +49,4 @@ html_theme_options = {
     "github_url": "https://github.com/tobi-de/falco",
     "twitter_url": "https://twitter.com/tobidegnon",
 }
-html_logo = "images/E1.svg"
+html_logo = "images/logo_with_text.svg"

@@ -8,6 +8,11 @@ Basically, if you need to do something that might take too long to process and w
 Think of them like virtual to-do lists for your web application. When a task is too time-consuming to be handled immediately, it gets added to the queue. 
 A dedicated worker process then picks up tasks from the queue and processes them in the background, freeing up your web application to handle other requests quickly.
 
+.. admonition:: Example
+
+        Imagine...
+
+
 Schedulers are used to periodically run tasks. Essentially, they help you schedule tasks to be run at specific times and/or intervals. Imagine you need to send an email to your users
 every day at 8:00 AM; you can use a scheduler to do that.
 
@@ -48,8 +53,10 @@ For more complex tasks, I tend to choose a solution that supports redis as a tas
 +-------------------+----------------------------------------------------+------------+------------+-----------------------------+
 | django-chard      | https://github.com/drpancake/chard                 | Yes        | No         | No                          |
 +-------------------+----------------------------------------------------+------------+------------+-----------------------------+
+| celery            | https://github.com/celery/celery                   | Yes        | Yes        | Yes                         |
++-------------------+----------------------------------------------------+------------+------------+-----------------------------+
 
-.. admonition:: Auto reload
+.. admonition:: Auto reload in development
     :class: dropdown
 
     If you are using one of these you might want an automatic reload feature when files changes, you can use the ``hupper``
@@ -93,6 +100,6 @@ Basic django-q2 configuration
         }
 
 
-
-
+Deploying with a task queue
+---------------------------
 

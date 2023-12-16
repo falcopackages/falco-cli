@@ -1,19 +1,71 @@
 :description: Smooth Deployment Strategies for django projects
 
-Deployment Strategies
-============================
+The django deployment guide
+===========================
+
+
+Intro
+-----
+
+Static Files
+------------
+
+Media Files
+-----------
+
+Media files in django usually refer to files uploaded by users, profile pictures, product images, etc.
+I usually manage my media files using `django-storages <https://github.com/jschneier/django-storages>`__.
+Here is how I set it up.
+
+.. code:: python
+
+   # core/storages.py
+   from storages.backends.s3boto3 import S3Boto3Storage
+
+   class MediaRootS3Boto3Storage(S3Boto3Storage):
+       location = "media"
+       file_overwrite = False
+
+
+   # settings.py - production settings
+   AWS_ACCESS_KEY_ID = env("DJANGO_AWS_ACCESS_KEY_ID")
+   AWS_SECRET_ACCESS_KEY = env("DJANGO_AWS_SECRET_ACCESS_KEY")
+   AWS_STORAGE_BUCKET_NAME = env("DJANGO_AWS_STORAGE_BUCKET_NAME")
+   DEFAULT_FILE_STORAGE = "project_name.core.storages.MediaRootS3Boto3Storage"
+   MEDIA_URL = f"https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/media/"
+
+
+Database
+--------
+
+WSGI server
+-----------
+
+Web server
+----------
+
+Resources
+---------
+
+Django Deployment Checklist
+https://youtu.be/t-wsiW5mkgA?si=WsXQIuO4kDwGKrVO
+https://github.com/ehmatthes/django-simple-deploy
+https://github.com/lincolnloop/django-production
+
+
+
+Deployment Platforms
+--------------------
 
 Deployment is not a solved solution for me, it is still a pain, no matter how many time I do it, it never goes smoothly. If you can afford it I'll recommand
 a managed solution (the cloud), if you any reason you decide to go the self-hosting route, I'll recommand you use a P.A.A.S (Platform as a Service) solution
 to ease your burden or a least docker as a bare minimum. Deployment is not worth your blood and energy my friend.
 
 
-Django Deployment Checklist
-
 Someone else computer a.k.a the cloud
--------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-I don't have much experienc with these, but are relatively similarly price and quite easy to use, so you can just use one.
+I don't have much experience with these, but are relatively similarly price and quite easy to use, so you can just use one.
 
 
 * `Fly <https://fly.io/>`_
@@ -24,7 +76,7 @@ I don't have much experienc with these, but are relatively similarly price and q
 
 
 Self hosting
-------------
+^^^^^^^^^^^^
 
 If you are new to it, the term **self-hosting** might be misguidind, usually people use self-hosting to just mean you rent a vps and to the work yourself
 instead of paying someone else to do it for you. It might be cheaper but if you want to do real **self-hosting** you technically need to by you own hardware.
@@ -34,7 +86,7 @@ so I could be wrong, do your own research and if you can afford it, try them out
 
 
 P.A.A.S (Platform as a Service)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+*******************************
 
 .. hint::
    
@@ -80,8 +132,8 @@ If you have generate a template with the ``falco`` cli or you have a dockerfile 
 -  `DigitalOcean App Platform <https://www.digitalocean.com/products/app-platform>`_
 
 
-Barebone VPS
-^^^^^^^^^^^^
+Bare-bone VPS
+*************
 
 .. hint::
 

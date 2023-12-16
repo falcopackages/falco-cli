@@ -1,10 +1,13 @@
 # Falco
 
 <p align="center">
-  <a href="https://www.django-unicorn.com/"><img src="https://res.cloudinary.com/dlbca2jek/image/upload/v1702739149/E1_phyvy8.svg" alt="django-unicorn logo" height="200"/></a>
+  <a href="https://falco.oluwatobi.dev/"><img src="" alt="falco logo" height="200"/></a>
 </p>
 
-
+<h1 align="center">
+  <a href="https://www.django-unicorn.com/">Falco</a>
+  <p>The toolkit for a better django development experience</p>
+</h1>
 
 [![CD](https://github.com/Tobi-De/falco/actions/workflows/deploy.yml/badge.svg)](https://github.com/Tobi-De/falco/actions/workflows/deploy.yml)
 [![CI](https://github.com/Tobi-De/falco/actions/workflows/test.yml/badge.svg)](https://github.com/Tobi-De/falco/actions/workflows/test.yml)
@@ -13,6 +16,11 @@
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Tobi-De/falco/blob/main/LICENSE)
 
+## Getting started
+
+### The CLI
+
+### The guides
 
 ## Acknowledgements
 
