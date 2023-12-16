@@ -1,5 +1,8 @@
-.. include:: ../README.md
-   :parser: myst_parser.sphinx_
+
+.. figure:: https://raw.githubusercontent.com/Tobi-De/falco/main/assets/falco-logo.svg
+   :width: 200
+   :height: 200
+   :align: center
 
 
 .. toctree::

@@ -9,7 +9,7 @@ import falco
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = "Falco"
-copyright = "2023, Tobi DEGNON"
+copyright = "Copyright &copy; 2023, Tobi DEGNON"
 author = "Tobi DEGNON"
 version = falco.falco_version
 release = version
@@ -25,10 +25,13 @@ extensions = [
     "sphinx_togglebutton",
     "sphinx_autorun",
 ]
+extlinks = {
+    'pull': ('https://github.com/tobi-de/falco/pull/%s', 'pull request #%s'),
+    'issue': ('https://github.com/tobi-de/falco/issues/%s', 'issue #%s'),
+}
 
 templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
-
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
@@ -48,5 +51,13 @@ html_theme_options = {
     "mastodon_url": "https://fosstodon.org/@tobide",
     "github_url": "https://github.com/tobi-de/falco",
     "twitter_url": "https://twitter.com/tobidegnon",
+
+    "light_css_variables": {
+        "--sy-rc-theme": "77, 210, 255",
+    },
+    "dark_css_variables": {
+        "--sy-rc-theme": "0, 153, 204",
+    },
 }
 html_logo = "images/logo_with_text.svg"
+html_favicon = "../assets/falco-logo.svg"
