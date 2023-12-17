@@ -1,14 +1,11 @@
 import cappa
-
-from falco.commands import (
-    Htmx,
-    HtmxExtension,
-    StartProject,
-    RmMigrations,
-    Work,
-    SyncDotenv,
-    ModelCRUD,
-)
+from falco.commands import Htmx
+from falco.commands import HtmxExtension
+from falco.commands import ModelCRUD
+from falco.commands import RmMigrations
+from falco.commands import StartProject
+from falco.commands import SyncDotenv
+from falco.commands import Work
 
 
 @cappa.command(
@@ -19,15 +16,7 @@ from falco.commands import (
     """,
 )
 class Falco:
-    subcommand: cappa.Subcommands[
-        StartProject
-        | ModelCRUD
-        | Htmx
-        | HtmxExtension
-        | Work
-        | SyncDotenv
-        | RmMigrations
-    ]
+    subcommand: cappa.Subcommands[StartProject | ModelCRUD | Htmx | HtmxExtension | Work | SyncDotenv | RmMigrations]
 
 
 def main():

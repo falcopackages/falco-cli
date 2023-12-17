@@ -2,16 +2,16 @@ Guides
 ======
 
 .. warning::
-    
-    This whole section is still a work in progress. There is a lot of incomplete content and some of the content that is there is not yet polished. 
+
+    This whole section is still a work in progress. There is a lot of incomplete content and some of the content that is there is not yet polished.
 
 This is a collection of guides that address common issues in web development, specifically tailored to Django. Each guide provides solutions,
 patterns, and approaches that are relevant to Django projects.
-It is similar to the `Django topic guides <https://docs.djangoproject.com/en/5.0/topics/>`_, but instead of focusing on components of the 
+It is similar to the `Django topic guides <https://docs.djangoproject.com/en/5.0/topics/>`_, but instead of focusing on components of the
 framework like ``forms``, ``models``, ``views``, etc., it focuses on more general topics like ``task queues``, ``deployment``, ``realtime``, etc.
 
-These guides are based on my own experience and are quite opinionated. For each guide, I will share my current approach (which may change with new experiences) for 
-tackling the issue at hand. I will also include alternatives so that you can make your own decision. The number of guides will be limited, as this is not a blog where I post anything and 
+These guides are based on my own experience and are quite opinionated. For each guide, I will share my current approach (which may change with new experiences) for
+tackling the issue at hand. I will also include alternatives so that you can make your own decision. The number of guides will be limited, as this is not a blog where I post anything and
 everything (for that, check out my `blog <https://oluwatobi.dev/blog>`_). Instead, this is more like a collection of recipes for common problems.
 If you have feedback on the content of any of the guides, please open a `new GitHub discussion <https://github.com/Tobi-De/falco/discussions>`_. Whether you think I'm wrong about something, have suggestions for improvement,
 or have a better approach to solve a specific issue, I'll be happy to hear it.
@@ -19,7 +19,7 @@ or have a better approach to solve a specific issue, I'll be happy to hear it.
 .. note::
     I want to use GitHub discussions mostly for the guides part, and issues (broken code) for the CLI part.
 
-A lot of the content here is geared toward beginners to intermediate developers, but more toward the latter. It is assumed that you have at 
+A lot of the content here is geared toward beginners to intermediate developers, but more toward the latter. It is assumed that you have at
 least completed one or two django projects (like the `official Django tutorial <https://docs.djangoproject.com/en/5.0/intro/tutorial01/>`_). I believe you need to
 have that level of familiarity to feel comfortable reading these guides. However, I will try to make them as digestible as possible and provide enough external resources
 for deeper understanding.
@@ -110,6 +110,7 @@ developer in general.
     task_queues_and_schedulers
     writing_documentation
     writing_tests
+    logging_and_monitoring
     deployment
     optimizing_database_access
     avoiding_god_models

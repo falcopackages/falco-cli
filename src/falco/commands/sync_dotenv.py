@@ -5,11 +5,11 @@ from pathlib import Path
 from typing import Annotated
 
 import cappa
-from dotenv import dotenv_values, set_key
+from dotenv import dotenv_values
+from dotenv import set_key
+from falco.utils import get_current_dir_as_project_name
 from rich import print as rich_print
 from rich.prompt import Prompt
-
-from falco.utils import get_current_dir_as_project_name
 
 
 @cappa.command(help="Synchronize the .env file with the .env.template file")
@@ -24,9 +24,7 @@ class SyncDotenv:
         ),
     ]
 
-    def __call__(
-        self, project_name: Annotated[str, cappa.Dep(get_current_dir_as_project_name)]
-    ):
+    def __call__(self, project_name: Annotated[str, cappa.Dep(get_current_dir_as_project_name)]):
         dotenv_file = Path(".env")
         dotenv_template_file = Path(".env.template")
 
@@ -77,6 +75,4 @@ class SyncDotenv:
                 encoding="utf-8",
             )
 
-        rich_print(
-            f"[green] {dotenv_file} and {dotenv_template_file} synchronised [/green]"
-        )
+        rich_print(f"[green] {dotenv_file} and {dotenv_template_file} synchronised [/green]")

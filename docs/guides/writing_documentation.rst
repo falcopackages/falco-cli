@@ -1,6 +1,15 @@
 Writing documentation
 =====================
 
+Intro
+
+Documentation Frameworks
+------------------------
+
+
+Python documentation tools
+--------------------------
+
 This template does not include a documentation setup, but it is very important for most projects (at least it should be)
 to have a documentation site, especially if you are not working alone. Here are the options I would suggest for setting
 up a documentation, recently I tend to favor the first one.
@@ -11,8 +20,21 @@ up a documentation, recently I tend to favor the first one.
 There is a chance that in the future I will include the docs directly in the template but for now here is a quick guide to
 configure mkdocs with the material theme:
 
+Sphinx
+^^^^^^
+
+Installation and configuration
+++++++++++++++++++++++++++++++
+
+Deployment your documentation
++++++++++++++++++++++++++++++
+
+
+MkDocs
+^^^^^^
+
 Installation and configurations
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++++++++++++++++++++++++++++++++
 
 Copy the configuration below into your ``pyproject.toml`` file under the ``[tool.poetry.dependencies]`` section.
 
@@ -62,7 +84,7 @@ mkdocs and the material theme, specifically :
 For a complete example of how I configure them in projects, see this `configuration file <https://github.com/Tobi-De/dj-shop-cart/blob/master/mkdocs.yml>`__.
 
 Deploy your documentation
-~~~~~~~~~~~~~~~~~~~~~~~~~
++++++++++++++++++++++++++
 
 **Mkdocs** can turn your documentation into a static site that you can host anywhere, `netlify <https://www.netlify.com/>`__, `github pages <https://pages.github.com/>`__, etc.
 To build your site, run the command below and you will have a new ``site`` directory at the root of your project:

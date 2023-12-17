@@ -5,7 +5,6 @@ The django deployment guide
 
 
 Intro
------
 
 Static Files
 ------------
@@ -72,7 +71,7 @@ I don't have much experience with these, but are relatively similarly price and 
 * `Render <https://render.com/>`_
 * `AWS Elastic Beanstalk <https://aws.amazon.com/elasticbeanstalk/>`_
 * `Heroku <https://www.heroku.com/>`_
-* `Railway <https://railway.app/>`_ 
+* `Railway <https://railway.app/>`_
 
 
 Self hosting
@@ -89,7 +88,7 @@ P.A.A.S (Platform as a Service)
 *******************************
 
 .. hint::
-   
+
    My personal favorite is `caprover <https://caprover.com/>`_
 
 
@@ -146,6 +145,3 @@ Bare-bone VPS
 
 
 I recently discovered `django-simple-deploy <https://github.com/ehmatthes/django-simple-deploy>`__ which can configure your django project.
-
-
-

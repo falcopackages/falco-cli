@@ -1,7 +1,10 @@
 Running multiple process in parallel
 ====================================
 
-.. figure:: ../images/htmx.svg
+https://www.forgepackages.com/docs/forge-work/
+
+
+.. figure:: ../images/work.svg
 
 
 This command allows you to run multiple commands simultaneously. Typically, when working with tailwind, you need to run
@@ -21,4 +24,3 @@ you define a command with the same name as the default, it will override it. Her
    tailwind = "tailwindcss -i project_name/static/css/input.css -o project_name/static/css/output.css --watch"
    redis = "redis-server"
    worker = "python manage.py qcluster"
-  

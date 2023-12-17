@@ -1,14 +1,15 @@
 from pathlib import Path
-from typing import Annotated, Optional
+from typing import Annotated
+from typing import Optional
 
 import cappa
 import httpx
+from falco.utils import network_request_with_progress
+from falco.utils import simple_progress
 from rich import print as rich_print
 from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
-
-from falco.utils import network_request_with_progress, simple_progress
 
 REGISTRY_URL = "https://htmx-extensions.oluwatobi.dev/extensions.json"
 

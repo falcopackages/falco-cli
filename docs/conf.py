@@ -26,8 +26,8 @@ extensions = [
     "sphinx_autorun",
 ]
 extlinks = {
-    'pull': ('https://github.com/tobi-de/falco/pull/%s', 'pull request #%s'),
-    'issue': ('https://github.com/tobi-de/falco/issues/%s', 'issue #%s'),
+    "pull": ("https://github.com/tobi-de/falco/pull/%s", "pull request #%s"),
+    "issue": ("https://github.com/tobi-de/falco/issues/%s", "issue #%s"),
 }
 
 templates_path = ["_templates"]
@@ -51,7 +51,6 @@ html_theme_options = {
     "mastodon_url": "https://fosstodon.org/@tobide",
     "github_url": "https://github.com/tobi-de/falco",
     "twitter_url": "https://twitter.com/tobidegnon",
-
     "light_css_variables": {
         "--sy-rc-theme": "77, 210, 255",
     },

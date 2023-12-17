@@ -2,7 +2,7 @@
 name = "{{ project_name }}"
 version = "0.1.0"
 description = ""
-authors = ["Tobi-De <tobidegnon@proton.me>"]
+authors = ["{{ author_name }} <{{author_email}}>"]
 license = ""
 readme = "README.md"
 packages = [{ include = "{{ project_name }}" }]

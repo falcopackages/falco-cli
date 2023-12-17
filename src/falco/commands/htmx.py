@@ -4,10 +4,9 @@ from pathlib import Path
 from typing import Annotated
 
 import cappa
+from falco.utils import network_request_with_progress
 from rich import print as rich_print
 from rich.panel import Panel
-
-from falco.utils import network_request_with_progress
 
 HTMX_DOWNLOAD_URL = "https://unpkg.com/htmx.org@{version}/dist/htmx.min.js"
 HTMX_GH_RELEASE_LATEST_URL = "https://api.github.com/repos/bigskysoftware/htmx/releases/latest"

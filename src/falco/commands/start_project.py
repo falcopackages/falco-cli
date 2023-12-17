@@ -5,21 +5,20 @@ from pathlib import Path
 from typing import Annotated
 
 import cappa
-from dict_deep import deep_set
+from django.core.management.commands.startproject import Command as DjangoStartProject
+from falco.utils import clean_project_name
+from falco.utils import get_falco_templates_path
+from falco.utils import RICH_INFO_MARKER
+from falco.utils import RICH_SUCCESS_MARKER
+from falco.utils import simple_progress
 from rich import print as rich_print
-from rich.progress import Progress, SpinnerColumn, TextColumn
-from rich.prompt import Prompt
 
 
-from falco.utils import RICH_INFO_MARKER, RICH_SUCCESS_MARKER, clean_project_name, read_toml, simple_progress, write_toml
-
-try:
-    from enum import StrEnum
-except ImportError:
-    from enum import Enum
-
-    class StrEnum(str, Enum):
-        pass
+class StartProjectPlus(DjangoStartProject):
+    def add_arguments(self, parser):
+        super().add_arguments(parser)
+        parser.add_argument("--author-name", dest="author_name")
+        parser.add_argument("--author-email", dest="author_email")
 
 
 @cappa.command(help="Initialize a new django project.")
@@ -29,22 +28,14 @@ class StartProject:
         cappa.Arg(parse=clean_project_name),
     ]
 
-    def __post_init__(self):
-        self.project_path = Path(self.project_name)
-
     def __call__(self) -> None:
-        if self.project_path.exists():
+        if Path(self.project_name).exists():
             raise cappa.Exit(
-                f"A directory with the name {self.project_name} already exists in the current directory", code=1
+                f"A directory with the name {self.project_name} already exists in the current directory",
+                code=1,
             )
 
         self.init_project()
-
-        self.update_authors()
-
-        if Prompt.ask("Do you want to install the dependencies? (y/N)", choices=["y", "n"]) == "y":
-            self.install_dependencies()
-
         msg = f"{RICH_SUCCESS_MARKER} Project initialized, keep up the good work!\n"
         msg += (
             f"{RICH_INFO_MARKER} If you like the project consider dropping a star at "
@@ -54,42 +45,34 @@ class StartProject:
         rich_print(msg)
 
     def init_project(self) -> None:
+        project_template_path = get_falco_templates_path() / "project_name"
+        author_name, author_email = self.get_authors_info()
         with simple_progress("Initializing your new django project... :sunglasses:"):
-            # run the django-admin command
-            subprocess.run(
-                [
-                    "django-admin",
-                    "startproject",
-                    self.project_name,
-                    "--template",
-                    "templates/project_name",
-                    "-e=py,html,toml,md,json,js,sh,yml,ipynb",
-                ]
-            )
-
-
-    def update_authors(self) -> None:
-        name, email = self.get_git_user_infos()
-        if not name:
-            name = Prompt.ask("Enter your name")
-        if not email:
-            email = Prompt.ask("Enter your email")
-        pyproject_file = self.project_path / "pyproject.toml"
-        project_config = read_toml(self.project_path / "pyproject.toml")
-        deep_set(project_config, "tool.poetry.authors", [f"{name} <{email}>"])
-        write_toml(pyproject_file, project_config)
-
+            cmd = StartProjectPlus()
+            argv = [
+                "falco",
+                "startproject",
+                self.project_name,
+                "--template",
+                str(project_template_path),
+                "-e=py,html,toml,md,json,js,sh,yml,ipynb",
+                f"--author-name={author_name}",
+                f"--author-email={author_email}",
+            ]
+            cmd.run_from_argv(argv)
 
     @staticmethod
-    def get_git_user_infos():
+    def get_authors_info() -> tuple[str, str]:
+        default_author_name = "Tobi DEGNON"
+        default_author_email = "tobidegnon@proton.me"
         git_config_cmd = ["git", "config", "--global", "--get"]
         try:
             user_name_cmd = subprocess.run(git_config_cmd + ["user.name"], capture_output=True, text=True)
             user_email_cmd = subprocess.run(git_config_cmd + ["user.email"], capture_output=True, text=True)
         except FileNotFoundError:
-            return None
+            return default_author_name, default_author_email
         if user_email_cmd.returncode != 0:
-            return None
+            return default_author_name, default_author_email
         return (
             user_name_cmd.stdout.strip("\n"),
             user_email_cmd.stdout.strip("\n"),

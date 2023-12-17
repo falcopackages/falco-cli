@@ -8,9 +8,17 @@ from typing import Annotated
 import cappa
 from dict_deep import deep_get
 from dotenv import dotenv_values
+from falco.utils import get_current_dir_as_project_name
 from honcho.manager import Manager as HonchoManager
 
-from falco.utils import get_current_dir_as_project_name, read_toml
+try:
+    import tomllib
+except ModuleNotFoundError:
+    import tomli as tomllib
+
+
+def read_toml(file: Path) -> dict:
+    return tomllib.loads(file.read_text())
 
 
 def _get_venv_directory() -> str | None:
@@ -57,11 +65,8 @@ class Work:
             hidden=True,
         ),
     ]
-    project_name: Annotated[str, cappa.Arg(default="", parse=get_current_dir_as_project_name, hidden=True)]
 
-    def __call__(
-        self,
-    ) -> None:
+    def __call__(self, project_name: Annotated[str, cappa.Dep(get_current_dir_as_project_name)]) -> None:
         """Run multiple processes in parallel."""
 
         django_env = {

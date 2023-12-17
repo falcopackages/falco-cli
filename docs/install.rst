@@ -23,6 +23,4 @@ Next Up
     .. grid-item-card:: Guides
       :link: /guides/
 
-      A collection of guides on common web development topics and how to solve them in django.
-
-        
+      A collection of guides on common web development topics and how to address them in django.

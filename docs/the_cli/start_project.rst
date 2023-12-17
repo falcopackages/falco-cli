@@ -6,7 +6,7 @@ Start project
 
 Initialize a new Django project. This template makes several assumptions; we'll go through the most important choices I made below.
 I'll list some alternatives below in case you don't agree with my choices. But even if you choose to use an alternative, most commands
-can still be useful to you, and the `guides </guides/index.html>`__ are not particularly tied to the generated project. So, even with another template, **Falco** 
+can still be useful to you, and the `guides </guides/index.html>`__ are not particularly tied to the generated project. So, even with another template, **Falco**
 can still bring you value.
 
 
@@ -66,6 +66,21 @@ First update the ``User`` models to inherit from django ``AbstractUser`` instead
 Then delete the ``forms.py``, ``admin.py`` and ``migrations/0001_initial.py`` files in the ``users`` app.
 With that you should be good to go, if you want something a little more complete to start with you can grab some
 code from the `cookiecutter-django users app <https://github.com/cookiecutter/cookiecutter-django/tree/master/%7B%7Bcookiecutter.project_slug%7D%7D/%7B%7Bcookiecutter.project_slug%7D%7D/users>`__.
+
+HTMX and template partials
+--------------------------
+
+
+Browser reload
+--------------
+
+Debug Toolbar
+------------
+
+
+Logging
+-------
+
 
 DjangoFastDev
 -------------
