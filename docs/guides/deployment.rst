@@ -60,6 +60,8 @@ Deployment is not a solved solution for me, it is still a pain, no matter how ma
 a managed solution (the cloud), if you any reason you decide to go the self-hosting route, I'll recommand you use a P.A.A.S (Platform as a Service) solution
 to ease your burden or a least docker as a bare minimum. Deployment is not worth your blood and energy my friend.
 
+Paas and rent a VPS
+
 
 Someone else computer a.k.a the cloud
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -67,11 +69,15 @@ Someone else computer a.k.a the cloud
 I don't have much experience with these, but are relatively similarly price and quite easy to use, so you can just use one.
 
 
+P.A.A.S
+*******
+
 * `Fly <https://fly.io/>`_
 * `Render <https://render.com/>`_
 * `AWS Elastic Beanstalk <https://aws.amazon.com/elasticbeanstalk/>`_
 * `Heroku <https://www.heroku.com/>`_
 * `Railway <https://railway.app/>`_
+* `Appliku <https://appliku.com>`_
 
 
 Self hosting

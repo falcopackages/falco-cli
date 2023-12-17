@@ -7,6 +7,15 @@ Documentation Frameworks
 ------------------------
 
 
+Markdown and reStructuredText
+-----------------------------
+
+https://github.github.com/gfm/
+
+https://myst-parser.readthedocs.io/en/latest/
+
+https://sphinx-intro-tutorial.readthedocs.io/en/latest/
+
 Python documentation tools
 --------------------------
 

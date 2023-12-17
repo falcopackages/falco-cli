@@ -34,4 +34,4 @@ repos:
 #        args:
 #          - "."
 #          - "--line-length=120"
-#          - "--exclude=src/falco_templates/project_name/*"
+#          - "--exclude=src/falco_blueprints/project_name/*"

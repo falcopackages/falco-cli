@@ -15,8 +15,8 @@ RICH_COMMAND_MARKER = "[yellow]"
 RICH_COMMAND_MARKER_END = "[/yellow]"
 
 
-def get_falco_templates_path() -> Path:
-    package = importlib.util.find_spec("falco_templates")
+def get_falco_blueprints_path() -> Path:
+    package = importlib.util.find_spec("falco_blueprints")
     if package is None:
         raise cappa.Exit("The falco base install path could not be found.", code=1)
     return Path(package.origin).parent
@@ -32,7 +32,9 @@ def get_current_dir_as_project_name():
 
 
 @contextmanager
-def simple_progress(description: str, display_text="[progress.description]{task.description}"):
+def simple_progress(
+    description: str, display_text="[progress.description]{task.description}"
+):
     progress = Progress(SpinnerColumn(), TextColumn(display_text), transient=True)
     progress.add_task(description=description, total=None)
     try:

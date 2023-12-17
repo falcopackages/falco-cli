@@ -7,7 +7,7 @@ from typing import Annotated
 import cappa
 from django.core.management.commands.startproject import Command as DjangoStartProject
 from falco.utils import clean_project_name
-from falco.utils import get_falco_templates_path
+from falco.utils import get_falco_blueprints_path
 from falco.utils import RICH_INFO_MARKER
 from falco.utils import RICH_SUCCESS_MARKER
 from falco.utils import simple_progress
@@ -45,7 +45,7 @@ class StartProject:
         rich_print(msg)
 
     def init_project(self) -> None:
-        project_template_path = get_falco_templates_path() / "project_name"
+        project_template_path = get_falco_blueprints_path() / "project_name"
         author_name, author_email = self.get_authors_info()
         with simple_progress("Initializing your new django project... :sunglasses:"):
             cmd = StartProjectPlus()
@@ -67,8 +67,12 @@ class StartProject:
         default_author_email = "tobidegnon@proton.me"
         git_config_cmd = ["git", "config", "--global", "--get"]
         try:
-            user_name_cmd = subprocess.run(git_config_cmd + ["user.name"], capture_output=True, text=True)
-            user_email_cmd = subprocess.run(git_config_cmd + ["user.email"], capture_output=True, text=True)
+            user_name_cmd = subprocess.run(
+                git_config_cmd + ["user.name"], capture_output=True, text=True
+            )
+            user_email_cmd = subprocess.run(
+                git_config_cmd + ["user.email"], capture_output=True, text=True
+            )
         except FileNotFoundError:
             return default_author_name, default_author_email
         if user_email_cmd.returncode != 0:

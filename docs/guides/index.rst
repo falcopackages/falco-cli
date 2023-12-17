@@ -19,11 +19,9 @@ or have a better approach to solve a specific issue, I'll be happy to hear it.
 .. note::
     I want to use GitHub discussions mostly for the guides part, and issues (broken code) for the CLI part.
 
-A lot of the content here is geared toward beginners to intermediate developers, but more toward the latter. It is assumed that you have at
-least completed one or two django projects (like the `official Django tutorial <https://docs.djangoproject.com/en/5.0/intro/tutorial01/>`_). I believe you need to
-have that level of familiarity to feel comfortable reading these guides. However, I will try to make them as digestible as possible and provide enough external resources
-for deeper understanding.
-
+Most  of the stuff here is aimed at folks who are somewhere between beginners and intermediate developers, leaning more towards the intermediate side. It's kinda assumed that you've done a couple of Django projects
+(like the official `Django tutorial <https://docs.djangoproject.com/en/5.0/intro/tutorial01/>`_). I reckon you need to be pretty familiar with the framework to feel comfortable reading these guides. But hey,
+I'll do my best to make them as easy to digest as possible and provide enough external resources for a deeper understanding.
 
 External Ressources
 -------------------
@@ -38,12 +36,14 @@ developer in general.
     .. grid-item-card:: The official Django documentation
         :link: https://docs.djangoproject.com/en/dev/
 
-        Always have a tab open to the official Django documentation. It is the best source for django.
+        Django's documentation is arguably one of the best I have encountered. The **Topics guides** and **How-to guides** are particularly
+        noteworthy and should not be overlooked.
 
     .. grid-item-card:: The HTMX documentation
         :link: https://htmx.org/
 
-        The htmx documentation have everything you need to understand htmx but they also have great essays that are worth reading to broader your understanding of web development.
+        The htmx documentation have everything you need to understand htmx but they also have great essays that are worth reading
+        to broader your understanding of web development.
 
 
 **Programming principles**
@@ -71,7 +71,7 @@ developer in general.
         The twelve-factor app is a methodology for building software-as-a-service applications. These best practices are designed to enable applications to be built with portability and resilience when deployed to the web.
 
 
-**Good old content: blog articles and videos**
+**Blog articles and videos**
 
 .. grid:: 2
 
@@ -101,6 +101,11 @@ developer in general.
         The cult of done manifesto is a set of principles that aims to help you get things done.
 
 
+
+.. admonition:: Need Help with Django?
+    :class: hint dropdown
+
+    For general assistance with Django-related issues, visit the `Django Community <https://www.djangoproject.com/community/>`_ page.
 
 
 .. toctree::

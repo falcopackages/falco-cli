@@ -36,6 +36,8 @@ dependencies = [
   "honcho",
   "tomli",
   "python-dotenv",
+  "autoflake",
+  "black",
 ]
 
 [project.scripts]
@@ -50,7 +52,7 @@ Source = "https://github.com/tobi-de/falco"
 path = "src/falco/__about__.py"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/falco", "src/falco_templates"]
+packages = ["src/falco", "src/falco_blueprints"]
 
 [tool.hatch.envs.default]
 dependencies = [
