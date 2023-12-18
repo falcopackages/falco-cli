@@ -1,10 +1,18 @@
 # See https://pre-commit.com for more information
 # See https://pre-commit.com/hooks.html for more hooks
 repos:
+  - repo: local
+    hooks:
+      - id: prepare-docs-deploy
+        name: Run prepare-docs-deploy
+        entry: hatch run docs:prepare-docs-deploy
+        language: system
+
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
     hooks:
       - id: trailing-whitespace
+        exclude: '\.svg$'
       - id: end-of-file-fixer
   #      - id: check-added-large-files
 
@@ -26,7 +34,6 @@ repos:
       - id: reorder-python-imports
         args:
           - "--application-directories=falco"
-
 #  - repo: https://github.com/psf/black
 #    rev: 23.12.0
 #    hooks:

@@ -40,6 +40,7 @@ def main():
         "<!-- GUIDES-LIST:END -->",
         get_guides_list(),
     )
+    print("README.md updated successfully.")
 
 if __name__ == "__main__":
     main()

@@ -90,6 +90,8 @@ dependencies = [
 [tool.hatch.envs.docs.scripts]
 serve = "sphinx-autobuild docs docs/_build/html --port 8002"
 cli-images = "rich-codex --configs docs/.rich-codex.yml  --skip-git-checks --no-confirm --terminal-theme MONOKAI"
+update-readme = "python keep_readme_up_to_date.py"
+prepare-docs-deploy = ["update-readme", "cli-images"]
 
 [[tool.hatch.envs.all.matrix]]
 python = ["3.8", "3.9", "3.10", "3.11", "3.12"]
