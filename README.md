@@ -14,6 +14,9 @@
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Tobi-De/falco/blob/main/LICENSE)
 
+> [!WARNING]  
+> This is a work in progress (WIP), this is also [fuzzy-couscous](https://github.com/Tobi-De/fuzzy-couscous) 2.
+
 ✨📚✨ [Read the full documentation](https://falco.oluwatobi.dev)
 
 Intro here....
@@ -39,7 +42,8 @@ pip install falco-cli
 
 ### The guides
 
-> ![NOTE] These are currently a work in progress. Most of them are half-written or not written at all. I hope to get them in a usable state by the end of the year.
+> ![NOTE]
+> These are currently a work in progress. Most of them are half-written or not written at all. I hope > to get them in a usable state by the end of the year.
 
 If you don't find any use of the CLI, I hope you will in these guides. This is a collection of guides that address common issues in web development, specifically tailored to Django. Each guide provides solutions, patterns, and approaches that are relevant to Django projects. It is similar to the [Django topic guides](https://docs.djangoproject.com/en/5.0/topics/), but instead of focusing on components of the framework like `forms`, `models`, `views`, etc., it focuses on more general topics like `task queues`, `deployment`, `realtime`, etc.
 
