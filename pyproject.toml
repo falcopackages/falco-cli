@@ -38,6 +38,7 @@ dependencies = [
   "python-dotenv",
   "autoflake",
   "black",
+  "isort",
 ]
 
 [project.scripts]

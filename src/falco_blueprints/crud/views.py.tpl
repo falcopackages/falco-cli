@@ -1,12 +1,15 @@
+<!-- IMPORTS:START -->
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
 from django.views.decorators.http import require_http_methods
 from django.shortcuts import redirect
-
 from .forms import {{model_name_cap}}Form
 from .models import {{model_name_cap}}
+<!-- IMPORTS:END -->
 
+
+<!-- CODE:START -->
 def {{model_name}}_list(request: HttpRequest):
     return TemplateResponse(
         request,
@@ -49,3 +52,4 @@ def {{model_name}}_update(request:HttpRequest, pk:int):
 def {{model_name}}_delete(request:HttpRequest, pk:int):
     {{model_name_cap}}.objects.filter(pk=pk).delete()
     return HttpResponse("OK")
+<!-- CODE:END -->

@@ -8,20 +8,21 @@
 </h1>
 
 [![documentation](https://github.com/Tobi-De/falco/actions/workflows/documentation.yml/badge.svg)](https://github.com/Tobi-De/falco/actions/workflows/documentation.yml)
-[![CI](https://github.com/Tobi-De/falco/actions/workflows/test.yml/badge.svg)](https://github.com/Tobi-De/falco/actions/workflows/test.yml)
+[![Continous Integration - Testing](https://github.com/Tobi-De/falco/actions/workflows/ci.yml/badge.svg)](https://github.com/Tobi-De/falco/actions/workflows/ci.yml)
 [![pypi](https://badge.fury.io/py/falco-cli.svg)](https://pypi.org/project/falco-cli/)
 [![Hatch project](https://img.shields.io/badge/%F0%9F%A5%9A-Hatch-4051b5.svg)](https://github.com/pypa/hatch)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Tobi-De/falco/blob/main/LICENSE)
 
 > [!WARNING]
-> This is a work in progress (WIP), this is also [fuzzy-couscous](https://github.com/Tobi-De/fuzzy-couscous) 2.
+> This is a work in progress (WIP), this is also [fuzzy-couscous](https://github.com/Tobi-De/fuzzy-couscous) new cooler brother.
 
-✨📚✨ [Read the full documentation](https://falco.oluwatobi.dev)
 
 Intro here....
 
-### The CLI
+✨📚✨ [Read the full documentation](https://falco.oluwatobi.dev)
+
+## The CLI
 
 This is a set of commands to help you throughout the lifecycle of your django project development, from bootstrapping a new project using modern tools like [htmx](https://htmx.org), [hatch](https://github.com/pypa/hatch), [tailwindcss](https://tailwindcss.com/), to generating CRUD views for your models and a few utilities that might help during deployment.
 
@@ -40,7 +41,7 @@ pip install falco-cli
 - `rm-migrations`: Remove all migrations for the specified applications directory, intended only for development.
 
 
-### The guides
+## The guides
 
 > [!NOTE]
 > These are currently a work in progress. Most of them are half-written or not written at all. I hope

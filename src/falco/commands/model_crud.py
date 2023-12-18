@@ -12,6 +12,11 @@ from django.template.engine import Context
 from django.template.engine import Template
 from falco.utils import get_falco_blueprints_path
 
+IMPORT_START_COMMENT = "<!-- IMPORTS:START -->"
+IMPORT_END_COMMENT = "<!-- IMPORTS:END -->"
+CODE_START_COMMENT = "<!-- CODE:START -->"
+CODE_END_COMMENT = "<!-- CODE:END -->"
+
 
 @cappa.command(
     help="Generate CRUD (Create, Read, Update, Delete) views for a model.", name="crud"
@@ -30,6 +35,15 @@ class ModelCRUD:
             help="The django settings module to use.",
             short="-s",
             long="--settings",
+        ),
+    ]
+    blueprints: Annotated[
+        str,
+        cappa.Arg(
+            default="",
+            short="-b",
+            long="--blueprints",
+            help="The path to custom html templates that will server as blueprints.",
         ),
     ]
 
@@ -59,9 +73,9 @@ class ModelCRUD:
         app_folder_path = Path(django_app.path)
 
         try:
-            settings.TEMPLATES[0].get("DIRS")[0]
+            templates_dir = settings.TEMPLATES[0].get("DIRS")[0]
         except IndexError:
-            app_folder_path / "templates" / app_label
+            templates_dir = app_folder_path / "templates" / app_label
 
         model_fields = django_model._meta.get_fields()
         context = {
@@ -72,24 +86,16 @@ class ModelCRUD:
             "fields_names": [field.name for field in model_fields],
             "fields_verbose_names": [field.verbose_name for field in model_fields],
         }
-        print(context)
 
-        crud_blueprints_path = get_falco_blueprints_path() / "crud"
+        python_blueprints = self.python_blueprints
+        hmtl_blueprints = (
+            self.html_blueprints
+            if not self.blueprints
+            else list(Path(self.blueprints).iterdir())
+        )
 
-        # render python files
-        views = self.render_to_string(crud_blueprints_path / "views.py.tpl", context)
-        forms = self.render_to_string(crud_blueprints_path / "forms.py.tpl", context)
-
-        # TODO: separate import and always insert them first
-        views_py = app_folder_path / "views.py"
-        views_py.touch(exist_ok=True)
-        views_py.write_text(views_py.read_text() + views)
-        self.run_formatters(str(views_py))
-
-        forms_py = app_folder_path / "forms.py"
-        forms_py.touch(exist_ok=True)
-        forms_py.write_text(forms_py.read_text() + forms)
-        self.run_formatters(str(forms_py))
+        self.generate_python_code(context=context, blueprints=python_blueprints, app_folder_path=app_folder_path)
+        self.generate_html_templates(context=context, blueprints=hmtl_blueprints, templates_dir=templates_dir)
 
         urls_py = app_folder_path / "urls.py"
         if urls_py.exists():
@@ -100,7 +106,50 @@ class ModelCRUD:
             # add app_name
             # add urls
             pass
-        # render html files
+            # render html files
+
+    @staticmethod
+    def extract_from(text: str, start_comment: str, end_comment: str):
+        start_index = text.find(start_comment) + len(start_comment)
+        end_index = text.find(end_comment)
+        return text[start_index:end_index]
+
+    def generate_python_code(
+        self, app_folder_path: Path, context: dict, blueprints: list[Path]
+    ) -> None:
+        # blueprints python files end in .py.tpl
+        for blueprint in blueprints:
+            filecontent = blueprint.read_text()
+            imports_template = self.extract_from(
+                text=filecontent,
+                start_comment=IMPORT_START_COMMENT,
+                end_comment=IMPORT_END_COMMENT,
+            )
+            code_template = self.extract_from(
+                text=filecontent,
+                start_comment=CODE_START_COMMENT,
+                end_comment=CODE_END_COMMENT,
+            )
+            file_to_write_to = ".".join(blueprint.name.split(".")[:-1])
+            file_to_write_to = app_folder_path / file_to_write_to
+            file_to_write_to.touch(exist_ok=True)
+            rendered_imports = self.render_to_string(imports_template, context)
+            rendered_code = self.render_to_string(code_template, context)
+            file_to_write_to.write_text(rendered_imports + file_to_write_to.read_text() + rendered_code)
+            self.run_formatters(str(file_to_write_to))
+
+    def generate_html_templates(self, context: dict, blueprints: list[Path], templates_dir:Path) -> None:
+        pass
+
+    @property
+    def python_blueprints(self) -> list[Path]:
+        files = ["views.py.tpl", "forms.py.tpl"]
+        return [get_falco_blueprints_path() /"crud" / file for file in files]
+
+    @property
+    def html_blueprints(self) -> list[Path]:
+        files = ["create.html", "detail.html", "list.html", "update.html"]
+        return [get_falco_blueprints_path() /"crud"/ file for file in files]
 
     @staticmethod
     def get_urls(model_name: str) -> list[str]:
@@ -113,8 +162,8 @@ class ModelCRUD:
         ]
 
     @staticmethod
-    def render_to_string(filepath: Path, context: dict):
-        return Template(filepath.read_text()).render(Context(context))
+    def render_to_string(template_content: str, context: dict):
+        return Template(template_content).render(Context(context))
 
     @staticmethod
     def run_formatters(filepath: str):
@@ -125,5 +174,7 @@ class ModelCRUD:
             filepath,
         ]
         black = ["black", filepath]
+        isort = ["isort", filepath]
         subprocess.run(autoflake)
+        subprocess.run(isort)
         subprocess.run(black)
