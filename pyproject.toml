@@ -29,6 +29,7 @@ classifiers = [
 ]
 dependencies = [
   "django<5",
+#  "cappa @ git+https://github.com/DanCardin/cappa.git@dc90d801f247a802e82f3a888cba553d114e0569",
   "cappa",
   "rich",
   "httpx",
@@ -39,6 +40,8 @@ dependencies = [
   "black",
   "isort",
 ]
+[tool.hatch.metadata]
+allow-direct-references = true
 
 [project.scripts]
 falco = "falco.__main__:main"

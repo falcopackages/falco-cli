@@ -1,6 +1,4 @@
-import os
 import subprocess
-import sys
 from pathlib import Path
 from typing import Annotated
 
@@ -17,6 +15,16 @@ IMPORT_START_COMMENT = "<!-- IMPORTS:START -->"
 IMPORT_END_COMMENT = "<!-- IMPORTS:END -->"
 CODE_START_COMMENT = "<!-- CODE:START -->"
 CODE_END_COMMENT = "<!-- CODE:END -->"
+
+
+def get_installed_apps():
+    code = """from django.apps import apps; print([app.name for app in apps.get_app_configs()])"""
+    result = subprocess.run(
+        ["python", "manage.py", "shell", "-c", code], capture_output=True, text=True
+    )
+    print(result.stderr)
+    print(result.stderr)
+    return result.stdout
 
 
 @cappa.command(
@@ -47,75 +55,101 @@ class ModelCRUD:
             help="The path to custom html templates that will server as blueprints.",
         ),
     ]
+    only_python: Annotated[
+        bool,
+        cappa.Arg(default=False, long="--only-python", help="Generate only python."),
+    ]
+    only_html: Annotated[
+        bool, cappa.Arg(default=False, long="--only-html", help="Generate only html.")
+    ]
+    # virtualenv_env_path: Annotated[str, cappa.Arg(short="-v")]
 
     def __call__(self):
-        sys.path.insert(0, str(Path()))
-        os.environ.setdefault("DJANGO_SETTINGS_MODULE", self.settings_module)
+        #os.environ.setdefault("DJANGO_SETTINGS_MODULE", self.settings_module)
+        # sys.path.insert(0, str(Path(self.virtualenv_env_path)))
+        # sys.path.insert(0, str(Path()))
+        print(get_installed_apps())
+        print("here")
+
         django.setup()
 
-        if "." not in self.model_path:
-            raise cappa.Exit(f"Invalid model path {self.model_path}", code=1)
         v = self.model_path.split(".")
-        model_name = v.pop()
-        app_label = ".".join(v)
+        if len(v) == 1:
+            model_name = None
+            app_label = v[0]
+        else:
+            model_name = v.pop()
+            app_label = ".".join(v)
 
         try:
             django_app = apps.get_app_config(app_label=app_label)
         except LookupError as e:
             raise cappa.Exit(f"App {app_label} not found", code=1) from e
 
-        try:
-            django_model = django_app.get_model(model_name)
-        except LookupError as exc:
-            raise cappa.Exit(
-                f"Model {model_name} not found in app {app_label}", code=1
-            ) from exc
+        if model_name is None:
+            django_models = django_app.get_models()
+        else:
+            try:
+                django_models = [django_app.get_model(model_name)]
+            except LookupError as exc:
+                raise cappa.Exit(
+                    f"Model {model_name} not found in app {app_label}", code=1
+                ) from exc
 
         app_folder_path = Path(django_app.path)
 
         try:
-            templates_dir = settings.TEMPLATES[0].get("DIRS")[0]
+            templates_dir = Path(settings.TEMPLATES[0].get("DIRS")[0]) / app_label
         except IndexError:
             templates_dir = app_folder_path / "templates" / app_label
 
-        model_fields = django_model._meta.get_fields()
-        context = {
-            "app_label": app_label,
-            "model_name": model_name,
-            "model_name_plural": f"{model_name}s",
-            "model_name_cap": model_name.capitalize(),
-            "fields_names": [field.name for field in model_fields],
-            "fields_verbose_names": [field.verbose_name for field in model_fields],
-        }
+        models_names = []
+        for django_model in django_models:
+            model_fields = django_model._meta.get_fields()
+            model_name = django_model.__name__
+            models_names.append(model_name)
+            context = {
+                "app_label": app_label,
+                "model_name": model_name,
+                "model_name_plural": f"{model_name}s",
+                "model_name_cap": model_name.capitalize(),
+                "fields_names": [field.name for field in model_fields],
+                "fields_verbose_names": [field.verbose_name for field in model_fields],
+            }
 
-        python_blueprints = self.python_blueprints
-        hmtl_blueprints = (
-            self.html_blueprints
-            if not self.blueprints
-            else list(Path(self.blueprints).iterdir())
-        )
+            python_blueprints = self.python_blueprints
+            hmtl_blueprints = (
+                self.html_blueprints
+                if not self.blueprints
+                else list(Path(self.blueprints).iterdir())
+            )
 
-        self.generate_python_code(
-            context=context,
-            blueprints=python_blueprints,
-            app_folder_path=app_folder_path,
-        )
-        self.generate_html_templates(
-            context=context, blueprints=hmtl_blueprints, templates_dir=templates_dir
-        )
+            if not self.only_html:
+                self.generate_python_code(
+                    context=context,
+                    blueprints=python_blueprints,
+                    app_folder_path=app_folder_path,
+                )
+            if not self.only_python:
+                self.generate_html_templates(
+                    context=context,
+                    blueprints=hmtl_blueprints,
+                    templates_dir=templates_dir,
+                )
 
-        urls_py = app_folder_path / "urls.py"
-        if urls_py.exists():
-            # append new_urls to the end
-            pass
-        else:
-            # create file
-            # add app_name
-            # add urls
-            pass
-            # render html files
-        [model.__name__ for model in django_app.get_models()]
-        rich_print(f"[green] CRUD views generated for {self.model_name}")
+            urls_py = app_folder_path / "urls.py"
+            if urls_py.exists():
+                # append new_urls to the end
+                pass
+            else:
+                # create file
+                # add app_name
+                # add urls
+                pass
+                # render html files
+
+        display_names = ", ".join(models_names)
+        rich_print(f"[green] CRUD views generated for: {display_names}[/green]")
 
     @staticmethod
     def extract_from(text: str, start_comment: str, end_comment: str):
@@ -156,13 +190,19 @@ class ModelCRUD:
 
     @property
     def python_blueprints(self) -> list[Path]:
-        files = ["views.py.bp", "forms.py.bp"]
-        return [get_falco_blueprints_path() / "crud" / file for file in files]
+        return [
+            file
+            for file in (get_falco_blueprints_path() / "crud").iterdir()
+            if file.name.endswith(".bp")
+        ]
 
     @property
     def html_blueprints(self) -> list[Path]:
-        files = ["create.html", "detail.html", "list.html", "update.html"]
-        return [get_falco_blueprints_path() / "crud" / file for file in files]
+        return [
+            file
+            for file in (get_falco_blueprints_path() / "crud").iterdir()
+            if file.name.endswith(".html")
+        ]
 
     @staticmethod
     def get_urls(model_name: str) -> list[str]:

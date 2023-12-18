@@ -4,8 +4,6 @@ Avoiding GOD Models
 ===================
 
 
-----
-
 
 Proxy models
 ------------

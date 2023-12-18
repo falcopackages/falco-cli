@@ -6,7 +6,9 @@ from falco.utils import simple_progress
 from rich import print as rich_print
 
 
-@cappa.command(help="Remove all migrations for the specified applications directory, intended only for development.")
+@cappa.command(
+    help="Remove all migrations for the specified applications directory, intended only for development."
+)
 class RmMigrations:
     apps_dir: Annotated[Path, cappa.Arg(help="The path to your django apps directory.")]
 

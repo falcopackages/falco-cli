@@ -41,7 +41,7 @@ Features
 - `Sentry <https://sentry.io/welcome/>`_ for performance/error monitoring
 - Serve static files with `Whitenoise <https://whitenoise.evans.io/en/latest/>`_
 - Default integration with `pre-commit <https://github.com/pre-commit/pre-commit>`_ for identifying simple issues before submission to code review
-- Dependency management using `hatch <https://github.com/pypa/hatch>`_ 
+- Dependency management using `hatch <https://github.com/pypa/hatch>`_
 
 
 
@@ -104,7 +104,7 @@ Browser reload
 --------------
 
 Debug Toolbar
-------------
+-------------
 
 
 Logging

@@ -7,7 +7,7 @@ outputs:
     img_paths:
       - docs/images/start-project.svg
 
-  - command: "tree -L 3 templates/start_project/project_name"
+  - command: "tree -L 3 src/falco_blueprints/project_name"
     img_paths:
       - docs/images/project-tree.svg
 
