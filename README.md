@@ -7,7 +7,7 @@
   <p>The toolkit for a better django development experience</p>
 </h1>
 
-[![CD](https://github.com/Tobi-De/falco/actions/workflows/deploy.yml/badge.svg)](https://github.com/Tobi-De/falco/actions/workflows/deploy.yml)
+[![documentation](https://github.com/Tobi-De/falco/actions/workflows/documentation.yml/badge.svg)](https://github.com/Tobi-De/falco/actions/workflows/documentation.yml)
 [![CI](https://github.com/Tobi-De/falco/actions/workflows/test.yml/badge.svg)](https://github.com/Tobi-De/falco/actions/workflows/test.yml)
 [![pypi](https://badge.fury.io/py/falco-cli.svg)](https://pypi.org/project/falco-cli/)
 [![Hatch project](https://img.shields.io/badge/%F0%9F%A5%9A-Hatch-4051b5.svg)](https://github.com/pypa/hatch)
@@ -36,14 +36,15 @@ pip install falco-cli
 - `work`: Run your whole django projects in one command.
 - `htmx`: Download the latest version (if no version is specified) of htmx.
 - `htmx-ext`: Download one of htmx extensions.
-- `sync-dotenv`: Synchronize the .env file with the .env.template file.
+- `sync-dotenv`: Synchronize the `.env` file with the `.env.template` file.
 - `rm-migrations`: Remove all migrations for the specified applications directory, intended only for development.
 
 
 ### The guides
 
 > [!NOTE]
-> These are currently a work in progress. Most of them are half-written or not written at all. I hope > to get them in a usable state by the end of the year.
+> These are currently a work in progress. Most of them are half-written or not written at all. I hope
+> to get them in a usable state by the end of the year.
 
 If you don't find any use of the CLI, I hope you will in these guides. This is a collection of guides that address common issues in web development, specifically tailored to Django. Each guide provides solutions, patterns, and approaches that are relevant to Django projects. It is similar to the [Django topic guides](https://docs.djangoproject.com/en/5.0/topics/), but instead of focusing on components of the framework like `forms`, `models`, `views`, etc., it focuses on more general topics like `task queues`, `deployment`, `realtime`, etc.
 
