@@ -11,6 +11,7 @@ from django.conf import settings
 from django.template.engine import Context
 from django.template.engine import Template
 from falco.utils import get_falco_blueprints_path
+from rich import print as rich_print
 
 IMPORT_START_COMMENT = "<!-- IMPORTS:START -->"
 IMPORT_END_COMMENT = "<!-- IMPORTS:END -->"
@@ -94,8 +95,14 @@ class ModelCRUD:
             else list(Path(self.blueprints).iterdir())
         )
 
-        self.generate_python_code(context=context, blueprints=python_blueprints, app_folder_path=app_folder_path)
-        self.generate_html_templates(context=context, blueprints=hmtl_blueprints, templates_dir=templates_dir)
+        self.generate_python_code(
+            context=context,
+            blueprints=python_blueprints,
+            app_folder_path=app_folder_path,
+        )
+        self.generate_html_templates(
+            context=context, blueprints=hmtl_blueprints, templates_dir=templates_dir
+        )
 
         urls_py = app_folder_path / "urls.py"
         if urls_py.exists():
@@ -107,6 +114,8 @@ class ModelCRUD:
             # add urls
             pass
             # render html files
+        [model.__name__ for model in django_app.get_models()]
+        rich_print(f"[green] CRUD views generated for {self.model_name}")
 
     @staticmethod
     def extract_from(text: str, start_comment: str, end_comment: str):
@@ -117,7 +126,7 @@ class ModelCRUD:
     def generate_python_code(
         self, app_folder_path: Path, context: dict, blueprints: list[Path]
     ) -> None:
-        # blueprints python files end in .py.tpl
+        # blueprints python files end in .py.bp
         for blueprint in blueprints:
             filecontent = blueprint.read_text()
             imports_template = self.extract_from(
@@ -135,21 +144,25 @@ class ModelCRUD:
             file_to_write_to.touch(exist_ok=True)
             rendered_imports = self.render_to_string(imports_template, context)
             rendered_code = self.render_to_string(code_template, context)
-            file_to_write_to.write_text(rendered_imports + file_to_write_to.read_text() + rendered_code)
+            file_to_write_to.write_text(
+                rendered_imports + file_to_write_to.read_text() + rendered_code
+            )
             self.run_formatters(str(file_to_write_to))
 
-    def generate_html_templates(self, context: dict, blueprints: list[Path], templates_dir:Path) -> None:
+    def generate_html_templates(
+        self, context: dict, blueprints: list[Path], templates_dir: Path
+    ) -> None:
         pass
 
     @property
     def python_blueprints(self) -> list[Path]:
-        files = ["views.py.tpl", "forms.py.tpl"]
-        return [get_falco_blueprints_path() /"crud" / file for file in files]
+        files = ["views.py.bp", "forms.py.bp"]
+        return [get_falco_blueprints_path() / "crud" / file for file in files]
 
     @property
     def html_blueprints(self) -> list[Path]:
         files = ["create.html", "detail.html", "list.html", "update.html"]
-        return [get_falco_blueprints_path() /"crud"/ file for file in files]
+        return [get_falco_blueprints_path() / "crud" / file for file in files]
 
     @staticmethod
     def get_urls(model_name: str) -> list[str]:

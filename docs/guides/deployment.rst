@@ -1,7 +1,7 @@
 :description: Smooth Deployment Strategies for django projects
 
-The django deployment guide
-===========================
+Deploy your app
+===============
 
 
 Intro
@@ -63,14 +63,10 @@ to ease your burden or a least docker as a bare minimum. Deployment is not worth
 Paas and rent a VPS
 
 
-Someone else computer a.k.a the cloud
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Managed solutions
+^^^^^^^^^^^^^^^^^
 
 I don't have much experience with these, but are relatively similarly price and quite easy to use, so you can just use one.
-
-
-P.A.A.S
-*******
 
 * `Fly <https://fly.io/>`_
 * `Render <https://render.com/>`_
@@ -80,8 +76,8 @@ P.A.A.S
 * `Appliku <https://appliku.com>`_
 
 
-Self hosting
-^^^^^^^^^^^^
+Self-Managed solutions
+^^^^^^^^^^^^^^^^^^^^^^
 
 If you are new to it, the term **self-hosting** might be misguidind, usually people use self-hosting to just mean you rent a vps and to the work yourself
 instead of paying someone else to do it for you. It might be cheaper but if you want to do real **self-hosting** you technically need to by you own hardware.

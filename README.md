@@ -17,6 +17,7 @@
 > [!WARNING]
 > This is a work in progress (WIP), this is also [fuzzy-couscous](https://github.com/Tobi-De/fuzzy-couscous) new cooler brother.
 
+<!-- start-docs -->
 
 Intro here....
 
@@ -65,7 +66,7 @@ If you don't find any use of the CLI, I hope you will in these guides. This is a
 - [Task Queues and Schedulers](https://falco.oluwatobi.dev/guides/task_queues_and_schedulers.html)
 - [Interactive UX (User Experience) with HTMX](https://falco.oluwatobi.dev/guides/interactive_user_experience_with_htmx.html)
 - [Running your project in a single container](https://falco.oluwatobi.dev/guides/running_project_in_a_container.html)
-- [The django deployment guide](https://falco.oluwatobi.dev/guides/deployment.html)
+- [Deploy your app](https://falco.oluwatobi.dev/guides/deployment.html)
 - [Permissions and authorizations](https://falco.oluwatobi.dev/guides/permissions_and_authorization.html)
 - [Writing tests](https://falco.oluwatobi.dev/guides/writing_tests.html)
 - [Logging and monitoring](https://falco.oluwatobi.dev/guides/logging_and_monitoring.html)
@@ -78,3 +79,5 @@ Falco is inspired by (and borrows elements from) some excellent starter template
 - [cookiecutter-django](https://github.com/cookiecutter/cookiecutter-django)
 - [django-hatch-startproject](https://github.com/oliverandrich/django-hatch-startproject)
 - [django-unicorn](https://github.com/adamghill/django-unicorn) (Inspiration for the logo)
+
+<!-- end-docs -->

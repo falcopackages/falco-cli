@@ -45,6 +45,7 @@ dependencies = [
 falco = "falco.__main__:main"
 
 [project.urls]
+Homepage = "https://falco.oluwatobi.dev/"
 Documentation = "https://falco.oluwatobi.dev/"
 Issues = "https://github.com/tobi-de/falco/issues"
 Source = "https://github.com/tobi-de/falco"
