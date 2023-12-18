@@ -1,13 +1,9 @@
 import subprocess
 from pathlib import Path
 from typing import Annotated
+from typing import TypedDict
 
 import cappa
-import django
-from django.apps import apps
-from django.conf import settings
-from django.template.engine import Context
-from django.template.engine import Template
 from falco.utils import get_falco_blueprints_path
 from rich import print as rich_print
 
@@ -17,14 +13,44 @@ CODE_START_COMMENT = "<!-- CODE:START -->"
 CODE_END_COMMENT = "<!-- CODE:END -->"
 
 
-def get_installed_apps():
-    code = """from django.apps import apps; print([app.name for app in apps.get_app_configs()])"""
+class DjangoModel(TypedDict):
+    model_name: str
+    model_fields_names: list[str]
+    model_fields_verbose_names: list[str]
+
+
+models_data_code = """
+from django.apps import apps
+models = apps.get_app_config("{}").get_models()
+print([{{'model_name': model.__name__, 'model_fields_names': [field.name for field in model._meta.fields], 'model_fields_verbose_names': [field.verbose_name for field in model._meta.fields]}} for model in models])
+"""
+
+app_path_and_templates_dir_code = """
+from django.apps import apps
+from django.conf import settings
+from pathlib import Path
+app = apps.get_app_config("{}")
+dirs = settings.TEMPLATES[0].get("DIRS", [])
+templates_dir = Path(dirs[0]) if dirs else Path(app.path) / "templates"
+app_templates_dir = templates_dir / "{}"
+print((str(app.path), str(app_templates_dir)))
+"""
+
+django_render_template_code = """
+from django.template.engine import Context, Template
+print(Template('''{}''').render(Context({})))
+"""
+
+
+def run_shell_command(command: str, eval_result: bool = True):
     result = subprocess.run(
-        ["python", "manage.py", "shell", "-c", code], capture_output=True, text=True
+        ["python", "manage.py", "shell", "-c", command],
+        capture_output=True,
+        text=True,
     )
-    print(result.stderr)
-    print(result.stderr)
-    return result.stdout
+    if result.returncode != 0:
+        raise Exception(result.stderr)
+    return eval(result.stdout) if eval_result else result.stdout
 
 
 @cappa.command(
@@ -35,15 +61,6 @@ class ModelCRUD:
         str,
         cappa.Arg(
             help="The path (<app_label>.<model name>) of the model to generate CRUD views for. Ex: myapp.product"
-        ),
-    ]
-    settings_module: Annotated[
-        str,
-        cappa.Arg(
-            default="config.settings",
-            help="The django settings module to use.",
-            short="-s",
-            long="--settings",
         ),
     ]
     blueprints: Annotated[
@@ -62,17 +79,8 @@ class ModelCRUD:
     only_html: Annotated[
         bool, cappa.Arg(default=False, long="--only-html", help="Generate only html.")
     ]
-    # virtualenv_env_path: Annotated[str, cappa.Arg(short="-v")]
 
     def __call__(self):
-        #os.environ.setdefault("DJANGO_SETTINGS_MODULE", self.settings_module)
-        # sys.path.insert(0, str(Path(self.virtualenv_env_path)))
-        # sys.path.insert(0, str(Path()))
-        print(get_installed_apps())
-        print("here")
-
-        django.setup()
-
         v = self.model_path.split(".")
         if len(v) == 1:
             model_name = None
@@ -81,40 +89,36 @@ class ModelCRUD:
             model_name = v.pop()
             app_label = ".".join(v)
 
-        try:
-            django_app = apps.get_app_config(app_label=app_label)
-        except LookupError as e:
-            raise cappa.Exit(f"App {app_label} not found", code=1) from e
+        all_django_models: list[DjangoModel] = run_shell_command(
+            models_data_code.format(app_label)
+        )
+        app_folder_path, templates_dir = run_shell_command(
+            app_path_and_templates_dir_code.format(app_label, app_label)
+        )
+        app_folder_path = Path(app_folder_path)
+        templates_dir = Path(templates_dir)
 
-        if model_name is None:
-            django_models = django_app.get_models()
-        else:
-            try:
-                django_models = [django_app.get_model(model_name)]
-            except LookupError as exc:
+        if model_name:
+            for django_model in all_django_models:
+                if django_model["model_name"] == model_name:
+                    django_models = [django_model]
+                    break
+            else:
                 raise cappa.Exit(
                     f"Model {model_name} not found in app {app_label}", code=1
-                ) from exc
+                )
+        else:
+            django_models = all_django_models
 
-        app_folder_path = Path(django_app.path)
-
-        try:
-            templates_dir = Path(settings.TEMPLATES[0].get("DIRS")[0]) / app_label
-        except IndexError:
-            templates_dir = app_folder_path / "templates" / app_label
-
-        models_names = []
         for django_model in django_models:
-            model_fields = django_model._meta.get_fields()
-            model_name = django_model.__name__
-            models_names.append(model_name)
+            model_name = django_model.get("model_name")
             context = {
                 "app_label": app_label,
                 "model_name": model_name,
                 "model_name_plural": f"{model_name}s",
                 "model_name_cap": model_name.capitalize(),
-                "fields_names": [field.name for field in model_fields],
-                "fields_verbose_names": [field.verbose_name for field in model_fields],
+                "fields_names": django_model.get("model_fields_names"),
+                "fields_verbose_names": django_model.get("model_fields_verbose_names"),
             }
 
             python_blueprints = self.python_blueprints
@@ -148,7 +152,7 @@ class ModelCRUD:
                 pass
                 # render html files
 
-        display_names = ", ".join(models_names)
+        display_names = ", ".join(m.get("model_name") for m in django_models)
         rich_print(f"[green] CRUD views generated for: {display_names}[/green]")
 
     @staticmethod
@@ -216,7 +220,10 @@ class ModelCRUD:
 
     @staticmethod
     def render_to_string(template_content: str, context: dict):
-        return Template(template_content).render(Context(context))
+        return run_shell_command(
+            django_render_template_code.format(template_content, context),
+            eval_result=False,
+        )
 
     @staticmethod
     def run_formatters(filepath: str):
