@@ -21,7 +21,7 @@ class StartProjectPlus(DjangoStartProject):
         parser.add_argument("--author-email", dest="author_email")
 
 
-@cappa.command(help="Initialize a new django project.")
+@cappa.command(help="Initialize a new django project the falco way.")
 class StartProject:
     project_name: Annotated[
         str,

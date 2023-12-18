@@ -12,7 +12,7 @@ from rich import print as rich_print
 from rich.prompt import Prompt
 
 
-@cappa.command(help="Synchronize the .env file with the .env.template file")
+@cappa.command(help="Synchronize the .env file with the .env.template file.")
 class SyncDotenv:
     fill_missing: Annotated[
         bool,

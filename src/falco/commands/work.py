@@ -18,7 +18,7 @@ def read_toml(file: Path) -> dict:
     return tomllib.loads(file.read_text())
 
 
-@cappa.command(help="Run multiple processes in parallel.")
+@cappa.command(help="Run your whole django projects in one command.")
 class Work:
     def __call__(self) -> None:
         """Run multiple processes in parallel."""
