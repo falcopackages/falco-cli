@@ -1,26 +1,39 @@
 Running multiple process in parallel
 ====================================
 
-https://www.forgepackages.com/docs/forge-work/
-
-
 .. figure:: ../images/work.svg
 
-
-This command allows you to run multiple commands simultaneously. Typically, when working with tailwind, you need to run
-both the django ``runserver`` command and the tailwind ``compile`` command. This command uses the python package `honcho <https://github.com/nickstenning/honcho>`__ to
-manage multiple processes. By default, it runs the django server, a redis server (if ``REDIS_URL`` is in your environment
-or ``.env`` file), the tailwind compile and watch command if ``pytailwindcss`` is listed as a dependency in
-your ``pyproject.toml`` file. It also runs the qcluster command from ``django-q2`` (if defined in your dependencies).
-Additionally, if hupper is listed as a development dependency, it uses that to run the qcluster command..
-You can specify the commands to run in the ``[tool.falco]`` section using the ``work`` key. If
-you define a command with the same name as the default, it will override it. Here are the default commands:
-
+This command allows you to run multiple commands simultaneously. Typically, when working with a large or growing django project, you
+reach a point where you need to run multiple processes to run your project. This might include a *Redis server*, a *Tailwind compile* command,
+a `task queue worker </guides/task_queues_and_schedulers.html>`_, etc. With this command, you can run all these commands in parallel within a single terminal.
+It execute the commands by reading your ``pyproject.toml`` file and running the commands defined in the ``[tool.falco.work]`` section. There is a
+default configuration available when you generate your project with `start-project </the_cli/start_project.html>`_, and you can update it 
+as needed.
+Here is the default configuration:
 
 .. code:: toml
 
    [tool.falco.work]
-   server = "python manage.py runserver"
-   tailwind = "tailwindcss -i project_name/static/css/input.css -o project_name/static/css/output.css --watch"
+   server = "python manage.py tailwind runserver"
+
+And this is what a more advance configuration might looks like:
+
+.. code:: toml
+
+   [tool.falco.work]
+   server = "python manage.py tailwind runserver"
    redis = "redis-server"
    worker = "python manage.py qcluster"
+
+I was inspired by `forge-work <https://www.forgepackages.com/docs/forge-work/>` to create this command. It is a more powerful version of the one I have here.
+The `forgepackages <https://github.com/forgepackages>` repository has some great tools for Django development in general. I would recommend checking them out as they might have something of interest to you.
+
+This command runs in the foreground, so as soon as you kill the current terminal, all processes will be stopped. It is meant for development purposes only.
+If you launch it and the Django server fails, indicating that the port is already in use, there is a chance that a previously running server was not properly killed
+and is still running. To kill all previous running processes, run the following command:
+
+.. code:: bash
+
+   $ lsof -i :8000 -t | xargs -t kill
+
+This command was copied from this `blog post <https://adamj.eu/tech/2023/11/19/django-stop-backgrounded-runserver/>`_.
