@@ -1,4 +1,5 @@
 import importlib.util
+import subprocess
 from contextlib import contextmanager
 from pathlib import Path
 
@@ -7,7 +8,6 @@ import httpx
 from rich.progress import Progress
 from rich.progress import SpinnerColumn
 from rich.progress import TextColumn
-import subprocess
 
 RICH_SUCCESS_MARKER = "[green]SUCCESS:"
 RICH_ERROR_MARKER = "[red]ERROR:"
@@ -33,9 +33,7 @@ def get_current_dir_as_project_name():
 
 
 @contextmanager
-def simple_progress(
-    description: str, display_text="[progress.description]{task.description}"
-):
+def simple_progress(description: str, display_text="[progress.description]{task.description}"):
     progress = Progress(SpinnerColumn(), TextColumn(display_text), transient=True)
     progress.add_task(description=description, total=None)
     try:

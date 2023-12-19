@@ -4,7 +4,8 @@ from typing import Annotated
 from typing import TypedDict
 
 import cappa
-from falco.utils import get_falco_blueprints_path, run_shell_command
+from falco.utils import get_falco_blueprints_path
+from falco.utils import run_shell_command
 from rich import print as rich_print
 
 IMPORT_START_COMMENT = "<!-- IMPORTS:START -->"

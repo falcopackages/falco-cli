@@ -2,7 +2,8 @@ from pathlib import Path
 from typing import Annotated
 
 import cappa
-from falco.utils import simple_progress, run_shell_command
+from falco.utils import run_shell_command
+from falco.utils import simple_progress
 from rich import print as rich_print
 
 django_debug_value_code = """
@@ -19,7 +20,7 @@ class RmMigrations:
         django_debug_value = run_shell_command(django_debug_value_code, eval_result=True)
         if not django_debug_value:
             raise cappa.Exit("This command can only be run with DEBUG=True.", code=1)
-        
+
         apps = set()
         with simple_progress("Removing migration files"):
             for folder in self.apps_dir.iterdir():
