@@ -21,7 +21,7 @@ def {{model_name_lower}}_detail(request: HttpRequest, pk: int):
     {{model_name_lower}} = get_object_or_404({{model_name}}.objects, pk=pk)
     return TemplateResponse(
         request,
-        "{{app_label}}/{{model_name_lower}}_details.html",
+        "{{app_label}}/{{model_name_lower}}_detail.html",
         context={"{{model_name_lower}}": {{model_name_lower}}},
     )
 

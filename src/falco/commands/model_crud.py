@@ -49,14 +49,14 @@ def extract_content_from(text: str, start_comment: str, end_comment: str):
     return text[start_index:end_index]
 
 
-def get_urls(model_name_lower: str) -> list[str]:
-    return [
-        f"path('{model_name_lower}/', views.{model_name_lower}_list, name='{model_name_lower}_list'),",
-        f"path('{model_name_lower}/create/', views.{model_name_lower}_create, name='{model_name_lower}_create'),",
-        f"path('{model_name_lower}/<int:pk>/', views.{model_name_lower}_detail, name='{model_name_lower}_detail'),",
-        f"path('{model_name_lower}/<int:pk>/update/', views.{model_name_lower}_update, name='{model_name_lower}_update'),",
-        f"path('{model_name_lower}/<int:pk>/delete/', views.{model_name_lower}_delete, name='{model_name_lower}_delete'),",
-    ]
+def get_urls(model_name_lower: str) -> str:
+    return f"""
+        path('{model_name_lower}/', views.{model_name_lower}_list, name='{model_name_lower}_list'),
+        path('{model_name_lower}/create/', views.{model_name_lower}_create, name='{model_name_lower}_create'),
+        path('{model_name_lower}/<int:pk>/', views.{model_name_lower}_detail, name='{model_name_lower}_detail'),
+        path('{model_name_lower}/<int:pk>/update/', views.{model_name_lower}_update, name='{model_name_lower}_update'),
+        path('{model_name_lower}/<int:pk>/delete/', views.{model_name_lower}_delete, name='{model_name_lower}_delete'),
+    """
 
 
 def render_to_string(template_content: str, context: dict):
@@ -131,6 +131,7 @@ class ModelCRUD:
             django_models = all_django_models
 
         updated_python_files = set()
+        urls = ""
         for django_model in django_models:
             model_name = django_model.get("model_name")
             context = {
@@ -160,8 +161,30 @@ class ModelCRUD:
                     templates_dir=templates_dir,
                 )
 
-        for file_to_write_to in updated_python_files:
-            run_python_formatters(str(file_to_write_to))
+            urls = urls + "\n" + get_urls(model_name_lower=model_name.lower())
+
+        app_urls = app_folder_path / "urls.py"
+        if app_urls.exists():
+            urlpatterns = f"\nurlpatterns +=[{urls}]"
+            app_urls.write_text(app_urls.read_text() + urlpatterns)
+        else:
+            app_urls.touch()
+            app_urls.write_text(
+                f"""
+from django.urls import path
+from . import views
+
+app_name = "{app_label}"
+
+urlpatterns = [
+{urls}
+]
+        """
+            )
+        updated_python_files.add(app_urls)
+
+        for file in updated_python_files:
+            run_python_formatters(str(file))
 
         display_names = ", ".join(m.get("model_name") for m in django_models)
         rich_print(f"[green] CRUD views generated for: {display_names}[/green]")
