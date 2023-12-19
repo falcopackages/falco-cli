@@ -5,6 +5,22 @@ Keep the .env and .env.template in sync
 .. figure:: ../images/sync-dotenv.svg
 
 
+Any Django project created with the `start-project </guides/start_project.html>`_ command comes with a `.env.template` file. It serves as an example for the environment variables that
+you need to fill in the `.env` file for your project to run. This command is a simple convenience that keeps the values in sync between the two files. It can be useful when you generate
+a new project to create a `.env` file and when you add variables to the `.env` but forget to add them to the `.env.template`. You can even automate this process using a pre-commit hook
+so that you never have to remember to keep your `.env.template` up to date.
+
+**Example of pre-commit hook**
+
+.. code:: yml
+
+  - repo: local
+    hooks:
+      - id: sync-dotenv
+        name: sync-dotenv
+        entry: hatch sync-dotenv
+        language: system
+
 When you run the ``sync-dotenv`` command, it performs the following steps:
 
 #. It reads the values from the ``.env.template`` file, a set of default values (see below), and the ``.env`` file, in that order. If the same key is present in multiple sources, the value from the later source is used.
@@ -25,4 +41,4 @@ The command uses the following default values:
 - ``DJANGO_SUPERUSER_EMAIL``:
 - ``DJANGO_SUPERUSER_PASSWORD``:
 
-These values are used if they are not already specified in the `.env` or `.env.template` files.
+These values are used if they are not already specified in the ``.env`` or ``.env.template`` files.
