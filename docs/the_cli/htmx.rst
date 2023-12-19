@@ -18,9 +18,8 @@ the command without specifying any arguments, it will list all the available ext
 
 .. figure:: ../images/htmx-ext.svg
 
-.. admonition:: Example
-   :class: hint
+**Example**
 
-   .. code-block:: bash
+.. code-block:: bash
 
-      falco htmx-ext sse
+   falco htmx-ext sse
