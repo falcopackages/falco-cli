@@ -83,9 +83,7 @@ class HtmxExtension:
 
     @classmethod
     def read_registry(cls):
-        with network_request_with_progress(
-            REGISTRY_URL, "Loading extensions registry"
-        ) as response:
+        with network_request_with_progress(REGISTRY_URL, "Loading extensions registry") as response:
             import time
 
             time.sleep(2)

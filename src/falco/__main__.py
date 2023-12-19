@@ -16,15 +16,7 @@ from falco.commands import Work
     """,
 )
 class Falco:
-    subcommand: cappa.Subcommands[
-        StartProject
-        | ModelCRUD
-        | Htmx
-        | HtmxExtension
-        | Work
-        | SyncDotenv
-        | RmMigrations
-    ]
+    subcommand: cappa.Subcommands[StartProject | ModelCRUD | Htmx | HtmxExtension | Work | SyncDotenv | RmMigrations]
 
 
 def main():

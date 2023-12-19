@@ -32,9 +32,7 @@ def get_current_dir_as_project_name():
 
 
 @contextmanager
-def simple_progress(
-    description: str, display_text="[progress.description]{task.description}"
-):
+def simple_progress(description: str, display_text="[progress.description]{task.description}"):
     progress = Progress(SpinnerColumn(), TextColumn(display_text), transient=True)
     progress.add_task(description=description, total=None)
     try:

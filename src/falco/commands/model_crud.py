@@ -91,16 +91,10 @@ def run_formatters(filepath: str):
 
 
 def get_blueprints_ending_in(file_ext: str) -> str:
-    return [
-        file
-        for file in (get_falco_blueprints_path() / "crud").iterdir()
-        if file.name.endswith(file_ext)
-    ]
+    return [file for file in (get_falco_blueprints_path() / "crud").iterdir() if file.name.endswith(file_ext)]
 
 
-@cappa.command(
-    help="Generate CRUD (Create, Read, Update, Delete) views for a model.", name="crud"
-)
+@cappa.command(help="Generate CRUD (Create, Read, Update, Delete) views for a model.", name="crud")
 class ModelCRUD:
     model_path: Annotated[
         str,
@@ -120,9 +114,7 @@ class ModelCRUD:
         bool,
         cappa.Arg(default=False, long="--only-python", help="Generate only python."),
     ]
-    only_html: Annotated[
-        bool, cappa.Arg(default=False, long="--only-html", help="Generate only html.")
-    ]
+    only_html: Annotated[bool, cappa.Arg(default=False, long="--only-html", help="Generate only html.")]
 
     def __call__(self):
         v = self.model_path.split(".")
@@ -133,12 +125,8 @@ class ModelCRUD:
             model_name = v.pop()
             app_label = ".".join(v)
 
-        all_django_models: list[DjangoModel] = run_shell_command(
-            models_data_code.format(app_label)
-        )
-        app_folder_path, templates_dir = run_shell_command(
-            app_path_and_templates_dir_code.format(app_label, app_label)
-        )
+        all_django_models: list[DjangoModel] = run_shell_command(models_data_code.format(app_label))
+        app_folder_path, templates_dir = run_shell_command(app_path_and_templates_dir_code.format(app_label, app_label))
         app_folder_path = Path(app_folder_path)
         templates_dir = Path(templates_dir)
 
@@ -148,9 +136,7 @@ class ModelCRUD:
                     django_models = [django_model]
                     break
             else:
-                raise cappa.Exit(
-                    f"Model {model_name} not found in app {app_label}", code=1
-                )
+                raise cappa.Exit(f"Model {model_name} not found in app {app_label}", code=1)
         else:
             django_models = all_django_models
 
@@ -166,9 +152,7 @@ class ModelCRUD:
             }
 
             python_blueprints = get_blueprints_ending_in(".py.bp")
-            hmtl_blueprints = list(
-                Path(self.html_blueprints).iterdir()
-            ) or get_blueprints_ending_in(".html")
+            hmtl_blueprints = list(Path(self.html_blueprints).iterdir()) or get_blueprints_ending_in(".html")
 
             if not self.only_html:
                 self.generate_python_code(
@@ -186,9 +170,7 @@ class ModelCRUD:
         display_names = ", ".join(m.get("model_name") for m in django_models)
         rich_print(f"[green] CRUD views generated for: {display_names}[/green]")
 
-    def generate_python_code(
-        self, app_folder_path: Path, context: dict, blueprints: list[Path]
-    ) -> None:
+    def generate_python_code(self, app_folder_path: Path, context: dict, blueprints: list[Path]) -> None:
         # blueprints python files end in .py.bp
         for blueprint in blueprints:
             filecontent = blueprint.read_text()
@@ -207,12 +189,8 @@ class ModelCRUD:
             file_to_write_to.touch(exist_ok=True)
             rendered_imports = render_to_string(imports_template, context)
             rendered_code = render_to_string(code_template, context)
-            file_to_write_to.write_text(
-                rendered_imports + file_to_write_to.read_text() + rendered_code
-            )
+            file_to_write_to.write_text(rendered_imports + file_to_write_to.read_text() + rendered_code)
             run_formatters(str(file_to_write_to))
 
-    def generate_html_templates(
-        self, context: dict, blueprints: list[Path], templates_dir: Path
-    ) -> None:
+    def generate_html_templates(self, context: dict, blueprints: list[Path], templates_dir: Path) -> None:
         pass

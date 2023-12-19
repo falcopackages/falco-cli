@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import os
 import sys
+from contextlib import suppress
 from pathlib import Path
 
 import cappa
@@ -29,17 +30,12 @@ class Work:
             "PYTHONPATH": Path().resolve(strict=True),
             "PYTHONUNBUFFERED": "true",
         }
+        commands = {"server": "python manage.py runserver"}
 
-        try:
+        with suppress(FileNotFoundError):
             pyproject_config = read_toml(Path("pyproject.toml"))
-            commands = pyproject_config.get("tool", {}).get("falco", {}).get("work", {})
-        except FileNotFoundError as e:
-            raise cappa.Exit(
-                "The pyproject.toml file could not be found. ", code=1
-            ) from e
-
-        if not commands:
-            raise cappa.Exit("No commands were found in the pyproject.toml file. ")
+            user_commands = pyproject_config.get("tool", {}).get("falco", {}).get("work", {})
+            commands = commands | user_commands
 
         manager = HonchoManager()
 
