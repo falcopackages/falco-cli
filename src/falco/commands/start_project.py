@@ -15,6 +15,7 @@ from falco.utils import RICH_INFO_MARKER
 from falco.utils import RICH_SUCCESS_MARKER
 from falco.utils import simple_progress
 from rich import print as rich_print
+from rich.prompt import Prompt
 
 
 class StartProjectPlus(DjangoStartProject):
@@ -62,6 +63,21 @@ class StartProject:
     ]
 
     def __call__(self) -> None:
+        if is_new_falco_cli_available():
+            message = (
+                f"{RICH_INFO_MARKER} A new version of falco-cli is available. To upgrade, run "
+                f"[green]pip install -U falco-cli."
+            )
+            rich_print(message)
+
+            response = Prompt.ask(
+                "[blue]Do you want to continue with your current falco-cli version or stop to upgrade? (y/N)",
+                default="N",
+            )
+
+            if response.lower() != "y":
+                raise cappa.Exit(code=0)
+
         if Path(self.project_name).exists():
             raise cappa.Exit(
                 f"A directory with the name {self.project_name} already exists in the current directory",
@@ -76,11 +92,6 @@ class StartProject:
         )
 
         rich_print(msg)
-        if is_new_falco_cli_available():
-            rich_print(
-                f"{RICH_INFO_MARKER} A new falco version is available, run "
-                f"{RICH_SUCCESS_MARKER}pip install -U falco-cli{RICH_INFO_MARKER} to upgrade."
-            )
 
     def init_project(self) -> None:
         project_template_path = get_falco_blueprints_path() / "project_name"
