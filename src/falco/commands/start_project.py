@@ -21,6 +21,27 @@ class StartProjectPlus(DjangoStartProject):
         parser.add_argument("--author-email", dest="author_email")
 
 
+def get_authors_info() -> tuple[str, str]:
+    default_author_name = "Tobi DEGNON"
+    default_author_email = "tobidegnon@proton.me"
+    git_config_cmd = ["git", "config", "--global", "--get"]
+    try:
+        user_name_cmd = subprocess.run(
+            git_config_cmd + ["user.name"], capture_output=True, text=True
+        )
+        user_email_cmd = subprocess.run(
+            git_config_cmd + ["user.email"], capture_output=True, text=True
+        )
+    except FileNotFoundError:
+        return default_author_name, default_author_email
+    if user_email_cmd.returncode != 0:
+        return default_author_name, default_author_email
+    return (
+        user_name_cmd.stdout.strip("\n"),
+        user_email_cmd.stdout.strip("\n"),
+    )
+
+
 @cappa.command(help="Initialize a new django project the falco way.")
 class StartProject:
     project_name: Annotated[
@@ -46,7 +67,7 @@ class StartProject:
 
     def init_project(self) -> None:
         project_template_path = get_falco_blueprints_path() / "project_name"
-        author_name, author_email = self.get_authors_info()
+        author_name, author_email = get_authors_info()
         with simple_progress("Initializing your new django project... :sunglasses:"):
             cmd = StartProjectPlus()
             argv = [
@@ -60,24 +81,3 @@ class StartProject:
                 f"--author-email={author_email}",
             ]
             cmd.run_from_argv(argv)
-
-    @staticmethod
-    def get_authors_info() -> tuple[str, str]:
-        default_author_name = "Tobi DEGNON"
-        default_author_email = "tobidegnon@proton.me"
-        git_config_cmd = ["git", "config", "--global", "--get"]
-        try:
-            user_name_cmd = subprocess.run(
-                git_config_cmd + ["user.name"], capture_output=True, text=True
-            )
-            user_email_cmd = subprocess.run(
-                git_config_cmd + ["user.email"], capture_output=True, text=True
-            )
-        except FileNotFoundError:
-            return default_author_name, default_author_email
-        if user_email_cmd.returncode != 0:
-            return default_author_name, default_author_email
-        return (
-            user_name_cmd.stdout.strip("\n"),
-            user_email_cmd.stdout.strip("\n"),
-        )

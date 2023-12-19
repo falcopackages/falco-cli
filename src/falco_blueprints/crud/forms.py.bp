@@ -1,12 +1,12 @@
 <!-- IMPORTS:START -->
 from django.forms import  ModelForm
-from .models import {{model_name_cap}}
+from .models import {{model_name}}
 <!-- IMPORTS:END -->
 
 <!-- CODE:START -->
-class {{model_name_cap}}Form(ModelForm):
+class {{model_name}}Form(ModelForm):
     class Meta:
-        model = {{model_name_cap}}
+        model = {{model_name}}
         fields = (
         {% for item in fields_names %}
             {% if not forloop.first %}, {% endif %}"{{ item }}"

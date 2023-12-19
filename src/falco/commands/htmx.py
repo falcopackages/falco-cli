@@ -14,6 +14,12 @@ HTMX_GH_RELEASE_LATEST_URL = (
 )
 
 
+def get_latest_tag() -> str:
+    with network_request_with_progress(
+        HTMX_GH_RELEASE_LATEST_URL, "Getting latest version"
+    ) as response:
+        return response.json()["tag_name"][1:]
+
 @cappa.command(help="Download the latest version (if no version is specified) of htmx.")
 class Htmx:
     version: Annotated[str, cappa.Arg(default="latest")]
@@ -22,7 +28,7 @@ class Htmx:
     ]
 
     def __call__(self):
-        latest_version = self.get_latest_tag()
+        latest_version = get_latest_tag()
         version = self.version if self.version != "latest" else latest_version
         url = HTMX_DOWNLOAD_URL.format(version=version)
 
@@ -51,10 +57,3 @@ class Htmx:
                 subtitle=subtitle,
             )
         )
-
-    @staticmethod
-    def get_latest_tag() -> str:
-        with network_request_with_progress(
-            HTMX_GH_RELEASE_LATEST_URL, "Getting latest version"
-        ) as response:
-            return response.json()["tag_name"][1:]
