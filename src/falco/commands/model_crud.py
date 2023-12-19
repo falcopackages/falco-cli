@@ -4,7 +4,7 @@ from typing import Annotated
 from typing import TypedDict
 
 import cappa
-from falco.utils import get_falco_blueprints_path
+from falco.utils import get_falco_blueprints_path, run_shell_command
 from rich import print as rich_print
 
 IMPORT_START_COMMENT = "<!-- IMPORTS:START -->"
@@ -40,17 +40,6 @@ django_render_template_code = """
 from django.template.engine import Context, Template
 print(Template('''{}''').render(Context({})))
 """
-
-
-def run_shell_command(command: str, eval_result: bool = True):
-    result = subprocess.run(
-        ["python", "manage.py", "shell", "-c", command],
-        capture_output=True,
-        text=True,
-    )
-    if result.returncode != 0:
-        raise Exception(result.stderr)
-    return eval(result.stdout) if eval_result else result.stdout
 
 
 def extract_content_from(text: str, start_comment: str, end_comment: str):
