@@ -66,7 +66,7 @@ def render_to_string(template_content: str, context: dict):
     )
 
 
-def run_formatters(filepath: str):
+def run_python_formatters(filepath: str):
     autoflake = [
         "autoflake",
         "--in-place",
@@ -130,6 +130,7 @@ class ModelCRUD:
         else:
             django_models = all_django_models
 
+        updated_python_files = set()
         for django_model in django_models:
             model_name = django_model.get("model_name")
             context = {
@@ -145,10 +146,12 @@ class ModelCRUD:
             hmtl_blueprints = list(Path(self.html_blueprints).iterdir()) or get_blueprints_ending_in(".html")
 
             if not self.only_html:
-                self.generate_python_code(
-                    context=context,
-                    blueprints=python_blueprints,
-                    app_folder_path=app_folder_path,
+                updated_python_files.update(
+                    self.generate_python_code(
+                        context=context,
+                        blueprints=python_blueprints,
+                        app_folder_path=app_folder_path,
+                    )
                 )
             if not self.only_python:
                 self.generate_html_templates(
@@ -157,10 +160,14 @@ class ModelCRUD:
                     templates_dir=templates_dir,
                 )
 
+        for file_to_write_to in updated_python_files:
+            run_python_formatters(str(file_to_write_to))
+
         display_names = ", ".join(m.get("model_name") for m in django_models)
         rich_print(f"[green] CRUD views generated for: {display_names}[/green]")
 
-    def generate_python_code(self, app_folder_path: Path, context: dict, blueprints: list[Path]) -> None:
+    def generate_python_code(self, app_folder_path: Path, context: dict, blueprints: list[Path]) -> list[Path]:
+        updated_files = []
         # blueprints python files end in .py.bp
         for blueprint in blueprints:
             filecontent = blueprint.read_text()
@@ -180,7 +187,8 @@ class ModelCRUD:
             rendered_imports = render_to_string(imports_template, context)
             rendered_code = render_to_string(code_template, context)
             file_to_write_to.write_text(rendered_imports + file_to_write_to.read_text() + rendered_code)
-            run_formatters(str(file_to_write_to))
+            updated_files.append(file_to_write_to)
+        return updated_files
 
     def generate_html_templates(self, context: dict, blueprints: list[Path], templates_dir: Path) -> None:
         pass
