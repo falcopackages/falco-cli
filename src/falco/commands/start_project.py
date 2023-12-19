@@ -5,9 +5,12 @@ from pathlib import Path
 from typing import Annotated
 
 import cappa
+import httpx
 from django.core.management.commands.startproject import Command as DjangoStartProject
+from falco import falco_version
 from falco.utils import clean_project_name
 from falco.utils import get_falco_blueprints_path
+from falco.utils import network_request_with_progress
 from falco.utils import RICH_INFO_MARKER
 from falco.utils import RICH_SUCCESS_MARKER
 from falco.utils import simple_progress
@@ -38,6 +41,19 @@ def get_authors_info() -> tuple[str, str]:
     )
 
 
+def is_new_falco_cli_available() -> bool:
+    try:
+        with network_request_with_progress(
+            "https://pypi.org/pypi/falco-cli/json",
+            "Checking for new falco version...",
+        ) as response:
+            latest_version = response.json()["info"]["version"]
+            current_version = falco_version
+            return latest_version != current_version
+    except httpx.HTTPError:
+        return False
+
+
 @cappa.command(help="Initialize a new django project the falco way.")
 class StartProject:
     project_name: Annotated[
@@ -60,6 +76,11 @@ class StartProject:
         )
 
         rich_print(msg)
+        if is_new_falco_cli_available():
+            rich_print(
+                f"{RICH_INFO_MARKER} A new falco version is available, run "
+                f"{RICH_SUCCESS_MARKER}pip install -U falco-cli{RICH_INFO_MARKER} to upgrade."
+            )
 
     def init_project(self) -> None:
         project_template_path = get_falco_blueprints_path() / "project_name"

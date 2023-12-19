@@ -21,17 +21,15 @@
 
 Intro here....
 
-✨📚✨ [Read the full documentation](https://falco.oluwatobi.dev)
-
-![Static Badge](https://img.shields.io/badge/Read%20The%20full%20Documentation-blue?&style=flat)
-
+<!-- [![Read the full documentation](https://img.shields.io/badge/Read%20The%20full%20Documentation-blue?style=for-the-badge&logo=ReadTheDocs)](https://falco.oluwatobi.dev) -->
 
 
 ## The CLI
 
 This is a set of commands to help you throughout the lifecycle of your django project development, from bootstrapping a new project using modern tools like [htmx](https://htmx.org), [hatch](https://github.com/pypa/hatch), [tailwindcss](https://tailwindcss.com/), to generating CRUD views for your models and a few utilities that might help during deployment.
 
-[The CLI full documentation](https://falco.oluwatobi.dev/the_cli/)
+<!-- [![The CLI full documentation](https://img.shields.io/badge/Read%20The%20CLI%20Documentation-blue?style=for-the-badge&logo=ReadTheDocs)](https://falco.oluwatobi.dev/the_cli/) -->
+
 
 ```sh
 pip install falco-cli
@@ -54,7 +52,8 @@ pip install falco-cli
 
 If you don't find any use of the CLI, I hope you will in these guides. This is a collection of guides that address common issues in web development, specifically tailored to Django. Each guide provides solutions, patterns, and approaches that are relevant to Django projects. It is similar to the [Django topic guides](https://docs.djangoproject.com/en/5.0/topics/), but instead of focusing on components of the framework like `forms`, `models`, `views`, etc., it focuses on more general topics like `task queues`, `deployment`, `realtime`, etc.
 
-[The full Guides](https://falco.oluwatobi.dev/guides/)
+<!--
+[![The full Guides](https://img.shields.io/badge/Read%20The%20Full%20Guides-blue?style=for-the-badge&logo=ReadTheDocs)](https://falco.oluwatobi.dev/guides/) -->
 
 
 <!-- GUIDES-LIST:START -->
