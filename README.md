@@ -23,6 +23,10 @@ Intro here....
 
 ✨📚✨ [Read the full documentation](https://falco.oluwatobi.dev)
 
+![Static Badge](https://img.shields.io/badge/Read%20The%20full%20Documentation-blue?&style=flat)
+
+
+
 ## The CLI
 
 This is a set of commands to help you throughout the lifecycle of your django project development, from bootstrapping a new project using modern tools like [htmx](https://htmx.org), [hatch](https://github.com/pypa/hatch), [tailwindcss](https://tailwindcss.com/), to generating CRUD views for your models and a few utilities that might help during deployment.
@@ -46,7 +50,7 @@ pip install falco-cli
 
 > [!NOTE]
 > These are currently a work in progress. Most of them are half-written or not written at all. I hope
-> to get them in a usable state by the end of the year.
+> to get them in a usable state by the end of january 2024.
 
 If you don't find any use of the CLI, I hope you will in these guides. This is a collection of guides that address common issues in web development, specifically tailored to Django. Each guide provides solutions, patterns, and approaches that are relevant to Django projects. It is similar to the [Django topic guides](https://docs.djangoproject.com/en/5.0/topics/), but instead of focusing on components of the framework like `forms`, `models`, `views`, etc., it focuses on more general topics like `task queues`, `deployment`, `realtime`, etc.
 
@@ -70,6 +74,7 @@ If you don't find any use of the CLI, I hope you will in these guides. This is a
 - [Permissions and authorizations](https://falco.oluwatobi.dev/guides/permissions_and_authorization.html)
 - [Writing tests](https://falco.oluwatobi.dev/guides/writing_tests.html)
 - [Logging and monitoring](https://falco.oluwatobi.dev/guides/logging_and_monitoring.html)
+- [Tips and extra](https://falco.oluwatobi.dev/guides/tips_and_extra.html)
 <!-- GUIDES-LIST:END -->
 
 ## Acknowledgements

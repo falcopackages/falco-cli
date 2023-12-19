@@ -127,3 +127,4 @@ developer in general.
     writting_async_code
     use_sqlite_in_production
     running_project_in_a_container
+    tips_and_extra

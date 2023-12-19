@@ -24,7 +24,7 @@ extensions = [
     "sphinx_copybutton",
     "sphinx_togglebutton",
     "sphinx_autorun",
-    "cappa.ext.docutils",
+    # "cappa.ext.docutils",
 ]
 extlinks = {
     "pull": ("https://github.com/tobi-de/falco/pull/%s", "pull request #%s"),

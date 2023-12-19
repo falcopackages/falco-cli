@@ -30,7 +30,6 @@
     install
     the_cli/index
     guides/index
-    tips_and_extra
 
 .. toctree::
     :caption: Development

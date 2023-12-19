@@ -46,6 +46,9 @@ class Work:
         for name, cmd in commands.items():
             manager.add_process(name, cmd, env=django_env)
 
-        manager.loop()
+        try:
+            manager.loop()
+        finally:
+            manager.terminate()
 
         sys.exit(manager.returncode)

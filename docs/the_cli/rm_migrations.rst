@@ -1,5 +1,5 @@
-Clean all migrations
-====================
+Remove all migrations
+=====================
 
 .. figure:: ../images/rm-migrations.svg
 

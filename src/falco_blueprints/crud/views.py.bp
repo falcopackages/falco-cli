@@ -29,7 +29,7 @@ def {{model_name}}_create(request:HttpRequest):
     form = {{model_name_cap}}Form(request.POST or None)
     if request.method == "POST" and form.is_valid():
         form.save()
-        return redirect("{{app_lab}}:{{model_name}}_list")
+        return redirect("{{app_label}}:{{model_name}}_list")
     return TemplateResponse(
         request,
         "{{app_label}}/{{model_name}}_create.html",

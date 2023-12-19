@@ -3,7 +3,6 @@
 Start project
 =============
 
-
 .. figure:: ../images/start-project.svg
 
 Initialize a new Django project. This template makes several assumptions; we'll go through the most important choices I made below.
@@ -24,25 +23,27 @@ Features
 
 - Django 4+
 - Python 3.10+
-- Frontend: `htmx <https://htmx.org/>`_ with `editor support <https://oluwatobi.dev/blog/posts/htmx-support-in-pycharm/>`_ using `web-types <https://github.com/JetBrains/web-types#web-types>`_
-- Frontend CSS: `tailwindcss <https://github.com/timonweb/pytailwindcss>`_ via `pytailwindcss <https://github.com/timonweb/pytailwindcss>`_
+- Frontend: `htmx <https://htmx.org/>`_
+- Frontend CSS: `tailwindcss <https://tailwindcss.com/>`_ via `django-tailwind-cli <https://github.com/oliverandrich/django-tailwind-cli>`_
 - Template fragment with `django-template-partials <https://github.com/carltongibson/django-template-partials>`_
 - Secure production settings, https only.
 - Settings using `django-environ <https://github.com/joke2k/django-environ>`_
 - Login / signup via `django-allauth <https://github.com/pennersr/django-allauth>`_
-- Custom user model based on `django-improved-user <https://github.com/jambonsw/django-improved-user>`_
 - Login using email instead of username
 - Automatically reload your browser in development via `django-browser-reload <https://github.com/adamchainz/django-browser-reload>`_
 - Better development experience with `django-fastdev <https://github.com/boxed/django-fastdev>`_
 - `Amazon SES <https://aws.amazon.com/ses/?nc1=h_ls>`_ for production email via `Anymail <https://github.com/anymail/django-anymail>`_
 - `Docker <https://www.docker.com/>`_ ready for production
 - Optional production cache settings using the ``CACHE_URL`` or ``REDIS_URL`` environment variables.
-- `captain-definition <https://caprover.com/>`_ for deploying to caprover
 - `Sentry <https://sentry.io/welcome/>`_ for performance/error monitoring
 - Serve static files with `Whitenoise <https://whitenoise.evans.io/en/latest/>`_
 - Default integration with `pre-commit <https://github.com/pre-commit/pre-commit>`_ for identifying simple issues before submission to code review
 - Dependency management using `hatch <https://github.com/pypa/hatch>`_
 
+.. tip::
+
+   If you are using a jetbrains IDE, there is an extension that add support for htmx, you can find it `here <https://plugins.jetbrains.com/plugin/20588-htmx-support>`_.
+   If you use `alpinejs <https://alpinejs.dev/>` there is also for it via `this extension <https://plugins.jetbrains.com/plugin/15251-alpine-js-support>`_.
 
 
 Project Structure
@@ -105,10 +106,6 @@ Browser reload
 
 Debug Toolbar
 -------------
-
-
-Logging
--------
 
 
 DjangoFastDev
