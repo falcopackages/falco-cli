@@ -6,8 +6,9 @@ from contextlib import suppress
 from pathlib import Path
 
 import cappa
-from dotenv import dotenv_values
+from dotenv import load_dotenv
 from honcho.manager import Manager as HonchoManager
+
 
 try:
     import tomllib
@@ -24,17 +25,22 @@ class Work:
     def __call__(self) -> None:
         """Run multiple processes in parallel."""
 
+        current_dir = Path().resolve()
         django_env = {
-            **dotenv_values(".env"),
             **os.environ,
-            "PYTHONPATH": Path().resolve(strict=True),
+            "PYTHONPATH": str(current_dir),
             "PYTHONUNBUFFERED": "true",
         }
+
+        load_dotenv(current_dir / ".env")
+
         commands = {"server": "python manage.py migrate && python manage.py runserver"}
 
         with suppress(FileNotFoundError):
             pyproject_config = read_toml(Path("pyproject.toml"))
-            user_commands = pyproject_config.get("tool", {}).get("falco", {}).get("work", {})
+            user_commands = (
+                pyproject_config.get("tool", {}).get("falco", {}).get("work", {})
+            )
             commands = commands | user_commands
 
         manager = HonchoManager()
