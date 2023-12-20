@@ -35,13 +35,13 @@ This is a set of commands to help you throughout the lifecycle of your django pr
 pip install falco-cli
 ```
 
-- `start-project`: Initialize a new django project the falco way.
-- `crud`: Generate CRUD (Create, Read, Update, Delete) views for a model.
-- `work`: Run your whole django projects in one command.
-- `htmx`: Download the latest version (if no version is specified) of htmx.
-- `htmx-ext`: Download one of htmx extensions.
-- `sync-dotenv`: Synchronize the `.env` file with the `.env.template` file.
-- `rm-migrations`: Remove all migrations for the specified applications directory, intended only for development.
+- [start-project](https://falco.oluwatobi.dev/the_cli/start_project.html): Initialize a new django project the falco way.
+- [crud](https://falco.oluwatobi.dev/the_cli/crud.html): Generate CRUD (Create, Read, Update, Delete) views for a model.
+- [work](https://falco.oluwatobi.dev/the_cli/work.html): Run your whole django projects in one command.
+- [htmx](https://falco.oluwatobi.dev/the_cli/htmx.html): Download the latest version (if no version is specified) of htmx.
+- [htmx-ext](https://falco.oluwatobi.dev/the_cli/htmx.html#falco-htmx-ext): Download one of htmx extensions.
+- [sync-dotenv](https://falco.oluwatobi.dev/the_cli/sync_dotenv.html): Synchronize the `.env` file with the `.env.template` file.
+- [rm-migrations](https://falco.oluwatobi.dev/the_cli/rm_migrations.html): Remove all migrations for the specified applications directory, intended only for development.
 
 
 ## The guides
