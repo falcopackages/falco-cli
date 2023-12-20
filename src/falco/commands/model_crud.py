@@ -129,6 +129,10 @@ class ModelCRUD:
         cappa.Arg(default=False, long="--only-python", help="Generate only python."),
     ]
     only_html: Annotated[bool, cappa.Arg(default=False, long="--only-html", help="Generate only html.")]
+    entry_point: Annotated[
+        bool,
+        cappa.Arg(default=False, long="--entry-point", help="Use the specified model as the entry point of the app."),
+    ]
 
     def __call__(self):
         v = self.model_path.split(".")
@@ -138,6 +142,9 @@ class ModelCRUD:
         else:
             model_name = v.pop()
             app_label = ".".join(v)
+
+        if self.entry_point and not model_name:
+            raise cappa.Exit("The --entry-point option requires a full model path.", code=1)
 
         with simple_progress("Getting models info"):
             all_django_models = cast(
@@ -196,6 +203,7 @@ class ModelCRUD:
                     blueprints=python_blueprints,
                     app_folder_path=app_folder_path,
                     django_models_with_context=django_models_with_context,
+                    entry_point=self.entry_point,
                 )
             )
         if not self.only_python:
@@ -219,6 +227,7 @@ class ModelCRUD:
         context: dict,
         blueprints: list[Path],
         django_models_with_context: list[DjangoModelWithContext],
+        entry_point: bool,
     ) -> list[Path]:
         updated_files = []
         # blueprints python files end in .py.bp
@@ -250,6 +259,12 @@ class ModelCRUD:
                     model_name_lower=context.get("model_name_lower"),
                     model_name_plural=context.get("model_name_plural"),
                 )
+                if entry_point:
+                    urls_content = urls_content.replace(f"{context.get('model_name_plural')}/", "")
+                    urls_content = urls_content.replace(f"list", "index")
+                    urls_content = urls_content.replace(f"{context.get('model_name_lower')}_", "")
+                    code_content = code_content.replace(f"{context.get('model_name_lower')}_", "")
+                    code_content = code_content.replace(f"list", "index")
 
             file_to_write_to.write_text(imports_content + file_to_write_to.read_text() + code_content)
             updated_files.append(file_to_write_to)

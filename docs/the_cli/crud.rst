@@ -25,3 +25,4 @@ This command depends on your ``manage.py`` to work, so you must run it from your
     $ falco crud products.product --only-html
     $ falco crud products.product --only-python
     $ falco crud products.product --html-blueprints=my_folder/custom_blueprints
+    $ falco crud products.product --entry-point
