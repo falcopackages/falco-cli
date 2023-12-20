@@ -14,14 +14,14 @@ Here is the default configuration:
 .. code:: toml
 
    [tool.falco.work]
-   server = "python manage.py tailwind runserver"
+   server = "python manage.py migrate && python manage.py tailwind runserver"
 
 And this is what a more advance configuration might looks like:
 
 .. code:: toml
 
    [tool.falco.work]
-   server = "python manage.py tailwind runserver"
+   server = "python manage.py migrate && python manage.py tailwind runserver"
    redis = "redis-server"
    worker = "python manage.py qcluster"
 

@@ -51,6 +51,10 @@ def network_request_with_progress(url: str, description: str):
         raise cappa.Exit(f"Connection error, {url} is not reachable.", code=1) from e
 
 
+class ShellCommandError(Exception):
+    pass
+
+
 def run_shell_command(command: str, eval_result: bool = True):
     result = subprocess.run(
         ["python", "manage.py", "shell", "-c", command],
@@ -58,5 +62,5 @@ def run_shell_command(command: str, eval_result: bool = True):
         text=True,
     )
     if result.returncode != 0:
-        raise Exception(result.stderr)
+        raise ShellCommandError(result.stderr)
     return eval(result.stdout) if eval_result else result.stdout

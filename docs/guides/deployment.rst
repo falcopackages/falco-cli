@@ -1,7 +1,7 @@
 :description: Smooth Deployment Strategies for django projects
 
-Deploy your app
-===============
+Deploy your project
+===================
 
 
 Intro
@@ -40,8 +40,15 @@ Database
 WSGI server
 -----------
 
+**Process Managers**
+
 Web server
 ----------
+
+https://www.nginx.com/
+https://www.nginx.com/products/nginx-unit/
+https://httpd.apache.org/
+https://caddyserver.com/
 
 Resources
 ---------

@@ -30,7 +30,7 @@ class Work:
             "PYTHONPATH": Path().resolve(strict=True),
             "PYTHONUNBUFFERED": "true",
         }
-        commands = {"server": "python manage.py runserver"}
+        commands = {"server": "python manage.py migrate && python manage.py runserver"}
 
         with suppress(FileNotFoundError):
             pyproject_config = read_toml(Path("pyproject.toml"))

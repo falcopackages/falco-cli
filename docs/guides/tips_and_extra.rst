@@ -25,3 +25,13 @@ Lifecycle not signals
 
 Avoid huge apps for large projects
 ----------------------------------
+
+Generate admin
+--------------
+
+https://django-extensions.readthedocs.io/en/latest/admin_generator.html
+
+Auto Fill forms
+---------------
+
+Fake filler

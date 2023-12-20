@@ -49,9 +49,13 @@ def extract_content_from(text: str, start_comment: str, end_comment: str):
     return text[start_index:end_index]
 
 
-def get_urls(model_name_lower: str) -> str:
+def get_urls(model_name_lower: str, model_name_plural: str, has_index_view: bool = False) -> str:
+    if has_index_view:
+        list_view = f"path('', views.{model_name_lower}_list, name='{model_name_lower}_list'),"
+    else:
+        list_view = f"path('{model_name_plural}/', views.{model_name_lower}_list, name='{model_name_lower}_list'),"
     return f"""
-        path('{model_name_lower}/', views.{model_name_lower}_list, name='{model_name_lower}_list'),
+        {list_view}
         path('{model_name_lower}/create/', views.{model_name_lower}_create, name='{model_name_lower}_create'),
         path('{model_name_lower}/<int:pk>/', views.{model_name_lower}_detail, name='{model_name_lower}_detail'),
         path('{model_name_lower}/<int:pk>/update/', views.{model_name_lower}_update, name='{model_name_lower}_update'),
@@ -134,11 +138,13 @@ class ModelCRUD:
         urls = ""
         for django_model in django_models:
             model_name = django_model.get("model_name")
+            model_name_lower = model_name.lower()
+            model_name_plural = f"{model_name_lower}s"
             context = {
                 "app_label": app_label,
                 "model_name": model_name,
-                "model_name_plural": f"{model_name}s",
-                "model_name_lower": model_name.lower(),
+                "model_name_plural": model_name_plural,
+                "model_name_lower": model_name_lower,
                 "fields_names": django_model.get("model_fields_names"),
                 "fields_verbose_names": django_model.get("model_fields_verbose_names"),
             }
@@ -161,7 +167,15 @@ class ModelCRUD:
                     templates_dir=templates_dir,
                 )
 
-            urls = urls + "\n" + get_urls(model_name_lower=model_name.lower())
+            urls = (
+                urls
+                + "\n"
+                + get_urls(
+                    model_name_lower=model_name_lower,
+                    model_name_plural=model_name_plural,
+                    has_index_view=app_label == model_name_plural,
+                )
+            )
 
         app_urls = app_folder_path / "urls.py"
         if app_urls.exists():
