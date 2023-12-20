@@ -38,9 +38,7 @@ class Work:
 
         with suppress(FileNotFoundError):
             pyproject_config = read_toml(Path("pyproject.toml"))
-            user_commands = (
-                pyproject_config.get("tool", {}).get("falco", {}).get("work", {})
-            )
+            user_commands = pyproject_config.get("tool", {}).get("falco", {}).get("work", {})
             commands = commands | user_commands
 
         manager = HonchoManager()

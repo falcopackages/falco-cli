@@ -3,6 +3,7 @@ CRUD for your model
 
 .. figure:: ../images/crud.svg
 
+
 This command generates htmx-powered create, read, update, and delete views for your model. It follows a similar idea as `neapolitan <https://github.com/carltongibson/neapolitan>`_
 but with a completely different approach. To use **neapolitan**, you'll inherit from its base class view, and for customization, get familiar with its API (which is fairly easy).
 I prefer function-based views, so this command generates basic and simple function-based views with some basic HTML templates.
@@ -10,10 +11,10 @@ I prefer function-based views, so this command generates basic and simple functi
 .. admonition:: Why function based views?
     :class: hint dropdown
 
-    Read this `django views the right way <https://spookylukey.github.io/django-views-the-right-way/>`_ article.
+    I think class-based views get complex faster than function-based views. Both have their use cases, but function-based views
+    stay simpler to manage longer in my experience. There is an excellent document on the topic, read this `django views the right way <https://spookylukey.github.io/django-views-the-right-way/>`_.
 
 This command depends on your ``manage.py`` to work, so you must run it from your project root directory.
-
 
 **Examples**
 
