@@ -31,3 +31,4 @@ The entrypoint for the CLI is the ``falco`` command. It is used to run the comma
    work
    rm_migrations
    sync_dotenv
+   make_superuser

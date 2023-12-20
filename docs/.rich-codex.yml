@@ -34,3 +34,7 @@ outputs:
   - command: "falco rm-migrations --help"
     img_paths:
       - docs/images/rm-migrations.svg
+
+  - command: "falco make-superuser --help"
+    img_paths:
+      - docs/images/make-superuser.svg

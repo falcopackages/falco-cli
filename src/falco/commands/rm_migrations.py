@@ -23,7 +23,7 @@ class RmMigrations:
     def __call__(self, project_name: Annotated[str, cappa.Dep(get_current_dir_as_project_name)]):
         django_debug_value = run_shell_command(django_debug_value_code, eval_result=True)
         if not django_debug_value:
-            raise cappa.Exit("This command can only be run with DEBUG=True.", code=1)
+            raise cappa.Exit("Nope, not happening, this command can only be run with DEBUG=True.", code=1)
 
         if not self.apps_dir:
             self.apps_dir = Path() / project_name

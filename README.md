@@ -42,6 +42,7 @@ pip install falco-cli
 - [htmx-ext](https://falco.oluwatobi.dev/the_cli/htmx.html#falco-htmx-ext): Download one of htmx extensions.
 - [sync-dotenv](https://falco.oluwatobi.dev/the_cli/sync_dotenv.html): Synchronize the `.env` file with the `.env.template` file.
 - [rm-migrations](https://falco.oluwatobi.dev/the_cli/rm_migrations.html): Remove all migrations for the specified applications directory, intended only for development.
+- [make-superuser](https://falco.oluwatobi.dev/the_cli/make_superuser.html): Make a superuser from the specified django settings.
 
 
 ## The guides
