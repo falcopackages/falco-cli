@@ -13,3 +13,15 @@ I prefer function-based views, so this command generates basic and simple functi
     Read this `django views the right way <https://spookylukey.github.io/django-views-the-right-way/>`_ article.
 
 This command depends on your ``manage.py`` to work, so you must run it from your project root directory.
+
+
+**Examples**
+
+.. code:: bash
+
+    $ falco crud products.product
+    $ falco crud products
+    $ falco crud products.product -e="secret_field1" -e="secret_field2"
+    $ falco crud products.product --only-html
+    $ falco crud products.product --only-python
+    $ falco crud products.product --html-blueprints=my_folder/custom_blueprints
