@@ -23,6 +23,13 @@ Lifecycle not signals
 ---------------------
 
 
+Better use personal info fields
+--------------------------------
+
+The project also includes `django-improved-user <https://django-improved-user.readthedocs.io/en/latest/index.html>`__ which replaces the common ``first_name`` and ``last_name`` used for user details with ``full_name``
+and the ``short_name`` fields. If you want to know the reasoning behind this, read the `project rationale <https://django-improved-user.readthedocs.io/en/latest/rationale.html>`__.
+Currently, the latest version of ``django-improved-user`` that works without problems is an alpha version (v2.0a2). This can be annoying
+
 Avoid huge apps for large projects
 ----------------------------------
 
@@ -30,6 +37,18 @@ Generate admin
 --------------
 
 https://django-extensions.readthedocs.io/en/latest/admin_generator.html
+
+.. code-block:: bash
+
+    python manage.py admin_generator your_app | tail -n +2 > your_project/your_app/admin.py
+
+As a hatch script
+
+.. code-block:: toml
+
+    [tool.hatch.envs.default.scripts]
+    admin = "python manage.py admin_generator {args} | tail -n +2 > your_project/{args}/admin.py"
+
 
 Auto Fill forms
 ---------------

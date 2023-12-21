@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "falco-cli"
 dynamic = ["version"]
-description = ''
+description = 'Enhance your Django developer experience: CLI and Guides for the Modern Developer.'
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"

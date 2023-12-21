@@ -42,7 +42,8 @@ exclude_fields = {}
 model_name = lambda model: model.__name__
 model_fields_names = lambda model: [field.name for field in model._meta.fields if field.name not in exclude_fields]
 model_fields_verbose_names = lambda model: [field.verbose_name for field in model._meta.fields if field.name not in exclude_fields]
-print([{{"model_name": model_name(model), "model_fields_names": model_fields_names(model), "model_fields_verbose_names": model_fields_verbose_names(model)}} for model in models])
+get_model_dict = lambda model: {{"model_name": model_name(model), "model_fields_names": model_fields_names(model), "model_fields_verbose_names": model_fields_verbose_names(model)}}
+print([get_model_dict(model) for model in models])
 """
 
 app_path_and_templates_dir_code = """

@@ -4,7 +4,7 @@
 
 <h1 align="center">
   <a href="https://www.django-unicorn.com/">Falco</a>
-  <p>The toolkit for a better django development experience</p>
+  <p>An opinionated toolkit for a modern Django development experience</p>
 </h1>
 
 [![documentation](https://github.com/Tobi-De/falco/actions/workflows/documentation.yml/badge.svg)](https://github.com/Tobi-De/falco/actions/workflows/documentation.yml)
@@ -19,7 +19,7 @@
 
 <!-- start-docs -->
 
-Intro here....
+Falco is a Django-centric toolkit designed to enhance the development experience. The CLI offers commands for initiating new projects, generating simple CRUD views for rapid prototyping, and more. Additionally, it provides a collection of guides specifically tailored to address common issues in web development, focusing on Django projects.
 
 <!-- [![Read the full documentation](https://img.shields.io/badge/Read%20The%20full%20Documentation-blue?style=for-the-badge&logo=ReadTheDocs)](https://falco.oluwatobi.dev) -->
 

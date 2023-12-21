@@ -6,8 +6,8 @@ from pathlib import Path
 import cappa
 from dotenv import load_dotenv
 from honcho.manager import Manager as HonchoManager
-from honcho.process import Process as HonchoProcess
 from honcho.process import Popen as HonchoPopen
+from honcho.process import Process as HonchoProcess
 
 
 try:
@@ -24,7 +24,6 @@ class Popen(HonchoPopen):
     def __init__(self, cmd, **kwargs):
         kwargs.setdefault("start_new_session", False)
         super().__init__(cmd, **kwargs)
-        print(self.pid)
 
 
 class Process(HonchoProcess):
@@ -57,9 +56,7 @@ class Work:
 
         with suppress(FileNotFoundError):
             pyproject_config = read_toml(Path("pyproject.toml"))
-            user_commands = (
-                pyproject_config.get("tool", {}).get("falco", {}).get("work", {})
-            )
+            user_commands = pyproject_config.get("tool", {}).get("falco", {}).get("work", {})
             commands = commands | user_commands
 
         manager = Manager()
