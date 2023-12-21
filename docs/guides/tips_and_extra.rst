@@ -50,7 +50,22 @@ As a hatch script
     admin = "python manage.py admin_generator {args} | tail -n +2 > your_project/{args}/admin.py"
 
 
+
+Faster reload
+-------------
+
+https://github.com/reloadware/reloadium
+
+
+Alias hatch run
+---------------
+
+
 Auto Fill forms
 ---------------
 
 Fake filler
+
+
+Book Recommendations 
+--------------------

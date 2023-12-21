@@ -9,8 +9,8 @@ lifecycle of your project, from project setup to deployment.
     If you encounter any issues or unexpected behavior with the CLI, please report it on
     `GitHub <https://github.com/tobi-de/falco/discussions>`_.
 
-.. hint:: Install the cli
-   :class: dropdown
+.. admonition:: Install the cli
+   :class: dropdown hint
 
    .. code:: console
 

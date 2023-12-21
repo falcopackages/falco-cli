@@ -111,7 +111,7 @@ developer in general.
 .. toctree::
     :hidden:
 
-    interactive_user_experience_with_htmx
+    interactive_user_interfaces
     task_queues_and_schedulers
     writing_documentation
     writing_tests

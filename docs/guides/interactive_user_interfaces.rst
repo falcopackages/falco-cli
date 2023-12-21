@@ -1,7 +1,7 @@
 :description: Building interactive UX in django using HTMX
 
-Interactive UX (User Experience) with HTMX
-===========================================
+Interactive user interfaces
+===========================
 
 
 In case you are not aware of it, htmx the new old hot stuff in web development, and pair really well with django.
@@ -26,6 +26,8 @@ Others javascript library that works well with htmx
 
 
 
-
 Alternatives to htmx
 --------------------
+
+Web components
+--------------

@@ -5,9 +5,7 @@ from pathlib import Path
 
 import cappa
 from dotenv import load_dotenv
-from honcho.manager import Manager as HonchoManager
-from honcho.process import Popen as HonchoPopen
-from honcho.process import Process as HonchoProcess
+from honcho.manager import Manager
 
 
 try:
@@ -20,22 +18,22 @@ def read_toml(file: Path) -> dict:
     return tomllib.loads(file.read_text())
 
 
-class Popen(HonchoPopen):
-    def __init__(self, cmd, **kwargs):
-        kwargs.setdefault("start_new_session", False)
-        super().__init__(cmd, **kwargs)
+# class Popen(HonchoPopen):
+#     def __init__(self, cmd, **kwargs):
+#         kwargs.setdefault("start_new_session", False)
+#         super().__init__(cmd, **kwargs)
 
 
-class Process(HonchoProcess):
-    def __init__(self, cmd, name=None, colour=None, quiet=False, env=None, cwd=None):
-        super().__init__(cmd, name, colour, quiet, env, cwd)
-        self._child_ctor = Popen
+# class Process(HonchoProcess):
+#     def __init__(self, cmd, name=None, colour=None, quiet=False, env=None, cwd=None):
+#         super().__init__(cmd, name, colour, quiet, env, cwd)
+#         self._child_ctor = Popen
 
 
-class Manager(HonchoManager):
-    def __init__(self, printer=None):
-        super().__init__(printer=printer)
-        self._process_ctor = Process
+# class Manager(HonchoManager):
+#     def __init__(self, printer=None):
+#         super().__init__(printer=printer)
+#         self._process_ctor = Process
 
 
 @cappa.command(help="Run your whole django projects in one command.")
