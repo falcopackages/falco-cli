@@ -9,11 +9,25 @@ helps, and credit will always be given.
 
 You can contribute in many ways:
 
+
+The Guides
+---------
+
+Contributions to the guides should be made via `GitHub Discussions <https://github.com/Tobi-De/falco/discussions>`_. Any contribution is welcome, even for typos and grammatical errors.
+If a contribution requires a complete rewrite of a section or an entire guide, or adds new insights (similar to an article review), proper credits will be given at the bottom of the relevant guide.
+I will not accept any pull request that directly changes a guide without prior discussion on the topic, except for minor typo fixes.
+
+
+The CLI
+-------
+
+Contributions to the CLI are more open. You can fix issues, suggest new commands, or propose improvements to existing ones.
+
 Types of Contributions
-----------------------
+^^^^^^^^^^^^^^^^^^^^^^
 
 Report Bugs
-~~~~~~~~~~~
+***********
 
 Report bugs at https://github.com/Tobi-De/falco/issues.
 
@@ -24,26 +38,26 @@ If you are reporting a bug, please include:
 * Detailed steps to reproduce the bug.
 
 Fix Bugs
-~~~~~~~~
+********
 
 Look through the GitHub issues for bugs. Anything tagged with "bug" and "help
 wanted" is open to whoever wants to implement it.
 
 Implement Features
-~~~~~~~~~~~~~~~~~~
+******************
 
 Look through the GitHub issues for features. Anything tagged with "enhancement"
 and "help wanted" is open to whoever wants to implement it.
 
 Write Documentation
-~~~~~~~~~~~~~~~~~~~
+*******************
 
 falco could always use more documentation, whether as part of the
 official falco docs, in docstrings, or even on the web in blog posts,
 articles, and such.
 
 Submit Feedback
-~~~~~~~~~~~~~~~
+***************
 
 The best way to send feedback is to file an issue at https://github.com/Tobi-De/falco/issues.
 
@@ -55,7 +69,7 @@ If you are proposing a feature:
   are welcome :)
 
 Get Started!
-------------
+^^^^^^^^^^^^
 
 Ready to contribute? Here's how to set up `falco` for local development.
 
@@ -64,11 +78,10 @@ Ready to contribute? Here's how to set up `falco` for local development.
 
     $ git clone git@github.com:your_name_here/falco.git
 
-3. Install your local copy into a virtualenv. Assuming you have virtualenvwrapper installed, this is how you set up your fork for local development::
+3. Install your local copy into a virtualenv. Assuming you have hatch installed, this is how you set up your fork for local development::
 
-    $ mkvirtualenv falco
     $ cd falco/
-    $ python setup.py develop
+    $ hatch env create
 
 4. Create a branch for local development::
 
@@ -76,14 +89,13 @@ Ready to contribute? Here's how to set up `falco` for local development.
 
    Now you can make your changes locally.
 
-5. When you're done making changes, check that your changes pass flake8 and the
-   tests, including testing other Python versions with tox::
+4. Install pre-commit hooks for linting and code formatting before every commit::
 
-    $ flake8 falco tests
-    $ python setup.py test or pytest
-    $ tox
+    $ pre-commit install
 
-   To get flake8 and tox, just pip install them into your virtualenv.
+5. When you're done making changes, check that your changes pass tests including testing other Python versions::
+
+    $ hatch run test
 
 6. Commit your changes and push your branch to GitHub::
 
@@ -94,7 +106,7 @@ Ready to contribute? Here's how to set up `falco` for local development.
 7. Submit a pull request through the GitHub website.
 
 Pull Request Guidelines
------------------------
+^^^^^^^^^^^^^^^^^^^^^^^
 
 Before you submit a pull request, check that it meets these guidelines:
 
@@ -107,7 +119,7 @@ Before you submit a pull request, check that it meets these guidelines:
    and make sure that the tests pass for all supported Python versions.
 
 Tips
-----
+^^^^
 
 To run a subset of tests::
 
@@ -115,14 +127,12 @@ $ pytest tests.test_falco
 
 
 Deploying
----------
+^^^^^^^^^
 
 A reminder for the maintainers on how to deploy.
 Make sure all your changes are committed (including an entry in HISTORY.rst).
 Then run::
 
-$ bump2version patch # possible: major / minor / patch
+$ hatch version patch # possible: major / minor / patch
 $ git push
 $ git push --tags
-
-Travis will then deploy to PyPI if tests pass.

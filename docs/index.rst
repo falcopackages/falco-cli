@@ -14,6 +14,8 @@
        <img src="https://img.shields.io/badge/%F0%9F%A5%9A-Hatch-4051b5.svg">
        <img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json">
        <img src="https://img.shields.io/badge/license-MIT-blue.svg">
+       <img src="https://img.shields.io/pypi/pyversions/falco-cli">
+       <img src="https://img.shields.io/pypi/frameworkversions/django/falco-cli">
    </div>
 
 

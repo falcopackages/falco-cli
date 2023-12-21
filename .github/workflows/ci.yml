@@ -1,4 +1,4 @@
-name: Continous Integration - Testing
+name: Continous Integration
 
 on: [push]
 
