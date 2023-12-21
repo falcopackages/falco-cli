@@ -3,11 +3,6 @@ Running multiple process in parallel
 
 .. figure:: ../images/work.svg
 
-.. warning::
-
-   This command right now does not work as I was hoping it to. To make it work, you need to have the ``falco-cli`` installed in the same virtualenv as your
-   project. I would prefer for that not to be the case, but right now I don't know how to fix it.
-
 
 This command allows you to run multiple commands simultaneously. Typically, when working with a large or growing django project, you
 reach a point where you need to run multiple processes to run your project. This might include a *Redis server*, a *Tailwind compile* command,
