@@ -12,10 +12,11 @@ from .models import Product
 
 def product_list(request: HttpRequest):
     products = Product.objects.all()
+    template_name = "products/product_list.html#table" if request.htmx else "products/product_list.html"
     return TemplateResponse(
         request,
-        "products/product_list.html",
-        context={"products": paginate_queryset(request, products)},
+        template_name,
+        context={"products": paginate_queryset(request, products, 2)},
     )
 
 

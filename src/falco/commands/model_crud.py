@@ -27,6 +27,7 @@ class DjangoModelContext(TypedDict):
 
 class DjangoModel(TypedDict):
     model_name: str
+    model_verbose_name_plural: str
     model_fields_names: list[str]
     model_fields_verbose_names: list[str]
 
@@ -40,9 +41,10 @@ from django.apps import apps
 models = apps.get_app_config("{}").get_models()
 exclude_fields = {}
 model_name = lambda model: model.__name__
+model_verbose_name_plural = lambda model: getattr(model._meta, 'verbose_name_plural', f"{model.__name__}s")
 model_fields_names = lambda model: [field.name for field in model._meta.fields if field.name not in exclude_fields]
 model_fields_verbose_names = lambda model: [field.verbose_name for field in model._meta.fields if field.name not in exclude_fields]
-get_model_dict = lambda model: {{"model_name": model_name(model), "model_fields_names": model_fields_names(model), "model_fields_verbose_names": model_fields_verbose_names(model)}}
+get_model_dict = lambda model: {{"model_name": model_name(model), "model_fields_names": model_fields_names(model), "model_fields_verbose_names": model_fields_verbose_names(model), "model_verbose_name_plural": model_verbose_name_plural(model)}}
 print([get_model_dict(model) for model in models])
 """
 
@@ -69,13 +71,13 @@ def extract_content_from(text: str, start_comment: str, end_comment: str):
     return text[start_index:end_index]
 
 
-def get_urls(model_name_lower: str, model_name_plural: str) -> str:
+def get_urls(model_name_lower: str, urlsafe_model_verbose_name_plural: str) -> str:
     return f"""
-        path('{model_name_plural}/', views.{model_name_lower}_list, name='{model_name_lower}_list'),
-        path('{model_name_plural}/create/', views.{model_name_lower}_create, name='{model_name_lower}_create'),
-        path('{model_name_plural}/<int:pk>/', views.{model_name_lower}_detail, name='{model_name_lower}_detail'),
-        path('{model_name_plural}/<int:pk>/update/', views.{model_name_lower}_update, name='{model_name_lower}_update'),
-        path('{model_name_plural}/<int:pk>/delete/', views.{model_name_lower}_delete, name='{model_name_lower}_delete'),
+        path('{urlsafe_model_verbose_name_plural}/', views.{model_name_lower}_list, name='{model_name_lower}_list'),
+        path('{urlsafe_model_verbose_name_plural}/create/', views.{model_name_lower}_create, name='{model_name_lower}_create'),
+        path('{urlsafe_model_verbose_name_plural}/<int:pk>/', views.{model_name_lower}_detail, name='{model_name_lower}_detail'),
+        path('{urlsafe_model_verbose_name_plural}/<int:pk>/update/', views.{model_name_lower}_update, name='{model_name_lower}_update'),
+        path('{urlsafe_model_verbose_name_plural}/<int:pk>/delete/', views.{model_name_lower}_delete, name='{model_name_lower}_delete'),
     """
 
 
@@ -132,7 +134,11 @@ class ModelCRUD:
     only_html: Annotated[bool, cappa.Arg(default=False, long="--only-html", help="Generate only html.")]
     entry_point: Annotated[
         bool,
-        cappa.Arg(default=False, long="--entry-point", help="Use the specified model as the entry point of the app."),
+        cappa.Arg(
+            default=False,
+            long="--entry-point",
+            help="Use the specified model as the entry point of the app.",
+        ),
     ]
 
     def __call__(self):
@@ -180,11 +186,11 @@ class ModelCRUD:
         for django_model in django_models:
             model_name = django_model.get("model_name")
             model_name_lower = model_name.lower()
-            model_name_plural = f"{model_name_lower}s"
+            model_verbose_name_plural = django_model.get("model_verbose_name_plural")
             context = {
                 "app_label": app_label,
                 "model_name": model_name,
-                "model_name_plural": model_name_plural,
+                "model_verbose_name_plural": model_verbose_name_plural,
                 "model_name_lower": model_name_lower,
                 "fields_names": django_model.get("model_fields_names"),
                 "fields_verbose_names": django_model.get("model_fields_verbose_names"),
@@ -256,12 +262,15 @@ class ModelCRUD:
                 context = django_model.get("context")
                 imports_content += render_to_string(imports_template, context)
                 code_content += render_to_string(code_template, context)
+                urlsafe_model_verbose_name_plural = (
+                    django_model.get("model_verbose_name_plural").lower().replace(" ", "-")
+                )
                 urls_content += get_urls(
                     model_name_lower=context.get("model_name_lower"),
-                    model_name_plural=context.get("model_name_plural"),
+                    urlsafe_model_verbose_name_plural=urlsafe_model_verbose_name_plural,
                 )
                 if entry_point:
-                    urls_content = urls_content.replace(f"{context.get('model_name_plural')}/", "")
+                    urls_content = urls_content.replace(f"{urlsafe_model_verbose_name_plural}/", "")
                     urls_content = urls_content.replace(f"list", "index")
                     urls_content = urls_content.replace(f"{context.get('model_name_lower')}_", "")
                     code_content = code_content.replace(f"{context.get('model_name_lower')}_", "")

@@ -31,3 +31,5 @@ Alternatives to htmx
 
 Web components
 --------------
+
+use them first, If they feel easy enought to use, look out for way of building your own

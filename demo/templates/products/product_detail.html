@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <section class="flex justify-between">
+        <h1 class="text-lg font-bold">Product - {{ product }}</h1>
+
+        <a href="{% url 'products:product_list' %}" class="text-blue-600 hover:underline hover:text-blue-500">
+            All Products
+        </a>
+    </section>
+
+
+    <ul class="py-5">
+        <li>
+            <span class="font-bold">Name:</span> {{ product.name }}
+        </li>
+        <li>
+            <span class="font-bold">Description:</span> {{ product.description }}
+        </li>
+        <li>
+            <span class="font-bold">Price:</span> {{ product.price }}
+        </li>
+        <li>
+            <span class="font-bold">Slug:</span> {{ product.slug }}
+        </li>
+        <li>
+            <span class="font-bold">Sku:</span> {{ product.sku }}
+        </li>
+    </ul>
+
+
+    <a class="py-2 px-4 bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 focus:ring-offset-blue-200 text-white text-center text-base font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg"
+       href="{% url 'products:product_update' product.pk %}">Edit</a>
+
+
+
+{% endblock content %}

@@ -1,0 +1,15 @@
+{%  extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <h1 class="text-lg font-bold py-4">Create Product</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{form|crispy}}
+
+        <button type="submit" class="cursor-pointer py-2 px-4 bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 focus:ring-offset-blue-200 text-white text-center text-base font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg">
+            Save
+        </button>
+    </form>
+{% endblock content %}

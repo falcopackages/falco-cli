@@ -38,6 +38,10 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "core",
     "products",
+    "crispy_forms",
+    "crispy_tailwind",
+    "template_partials",
+    "django_htmx",
 ]
 
 MIDDLEWARE = [
@@ -48,6 +52,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django_htmx.middleware.HtmxMiddleware",
 ]
 
 ROOT_URLCONF = "demo.urls"
@@ -123,6 +128,9 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
+CRISPY_TEMPLATE_PACK = "tailwind"
 
 SUPERUSER_EMAIL = "project@gmail.com"
 SUPERUSER_PASSWORD = "password"
