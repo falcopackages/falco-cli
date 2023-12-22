@@ -5,7 +5,11 @@ repos:
     hooks:
       - id: prepare-docs-deploy
         name: prepare-docs-deploy
-        entry: hatch run docs:prepare-docs-deploy
+        entry: hatch run docs:prepare-deploy
+        language: system
+      - id: make-blueprints
+        name: make-blueprints
+        entry: hatch run make-blueprints
         language: system
       - id: hatch-format
         name: hatch format

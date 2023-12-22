@@ -3,7 +3,7 @@ Remove all migrations
 
 .. figure:: ../images/rm-migrations.svg
 
-It is considered good practice to delete all migrations and recreate them from scratch when deploying your Django project.
+It is a good idea to delete all migrations and recreate them from scratch when deploying your Django project for the fist time.
 This ensures a clean base without any remnants of testing or experimentation from the initial development phase. Even during development,
 when exploring new project models, it is often necessary to delete all migrations and start over. This command is designed for these scenarios,
 as it deletes all migrations in your project.

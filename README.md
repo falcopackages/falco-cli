@@ -40,11 +40,11 @@ pip install falco-cli
 
 - [start-project](https://falco.oluwatobi.dev/the_cli/start_project.html): Initialize a new django project the falco way.
 - [crud](https://falco.oluwatobi.dev/the_cli/crud.html): Generate CRUD (Create, Read, Update, Delete) views for a model.
-- [work](https://falco.oluwatobi.dev/the_cli/work.html): Run all the services required to run your django project in parallel with a single command, intended only for development.
+- [work](https://falco.oluwatobi.dev/the_cli/work.html): Run all the services required to run your django project in parallel with a single command. (development only)
 - [htmx](https://falco.oluwatobi.dev/the_cli/htmx.html): Download a local copy of the latest version of htmx.
 - [htmx-ext](https://falco.oluwatobi.dev/the_cli/htmx.html#falco-htmx-ext): Download one of htmx extensions.
 - [sync-dotenv](https://falco.oluwatobi.dev/the_cli/sync_dotenv.html): Synchronize the `.env` file with the `.env.template` file.
-- [rm-migrations](https://falco.oluwatobi.dev/the_cli/rm_migrations.html): Remove all migrations for the specified applications directory, intended only for development.
+- [rm-migrations](https://falco.oluwatobi.dev/the_cli/rm_migrations.html): Remove all migrations for the specified applications directory. (development only)
 - [make-superuser](https://falco.oluwatobi.dev/the_cli/make_superuser.html): Make a superuser from some pre-defined django settings.
 
 
