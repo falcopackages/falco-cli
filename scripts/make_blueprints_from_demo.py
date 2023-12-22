@@ -7,13 +7,13 @@ falco_crud_blueprints_dir = root_dir / "src" / "falco_blueprints" / "crud"
 
 python_blueprints = ("views.py", "forms.py")
 python_variables_mapping = {
-    "products:": "{{app_label}}",
-    "products": "{{model_name_lower_plural}}",
-    "product": "{{model_name_lower}}",
+    "products:": "{{app_label}}:",
+    "products": "{{model_name|lower}}s",
+    "product": "{{model_name|lower}}",
     "Product": "{{model_name}}",
-    "Products": "{{model_name_plural}}",
+    "Products": "{{model_name}}s",
     'fields = ("id", "name", "description", "price", "sku", "created_at")': """fields = (
-        {% for item in fields_names %}
+        {% for item in model_fields %}
             {% if not forloop.first %}, {% endif %}"{{ item }}"
         {% endfor %}
         )""",
@@ -31,7 +31,6 @@ def copy_python_files():
 
 def copuy_html_files():
     pass
-
 
 
 def main():

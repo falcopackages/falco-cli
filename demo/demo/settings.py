@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "core",
     "products",
+    "orders",
     "crispy_forms",
     "crispy_tailwind",
     "template_partials",

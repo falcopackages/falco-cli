@@ -1,0 +1,131 @@
+{% verbatim %}
+{% extends 'base.html' %}
+{% load partials %}
+
+
+{% block content %}
+{% endverbatim %}
+    <section class="flex justify-between">
+        <h1 class="text-lg font-bold">{{ model_verbose_name_plural|capfirst }}</h1>
+
+        <a href="{{ create_view_url|safe }}"
+           class="cursor-pointer py-2 px-4 bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 focus:ring-offset-blue-200 text-white text-center text-base font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg">
+            New {{ model_name|capfirst }}
+        </a>
+    </section>
+
+{% verbatim %}
+  {% partialdef table inline=True %}
+
+  <div id="table">
+
+    <div class="flex flex-col">
+        <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full">
+                        <thead class="border">
+                            {% with th_class="text-sm font-medium text-gray-900 border-r px-6 py-4 text-left" %}
+                            {% endverbatim %}
+                                <tr>
+                                    {% for _, field_verbose_name in model_fields.items %}
+                                    <th scope="col" class="{% verbatim %} {{ th_class }} {% endverbatim %}">{{ field_verbose_name  }}</th>
+                                    {% endfor %}
+                                </tr>
+                            {% verbatim %}
+                            {% endwith %}
+                        </thead>
+                        <tbody>
+                            {% with td_class="px-6 py-4 whitespace-nowrap text-sm font-medium border-r text-gray-900" %}
+                                {% for product in products %}
+                                  {% endverbatim %}
+                                    <tr class="border">
+                                        {% for _, field_accessor in fields_verbose_name_with_accessor.items %}
+                                        <td class="{% verbatim %} {{ td_class }} {% endverbatim %}">{{field_accessor}}</td>
+                                       {% endfor %}
+
+                                        <td class="{% verbatim %} {{ td_class }} {% endverbatim %}">
+                                             {% verbatim %}
+                                            {% with href_class="text-blue-600 hover:underline hover:text-blue-500" %}
+                                              {% endverbatim %}
+                                                <a {% verbatim %} class="{{ href_class }}}" {% endverbatim %}
+                                                   href="{{ detail_view_url|safe }}">View
+                                                </a>|
+                                                <a  {% verbatim %} class="{{ href_class }}}"  {% endverbatim %}
+                                                   href="{{ update_view_url|safe }}">Edit
+                                                </a>|
+                                                <a
+                                                   {% verbatim %} class="cursor-pointer {{ href_class }}" {% endverbatim %}
+                                                    hx-target="closest tr"
+                                                    hx-swap="outerHTML"
+                                                    hx-confirm="Are you sure you?"
+                                                    hx-delete="{{ delete_view_url|safe }}">
+                                                    Delete
+                                                </a>
+                                                </td>
+                                                </tr>
+                                            {% verbatim %}
+                                            {% endwith %}
+                                {% endfor %}
+                            {% endwith %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+ {% endverbatim %}
+
+ {% verbatim %}
+    {% if products.paginator.num_pages > 1 %}
+        <div class="flex justify-end py-4">
+            <ul class="flex list-reset border border-grey-light rounded"
+            hx-target="#table" hx-swap="outerHTML"
+            >
+                {% with page_class="cursor-pointer block px-3 py-2 hover:text-white hover:bg-blue-500 border-r border-grey-light" %}
+
+                    {% if products.has_previous %}
+                        <li>
+                            <a class="{{ page_class }}" hx-get="?page=1">First</a>
+                        </li>
+                        <li>
+                            <a class="{{ page_class }}"  hx-get="?page={{ products.previous_page_number }}">
+                                Previous
+                            </a>
+                        </li>
+                    {% endif %}
+
+
+                    {% for num in products.paginator.page_range %}
+                        {% if products.number == num %}
+                            <li>
+                                <a class="{{ page_class }}"  hx-get="?page={{ num }}">{{ num }}</a>
+                            </li>
+                        {% elif num > products.number|add:'-3' and num < products.number|add:'3' %}
+                            <li>
+                                <a class="{{ page_class }}" hx-get="?page={{ num }}">{{ num }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if products.has_next %}
+                        <li>
+                            <a class="{{ page_class }}}" hx-get="?page={{ products.next_page_number }}">
+                                Next
+                            </a>
+                        </li>
+                        <li>
+                            <a class="cursor-pointer block px-3 py-2 hover:text-white hover:bg-blue-500"
+                                hx-get="?page={{ products.num_pages }}">Last
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endwith %}
+            </ul>
+        </div>
+    {% endif %}
+    </div>
+
+{% endpartialdef %}
+{% endblock %}
+{% endverbatim %}

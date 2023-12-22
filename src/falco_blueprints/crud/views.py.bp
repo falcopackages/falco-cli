@@ -1,55 +1,66 @@
-<!-- IMPORTS:START -->
-from django.http import HttpRequest, HttpResponse
+# IMPORTS:START
+from core.utils import paginate_queryset
+from django.http import HttpRequest
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
 from django.template.response import TemplateResponse
 from django.views.decorators.http import require_http_methods
-from django.shortcuts import redirect
+
 from .forms import {{model_name}}Form
 from .models import {{model_name}}
-<!-- IMPORTS:END -->
+# IMPORTS:END
 
 
-<!-- CODE:START -->
-def {{model_name_lower}}_list(request: HttpRequest):
+# CODE:START
+def {{model_name|lower}}_list(request: HttpRequest):
+    {{model_name|lower}}s = {{model_name}}.objects.all()
+    template_name = "{{model_name|lower}}s/{{model_name|lower}}_list.html#table" if request.htmx else "{{model_name|lower}}s/{{model_name|lower}}_list.html"
     return TemplateResponse(
         request,
-        "{{app_label}}/{{model_name_lower}}_list.html",
-        context={"{{model_name_plural}}": {{model_name}}.objects.all()},
+        template_name,
+        context={"{{model_name|lower}}s": paginate_queryset(request, {{model_name|lower}}s)},
     )
 
-def {{model_name_lower}}_detail(request: HttpRequest, pk: int):
-    {{model_name_lower}} = get_object_or_404({{model_name}}.objects, pk=pk)
+
+def {{model_name|lower}}_detail(request: HttpRequest, pk: int):
+    {{model_name|lower}} = get_object_or_404({{model_name}}.objects, pk=pk)
     return TemplateResponse(
         request,
-        "{{app_label}}/{{model_name_lower}}_detail.html",
-        context={"{{model_name_lower}}": {{model_name_lower}}},
+        "{{model_name|lower}}s/{{model_name|lower}}_detail.html",
+        context={"{{model_name|lower}}": {{model_name|lower}}},
     )
 
-def {{model_name_lower}}_create(request:HttpRequest):
+
+def {{model_name|lower}}_create(request: HttpRequest):
     form = {{model_name}}Form(request.POST or None)
     if request.method == "POST" and form.is_valid():
         form.save()
-        return redirect("{{app_label}}:{{model_name_lower}}_list")
+        return redirect("{{app_label}}:{{model_name|lower}}_list")
     return TemplateResponse(
         request,
-        "{{app_label}}/{{model_name_lower}}_create.html",
+        "{{model_name|lower}}s/{{model_name|lower}}_create.html",
         context={"form": form},
     )
 
-def {{model_name_lower}}_update(request:HttpRequest, pk:int):
-    {{model_name_lower}} = get_object_or_404({{model_name}}.objects, pk=pk)
-    form = {{model_name}}Form(request.POST or None, instance={{model_name_lower}})
+
+def {{model_name|lower}}_update(request: HttpRequest, pk: int):
+    {{model_name|lower}} = get_object_or_404({{model_name}}.objects, pk=pk)
+    form = {{model_name}}Form(request.POST or None, instance={{model_name|lower}})
     if request.method == "POST" and form.is_valid():
         form.save()
-        return redirect("{{app_label}}:{{model_name_lower}}_detail", pk=pk)
+        return redirect("{{app_label}}:{{model_name|lower}}_detail", pk=pk)
     return TemplateResponse(
         request,
-        "{{app_label}}/{{model_name_lower}}_update.html",
-        context={"{{model_name_lower}}": {{model_name_lower}}, "form": form },
+        "{{model_name|lower}}s/{{model_name|lower}}_update.html",
+        context={"{{model_name|lower}}": {{model_name|lower}}, "form": form},
     )
 
+
 @require_http_methods(["DELETE"])
-def {{model_name_lower}}_delete(request:HttpRequest, pk:int):
+def {{model_name|lower}}_delete(_: HttpRequest, pk: int):
     {{model_name}}.objects.filter(pk=pk).delete()
-    return HttpResponse("OK")
-<!-- CODE:END -->
+    return HttpResponse("")
+
+
+# CODE:END

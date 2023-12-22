@@ -1,0 +1,31 @@
+{% verbatim %}
+{% extends "base.html" %}
+
+{% block content %}
+
+    <section class="flex justify-between">
+{% endverbatim %}
+        <h1 class="text-lg font-bold">{{ model_name}} - {% verbatim %}{{ product }}{% endverbatim %}</h1>
+
+        <a href="{{list_view_url|safe}}" class="text-blue-600 hover:underline hover:text-blue-500">
+            All {{model_verbose_name_plural|capfirst}}
+        </a>
+    </section>
+
+    <ul class="py-5">
+        {% for field_verbose_name, field_accessor in fields_verbose_name_with_accessor.items %}
+            <li>
+                <span class="font-bold">{{ field_verbose_name }}:</span> {{ field_accessor }}
+            </li>
+        {% endfor %}
+    </ul>
+
+
+    <a class="py-2 px-4 bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 focus:ring-offset-blue-200 text-white text-center text-base font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg"
+       href="{{ update_view_url|safe }}">Edit</a>
+
+{% verbatim %}
+
+{% endblock content %}
+
+{% endverbatim %}

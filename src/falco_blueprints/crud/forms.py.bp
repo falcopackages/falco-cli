@@ -1,15 +1,20 @@
-<!-- IMPORTS:START -->
-from django.forms import  ModelForm
-from .models import {{model_name}}
-<!-- IMPORTS:END -->
+# IMPORTS:START
+from django.forms import ModelForm
 
-<!-- CODE:START -->
+from .models import {{model_name}}
+
+# IMPORTS:END
+
+
+# CODE:START
 class {{model_name}}Form(ModelForm):
     class Meta:
         model = {{model_name}}
         fields = (
-        {% for item in fields_names %}
+        {% for item in model_fields %}
             {% if not forloop.first %}, {% endif %}"{{ item }}"
         {% endfor %}
         )
-<!-- CODE:END -->
+
+
+# CODE:END

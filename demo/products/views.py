@@ -1,3 +1,4 @@
+# IMPORTS:START
 from core.utils import paginate_queryset
 from django.http import HttpRequest
 from django.http import HttpResponse
@@ -8,15 +9,17 @@ from django.views.decorators.http import require_http_methods
 
 from .forms import ProductForm
 from .models import Product
+# IMPORTS:END
 
 
+# CODE:START
 def product_list(request: HttpRequest):
     products = Product.objects.all()
     template_name = "products/product_list.html#table" if request.htmx else "products/product_list.html"
     return TemplateResponse(
         request,
         template_name,
-        context={"products": paginate_queryset(request, products, 2)},
+        context={"products": paginate_queryset(request, products)},
     )
 
 
@@ -55,6 +58,9 @@ def product_update(request: HttpRequest, pk: int):
 
 
 @require_http_methods(["DELETE"])
-def product_delete(request: HttpRequest, pk: int):
+def product_delete(_: HttpRequest, pk: int):
     Product.objects.filter(pk=pk).delete()
-    return HttpResponse("OK")
+    return HttpResponse("")
+
+
+# CODE:END
