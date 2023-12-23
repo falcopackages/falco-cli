@@ -398,15 +398,14 @@ class ModelCRUD:
         # the pagination part is hard to get right even with using verbatim
         # this is a hack until I find a better solution
         conversion_map = {
-            "products.has_previous": f"{model_name_lower}s.has_previous",
-            "products.has_next": f"{model_name_lower}s.has_next",
-            "products.paginator.page_range": f"{model_name_lower}s.paginator.page_range",
-            "products.number": f"{model_name_lower}s.number",
-            "products.next_page_number": f"{model_name_lower}s.next_page_number",
-            "products.previous_page_number": f"{model_name_lower}s.previous_page_number",
-            "products.num_pages": f"{model_name_lower}s.num_pages",
-            "products.paginator.num_pages": f"{model_name_lower}s.paginator.num_pages",
-            "for product in products": f"for {model_name_lower} in {model_name_lower}s",
+            "products_page.has_previous": f"{model_name_lower}s_page.has_previous",
+            "products_page.has_next": f"{model_name_lower}s_page.has_next",
+            "products_page.paginator.page_range": f"{model_name_lower}s_page.paginator.page_range",
+            "products_page.number": f"{model_name_lower}s_page.number",
+            "products_page.next_page_number": f"{model_name_lower}s_page.next_page_number",
+            "products_page.previous_page_number": f"{model_name_lower}s_page.previous_page_number",
+            "products_page.paginator.num_pages": f"{model_name_lower}s_page.paginator.num_pages",
+            "for product in products_page": f"for {model_name_lower} in {model_name_lower}s_page",
         }
         for key, value in conversion_map.items():
             content = content.replace(key, value)

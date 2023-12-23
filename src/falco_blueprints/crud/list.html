@@ -37,7 +37,7 @@
                         </thead>
                         <tbody>
                             {% with td_class="px-6 py-4 whitespace-nowrap text-sm font-medium border-r text-gray-900" %}
-                                {% for product in products %}
+                                {% for product in products_page %}
                                   {% endverbatim %}
                                     <tr class="border">
                                         {% for _, field_accessor in fields_verbose_name_with_accessor.items %}
@@ -77,46 +77,46 @@
  {% endverbatim %}
 
  {% verbatim %}
-    {% if products.paginator.num_pages > 1 %}
+    {% if products_page.paginator.num_pages > 1 %}
         <div class="flex justify-end py-4">
             <ul class="flex list-reset border border-grey-light rounded"
-            hx-target="#table" hx-swap="outerHTML"
+            hx-target="#table" hx-swap="outerHTML"  hx-push-url="true"
             >
                 {% with page_class="cursor-pointer block px-3 py-2 hover:text-white hover:bg-blue-500 border-r border-grey-light" %}
 
-                    {% if products.has_previous %}
+                    {% if products_page.has_previous %}
                         <li>
                             <a class="{{ page_class }}" hx-get="?page=1">First</a>
                         </li>
                         <li>
-                            <a class="{{ page_class }}"  hx-get="?page={{ products.previous_page_number }}">
+                            <a class="{{ page_class }}"  hx-get="?page={{ products_page.previous_page_number }}">
                                 Previous
                             </a>
                         </li>
                     {% endif %}
 
 
-                    {% for num in products.paginator.page_range %}
-                        {% if products.number == num %}
+                    {% for num in products_page.paginator.page_range %}
+                        {% if products_page.number == num %}
                             <li>
                                 <a class="{{ page_class }}"  hx-get="?page={{ num }}">{{ num }}</a>
                             </li>
-                        {% elif num > products.number|add:'-3' and num < products.number|add:'3' %}
+                        {% elif num > products_page.number|add:'-3' and num < products_page.number|add:'3' %}
                             <li>
                                 <a class="{{ page_class }}" hx-get="?page={{ num }}">{{ num }}</a>
                             </li>
                         {% endif %}
                     {% endfor %}
 
-                    {% if products.has_next %}
+                    {% if products_page.has_next %}
                         <li>
-                            <a class="{{ page_class }}}" hx-get="?page={{ products.next_page_number }}">
+                            <a class="{{ page_class }}}" hx-get="?page={{ products_page.next_page_number }}">
                                 Next
                             </a>
                         </li>
                         <li>
                             <a class="cursor-pointer block px-3 py-2 hover:text-white hover:bg-blue-500"
-                                hx-get="?page={{ products.num_pages }}">Last
+                                hx-get="?page={{ products_page.paginator.num_pages }}">Last
                             </a>
                         </li>
                     {% endif %}

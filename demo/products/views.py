@@ -9,6 +9,7 @@ from django.views.decorators.http import require_http_methods
 
 from .forms import ProductForm
 from .models import Product
+
 # IMPORTS:END
 
 
@@ -19,7 +20,7 @@ def product_list(request: HttpRequest):
     return TemplateResponse(
         request,
         template_name,
-        context={"products": paginate_queryset(request, products)},
+        context={"products_page": paginate_queryset(request, products)},
     )
 
 
