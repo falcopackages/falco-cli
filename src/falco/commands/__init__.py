@@ -1,5 +1,6 @@
 from .htmx import Htmx  # noqa
 from .htmx_extension import HtmxExtension  # noqa
+from .install_crud_utils import InstallCrudUtils  # noqa
 from .make_superuser import MakeSuperUser  # noqa
 from .model_crud import ModelCRUD  # noqa
 from .rm_migrations import RmMigrations  # noqa

@@ -50,11 +50,9 @@ class HtmxExtension:
             download_url = extension.get("download_url")
             response = httpx.get(download_url, follow_redirects=True)
 
-            if str(self.output).endswith(".js"):
-                self.output.write_text(response.text)
-            else:
-                self.output.mkdir(parents=True, exist_ok=True)
-                (self.output / f"{self.name}.js").write_text(response.text)
+            output_file = self.output if self.output.name.endswith(".js") else self.output / f"{self.name}.js"
+            output_file.parent.mkdir(parents=True, exist_ok=True)
+            output_file.write_text(response.text)
 
         rich_print(
             Panel(

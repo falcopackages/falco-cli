@@ -128,11 +128,7 @@ def run_html_formatters(filepath: str):
 
 
 def get_blueprints_ending_in(file_ext: str) -> list[Path]:
-    return [
-        file
-        for file in (get_falco_blueprints_path() / "crud").iterdir()
-        if file.name.endswith(file_ext)
-    ]
+    return [file for file in (get_falco_blueprints_path() / "crud").iterdir() if file.name.endswith(file_ext)]
 
 
 def resolve_html_blueprints(user_blueprints_path: str | None) -> list[Path]:
@@ -146,12 +142,8 @@ def resolve_html_blueprints(user_blueprints_path: str | None) -> list[Path]:
 
 
 def extract_python_file_templates(file_content: str) -> tuple[str, str]:
-    imports_template = extract_content_from(
-        file_content, IMPORT_START_COMMENT, IMPORT_END_COMMENT
-    )
-    code_template = extract_content_from(
-        file_content, CODE_START_COMMENT, CODE_END_COMMENT
-    )
+    imports_template = extract_content_from(file_content, IMPORT_START_COMMENT, IMPORT_END_COMMENT)
+    code_template = extract_content_from(file_content, CODE_START_COMMENT, CODE_END_COMMENT)
     return imports_template, code_template
 
 
@@ -168,9 +160,7 @@ urlpatterns = [
         """
 
 
-@cappa.command(
-    help="Generate CRUD (Create, Read, Update, Delete) views for a model.", name="crud"
-)
+@cappa.command(help="Generate CRUD (Create, Read, Update, Delete) views for a model.", name="crud")
 class ModelCRUD:
     model_path: Annotated[
         str,
@@ -195,9 +185,7 @@ class ModelCRUD:
         bool,
         cappa.Arg(default=False, long="--only-python", help="Generate only python."),
     ]
-    only_html: Annotated[
-        bool, cappa.Arg(default=False, long="--only-html", help="Generate only html.")
-    ]
+    only_html: Annotated[bool, cappa.Arg(default=False, long="--only-html", help="Generate only html.")]
     entry_point: Annotated[
         bool,
         cappa.Arg(
@@ -217,9 +205,7 @@ class ModelCRUD:
             app_label = ".".join(v)
 
         if self.entry_point and not name:
-            raise cappa.Exit(
-                "The --entry-point option requires a full model path.", code=1
-            )
+            raise cappa.Exit("The --entry-point option requires a full model path.", code=1)
 
         html_blueprints = resolve_html_blueprints(self.blueprints)
         python_blueprints = get_blueprints_ending_in(".py.bp")
@@ -227,25 +213,19 @@ class ModelCRUD:
         with simple_progress("Getting models info"):
             all_django_models = cast(
                 list[DjangoModel],
-                run_shell_command(
-                    models_data_code.format(app_label, self.excluded_fields)
-                ),
+                run_shell_command(models_data_code.format(app_label, self.excluded_fields)),
             )
 
             app_folder_path, templates_dir = cast(
                 tuple[str, str],
-                run_shell_command(
-                    app_path_and_templates_dir_code.format(app_label, app_label)
-                ),
+                run_shell_command(app_path_and_templates_dir_code.format(app_label, app_label)),
             )
 
             app_folder_path = Path(app_folder_path)
             templates_dir = Path(templates_dir)
 
         django_models = (
-            [m for m in all_django_models if m["name"].lower() == name.lower()]
-            if name
-            else all_django_models
+            [m for m in all_django_models if m["name"].lower() == name.lower()] if name else all_django_models
         )
         if name and not django_models:
             raise cappa.Exit(f"Model {name} not found in app {app_label}", code=1)
@@ -268,12 +248,8 @@ class ModelCRUD:
                     "model_verbose_name_plural": django_model["verbose_name_plural"],
                     "model_fields": django_model["fields"],
                     "fields_verbose_name_with_accessor": {
-                        field_verbose_name: "{{"
-                        + f"{django_model['name'].lower()}.{field_name}"
-                        + "}}"
-                        for field_name, field_verbose_name in django_model[
-                            "fields"
-                        ].items()
+                        field_verbose_name: "{{" + f"{django_model['name'].lower()}.{field_name}" + "}}"
+                        for field_name, field_verbose_name in django_model["fields"].items()
                     },
                     **get_urls_template_string(
                         app_label=app_label,
@@ -322,6 +298,10 @@ class ModelCRUD:
 
         display_names = ", ".join(m.get("name") for m in django_models)
         rich_print(f"[green] CRUD views generated for: {display_names}[/green]")
+        rich_print(
+            "[blue]If this is your first time running this command, please also execute "
+            "'falco install-crud-utils' to ensure all necessary utilities are installed.[/blue]"
+        )
 
     @simple_progress("Generating python code")
     def generate_python_code(
@@ -334,9 +314,7 @@ class ModelCRUD:
         updated_files = []
 
         for blueprint in blueprints:
-            imports_template, code_template = extract_python_file_templates(
-                blueprint.read_text()
-            )
+            imports_template, code_template = extract_python_file_templates(blueprint.read_text())
             # blueprints python files end in .py.bp
             file_name_without_bp = ".".join(blueprint.name.split(".")[:-1])
             file_to_write_to = app_folder_path / file_name_without_bp
@@ -353,9 +331,7 @@ class ModelCRUD:
                     code_content = code_content.replace(f"{model_name_lower}_", "")
                     code_content = code_content.replace("list", "index")
 
-            file_to_write_to.write_text(
-                imports_content + file_to_write_to.read_text() + code_content
-            )
+            file_to_write_to.write_text(imports_content + file_to_write_to.read_text() + code_content)
             updated_files.append(file_to_write_to)
 
         return updated_files
@@ -371,17 +347,13 @@ class ModelCRUD:
         urls_content = ""
         for django_model in django_models:
             model_name_lower = django_model["name"].lower()
-            urlsafe_model_verbose_name_plural = (
-                django_model["verbose_name_plural"].lower().replace(" ", "-")
-            )
+            urlsafe_model_verbose_name_plural = django_model["verbose_name_plural"].lower().replace(" ", "-")
             urls_content += get_urls(
                 model_name_lower=model_name_lower,
                 urlsafe_model_verbose_name_plural=urlsafe_model_verbose_name_plural,
             )
             if entry_point:
-                urls_content = urls_content.replace(
-                    f"{urlsafe_model_verbose_name_plural}/", ""
-                )
+                urls_content = urls_content.replace(f"{urlsafe_model_verbose_name_plural}/", "")
                 urls_content = urls_content.replace("list", "index")
                 urls_content = urls_content.replace(f"{model_name_lower}_", "")
 

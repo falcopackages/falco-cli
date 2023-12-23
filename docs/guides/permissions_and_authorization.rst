@@ -11,7 +11,7 @@ What is permissions and authorizations?
 
 The options to implement them in django
 ---------------------------------------
-  
+
 When do you need to build a custom permissions and authorization system? Spoiler **hardly ever**.
 
 - You have Linux Torvalds-level technical skills in software development.
@@ -20,7 +20,7 @@ When do you need to build a custom permissions and authorization system? Spoiler
 - It is not a serious project, but rather an opportunity to learn new things.
 
 If at least two of these conditions are not true at the same time, please do not build a custom permissions and authorization system.
-Instead, use a popular and maintained solution. Building this stuff is hard, very hard, and even harder to maintain.
+Instead, use a proven and maintained solution. Building this stuff is hard, very hard, and even harder to maintain.
 
     Everyone knows that debugging is twice as hard as writing a program in the first place. So if you’re as clever as you can be when you write it,
     how will you ever debug it?
@@ -30,7 +30,7 @@ Instead, use a popular and maintained solution. Building this stuff is hard, ver
 .. admonition:: A rephrased version of the quote above that I like more
     :class: hint dropdown
 
-    Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, 
+    Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are,
     by definition, not smart enough to debug it.
 
 
@@ -39,7 +39,7 @@ In my experience, you can swap **debug** with **maintain** and it will still be 
 Before considering the options below, I'll assume that you first tried the `Django integrated permissions system <https://docs.djangoproject.com/en/5.0/topics/auth/default/#topic-authorization>`_ and
 it was not enough for your use case.
 
-Django packages 
+Django packages
 ^^^^^^^^^^^^^^^
 
 * https://djangopackages.org/grids/g/perms/

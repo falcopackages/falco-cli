@@ -15,6 +15,10 @@ outputs:
     img_paths:
       - docs/images/crud.svg
 
+  - command: "falco install-crud-utils --help"
+    img_paths:
+      - docs/images/crud-utils.svg
+
   - command: "falco work --help"
     img_paths:
       - docs/images/work.svg

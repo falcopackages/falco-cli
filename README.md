@@ -44,6 +44,7 @@ pip install falco-cli
 
 - [start-project](https://falco.oluwatobi.dev/the_cli/start_project.html): Initialize a new django project the falco way.
 - [crud](https://falco.oluwatobi.dev/the_cli/crud.html): Generate CRUD (Create, Read, Update, Delete) views for a model.
+- [install-crud-utils](https://falco.oluwatobi.dev/the_cli/crud.html#install-crud-utils): Install utils necessary for CRUD views.
 - [work](https://falco.oluwatobi.dev/the_cli/work.html): Run all the services required to run your django project in parallel with a single command. (development only)
 - [htmx](https://falco.oluwatobi.dev/the_cli/htmx.html): Download a local copy of the latest version of htmx.
 - [htmx-ext](https://falco.oluwatobi.dev/the_cli/htmx.html#falco-htmx-ext): Download one of htmx extensions.
@@ -86,11 +87,12 @@ If you don't find any use of the CLI, I hope you will in these guides. This is a
 
 ## Acknowledgements
 
-Falco is inspired by (and borrows elements from) some excellent starter templates:
+Falco is inspired by (and borrows elements from) some excellent open source projects:
 
 - [cookiecutter-django](https://github.com/cookiecutter/cookiecutter-django)
 - [django-hatch-startproject](https://github.com/oliverandrich/django-hatch-startproject)
 - [django-unicorn](https://github.com/adamghill/django-unicorn) (Inspiration for the logo)
+- [neapolitan](https://github.com/carltongibson/neapolitan)
 
 ## Contributors
 

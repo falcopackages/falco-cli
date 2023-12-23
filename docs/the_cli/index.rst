@@ -9,15 +9,13 @@ lifecycle of your project, from project setup to deployment.
     If you encounter any issues or unexpected behavior with the CLI, please report it on
     `GitHub <https://github.com/tobi-de/falco/discussions>`_.
 
-.. admonition:: Install the cli
-   :class: dropdown hint
 
-   .. code:: console
+The entrypoint for the CLI is the ``falco`` command. It is used to run every other subcommands.
 
-      $ pip install falco-cli
+.. important::
 
-
-The entrypoint for the CLI is the ``falco`` command. It is used to run the commands that are available to you.
+    Most of the commands here depends on the ``manage.py`` file, so make sur to run them on them at the root of
+    your django project.
 
 .. figure:: ../images/falco.svg
 
