@@ -15,6 +15,17 @@
       "contributions": [
         "ideas"
       ]
+    },
+    {
+      "login": "Tobi-De",
+      "name": "Tobi DEGNON",
+      "avatar_url": "https://avatars.githubusercontent.com/u/40334729?v=4",
+      "profile": "http://oluwatobi.dev",
+      "contributions": [
+        "code",
+        "doc",
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 7,
