@@ -15,6 +15,8 @@
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Tobi-De/falco/blob/main/LICENSE)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/falco-cli)
 ![PyPI - Versions from Framework Classifiers](https://img.shields.io/pypi/frameworkversions/django/falco-cli)
+[![All Contributors](https://img.shields.io/github/all-contributors/tobi-de/falco?color=ee8449&style=flat-square)](#contributors)
+
 
 
 > [!WARNING]
@@ -87,5 +89,16 @@ Falco is inspired by (and borrows elements from) some excellent starter template
 - [cookiecutter-django](https://github.com/cookiecutter/cookiecutter-django)
 - [django-hatch-startproject](https://github.com/oliverandrich/django-hatch-startproject)
 - [django-unicorn](https://github.com/adamghill/django-unicorn) (Inspiration for the logo)
+
+## Contributors
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
 
 <!-- end-docs -->
