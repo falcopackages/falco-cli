@@ -4,7 +4,6 @@ root_dir = Path(__file__).parent.parent
 products_app_dir = root_dir / "demo" / "products"
 falco_crud_blueprints_dir = root_dir / "src" / "falco_blueprints" / "crud"
 
-
 python_blueprints = ("views.py", "forms.py")
 python_variables_mapping = {
     "products:": "{{app_label}}:",

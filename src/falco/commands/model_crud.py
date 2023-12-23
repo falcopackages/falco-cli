@@ -46,10 +46,11 @@ models_data_code = """
 from django.apps import apps
 models = apps.get_app_config("{}").get_models()
 exclude_fields = {}
-get_name = lambda model: model.__name__
-get_verbose_name_plural = lambda model: getattr(model._meta, 'verbose_name_plural', f"{{model.__name__}}s")
-get_fields = lambda model: {{field.name: field.verbose_name for field in model._meta.fields if field.name not in exclude_fields}}
-get_model_dict = lambda model: {{"name": get_name(model), "fields": get_fields(model), "verbose_name_plural": get_verbose_name_plural(model)}}
+def get_model_dict(model):
+    name = model.__name__
+    verbose_name_plural = getattr(model._meta, 'verbose_name_plural', f"{{name}}s")
+    fields = {{field.name: field.verbose_name for field in model._meta.fields if field.name not in exclude_fields}}
+    return {{"name": name, "fields": fields, "verbose_name_plural": verbose_name_plural}}
 print([get_model_dict(model) for model in models])
 """
 
@@ -131,13 +132,32 @@ def get_blueprints_ending_in(file_ext: str) -> list[Path]:
 
 
 def resolve_html_blueprints(user_blueprints_path: str | None) -> list[Path]:
-    if user_blueprints_path:
-        html_blueprints = [file for file in Path(user_blueprints_path).iterdir() if file.name.endswith(".html")]
-        if not html_blueprints:
-            raise cappa.Exit(f"No html blueprints found in {user_blueprints_path}", code=1)
-    else:
-        html_blueprints = get_blueprints_ending_in(".html")
-    return html_blueprints
+    if not user_blueprints_path:
+        return get_blueprints_ending_in(".html")
+
+    if html_blueprints := list(Path(user_blueprints_path).glob("*.html")):
+        return html_blueprints
+
+    raise cappa.Exit(f"No html blueprints found in {user_blueprints_path}", code=1)
+
+
+def extract_python_file_templates(file_content: str) -> tuple:
+    imports_template = extract_content_from(file_content, IMPORT_START_COMMENT, IMPORT_END_COMMENT)
+    code_template = extract_content_from(file_content, CODE_START_COMMENT, CODE_END_COMMENT)
+    return imports_template, code_template
+
+
+def initial_urls_content(app_label: str, urls_content: str) -> str:
+    return f"""
+from django.urls import path
+from . import views
+
+app_name = "{app_label}"
+
+urlpatterns = [
+{urls_content}
+]
+        """
 
 
 @cappa.command(help="Generate CRUD (Create, Read, Update, Delete) views for a model.", name="crud")
@@ -200,15 +220,11 @@ class ModelCRUD:
             app_folder_path = Path(app_folder_path)
             templates_dir = Path(templates_dir)
 
-        if name:
-            for django_model in all_django_models:
-                if django_model["name"].lower() == name.lower():
-                    django_models = [django_model]
-                    break
-            else:
-                raise cappa.Exit(f"Model {name} not found in app {app_label}", code=1)
-        else:
-            django_models = all_django_models
+        django_models = (
+            [m for m in all_django_models if m["name"].lower() == name.lower()] if name else all_django_models
+        )
+        if name and not django_models:
+            raise cappa.Exit(f"Model {name} not found in app {app_label}", code=1)
 
         python_blueprint_context: list[PythonBlueprintContext] = []
         html_blueprint_context: list[HtmlBlueprintContext] = []
@@ -244,10 +260,18 @@ class ModelCRUD:
         if not self.only_html:
             updated_python_files.update(
                 self.generate_python_code(
-                    app_label=app_label,
                     blueprints=python_blueprints,
                     app_folder_path=app_folder_path,
                     contexts=python_blueprint_context,
+                    entry_point=self.entry_point,
+                )
+            )
+
+            updated_python_files.add(
+                self.generating_urls(
+                    app_folder_path=app_folder_path,
+                    app_label=app_label,
+                    django_models=django_models,
                     entry_point=self.entry_point,
                 )
             )
@@ -276,52 +300,56 @@ class ModelCRUD:
     @simple_progress("Generating python code")
     def generate_python_code(
         self,
-        app_label: str,
         app_folder_path: Path,
         blueprints: list[Path],
         contexts: list[PythonBlueprintContext],
         entry_point: bool,
     ) -> list[Path]:
         updated_files = []
-        # blueprints python files end in .py.bp
+
         for blueprint in blueprints:
-            filecontent = blueprint.read_text()
-            imports_template = extract_content_from(
-                text=filecontent,
-                start_comment=IMPORT_START_COMMENT,
-                end_comment=IMPORT_END_COMMENT,
-            )
-            code_template = extract_content_from(
-                text=filecontent,
-                start_comment=CODE_START_COMMENT,
-                end_comment=CODE_END_COMMENT,
-            )
+            imports_template, code_template = extract_python_file_templates(blueprint.read_text())
+            # blueprints python files end in .py.bp
             file_name_without_bp = ".".join(blueprint.name.split(".")[:-1])
             file_to_write_to = app_folder_path / file_name_without_bp
             file_to_write_to.touch(exist_ok=True)
 
-            imports_content = ""
-            code_content = ""
-            urls_content = ""
+            imports_content, code_content = "", ""
 
             for context in contexts:
                 model_name_lower = context["model_name"].lower()
                 imports_content += render_to_string(imports_template, context)
                 code_content += render_to_string(code_template, context)
-                urlsafe_model_verbose_name_plural = context["model_verbose_name_plural"].lower().replace(" ", "-")
-                urls_content += get_urls(
-                    model_name_lower=model_name_lower,
-                    urlsafe_model_verbose_name_plural=urlsafe_model_verbose_name_plural,
-                )
+
                 if entry_point:
-                    urls_content = urls_content.replace(f"{urlsafe_model_verbose_name_plural}/", "")
-                    urls_content = urls_content.replace("list", "index")
-                    urls_content = urls_content.replace(f"{model_name_lower}_", "")
                     code_content = code_content.replace(f"{model_name_lower}_", "")
                     code_content = code_content.replace("list", "index")
 
             file_to_write_to.write_text(imports_content + file_to_write_to.read_text() + code_content)
             updated_files.append(file_to_write_to)
+
+        return updated_files
+
+    @simple_progress("Generating urls")
+    def generating_urls(
+        self,
+        app_folder_path: Path,
+        app_label: str,
+        django_models: list[DjangoModel],
+        entry_point: bool,
+    ) -> Path:
+        urls_content = ""
+        for django_model in django_models:
+            model_name_lower = django_model["name"].lower()
+            urlsafe_model_verbose_name_plural = django_model["verbose_name_plural"].lower().replace(" ", "-")
+            urls_content += get_urls(
+                model_name_lower=model_name_lower,
+                urlsafe_model_verbose_name_plural=urlsafe_model_verbose_name_plural,
+            )
+            if entry_point:
+                urls_content = urls_content.replace(f"{urlsafe_model_verbose_name_plural}/", "")
+                urls_content = urls_content.replace("list", "index")
+                urls_content = urls_content.replace(f"{model_name_lower}_", "")
 
         app_urls = app_folder_path / "urls.py"
         if app_urls.exists():
@@ -329,21 +357,8 @@ class ModelCRUD:
             app_urls.write_text(app_urls.read_text() + urlpatterns)
         else:
             app_urls.touch()
-            app_urls.write_text(self._initial_urls_content(app_label, urls_content))
-        updated_files.append(app_urls)
-        return updated_files
-
-    def _initial_urls_content(self, app_label: str, urls_content: str) -> str:
-        return f"""
-from django.urls import path
-from . import views
-
-app_name = "{app_label}"
-
-urlpatterns = [
-{urls_content}
-]
-        """
+            app_urls.write_text(initial_urls_content(app_label, urls_content))
+        return app_urls
 
     @simple_progress("Generating html templates")
     def generate_html_templates(
