@@ -27,6 +27,8 @@ def copy_python_files():
         dest = falco_crud_blueprints_dir / f"{blueprint}.bp"
         dest.write_text(content)
 
+    # copy crud utils file
+
 
 def copuy_html_files():
     pass
