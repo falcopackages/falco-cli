@@ -3,6 +3,7 @@ from typing import Annotated
 
 import cappa
 from falco.utils import get_current_dir_as_project_name
+from falco.utils import is_git_repo_clean
 from falco.utils import run_shell_command
 from falco.utils import simple_progress
 from rich import print as rich_print
@@ -19,11 +20,27 @@ class RmMigrations:
         Path | None,
         cappa.Arg(default=None, help="The path to your django apps directory."),
     ]
+    skip_git_check: Annotated[
+        bool,
+        cappa.Arg(
+            default=False,
+            long="--skip-git-check",
+            help="Do not check if your git repo is clean.",
+        ),
+    ]
 
     def __call__(self, project_name: Annotated[str, cappa.Dep(get_current_dir_as_project_name)]):
+        if not is_git_repo_clean() and not self.skip_git_check:
+            raise cappa.Exit(
+                "Your git repo is not clean. Please commit or stash your changes before running this command.",
+                code=1,
+            )
         django_debug_value = run_shell_command(django_debug_value_code, eval_result=True)
         if not django_debug_value:
-            raise cappa.Exit("Nope, not happening, this command can only be run with DEBUG=True.", code=1)
+            raise cappa.Exit(
+                "Nope, not happening, this command can only be run with DEBUG=True.",
+                code=1,
+            )
 
         if not self.apps_dir:
             self.apps_dir = Path() / project_name

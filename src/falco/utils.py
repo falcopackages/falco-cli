@@ -64,3 +64,11 @@ def run_shell_command(command: str, eval_result: bool = True):
     if result.returncode != 0:
         raise ShellCommandError(result.stderr)
     return eval(result.stdout) if eval_result else result.stdout
+
+
+def is_git_repo_clean() -> bool:
+    try:
+        result = subprocess.run(["git", "status", "--porcelain"], capture_output=True, text=True, check=True)
+        return result.stdout.strip() == ""
+    except subprocess.CalledProcessError:
+        return False

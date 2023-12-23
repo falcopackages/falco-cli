@@ -154,6 +154,10 @@ Just run
 
 Read the `hatch documentation <https://hatch.pypa.io/latest/>`__ for more infos.
 
+.. admonition:: Alias Hatch run
+   :class: tip
+
+   You could alias ``hatch run`` to ``hr`` to making typing hatch commands a bit faster.
 
 
 The ``pyproject.toml`` file

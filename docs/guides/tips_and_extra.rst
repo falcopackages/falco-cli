@@ -57,15 +57,11 @@ Faster reload
 https://github.com/reloadware/reloadium
 
 
-Alias hatch run
----------------
-
-
 Auto Fill forms
 ---------------
 
 Fake filler
 
 
-Book Recommendations 
+Book Recommendations
 --------------------

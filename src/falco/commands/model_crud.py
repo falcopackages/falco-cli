@@ -6,6 +6,7 @@ from typing import TypedDict
 
 import cappa
 from falco.utils import get_falco_blueprints_path
+from falco.utils import is_git_repo_clean
 from falco.utils import run_shell_command
 from falco.utils import simple_progress
 from rich import print as rich_print
@@ -135,10 +136,7 @@ def resolve_html_blueprints(user_blueprints_path: str | None) -> list[Path]:
     if not user_blueprints_path:
         return get_blueprints_ending_in(".html")
 
-    if html_blueprints := list(Path(user_blueprints_path).glob("*.html")):
-        return html_blueprints
-
-    raise cappa.Exit(f"No html blueprints found in {user_blueprints_path}", code=1)
+    return list(Path(user_blueprints_path).glob("*.html"))
 
 
 def extract_python_file_templates(file_content: str) -> tuple[str, str]:
@@ -194,9 +192,24 @@ class ModelCRUD:
             help="Use the specified model as the entry point of the app.",
         ),
     ]
+    skip_git_check: Annotated[
+        bool,
+        cappa.Arg(
+            default=False,
+            long="--skip-git-check",
+            help="Do not check if your git repo is clean.",
+        ),
+    ]
 
     def __call__(self):
+        if not is_git_repo_clean() and not self.skip_git_check:
+            raise cappa.Exit(
+                "Your git repo is not clean. Please commit or stash your changes before running this command.",
+                code=1,
+            )
+
         v = self.model_path.split(".")
+
         if len(v) == 1:
             name = None
             app_label = v[0]
@@ -206,9 +219,6 @@ class ModelCRUD:
 
         if self.entry_point and not name:
             raise cappa.Exit("The --entry-point option requires a full model path.", code=1)
-
-        html_blueprints = resolve_html_blueprints(self.blueprints)
-        python_blueprints = get_blueprints_ending_in(".py.bp")
 
         with simple_progress("Getting models info"):
             all_django_models = cast(
@@ -261,6 +271,7 @@ class ModelCRUD:
         updated_python_files = set()
 
         if not self.only_html:
+            python_blueprints = get_blueprints_ending_in(".py.bp")
             updated_python_files.update(
                 self.generate_python_code(
                     blueprints=python_blueprints,
@@ -281,6 +292,7 @@ class ModelCRUD:
 
         updated_html_files = set()
         if not self.only_python:
+            html_blueprints = resolve_html_blueprints(self.blueprints)
             updated_html_files.update(
                 self.generate_html_templates(
                     contexts=html_blueprint_context,
@@ -297,7 +309,7 @@ class ModelCRUD:
             run_html_formatters(str(file))
 
         display_names = ", ".join(m.get("name") for m in django_models)
-        rich_print(f"[green] CRUD views generated for: {display_names}[/green]")
+        rich_print(f"[green]CRUD views generated for: {display_names}[/green]")
         rich_print(
             "[blue]If this is your first time running this command, please also execute "
             "'falco install-crud-utils' to ensure all necessary utilities are installed.[/blue]"

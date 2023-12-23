@@ -4,7 +4,8 @@ root_dir = Path(__file__).parent.parent
 readme = root_dir / "README.md"
 guides = root_dir / "docs/guides/"
 
-def get_rst_doc_title(file:Path):
+
+def get_rst_doc_title(file: Path):
     # in the content of the file, the title is the line above the first line that start with =
     title = ""
     for line in file.read_text().splitlines():
@@ -22,7 +23,6 @@ def get_guides_list():
         link = f"https://falco.oluwatobi.dev/guides/{file.stem}.html"
         title = get_rst_doc_title(file)
         guides_md.append(f"- [{title}]({link})")
-
 
     return "\n" + "\n".join(guides_md) + "\n"
 
@@ -42,6 +42,7 @@ def main():
         get_guides_list(),
     )
     print("README.md updated successfully.")
+
 
 if __name__ == "__main__":
     main()
