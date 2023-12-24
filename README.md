@@ -3,7 +3,7 @@
 </p>
 
 <h1 align="center">
-  <a href="https://www.django-unicorn.com/">Falco</a>
+  <a href="https://falco.oluwatobi.dev">Falco</a>
   <p>An opinionated toolkit for a modern Django development experience</p>
 </h1>
 
