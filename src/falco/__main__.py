@@ -4,6 +4,7 @@ from falco.commands import HtmxExtension
 from falco.commands import InstallCrudUtils
 from falco.commands import MakeSuperUser
 from falco.commands import ModelCRUD
+from falco.commands import ResetMigrations
 from falco.commands import RmMigrations
 from falco.commands import StartProject
 from falco.commands import SyncDotenv
@@ -27,6 +28,7 @@ class Falco:
         | Work
         | SyncDotenv
         | RmMigrations
+        | ResetMigrations
         | MakeSuperUser
     ]
 

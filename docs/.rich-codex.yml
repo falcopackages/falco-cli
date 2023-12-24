@@ -39,6 +39,10 @@ outputs:
     img_paths:
       - docs/images/rm-migrations.svg
 
+  - command: "falco reset-migrations --help"
+    img_paths:
+      - docs/images/reset-migrations.svg
+
   - command: "falco make-superuser --help"
     img_paths:
       - docs/images/make-superuser.svg

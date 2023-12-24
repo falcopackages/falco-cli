@@ -27,6 +27,6 @@ The entrypoint for the CLI is the ``falco`` command. It is used to run every oth
    crud
    htmx
    work
-   rm_migrations
+   migrations
    sync_dotenv
    make_superuser
