@@ -49,7 +49,7 @@ class SyncDotenv:
                     config[key] = Prompt.ask(f"{key}")
             postgres_user = Prompt.ask("Postgres user", default="postgres")
             postgres_password = Prompt.ask("Postgres password", default="postgres")
-            config["DATABASE_URL"] = f"postgres://{postgres_user}:{postgres_password}@localhost:5432/{project_name}"
+            config["DATABASE_URL"] = f"postgres://{postgres_user}:{postgres_password}@127.0.0.1:5432/{project_name}"
 
         sorted_config = dict(sorted(config.items(), key=lambda x: str(x[0])))
 
