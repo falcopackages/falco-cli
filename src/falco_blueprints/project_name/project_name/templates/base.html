@@ -1,18 +1,22 @@
-{% verbatim %}{% load static %}
-{% load django_htmx %}{% endverbatim %}
+{% verbatim %}
+{% load static %}
+{% load django_htmx %}
+{% load tailwind_cli %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1" name="viewport">
-    <meta name="description" content="">
-    <meta name="keywords" content="">
-    <title>{{ project_name }}</title>
-    {% verbatim %}<script defer src="{% static "vendors/htmx/htmx.min.js" %}"></script>
-    {% django_htmx_script %}{% endverbatim %}
-</head>
-{% verbatim %}<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
-{% block content %}
-{% endblock content %}
-</body>{% endverbatim %}
+    <head>
+        <meta charset="UTF-8">
+        <meta content="width=device-width, initial-scale=1" name="viewport">
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+        {% endverbatim %}<title>{{ project_name }}</title>{% endverbatim %}
+        <script defer src="{% static "vendors/htmx/htmx.min.js" %}"></script>
+        {% tailwind_css %}
+        {% django_htmx_script %}
+    </head>
+    <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+        {% block content %}
+        {% endblock content %}
+    </body>
 </html>
+{% endverbatim %}

@@ -36,14 +36,11 @@ THIRD_PARTY_APPS = [
     "django_extensions",
     "django_htmx",
     "template_partials",
+    "django_tailwind_cli",
+    "django_browser_reload",
+    "debug_toolbar",
+    "django_fastdev",
 ]
-
-if DEBUG:
-    THIRD_PARTY_APPS += [
-        "django_browser_reload",
-        "debug_toolbar",
-        "django_fastdev",
-    ]
 
 LOCAL_APPS = ["{{ project_name }}.core", "{{ project_name }}.users"]
 
@@ -60,19 +57,16 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.account.middleware.AccountMiddleware",
     "django_htmx.middleware.HtmxMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
-
-if DEBUG:
-    MIDDLEWARE += [
-        "debug_toolbar.middleware.DebugToolbarMiddleware",
-        "django_browser_reload.middleware.BrowserReloadMiddleware",
-    ]
 
 INTERNAL_IPS = ["127.0.0.1", "10.0.2.2"]
 
 DEBUG_TOOLBAR_CONFIG = {
     "DISABLE_PANELS": ["debug_toolbar.panels.redirects.RedirectsPanel"],
     "SHOW_TEMPLATE_CONTEXT": True,
+    "ROOT_TAG_EXTRA_ATTRS": "hx-preserve",
 }
 
 ROOT_URLCONF = "config.urls"
@@ -107,7 +101,14 @@ STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 MEDIA_ROOT = str(APPS_DIR / "media")
 MEDIA_URL = "/media/"
