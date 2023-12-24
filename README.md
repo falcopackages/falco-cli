@@ -67,22 +67,22 @@ If you don't find any use of the CLI, I hope you will in these guides. This is a
 
 
 <!-- GUIDES-LIST:START -->
-- [Database Tips: Backup, Scaling, Triggers, and More](https://falco.oluwatobi.dev/guides/database_tips.html)
-- [Dynamic Model Schema](https://falco.oluwatobi.dev/guides/dynamic_model_schema.html)
-- [Managing Multi-tenancy in Django](https://falco.oluwatobi.dev/guides/multitenancy.html)
-- [Realtime in Django: Websockets, SSE, Polling](https://falco.oluwatobi.dev/guides/realtime.html)
-- [Use Sqlite in production](https://falco.oluwatobi.dev/guides/use_sqlite_in_production.html)
+- [Interactive user interfaces](https://falco.oluwatobi.dev/guides/interactive_user_interfaces.html)
+- [Task Queues and Schedulers](https://falco.oluwatobi.dev/guides/task_queues_and_schedulers.html)
 - [Writing documentation](https://falco.oluwatobi.dev/guides/writing_documentation.html)
 - [Writing tests](https://falco.oluwatobi.dev/guides/writing_tests.html)
-- [Async Coding in Django](https://falco.oluwatobi.dev/guides/writting_async_code.html)
-- [Optimizing Database Access](https://falco.oluwatobi.dev/guides/optimizing_database_access.html)
-- [Running your project in a single container](https://falco.oluwatobi.dev/guides/running_project_in_a_container.html)
 - [Logging and monitoring](https://falco.oluwatobi.dev/guides/logging_and_monitoring.html)
-- [Bussiness logic in django](https://falco.oluwatobi.dev/guides/avoiding_god_models.html)
 - [Deploy your project](https://falco.oluwatobi.dev/guides/deployment.html)
-- [Interactive user interfaces](https://falco.oluwatobi.dev/guides/interactive_user_interfaces.html)
+- [Optimizing Database Access](https://falco.oluwatobi.dev/guides/optimizing_database_access.html)
+- [Business logic in django](https://falco.oluwatobi.dev/guides/avoiding_god_models.html)
+- [Dynamic Model Schema](https://falco.oluwatobi.dev/guides/dynamic_model_schema.html)
+- [Realtime in Django: Websockets, SSE, Polling](https://falco.oluwatobi.dev/guides/realtime.html)
 - [Permissions and authorizations](https://falco.oluwatobi.dev/guides/permissions_and_authorization.html)
-- [Task Queues and Schedulers](https://falco.oluwatobi.dev/guides/task_queues_and_schedulers.html)
+- [Database Tips: Backup, Scaling, Triggers, and More](https://falco.oluwatobi.dev/guides/database_tips.html)
+- [Managing Multi-tenancy in Django](https://falco.oluwatobi.dev/guides/multitenancy.html)
+- [Async Coding in Django](https://falco.oluwatobi.dev/guides/writing_async_code.html)
+- [Use Sqlite in production](https://falco.oluwatobi.dev/guides/use_sqlite_in_production.html)
+- [Running your project in a single container](https://falco.oluwatobi.dev/guides/running_project_in_a_container.html)
 - [Tips and extra](https://falco.oluwatobi.dev/guides/tips_and_extra.html)
 <!-- GUIDES-LIST:END -->
 

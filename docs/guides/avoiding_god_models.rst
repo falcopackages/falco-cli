@@ -1,6 +1,6 @@
 :description: A guide on how to avoid the god object or god class anti-pattern.
 
-Bussiness logic in django
+Business logic in django
 ===================
 
 

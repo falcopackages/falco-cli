@@ -3,6 +3,7 @@ from pathlib import Path
 root_dir = Path(__file__).parent.parent
 readme = root_dir / "README.md"
 guides = root_dir / "docs/guides/"
+guides_index = guides / "index.rst"
 
 
 def get_rst_doc_title(file: Path):
@@ -15,9 +16,21 @@ def get_rst_doc_title(file: Path):
     return title
 
 
+def guides_files():
+    index_content = guides_index.read_text()
+    toc_tree_directive = ".. toctree::"
+    start_index = index_content.find(toc_tree_directive) + len(toc_tree_directive)
+
+    def valid_line(line):
+        return bool(line) and not line.strip().startswith(":")
+
+    lines = [line.strip() for line in index_content[start_index:].split("\n") if valid_line(line)]
+    return [guides / f"{line}.rst" for line in lines]
+
+
 def get_guides_list():
     guides_md = []
-    for file in guides.iterdir():
+    for file in guides_files():
         if file.name.startswith("index"):
             continue
         link = f"https://falco.oluwatobi.dev/guides/{file.stem}.html"

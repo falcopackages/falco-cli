@@ -2,4 +2,3 @@
 
 Async Coding in Django
 ======================
-

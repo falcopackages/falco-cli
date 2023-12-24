@@ -124,7 +124,7 @@ developer in general.
     permissions_and_authorization
     database_tips
     multitenancy
-    writting_async_code
+    writing_async_code
     use_sqlite_in_production
     running_project_in_a_container
     tips_and_extra
