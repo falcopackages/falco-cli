@@ -71,11 +71,11 @@ class StartProject:
             rich_print(message)
 
             response = Prompt.ask(
-                "[blue]Do you want to continue with your current falco-cli version or stop to upgrade? (y/N)",
-                default="N",
+                "[blue]Do you want to stop to upgrade your current falco-cli version? (Y/n)",
+                default="Y",
             )
 
-            if response.lower() != "y":
+            if response.lower() == "y":
                 raise cappa.Exit(code=0)
 
         if Path(self.project_name).exists():
