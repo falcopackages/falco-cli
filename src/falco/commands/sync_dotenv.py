@@ -68,7 +68,7 @@ class SyncDotenv:
         # empty and write to .env.template file
         original_values = dotenv_values(dotenv_template_file)
         dotenv_template_file.write_text("")
-        for key, value in sorted_config.items():
+        for key in sorted_config:
             set_key(
                 dotenv_template_file,
                 key,

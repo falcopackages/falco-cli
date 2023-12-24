@@ -11,6 +11,7 @@ from .model_crud import run_python_formatters
 
 
 UTILS_FILE = get_falco_blueprints_path() / "crud" / "utils.py"
+DEFAULT_INSTALL_PATH = "core/utils.py"
 
 
 @cappa.command(help="Install utils necessary for CRUD views.", name="install-crud-utils")
@@ -18,7 +19,7 @@ class InstallCrudUtils:
     output: Annotated[
         Path,
         cappa.Arg(
-            default=Path("core/utils.py"),
+            default=Path(DEFAULT_INSTALL_PATH),
             help="The directory to write the utils file to.",
             short="-o",
             long="--output",
@@ -30,6 +31,7 @@ class InstallCrudUtils:
             imports_template, code_template = extract_python_file_templates(UTILS_FILE.read_text())
             output_file = self.output if self.output.name.endswith(".py") else self.output / "utils.py"
             output_file.parent.mkdir(parents=True, exist_ok=True)
-            output_file.write_text(imports_template + self.output.read_text() + code_template)
+            output_file.touch(exist_ok=True)
+            output_file.write_text(imports_template + output_file.read_text() + code_template)
         run_python_formatters(str(output_file))
         rich_print("[green]CRUD Utils installed successfully.")

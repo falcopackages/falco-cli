@@ -4,7 +4,7 @@ Interactive user interfaces
 ===========================
 
 
-In case you are not aware of it, htmx the new old hot stuff in web development, and pair really well with django.
+.. In case you are not aware of it, htmx the new old hot stuff in web development, and pair really well with django.
 
 Ressources and patterns
 -----------------------

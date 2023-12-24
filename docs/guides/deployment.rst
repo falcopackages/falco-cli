@@ -63,9 +63,11 @@ https://github.com/lincolnloop/django-production
 Deployment Platforms
 --------------------
 
-Deployment is not a solved solution for me, it is still a pain, no matter how many time I do it, it never goes smoothly. If you can afford it I'll recommand
-a managed solution (the cloud), if you any reason you decide to go the self-hosting route, I'll recommand you use a P.A.A.S (Platform as a Service) solution
-to ease your burden or a least docker as a bare minimum. Deployment is not worth your blood and energy my friend.
+Deployment is not a solved solution for me, it is still a pain, no matter how many time I do it, it never goes smoothly. If you can afford it I'll recommend
+a managed solution (the cloud), if for any reason you decide to go the self-hosting route, I'll recommend you use a P.A.A.S (Platform as a Service) solution
+to ease your burden or a least docker as a bare minimum.
+
+.. Deployment is not worth your blood and energy my friend.
 
 Paas and rent a VPS
 

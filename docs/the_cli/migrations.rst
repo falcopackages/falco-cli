@@ -2,7 +2,7 @@ Remove / Reset your migrations
 ==============================
 
 .. important::
-    Unless you are certain of what you're doing, both of these commands should not be used once your project has gone live.
+    Unless you know what you're doing, both of these commands should not be used once your project has gone live.
     In other words, they become essentially useless once real users start interacting with your application.
 
 rm-migrations

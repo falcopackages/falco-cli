@@ -123,7 +123,7 @@ Tips
 
 To run a subset of tests::
 
-$ pytest tests.test_falco
+$ pytest tests/commands/test_htmx.py
 
 
 Deploying

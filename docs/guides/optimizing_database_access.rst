@@ -27,6 +27,7 @@ Caching with Redis
 -------------------
 
 https://github.com/Suor/django-cacheops
+https://github.com/noripyt/django-cachalot
 
 
 Using indexes
@@ -40,6 +41,3 @@ Denormalization
 
 Cursor based pagination
 -----------------------
-
-
-

@@ -33,6 +33,7 @@ class Htmx:
                 raise cappa.Exit(f"Could not find htmx version {version}.", code=1)
 
         filepath = self.output if str(self.output).endswith(".js") else self.output / "htmx.min.js"
+        filepath.parent.mkdir(parents=True, exist_ok=True)
         filepath.write_text(content)
 
         subtitle = (
