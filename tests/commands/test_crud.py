@@ -45,7 +45,7 @@ def register_project_urls():
 
 def test_crud(django_project, runner: CommandRunner, set_git_repo_to_clean):
     runner.invoke("crud", "blog.post")
-    runner.invoke("install-crud-utils")
+    runner.invoke("install-crud-utils", ".")
     register_project_urls()
     assert healthy_django_project()
     app_dir = Path("blog")
@@ -62,7 +62,7 @@ def test_crud(django_project, runner: CommandRunner, set_git_repo_to_clean):
 
 def test_crud_entry_point(django_project, runner: CommandRunner, set_git_repo_to_clean):
     runner.invoke("crud", "blog.post", "--entry-point")
-    runner.invoke("install-crud-utils")
+    runner.invoke("install-crud-utils", ".")
     register_project_urls()
     assert healthy_django_project()
     app_dir = Path("blog")
@@ -78,7 +78,7 @@ def test_crud_entry_point(django_project, runner: CommandRunner, set_git_repo_to
 
 def test_crud_only_html(django_project, runner: CommandRunner, set_git_repo_to_clean):
     runner.invoke("crud", "blog.post", "--only-html")
-    runner.invoke("install-crud-utils")
+    runner.invoke("install-crud-utils", ".")
     assert healthy_django_project()
     app_dir = Path("blog")
     assert not (app_dir / "urls.py").exists()
@@ -92,7 +92,7 @@ def test_crud_only_html(django_project, runner: CommandRunner, set_git_repo_to_c
 
 def test_crud_only_python(django_project, runner: CommandRunner, set_git_repo_to_clean):
     runner.invoke("crud", "blog.post", "--only-python")
-    runner.invoke("install-crud-utils")
+    runner.invoke("install-crud-utils", ".")
     register_project_urls()
     assert healthy_django_project()
     app_dir = Path("blog")
@@ -114,7 +114,7 @@ def test_crud_repo_not_clean(django_project, runner: CommandRunner):
 
 def test_crud_exclude_field(django_project, runner: CommandRunner, set_git_repo_to_clean):
     runner.invoke("crud", "blog.post", "--only-python", "-e=title")
-    runner.invoke("install-crud-utils")
+    runner.invoke("install-crud-utils", ".")
     app_dir = Path("blog")
     # sourcery skip: no-loop-in-tests
     assert "title" not in (app_dir / "forms.py").read_text()

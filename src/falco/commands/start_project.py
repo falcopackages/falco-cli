@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import shutil
 import subprocess
 from pathlib import Path
 from typing import Annotated
@@ -61,9 +62,17 @@ class StartProject:
         str,
         cappa.Arg(parse=clean_project_name),
     ]
+    skip_new_version_check: Annotated[
+        bool,
+        cappa.Arg(
+            default=False,
+            long="--skip-new-version-check",
+            help="Do not check for new version.",
+        ),
+    ]
 
     def __call__(self) -> None:
-        if is_new_falco_cli_available():
+        if not self.skip_new_version_check and is_new_falco_cli_available():
             message = (
                 f"{RICH_INFO_MARKER} A new version of falco-cli is available. To upgrade, run "
                 f"[green]pip install -U falco-cli."
@@ -109,3 +118,4 @@ class StartProject:
                 f"--author-email={author_email}",
             ]
             cmd.run_from_argv(argv)
+            shutil.copytree(project_template_path / ".github", Path(self.project_name) / ".github")
