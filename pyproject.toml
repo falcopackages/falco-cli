@@ -30,7 +30,7 @@ classifiers = [
 ]
 dependencies = [
   "django<6",
-  "cappa==0.14.3",
+  "cappa==0.15.2",
   "rich",
   "httpx",
   "honcho",
