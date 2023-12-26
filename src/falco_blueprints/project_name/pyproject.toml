@@ -14,7 +14,7 @@ dependencies = [
   "hiredis>=2.2.3",
   "redis>=5.0.1",
   "boto3>=1.26.160",
-  "granian>=0.6",
+  "gunicorn",
   "sentry-sdk>=1.26.0",
   "whitenoise[brotli]>=6.5.0",
   "psycopg[c]",
