@@ -2,7 +2,7 @@ Keep the .env and .env.template in sync
 =======================================
 
 
-.. figure:: ../images/sync-dotenv.svg
+.. cappa:: falco.commands.SyncDotenv
 
 
 Any Django project created with the `start-project </guides/start_project.html>`_ command comes with a `.env.template` file. It serves as an example for the environment variables that
@@ -12,7 +12,7 @@ so that you never have to remember to keep your `.env.template` up to date.
 
 **Example of pre-commit hook**
 
-.. code:: yml
+.. code:: yaml
 
   - repo: local
     hooks:

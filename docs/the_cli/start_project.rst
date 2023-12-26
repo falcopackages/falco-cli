@@ -3,7 +3,7 @@
 Start project
 =============
 
-.. figure:: ../images/start-project.svg
+.. cappa:: falco.commands.StartProject
 
 Initialize a new Django project. This template makes several assumptions; we'll go through the most important choices I made below.
 I'll list some alternatives below in case you don't agree with my choices. But even if you choose to use an alternative, most commands
@@ -175,9 +175,9 @@ Tailwind CSS
 Alternative starters
 --------------------
 
-https://github.com/cookiecutter/cookiecutter-django
-https://github.com/oliverandrich/django-hatch-startproject
-https://github.com/oliverandrich/django-poetry-startproject
-https://github.com/jefftriplett/django-startproject
-https://github.com/wsvincent/djangox
-https://github.com/wemake-services/wemake-django-template
+* https://github.com/cookiecutter/cookiecutter-django
+* https://github.com/oliverandrich/django-hatch-startproject
+* https://github.com/oliverandrich/django-poetry-startproject
+* https://github.com/jefftriplett/django-startproject
+* https://github.com/wsvincent/djangox
+* https://github.com/wemake-services/wemake-django-template

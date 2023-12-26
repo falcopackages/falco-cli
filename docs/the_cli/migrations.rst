@@ -8,7 +8,7 @@ Remove / Reset your migrations
 rm-migrations
 -------------
 
-.. figure:: ../images/rm-migrations.svg
+.. cappa:: falco.commands.RmMigrations
 
 It is a good idea to delete all migrations and recreate them from scratch when deploying your django project for the fist time.
 This ensures a clean base without any remnants of testing or experimentation from the initial development phase. Even during development,
@@ -39,7 +39,7 @@ then the following command might be a better option than running `rm-migrations`
 reset-migrations
 ----------------
 
-.. figure:: ../images/reset-migrations.svg
+.. cappa:: falco.commands.ResetMigrations
 
 This command works exactly like the ``rm-migration`` command but goes a bit further. Here's how it works:
 

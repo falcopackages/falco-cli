@@ -21,8 +21,7 @@ user.save()
 @cappa.command(
     help="Make a superuser from some pre-defined django settings.",
     name="make-superuser",
-    description="""
-This command creates a superuser using the values of `SUPERUSER_EMAIL` and `SUPERUSER_PASSWORD` defined in your settings file.
+    description="""This command creates a superuser using the values of `SUPERUSER_EMAIL` and `SUPERUSER_PASSWORD` defined in your settings file.
 """,
 )
 class MakeSuperUser:

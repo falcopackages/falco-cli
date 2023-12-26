@@ -12,11 +12,7 @@ from falco.commands import Work
 
 
 @cappa.command(
-    help="Initialize a new django project using the falco project template.",
-    description="""This is a wrapper around the django-admin startproject command using my custom project template at
-    https://github.com/Tobi-De/falco. This cli also includes some additional commands to make setting up
-    a new project faster.
-    """,
+    help="Enhance your Django developer experience: CLI and Guides for the Modern Django Developer.",
 )
 class Falco:
     subcommand: cappa.Subcommands[

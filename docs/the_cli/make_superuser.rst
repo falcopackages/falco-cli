@@ -3,7 +3,7 @@
 Make a superuser from pre-configured settings
 =============================================
 
-.. figure:: ../images/make-superuser.svg
+.. cappa:: falco.commands.MakeSuperUser
 
 This command is designed for convenience. It allows you to set up a superuser with pre-configured settings,
 eliminating the need to enter any input. Please note that this command only works when authentication via **email** is configured, not

@@ -17,7 +17,7 @@ The entrypoint for the CLI is the ``falco`` command. It is used to run every oth
     Most of the commands here depends on the ``manage.py`` file, so make sur to run them on them at the root of
     your django project.
 
-.. figure:: ../images/falco.svg
+.. cappa:: falco.__main__.Falco
 
 
 .. toctree::

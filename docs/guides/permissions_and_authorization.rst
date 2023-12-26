@@ -6,7 +6,7 @@ Permissions and authorizations
 
 
 What is permissions and authorizations?
---------------------------------------
+---------------------------------------
 
 
 The options to implement them in django

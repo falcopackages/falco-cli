@@ -7,7 +7,7 @@ Running multiple process in parallel
    project. I would prefer for that not to be the case, but right now I don't know how to fix it.
 
 
-.. figure:: ../images/work.svg
+.. cappa:: falco.commands.Work
 
 
 This command allows you to run multiple commands simultaneously. Typically, when working with a large or growing django project, you

@@ -11,7 +11,7 @@ You can contribute in many ways:
 
 
 The Guides
----------
+----------
 
 Contributions to the guides should be made via `GitHub Discussions <https://github.com/Tobi-De/falco/discussions>`_. Any contribution is welcome, even for typos and grammatical errors.
 If a contribution requires a complete rewrite of a section or an entire guide, or adds new insights (similar to an article review), proper credits will be given at the bottom of the relevant guide.
