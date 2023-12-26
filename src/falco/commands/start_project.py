@@ -31,8 +31,12 @@ def get_authors_info() -> tuple[str, str]:
     default_author_email = "tobidegnon@proton.me"
     git_config_cmd = ["git", "config", "--global", "--get"]
     try:
-        user_name_cmd = subprocess.run(git_config_cmd + ["user.name"], capture_output=True, text=True)
-        user_email_cmd = subprocess.run(git_config_cmd + ["user.email"], capture_output=True, text=True)
+        user_name_cmd = subprocess.run(
+            git_config_cmd + ["user.name"], capture_output=True, text=True
+        )
+        user_email_cmd = subprocess.run(
+            git_config_cmd + ["user.email"], capture_output=True, text=True
+        )
     except FileNotFoundError:
         return default_author_name, default_author_email
     if user_email_cmd.returncode != 0:
@@ -80,11 +84,14 @@ class StartProject:
             rich_print(message)
 
             response = Prompt.ask(
-                "[blue]Do you want to stop to upgrade your current falco-cli version? (Y/n)",
+                f"{RICH_INFO_MARKER}Do you want to stop to upgrade your current falco-cli version? (Y/n)",
                 default="Y",
             )
 
             if response.lower() == "y":
+                rich_print(
+                    f"{RICH_INFO_MARKER}To see the latest features and improvements, visit https://github.com/Tobi-De/falco/releases."
+                )
                 raise cappa.Exit(code=0)
 
         if Path(self.project_name).exists():
@@ -118,4 +125,6 @@ class StartProject:
                 f"--author-email={author_email}",
             ]
             cmd.run_from_argv(argv)
-            shutil.copytree(project_template_path / ".github", Path(self.project_name) / ".github")
+            shutil.copytree(
+                project_template_path / ".github", Path(self.project_name) / ".github"
+            )
