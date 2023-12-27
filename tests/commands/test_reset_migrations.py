@@ -1,7 +1,5 @@
 import subprocess
 
-import cappa
-import pytest
 from cappa.testing import CommandRunner
 from falco.utils import run_in_shell
 

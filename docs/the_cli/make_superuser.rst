@@ -6,9 +6,13 @@ Make a superuser from pre-configured settings
 .. cappa:: falco.commands.MakeSuperUser
 
 This command is designed for convenience. It allows you to set up a superuser with pre-configured settings,
-eliminating the need to enter any input. Please note that this command only works when authentication via **email** is configured, not
-the default **username** authentication in Django. This applies to projects generated using the `start-project </the_cli/start_project>`_ command.
-The two required settings are:
+eliminating the need to enter any input. Here's how it works: it reads all the settings that start with ``SUPERUSER_``, such as
+``SUPERUSER_EMAIL`` or ``SUPERUSER_USERNAME``, and uses these settings to create a superuser. The only required setting is
+``SUPERUSER_PASSWORD``. This makes it easier to add additional values, especially when using a highly customized ``User`` model.
+
+**Example of settings**
+
+Here is the default configuration that is shipped with the starter project.
 
 .. code-block:: python
     :caption: settings.py
