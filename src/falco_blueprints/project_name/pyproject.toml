@@ -10,39 +10,47 @@ readme = "README.md"
 requires-python = ">=3.11"
 authors = [{ name = "Tobi DEGNON", email = "tobidegnon@proton.me" }]
 dependencies = [
-  "Pillow>=10.1.0",
-  "hiredis>=2.2.3",
-  "redis>=5.0.1",
-  "boto3>=1.26.160",
+  "Pillow",
+  "hiredis",
+  "redis",
+  "boto3",
   "gunicorn",
-  "sentry-sdk>=1.26.0",
-  "whitenoise[brotli]>=6.5.0",
+  "sentry-sdk",
+  "whitenoise",
   "psycopg[c]",
   "django[argon2]>=4.2.0,<5.0",
-  "django-environ>=0.10.0",
-  "django-model-utils>=4.3.1",
-  "django-allauth>=0.54.0",
-  "django-template-partials>=23.4",
-  "django-tailwind-cli>=2.7.2",
-  "django-extensions>=3.2.3",
-  "django-htmx>=1.15.0",
-  "django-anymail>=10.0",
-  "django-browser-reload>=1.10.0",
-  "django-debug-toolbar>=4.1.0",
-  "django-fastdev>=1.7.3",
+  "django-environ",
+  "django-model-utils",
+  "django-allauth",
+  "django-template-partials",
+  "django-tailwind-cli",
+  "django-extensions",
+  "django-htmx",
+  "django-anymail",
+  "django-browser-reload",
+  "django-debug-toolbar",
+  "django-fastdev",
+]
+
+[tool.hatch.env]
+requires = [
+  "hatch-pip-compile"
 ]
 
 [tool.hatch.envs.default]
+type = "pip-compile"
+pip-compile-constraint = "default"
+pip-compile-installer = "pip-sync"
+lock-filename = "requirements.txt"
 dependencies = ["dj-notebook>=0.6.1", "Werkzeug[watchdog]>=3.0.1"]
 
 [tool.hatch.envs.default.scripts]
 server = "python manage.py tailwind runserver {args}"
 migrate = "python manage.py migrate {args}"
 makemigrations = "python manage.py makemigrations {args}"
-makesuperuser = "python manage.py makesuperuser"
 reset-db = "python manage.py reset_db --noinput"
 shell = "python manage.py shell_plus {args}"
-reset-migrations = ["falco rm-migrations", "makemigrations"]
+upgrade-deps = ["rm requirements.txt", "hatch env run --env default -- python --version"]
 
 [[tool.hatch.envs.all.matrix]]
 python = ["3.11", "3.12"]
@@ -50,9 +58,9 @@ python = ["3.11", "3.12"]
 [tool.hatch.envs.test]
 dependencies = [
   "coverage[toml]>=6.5",
-  "pytest>=7.4.0",
-  "pytest-django>=4.5.2",
-  "pytest-sugar>=0.9.7",
+  "pytest",
+  "pytest-django",
+  "pytest-sugar",
 ]
 
 [tool.hatch.envs.test.scripts]
@@ -63,14 +71,14 @@ cov = ["test-cov", "cov-report"]
 
 [tool.hatch.envs.lint]
 dependencies = [
-  "pyright>=1.1.340",
-  "curlylint>=0.13.1",
-  "reorder-python-imports>=3.12.0",
-  "djhtml>=3.0.6",
-  "ruff>=0.1.8",
-  "pyupgrade>=3.15.0",
-  "django-upgrade>=1.15.0",
-  "autoflake>=2.2.1",
+  "pyright",
+  "curlylint",
+  "reorder-python-imports",
+  "djhtml",
+  "ruff",
+  "pyupgrade",
+  "django-upgrade",
+  "autoflake",
 ]
 
 [tool.hatch.envs.lint.scripts]

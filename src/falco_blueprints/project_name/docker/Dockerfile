@@ -9,25 +9,14 @@ ENV PYTHONUNBUFFERED=1 \
     VENV_PATH="/opt/pysetup/.venv" \
     TAILWIND_CLI_PATH="/opt/tailwind"
 
-# ENV PATH="$POETRY_HOME/bin:$VENV_PATH/bin:$PATH"
+ENV PATH="$VENV_PATH/bin:$PATH"
 
 # Stage 2: Install dependencies & build static files
 FROM python-base as builder-base
 
-# Install poetry
-# RUN apt-get update && apt-get install --no-install-recommends -y curl build-essential
-# RUN curl -sSL https://install.python-poetry.org | python3 -
-
-# Install dependencies required for psycopg
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    python3-dev \
-    libpq-dev && \
-    rm -rf /var/lib/apt/lists/*
-
 # Install dependencies
 WORKDIR $PYSETUP_PATH
-COPY ./requirements.txt ./pyproject.toml ./
+COPY ./requirements.txt ./
 RUN python -m venv $VENV_PATH && \
     pip install -r requirements.txt
 
