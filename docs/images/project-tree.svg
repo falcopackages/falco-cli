@@ -20,10 +20,14 @@
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     .terminal-2122092436-matrix {
 =======
     .terminal-2581899402-matrix {
 >>>>>>> 251f6dd (initial commit)
+=======
+    .terminal-2581899402-matrix {
+>>>>>>> 8774833 (fix: pure python psycopg does not run)
         font-family: Fira Code, monospace;
         font-size: 20px;
         line-height: 24.4px;
@@ -31,15 +35,20 @@
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     .terminal-2122092436-title {
 =======
     .terminal-2581899402-title {
 >>>>>>> 251f6dd (initial commit)
+=======
+    .terminal-2581899402-title {
+>>>>>>> 8774833 (fix: pure python psycopg does not run)
         font-size: 18px;
         font-weight: bold;
         font-family: arial;
     }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     .terminal-2122092436-r1 { fill: #d9d9d9 }
     </style>
@@ -137,6 +146,8 @@
             </clipPath>
 <clipPath id="terminal-2122092436-line-29">
 =======
+=======
+>>>>>>> 8774833 (fix: pure python psycopg does not run)
     .terminal-2581899402-r1 { fill: #d9d9d9 }
     </style>
 
@@ -232,7 +243,10 @@
     <rect x="0" y="684.7" width="976" height="24.65"/>
             </clipPath>
 <clipPath id="terminal-2581899402-line-29">
+<<<<<<< HEAD
 >>>>>>> 251f6dd (initial commit)
+=======
+>>>>>>> 8774833 (fix: pure python psycopg does not run)
     <rect x="0" y="709.1" width="976" height="24.65"/>
             </clipPath>
 <clipPath id="terminal-2581899402-line-30">
@@ -247,6 +261,7 @@
             <circle cx="44" cy="0" r="7" fill="#28c840"/>
             </g>
         
+<<<<<<< HEAD
 <<<<<<< HEAD
     <g transform="translate(9, 41)" clip-path="url(#terminal-2122092436-clip-terminal)">
     
@@ -283,6 +298,8 @@
 </text><text class="terminal-2122092436-r1" x="976" y="727.6" textLength="12.2" clip-path="url(#terminal-2122092436-line-29)">
 </text><text class="terminal-2122092436-r1" x="0" y="752" textLength="280.6" clip-path="url(#terminal-2122092436-line-30)">9&#160;directories,&#160;19&#160;files</text><text class="terminal-2122092436-r1" x="976" y="752" textLength="12.2" clip-path="url(#terminal-2122092436-line-30)">
 =======
+=======
+>>>>>>> 8774833 (fix: pure python psycopg does not run)
     <g transform="translate(9, 41)" clip-path="url(#terminal-2581899402-clip-terminal)">
     
     <g class="terminal-2581899402-matrix">
@@ -318,7 +335,10 @@
 </text><text class="terminal-2581899402-r1" x="0" y="727.6" textLength="219.6" clip-path="url(#terminal-2581899402-line-29)">└──&#160;pyproject.toml</text><text class="terminal-2581899402-r1" x="976" y="727.6" textLength="12.2" clip-path="url(#terminal-2581899402-line-29)">
 </text><text class="terminal-2581899402-r1" x="976" y="752" textLength="12.2" clip-path="url(#terminal-2581899402-line-30)">
 </text><text class="terminal-2581899402-r1" x="0" y="776.4" textLength="280.6" clip-path="url(#terminal-2581899402-line-31)">9&#160;directories,&#160;20&#160;files</text><text class="terminal-2581899402-r1" x="976" y="776.4" textLength="12.2" clip-path="url(#terminal-2581899402-line-31)">
+<<<<<<< HEAD
 >>>>>>> 251f6dd (initial commit)
+=======
+>>>>>>> 8774833 (fix: pure python psycopg does not run)
 </text>
     </g>
     </g>
