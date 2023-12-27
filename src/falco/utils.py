@@ -55,7 +55,7 @@ class ShellCommandError(Exception):
     pass
 
 
-def run_shell_command(command: str, eval_result: bool = True):
+def run_in_shell(command: str, eval_result: bool = True):
     result = subprocess.run(
         ["python", "manage.py", "shell", "-c", command],
         capture_output=True,

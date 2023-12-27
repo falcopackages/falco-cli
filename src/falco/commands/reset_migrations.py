@@ -4,7 +4,7 @@ from typing import Annotated
 
 import cappa
 from falco.utils import get_current_dir_as_project_name
-from falco.utils import run_shell_command
+from falco.utils import run_in_shell
 from falco.utils import simple_progress
 from rich import print as rich_print
 
@@ -48,7 +48,7 @@ class ResetMigrations:
 
         RmMigrations(skip_git_check=self.skip_git_check, apps_dir=self.apps_dir)(project_name)
         with simple_progress("Resetting migrations..."):
-            run_shell_command(reset_migrations_table_code, eval_result=False)
+            run_in_shell(reset_migrations_table_code, eval_result=False)
             subprocess.run(
                 ["python", "manage.py", "makemigrations"],
                 check=True,

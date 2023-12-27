@@ -1,5 +1,5 @@
 import cappa
-from falco.utils import run_shell_command
+from falco.utils import run_in_shell
 from rich import print as rich_print
 
 make_superuser_code = """
@@ -26,5 +26,5 @@ user.save()
 )
 class MakeSuperUser:
     def __call__(self):
-        run_shell_command(make_superuser_code, eval_result=False)
+        run_in_shell(make_superuser_code, eval_result=False)
         rich_print("[green]Superuser created successfully.")

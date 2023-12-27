@@ -4,7 +4,7 @@ from typing import Annotated
 import cappa
 from falco.utils import get_current_dir_as_project_name
 from falco.utils import is_git_repo_clean
-from falco.utils import run_shell_command
+from falco.utils import run_in_shell
 from falco.utils import simple_progress
 from rich import print as rich_print
 
@@ -35,7 +35,7 @@ class RmMigrations:
                 "Your git repo is not clean. Please commit or stash your changes before running this command.",
                 code=1,
             )
-        django_debug_value = run_shell_command(django_debug_value_code, eval_result=True)
+        django_debug_value = run_in_shell(django_debug_value_code, eval_result=True)
         if not django_debug_value:
             raise cappa.Exit(
                 "Nope, not happening, this command can only be run with DEBUG=True.",

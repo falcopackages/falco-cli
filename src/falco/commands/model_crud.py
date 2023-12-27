@@ -7,7 +7,7 @@ from typing import TypedDict
 import cappa
 from falco.utils import get_falco_blueprints_path
 from falco.utils import is_git_repo_clean
-from falco.utils import run_shell_command
+from falco.utils import run_in_shell
 from falco.utils import simple_progress
 from rich import print as rich_print
 
@@ -99,7 +99,7 @@ def get_urls_template_string(app_label: str, model_name_lower: str) -> UrlsForCo
 
 
 def render_to_string(template_content: str, context: dict):
-    return run_shell_command(
+    return run_in_shell(
         django_render_template_code.format(template_content, context),
         eval_result=False,
     )
@@ -223,12 +223,12 @@ class ModelCRUD:
         with simple_progress("Getting models info"):
             all_django_models = cast(
                 list[DjangoModel],
-                run_shell_command(models_data_code.format(app_label, self.excluded_fields)),
+                run_in_shell(models_data_code.format(app_label, self.excluded_fields)),
             )
 
             app_folder_path, templates_dir = cast(
                 tuple[str, str],
-                run_shell_command(app_path_and_templates_dir_code.format(app_label, app_label)),
+                run_in_shell(app_path_and_templates_dir_code.format(app_label, app_label)),
             )
 
             app_folder_path = Path(app_folder_path)
