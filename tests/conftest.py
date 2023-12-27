@@ -48,7 +48,6 @@ class Post(models.Model):
 
 @pytest.fixture
 def set_git_repo_to_clean():
-    # Define the mock function
     def mock_run(args, **kwargs):
         if args == ["git", "status", "--porcelain"]:
             mock = MagicMock()
@@ -56,12 +55,34 @@ def set_git_repo_to_clean():
             mock.stdout = ""
             return mock
         else:
-            # Call the original subprocess.run function
             return original_run(args, **kwargs)
 
-    # Save the original subprocess.run function
     original_run = subprocess.run
 
-    # Use patch to replace subprocess.run with the mock function
     with patch("subprocess.run", side_effect=mock_run):
         yield
+
+
+@pytest.fixture
+def git_user_infos():
+    name = "John Doe"
+    email = "johndoe@example.com"
+
+    def mock_run(args, **kwargs):
+        if args == ["git", "config", "--global", "--get", "user.name"]:
+            mock = MagicMock()
+            mock.returncode = 0
+            mock.stdout = name
+            return mock
+        elif args == ["git", "config", "--global", "--get", "user.email"]:
+            mock = MagicMock()
+            mock.returncode = 0
+            mock.stdout = email
+            return mock
+        else:
+            return original_run(args, **kwargs)
+
+    original_run = subprocess.run
+
+    with patch("subprocess.run", side_effect=mock_run):
+        yield name, email
