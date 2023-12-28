@@ -7,7 +7,7 @@ Start project
 
 Initialize a new django project the falco way. This project-starter makes several assumptions; we'll go through the most important choices I made below.
 I'll list some alternatives below in case you don't agree with my choices. But even if you choose to use an alternative, most commands
-can still be useful to you, and the `guides </guides/index.html>`__ are not particularly tied to the generated project. So, even with another project-starter, **Falco**
+can still be useful to you, and the `guides </guides/index.html>`_ are not particularly tied to the generated project. So, even with another project-starter, **Falco**
 can still bring you value.
 
 .. code-block:: bash
@@ -290,7 +290,7 @@ hatch-pip-compile
 *****************
 
 The `hatch-pip-compile <https://github.com/juftin/hatch-pip-compile>`_ plugin is used with hatch to automatically generate a
-requirements file (lock file) using `pip-tools <https://github.com/jazzband/pip-tools>`. This file contains the dependencies of your hatch virtual environment with pinned versions.
+requirements file (lock file) using `pip-tools <https://github.com/jazzband/pip-tools>`_. This file contains the dependencies of your hatch virtual environment with pinned versions.
 The default setup generates a `requirements.txt` file that can be used for installing dependencies during deployment, as shown in the provided Dockerfile. However, you can customize the plugin to save
 locks for all your environments. Refer to the `hatch-pip-compile documentation <https://github.com/juftin/hatch-pip-compile>`_ for more details.
 
@@ -312,6 +312,8 @@ Here is the current configuration in the `pyproject.toml` file relevant to hatch
 
 CSS Framework
 ^^^^^^^^^^^^^
+
+
 
 
 Alternative starters

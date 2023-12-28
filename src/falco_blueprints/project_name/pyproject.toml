@@ -18,6 +18,7 @@ dependencies = [
   "sentry-sdk",
   "whitenoise",
   "psycopg[binary]",
+  "crispy-tailwind",
   "django[argon2]",
   "django-environ",
   "django-model-utils",

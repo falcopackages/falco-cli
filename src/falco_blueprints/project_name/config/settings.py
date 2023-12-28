@@ -33,10 +33,12 @@ THIRD_PARTY_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
-    "django_extensions",
+    "crispy_forms",
+    "crispy_tailwind",
     "django_htmx",
     "template_partials",
     "django_tailwind_cli",
+    "django_extensions",
     "django_browser_reload",
     "debug_toolbar",
     "django_fastdev",
@@ -131,6 +133,9 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = "optional"
 
 EMAIL_BACKEND = env("DJANGO_EMAIL_BACKEND", default="django.core.mail.backends.console.EmailBackend")
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
+CRISPY_TEMPLATE_PACK = "tailwind"
 
 SUPERUSER_EMAIL = env("DJANGO_SUPERUSER_EMAIL")
 SUPERUSER_PASSWORD = env("DJANGO_SUPERUSER_PASSWORD")
