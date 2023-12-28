@@ -27,7 +27,7 @@ Features
 - Python 3.11+
 - Django 5+
 - Htmx_ integration via django-htmx_
-- Frontend CSS: `tailwindcss <https://tailwindcss.com/>`_ via `django-tailwind-cli <https://github.com/oliverandrich/django-tailwind-cli>`_
+- Frontend CSS: tailwindcss_ via django-tailwind-cli_
 - Template fragment with django-template-partials_
 - Secure production settings, https only.
 - Settings using `django-environ <https://github.com/joke2k/django-environ>`_
@@ -311,10 +311,13 @@ Here is the current configuration in the `pyproject.toml` file relevant to hatch
    lock-filename = "requirements.txt"
 
 
-CSS Framework
-^^^^^^^^^^^^^
+..
+.. CSS Framework
+.. ^^^^^^^^^^^^^
 
-
+.. The project starter is setup to use to tailwindcss_ via django-tailwind-cli_, there is also crispy-tailwind for tailwind süppport for crispy.
+.. Currently taiwindcss is the less painfull way for me to write css. I stil use bootstrap5 everyday but mostly and it still the best way for a lot of people,
+.. the change to bootstrap is quite simple.
 
 
 Alternative starters
@@ -335,3 +338,5 @@ Here are some alternative project starters that you can consider if the falco st
 .. _htmx: https://htmx.org/
 .. _django-htmx: https://github.com/adamchainz/django-htmx
 .. _dj-notebook: https://github.com/pydanny/dj-notebook
+.. _tailwindcss: https://tailwindcss.com
+.. _django-tailwind-cli: https://github.com/oliverandrich/django-tailwind-cli
