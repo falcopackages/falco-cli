@@ -196,7 +196,7 @@ important to note that dj-notebook_ does not automatically detect file changes, 
 If you need a refresher on Jupyter notebooks, you can refer to this `primer <https://www.dataquest.io/blog/jupyter-notebook-tutorial/>`_.
 
 Virtualenv and Dependencies Management
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This is mainly handled using ``hatch``, ``hatch-pip-compile``, and the ``pyproject.toml`` file.
 
@@ -266,7 +266,8 @@ To start the Django development server for example, you can use the command ``ha
    :class: tip
 
    To make typing hatch commands faster, you can create an alias for ``hatch run``. For example, you can alias it as ``hr``. So,
-   instead of typing ``hatch run runserver``, you can simply type ``hr runserver``.
+   Instead of typing ``hatch run runserver``, you can simply use the alias ``hr runserver``. However, please note that if your system takes time to resolve the alias,
+   it may impact your overall experience.
 
 For development, I think this workflow should work quite well. Now, what happens when you need to deploy your app? You could install hatch on
 the deploy target machine, but I prefer having a ``requirements.txt`` file that I can use to install dependencies on the deployment machine.
