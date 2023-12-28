@@ -26,6 +26,15 @@
         "doc",
         "test"
       ]
+    },
+    {
+      "login": "mathiasag7",
+      "name": "mathiasag7",
+      "avatar_url": "https://avatars.githubusercontent.com/u/50689712?v=4",
+      "profile": "https://github.com/mathiasag7",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
