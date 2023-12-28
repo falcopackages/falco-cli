@@ -99,6 +99,9 @@ Four files are generated:
 * ``<model_name_lower>_update.html``
 
 There is no ``<model_name_lower>_delete.html`` file because deletion is handled in the ``<model_name_lower>_list.html``.
+Each generated HTML file expects to extend from a ``base.html`` template. Therefore, make sure you have a top-level ``base.html`` file in
+your templates directory.
+
 
 .. note::
 

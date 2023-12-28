@@ -9,6 +9,8 @@ This command is designed for convenience. It allows you to set up a superuser wi
 eliminating the need to enter any input. Here's how it works: it reads all the settings that start with ``SUPERUSER_``, such as
 ``SUPERUSER_EMAIL`` or ``SUPERUSER_USERNAME``, and uses these settings to create a superuser. The only required setting is
 ``SUPERUSER_PASSWORD``. This makes it easier to add additional values, especially when using a highly customized ``User`` model.
+The part after the ``SUPERUSER_`` prefix in the settings is used as an argument for the ``User.objects.create_superuser`` method.
+For example, if you add a setting called ``SUPERUSER_FULL_NAME``, it will be passed as the ``full_name`` argument to the ``create_superuser`` method.
 
 **Example of settings**
 

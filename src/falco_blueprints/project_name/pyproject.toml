@@ -18,7 +18,7 @@ dependencies = [
   "sentry-sdk",
   "whitenoise",
   "psycopg[binary]",
-  "django[argon2]>=4.2.0,<5.0",
+  "django[argon2]",
   "django-environ",
   "django-model-utils",
   "django-allauth",
@@ -45,7 +45,7 @@ lock-filename = "requirements.txt"
 dependencies = ["dj-notebook>=0.6.1", "Werkzeug[watchdog]>=3.0.1"]
 
 [tool.hatch.envs.default.scripts]
-server = "python manage.py tailwind runserver {args}"
+runserver = ["migrate", "python manage.py tailwind runserver {args}"]
 migrate = "python manage.py migrate {args}"
 makemigrations = "python manage.py makemigrations {args}"
 reset-db = "python manage.py reset_db --noinput"

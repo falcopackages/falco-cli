@@ -8,8 +8,8 @@
 ## Prerequisites
 
 - `Python 3.11+`
-- `hatch 1.8.0+`
-- `Postgresql 10+`
+- `hatch 1.9.1+`
+- `Postgresql 13+`
 
 ## Development
 
@@ -28,11 +28,15 @@ pre-commit install
 ### Create a `.env` file
 
 ```shell
-falco sync-dotenv
+falco sync-dotenv --fill-missing
 ```
 
 ### Run the django development server
 
 ```shell
-hatch run server
+hatch run runserver
+# if you've aliased `hatch run` to `hr``
+hr runserver
+# if you've added falco-cli as a dependency to your project
+falco work
 ```
