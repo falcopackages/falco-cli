@@ -136,10 +136,9 @@ tabindex_no_positive = true
 source_pkgs = ["{{ project_name }}", "tests"]
 branch = true
 parallel = true
-omit = ["src/{{ project_name }}/__about__.py"]
 
 [tool.coverage.paths]
-{{ project_name }} = ["src/{{ project_name }}", "*/{{ project_name }}/src/{{ project_name }}"]
+{{ project_name }} = ["*/{{ project_name }}/{{ project_name }}"]
 tests = ["tests", "*/{{ project_name }}/tests"]
 
 [tool.coverage.report]
