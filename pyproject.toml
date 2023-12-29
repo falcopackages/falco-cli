@@ -29,8 +29,8 @@ classifiers = [
   "Natural Language :: English",
 ]
 dependencies = [
-  "django<6",
-  "cappa==0.15.2",
+  "django",
+  "cappa",
   "rich",
   "httpx",
   "honcho",
@@ -115,6 +115,7 @@ branch = true
 parallel = true
 omit = [
   "src/falco/__about__.py",
+  "src/falco_blueprints/*",
 ]
 
 [tool.coverage.paths]
@@ -126,4 +127,12 @@ exclude_lines = [
   "no cov",
   "if __name__ == .__main__.:",
   "if TYPE_CHECKING:",
+]
+
+[tool.pytest.ini_options]
+filterwarnings = [
+  "ignore::DeprecationWarning",
+]
+testpaths = [
+  "tests",
 ]
