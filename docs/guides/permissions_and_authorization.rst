@@ -45,6 +45,17 @@ Django packages
 * https://djangopackages.org/grids/g/perms/
 * https://djangopackages.org/grids/g/authorization/
 
+Role based
+
+https://github.com/vintasoftware/django-role-permissions
+
+Content based
+
+https://github.com/dfunckt/django-rules
+https://github.com/django-guardian/django-guardian
+
+
+
 P.A.A.S solutions
 ^^^^^^^^^^^^^^^^^
 
