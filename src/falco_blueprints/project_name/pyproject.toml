@@ -72,7 +72,8 @@ cov = ["test-cov", "cov-report"]
 
 [tool.hatch.envs.lint]
 dependencies = [
-  "pyright",
+  "mypy",
+  "django-stubs",
   "curlylint",
   "reorder-python-imports",
   "djhtml",
@@ -83,7 +84,7 @@ dependencies = [
 ]
 
 [tool.hatch.envs.lint.scripts]
-run-pyright = "pyright {args:.}"
+run-mypy = "mypy {args:.}"
 run-format = "hatch fmt --formatter"
 run-autoflake = "autoflake --in-place --remove-all-unused-imports --remove-unused-variables --expand-star-imports --exclude=.*/__init__.py {args:.}"
 run-reorder-python-imports = "reorder-python-imports config/*.py {args:./*/*/*.py}"
@@ -106,8 +107,22 @@ python = [
 templates = ["run-curlylint", "run-djhtml"]
 all = ["python", "templates"]
 
-[tool.pyright]
-typeCheckingMode = "basic"
+[tool.mypy]
+python_version = "3.11"
+check_untyped_defs = true
+ignore_missing_imports = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+warn_unused_configs = true
+plugins = ["mypy_django_plugin.main"]
+
+[[tool.mypy.overrides]]
+# Django migrations should not produce any errors:
+module = "*.migrations.*"
+ignore_errors = true
+
+[tool.django-stubs]
+django_settings_module = "config.settings"
 
 [tool.curlylint]
 include = '\.(html|jinja)$'
