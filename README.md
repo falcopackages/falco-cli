@@ -103,8 +103,8 @@ Falco is inspired by (and borrows elements from) some excellent open source proj
 <table>
   <tbody>
     <tr>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/hammadarshad1"><img src="https://avatars.githubusercontent.com/u/45298916?v=4?s=100" width="100px;" alt="Muhammad Hammad"/><br /><sub><b>Muhammad Hammad</b></sub></a><br /><a href="#ideas-hammadarshad1" title="Ideas, Planning, & Feedback">🤔</a></td>
       <td align="center" valign="top" width="14.28%"><a href="http://oluwatobi.dev"><img src="https://avatars.githubusercontent.com/u/40334729?v=4?s=100" width="100px;" alt="Tobi DEGNON"/><br /><sub><b>Tobi DEGNON</b></sub></a><br /><a href="https://github.com/Tobi-De/falco/commits?author=Tobi-De" title="Code">💻</a> <a href="https://github.com/Tobi-De/falco/commits?author=Tobi-De" title="Documentation">📖</a> <a href="https://github.com/Tobi-De/falco/commits?author=Tobi-De" title="Tests">⚠️</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/hammadarshad1"><img src="https://avatars.githubusercontent.com/u/45298916?v=4?s=100" width="100px;" alt="Muhammad Hammad"/><br /><sub><b>Muhammad Hammad</b></sub></a><br /><a href="#ideas-hammadarshad1" title="Ideas, Planning, & Feedback">🤔</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/mathiasag7"><img src="https://avatars.githubusercontent.com/u/50689712?v=4?s=100" width="100px;" alt="mathiasag7"/><br /><sub><b>mathiasag7</b></sub></a><br /><a href="https://github.com/Tobi-De/falco/commits?author=mathiasag7" title="Code">💻</a></td>
     </tr>
   </tbody>

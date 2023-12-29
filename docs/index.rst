@@ -7,8 +7,15 @@
 
 .. raw:: html
 
-   <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-       <img src="https://github.com/Tobi-De/falco/actions/workflows/documentation.yml/badge.svg">
+    <style>
+    .yue img {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    </style>
+
+   <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 3em;">
+       <img style="" src="https://github.com/Tobi-De/falco/actions/workflows/documentation.yml/badge.svg">
        <img src="https://github.com/Tobi-De/falco/actions/workflows/ci.yml/badge.svg">
        <img src="https://badge.fury.io/py/falco-cli.svg">
        <img src="https://img.shields.io/badge/%F0%9F%A5%9A-Hatch-4051b5.svg">
