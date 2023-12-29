@@ -10,14 +10,13 @@ env = environ.Env()
 environ.Env.read_env(BASE_DIR / ".env")
 
 DJANGO_ENV = env.str("DJANGO_ENV", "dev")
-SECRET_KEY = env("DJANGO_SECRET_KEY")
-DEBUG = env("DJANGO_DEBUG", default=False)
+SECRET_KEY = env.str("DJANGO_SECRET_KEY")
+DEBUG = env.bool("DJANGO_DEBUG", default=False)
 ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS")
 
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = "UTC"
 USE_I18N = True
-USE_TZ = True
 
 DJANGO_APPS = [
     "django.contrib.admin",
@@ -115,8 +114,6 @@ STORAGES = {
 MEDIA_ROOT = str(APPS_DIR / "media")
 MEDIA_URL = "/media/"
 
-ADMIN_URL = env("ADMIN_URL", default="admin/")
-
 AUTH_USER_MODEL = "users.User"
 
 AUTHENTICATION_BACKENDS = [
@@ -132,17 +129,19 @@ ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = "optional"
 
-EMAIL_BACKEND = env("DJANGO_EMAIL_BACKEND", default="django.core.mail.backends.console.EmailBackend")
+EMAIL_BACKEND = env.email_url("DJANGO_EMAIL_URL", default="consolemail://")
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
 CRISPY_TEMPLATE_PACK = "tailwind"
 
-SUPERUSER_EMAIL = env("DJANGO_SUPERUSER_EMAIL")
-SUPERUSER_PASSWORD = env("DJANGO_SUPERUSER_PASSWORD")
+SUPERUSER_EMAIL = env.str("DJANGO_SUPERUSER_EMAIL")
+SUPERUSER_PASSWORD = env.str("DJANGO_SUPERUSER_PASSWORD")
 
 if DJANGO_ENV == "production":
     import sentry_sdk
     from sentry_sdk.integrations.django import DjangoIntegration
+
+    ADMIN_URL = env.str("ADMIN_URL")
 
     # Load cache from CACHE_URL or REDIS_URL
     if "CACHE_URL" in os.environ:
@@ -186,17 +185,17 @@ if DJANGO_ENV == "production":
     EMAIL_BACKEND = "anymail.backends.amazon_ses.EmailBackend"
     ANYMAIL = {
         "AMAZON_SES_CLIENT_PARAMS": {
-            "aws_access_key_id": env("DJANGO_AWS_ACCESS_KEY_ID"),
-            "aws_secret_access_key": env("DJANGO_AWS_SECRET_ACCESS_KEY"),
-            "region_name": env("DJANGO_AWS_S3_REGION_NAME"),
+            "aws_access_key_id": env.str("DJANGO_AWS_ACCESS_KEY_ID"),
+            "aws_secret_access_key": env.str("DJANGO_AWS_SECRET_ACCESS_KEY"),
+            "region_name": env.str("DJANGO_AWS_S3_REGION_NAME"),
         }
     }
 
     # sentry
     sentry_sdk.init(
-        dsn=env("SENTRY_DSN"),
+        dsn=env.url("SENTRY_DSN"),
         integrations=[DjangoIntegration()],
-        environment=env("SENTRY_ENVIRONMENT", default="production"),
+        environment=env.str("SENTRY_ENVIRONMENT", default="production"),
         traces_sample_rate=env.float("SENTRY_TRACES_SAMPLE_RATE", default=0.0),
         auto_session_tracking=False,
         release="1.0.0",
