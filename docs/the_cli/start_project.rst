@@ -59,6 +59,16 @@ in your generated project.
 
 .. figure:: ../images/project-tree.svg
 
+With this layout, your local apps reside in a subdirectory with the same name as your project. Every time you create a new app,
+you should move it to that subdirectory and rename it (e.g., from ``myapp`` to ``myproject.myapp``) in the ``apps.py`` file.
+There is a default script included with the project that automates this process. You can trigger it by running
+``hatch run start-app products``, and it will create the app using the Django ``startapp`` command, move it to your apps directory, and rename it.
+However, you won't be able to pass additional commands to the original `django startapp command <https://docs.djangoproject.com/en/dev/ref/django-admin/#startapp>`_ (i.e., ``--name`` to specify file names), and the app
+won't be automatically registered in your ``INSTALLED_APPS``.
+
+All your project configurations, settings, URLs, WSGI app file, etc., reside in the ``config`` folder.
+
+The ``docker`` folder contains some files that are needed for deployment. However, if you are not planning to use Docker, you can safely delete it.
 
 Login via email instead of username
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

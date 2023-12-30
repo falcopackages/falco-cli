@@ -37,7 +37,7 @@ The command uses the following default values:
 - ``DJANGO_DEBUG``: ``True``
 - ``DJANGO_SECRET_KEY``: A randomly generated secure token.
 - ``DJANGO_ALLOWED_HOSTS``: ``*``
-- ``DATABASE_URL``: ``postgres:///<project_name>``, where ``<project_name>`` is the name of the current directory.
+- ``DATABASE_URL``: ``postgres:///{project_name}``, where ``project_name`` is the name of the current directory.
 - ``DJANGO_SUPERUSER_EMAIL``:
 - ``DJANGO_SUPERUSER_PASSWORD``:
 

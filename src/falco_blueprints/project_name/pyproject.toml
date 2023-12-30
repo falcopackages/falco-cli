@@ -51,6 +51,7 @@ migrate = "python manage.py migrate {args}"
 makemigrations = "python manage.py makemigrations {args}"
 reset-db = "python manage.py reset_db --noinput"
 shell = "python manage.py shell_plus {args}"
+start-app = "python manage.py startapp {args} && mv {args} {{ project_name }} && sed -i 's/{args}/{{ project_name }}.{args}/g' {{ project_name }}/{args}/apps.py"
 upgrade-deps = ["rm requirements.txt", "hatch env run --env default -- python --version"]
 
 [[tool.hatch.envs.all.matrix]]

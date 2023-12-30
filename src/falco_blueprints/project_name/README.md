@@ -22,13 +22,13 @@ hatch shell
 ### Install pre-commit
 
 ```shell
-pre-commit install
+git init && pre-commit install
 ```
 
 ### Create a `.env` file
 
 ```shell
-falco sync-dotenv --fill-missing
+falco sync-dotenv
 ```
 
 ### Run the django development server
