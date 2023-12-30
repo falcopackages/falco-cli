@@ -15,17 +15,6 @@ reach a point where you need to run multiple processes to run your project. This
 `a task queue worker </guides/task_queues_and_schedulers.html>`_, etc. With this command, you can run all these commands in parallel within a single terminal.
 It execute the commands by reading your ``pyproject.toml`` file and running the commands defined in the ``[tool.falco.work]`` section.
 
-.. There is a default configuration available when you generate your project with `start-project </the_cli/start_project.html>`_, and you can update it
-.. as needed.
-.. Here is the default configuration:
-
-.. .. code:: toml
-
-..    |[tool.falco.work]
-..    server = "python manage.py migrate && python manage.py tailwind runserver"
-
-.. And this is what a more advance configuration might looks like:
-
 Here is an example of what a falco **work** configuration might looks like:
 
 .. code:: toml

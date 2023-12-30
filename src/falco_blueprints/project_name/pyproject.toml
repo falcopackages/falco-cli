@@ -43,7 +43,7 @@ type = "pip-compile"
 pip-compile-constraint = "default"
 pip-compile-installer = "pip-sync"
 lock-filename = "requirements.txt"
-dependencies = ["dj-notebook>=0.6.1", "Werkzeug[watchdog]>=3.0.1"]
+dependencies = ["dj-notebook>=0.6.1", "Werkzeug[watchdog]>=3.0.1", "pre-commit"]
 
 [tool.hatch.envs.default.scripts]
 runserver = ["migrate", "python manage.py tailwind runserver {args}"]
