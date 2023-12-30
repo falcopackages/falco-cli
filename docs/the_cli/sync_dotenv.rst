@@ -34,11 +34,18 @@ When you run the ``sync-dotenv`` command, it performs the following steps:
 
 The command uses the following default values:
 
-- ``DJANGO_DEBUG``: ``True``
-- ``DJANGO_SECRET_KEY``: A randomly generated secure token.
-- ``DJANGO_ALLOWED_HOSTS``: ``*``
-- ``DATABASE_URL``: ``postgres:///{project_name}``, where ``project_name`` is the name of the current directory.
-- ``DJANGO_SUPERUSER_EMAIL``:
-- ``DJANGO_SUPERUSER_PASSWORD``:
+.. code-block:: text
+
+  DJANGO_DEBUG: True
+  DJANGO_SECRET_KEY: <a_randomly_generated_secure_token>
+  DJANGO_ALLOWED_HOSTS: *
+  DATABASE_URL: sqlite:///db.sqlite
+  DJANGO_SUPERUSER_EMAIL:
+  DJANGO_SUPERUSER_PASSWORD:
+
+As you may have noticed, the default values uses SQLlite as the default database.
+Typically, I use Postgres for both development and production, but using SQLite simplifies the initial setup
+and ensures ``hatch run runserver`` works on the first try. If you choose the ``--fill-missing`` option, it
+will prompt you for your Postgres credentials and configure the ``DATABASE_URL`` accordingly.
 
 These values are used if they are not already specified in the ``.env`` or ``.env.template`` files.

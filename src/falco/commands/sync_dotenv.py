@@ -32,7 +32,7 @@ class SyncDotenv:
             "DJANGO_DEBUG": True,
             "DJANGO_SECRET_KEY": secrets.token_urlsafe(64),
             "DJANGO_ALLOWED_HOSTS": "*",
-            "DATABASE_URL": f"postgres:///{project_name}",
+            "DATABASE_URL": "sqlite:///db.sqlite",
             "DJANGO_SUPERUSER_EMAIL": "",
             "DJANGO_SUPERUSER_PASSWORD": "",
         }
