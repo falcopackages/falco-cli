@@ -30,6 +30,7 @@ class SyncDotenv:
 
         default_values = {
             "DJANGO_DEBUG": True,
+            "DJANGO_ENV": "dev",
             "DJANGO_SECRET_KEY": secrets.token_urlsafe(64),
             "DJANGO_ALLOWED_HOSTS": "*",
             "DATABASE_URL": "sqlite:///db.sqlite",

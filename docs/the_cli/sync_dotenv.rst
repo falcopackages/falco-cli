@@ -36,12 +36,13 @@ The command uses the following default values:
 
 .. code-block:: text
 
-  DJANGO_DEBUG: True
-  DJANGO_SECRET_KEY: <a_randomly_generated_secure_token>
-  DJANGO_ALLOWED_HOSTS: *
-  DATABASE_URL: sqlite:///db.sqlite
-  DJANGO_SUPERUSER_EMAIL:
-  DJANGO_SUPERUSER_PASSWORD:
+  DJANGO_DEBUG = True
+  DJANGO_SECRET_KEY = <a_randomly_generated_secure_token>
+  DJANGO_ENV = dev
+  DJANGO_ALLOWED_HOSTS = *
+  DATABASE_URL = sqlite:///db.sqlite
+  DJANGO_SUPERUSER_EMAIL =
+  DJANGO_SUPERUSER_PASSWORD =
 
 As you may have noticed, the default values uses SQLlite as the default database.
 Typically, I use Postgres for both development and production, but using SQLite simplifies the initial setup
