@@ -31,6 +31,12 @@ git init && pre-commit install
 falco sync-dotenv
 ```
 
+### Apply migrations
+
+```shell
+hatch run migrate
+```
+
 ### Create a superuser
 
 Fill the `SUPERUSER_EMAIL` and `SUPERUSER_PASSWORD` in your `.env` file and run:
