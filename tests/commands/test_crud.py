@@ -43,9 +43,15 @@ def register_project_urls():
     )
 
 
+def fix_core_import(app_dir: Path):
+    views = app_dir / "views.py"
+    views.write_text(views.read_text().replace("myproject.core", "core"))
+
+
 def test_crud(django_project, runner: CommandRunner, set_git_repo_to_clean):
     runner.invoke("crud", "blog.post")
     runner.invoke("install-crud-utils", ".")
+    fix_core_import(Path("blog"))
     register_project_urls()
     assert healthy_django_project()
     app_dir = Path("blog")
@@ -62,6 +68,7 @@ def test_crud(django_project, runner: CommandRunner, set_git_repo_to_clean):
 
 def test_crud_entry_point(django_project, runner: CommandRunner, set_git_repo_to_clean):
     runner.invoke("crud", "blog.post", "--entry-point")
+    fix_core_import(Path("blog"))
     runner.invoke("install-crud-utils", ".")
     register_project_urls()
     assert healthy_django_project()
@@ -78,6 +85,7 @@ def test_crud_entry_point(django_project, runner: CommandRunner, set_git_repo_to
 
 def test_crud_only_html(django_project, runner: CommandRunner, set_git_repo_to_clean):
     runner.invoke("crud", "blog.post", "--only-html")
+    fix_core_import(Path("blog"))
     runner.invoke("install-crud-utils", ".")
     assert healthy_django_project()
     app_dir = Path("blog")
@@ -92,6 +100,7 @@ def test_crud_only_html(django_project, runner: CommandRunner, set_git_repo_to_c
 
 def test_crud_only_python(django_project, runner: CommandRunner, set_git_repo_to_clean):
     runner.invoke("crud", "blog.post", "--only-python")
+    fix_core_import(Path("blog"))
     runner.invoke("install-crud-utils", ".")
     register_project_urls()
     assert healthy_django_project()
@@ -114,6 +123,7 @@ def test_crud_repo_not_clean(django_project, runner: CommandRunner):
 
 def test_crud_exclude_field(django_project, runner: CommandRunner, set_git_repo_to_clean):
     runner.invoke("crud", "blog.post", "--only-python", "-e=title")
+    fix_core_import(Path("blog"))
     runner.invoke("install-crud-utils", ".")
     app_dir = Path("blog")
     # sourcery skip: no-loop-in-tests

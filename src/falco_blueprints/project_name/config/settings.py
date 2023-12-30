@@ -43,7 +43,7 @@ THIRD_PARTY_APPS = [
     "django_fastdev",
 ]
 
-LOCAL_APPS = ["{{ project_name }}.users"]
+LOCAL_APPS = ["{{ project_name }}.core", "{{ project_name }}.users"]
 
 INSTALLED_APPS = LOCAL_APPS + THIRD_PARTY_APPS + DJANGO_APPS
 

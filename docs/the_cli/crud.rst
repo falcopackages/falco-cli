@@ -150,6 +150,14 @@ Following the previous example, the file will be written to ``myproject/my_proje
 If you decide to use the ``--output`` option to change the file's destination path (which defaults to ``core/utils.py``), you may need to adjust
 some imports after executing the ``crud`` command.
 
+.. note::
+
+    If you're using the default Django project structure, it's likely that your apps are located in the root directory of your project.
+    In this case, you can run the command ``falco install-crud-utils .``, where the ``.`` signifies that the ``apps_dir`` is the current directory.
+    This assumes that you're executing the command from the root of your project. The command will then add the utilities to a ``core`` folder.
+    If no output folder is specified and there is no existing ``core`` folder, the command will create a basic ``core`` package in the specified ``apps_dir``,
+    which in this case is the root of the project.
+
 Below is the content of the current ``utils.py``:
 
 .. note::
