@@ -31,6 +31,14 @@ git init && pre-commit install
 falco sync-dotenv
 ```
 
+### Create a superuser
+
+Fill the `SUPERUSER_EMAIL` and `SUPERUSER_PASSWORD` in your `.env` file and run:
+
+```shell
+falco make-superuser
+```
+
 ### Run the django development server
 
 ```shell
