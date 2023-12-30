@@ -68,7 +68,8 @@ won't be automatically registered in your ``INSTALLED_APPS``.
 
 All your project configurations, settings, URLs, WSGI app file, etc., reside in the ``config`` folder.
 
-The ``docker`` folder contains some files that are needed for deployment. However, if you are not planning to use Docker, you can safely delete it.
+The ``deploy`` folder contains some files that are needed for deployment, mainly docker related. If Docker isn't part of your deployment plan, this directory can be safely removed.
+However, you might want to retain the ``gunicorn.conf.py`` file inside that directory, which is a basic Gunicorn configuration file that could be useful regardless of your chosen deployment strategy.
 
 Login via email instead of username
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

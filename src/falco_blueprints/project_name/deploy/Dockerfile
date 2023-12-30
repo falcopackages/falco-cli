@@ -35,4 +35,4 @@ COPY . /app
 
 WORKDIR /app
 EXPOSE 8000
-CMD ["./docker/entrypoint.sh"]
+CMD ["./deploy/entrypoint.sh"]
