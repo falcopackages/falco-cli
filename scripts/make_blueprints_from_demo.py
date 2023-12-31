@@ -1,8 +1,8 @@
 from pathlib import Path
 
 root_dir = Path(__file__).parent.parent
-demo_dir = root_dir / "demo"
-products_app_dir = demo_dir / "products"
+demo_apps_dir = root_dir / "demo/demo"
+products_app_dir = demo_apps_dir / "products"
 falco_crud_blueprints_dir = root_dir / "src" / "falco_blueprints" / "crud"
 
 python_blueprints = ("views.py", "forms.py")
@@ -32,7 +32,7 @@ def copy_python_files():
     # copy crud utils file
     utils_file = falco_crud_blueprints_dir / "utils.py"
     utils_file.touch(exist_ok=True)
-    utils_file.write_text((demo_dir / "core/utils.py").read_text())
+    utils_file.write_text((demo_apps_dir / "core/utils.py").read_text())
 
 
 def copy_html_files():

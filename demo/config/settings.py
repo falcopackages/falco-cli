@@ -36,13 +36,13 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "core",
-    "products",
-    "orders",
     "crispy_forms",
     "crispy_tailwind",
     "template_partials",
     "django_htmx",
+    "demo.core",
+    "demo.products",
+    "demo.orders",
 ]
 
 MIDDLEWARE = [
@@ -56,7 +56,7 @@ MIDDLEWARE = [
     "django_htmx.middleware.HtmxMiddleware",
 ]
 
-ROOT_URLCONF = "demo.urls"
+ROOT_URLCONF = "config.urls"
 
 TEMPLATES = [
     {
@@ -74,7 +74,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "demo.wsgi.application"
+WSGI_APPLICATION = "config.wsgi.application"
 
 
 # Database

@@ -7,6 +7,6 @@ from django.views.generic.base import RedirectView
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", RedirectView.as_view(url=reverse_lazy("products:product_list"))),
-    path("products/", include("products.urls", namespace="products")),
-    # path("orders/", include("orders.urls", namespace="orders")),
+    path("products/", include("demo.products.urls", namespace="products")),
+    # path("orders/", include("demo.orders.urls", namespace="orders")),
 ]
