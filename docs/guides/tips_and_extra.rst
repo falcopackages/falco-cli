@@ -18,6 +18,13 @@ Local email testing
 
 https://github.com/axllent/mailpit
 
+.. code-block::
+    :captions: settings.py
+
+    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend",
+    EMAIL_HOST = "localhost"
+    EMAIL_PORT = 1025
+
 
 Lifecycle not signals
 ---------------------
