@@ -6,7 +6,7 @@
 
     <section class="flex justify-between">
         {% endverbatim %}
-        <h1 class="text-lg font-bold py-4"> {{ model_name}} Update - {% verbatim %}{{ product }}{% endverbatim %}</h1>
+        <h1 class="text-lg font-bold py-4"> {{ model_name}} Update -  {{ "{"|add:"{" }} {{ model_name|lower }} {{ "}"|add:"}" }}</h1>
 
         <a href="{{list_view_url|safe}}" class="text-blue-600 hover:underline hover:text-blue-500">
             All {{model_verbose_name_plural|capfirst}}
