@@ -35,7 +35,7 @@ might look like for a model named ``Product`` in a django app named ``products``
 
     falco crud product.products
 
-.. literalinclude:: ../../demo/products/urls.py
+.. literalinclude:: ../../demo/demo/products/urls.py
 
 As you can see, the convention is quite simple: ``<model_name_lower>_<operation>``. Note that if you don't specify the model name and run
 ``falco crud products``, the same code with the described conventions will be generated for all the models in the ``products`` app.
