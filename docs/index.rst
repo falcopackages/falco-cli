@@ -47,3 +47,4 @@
     contributing
     codeofconduct
     license
+    changelog

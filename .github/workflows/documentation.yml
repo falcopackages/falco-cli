@@ -15,6 +15,8 @@ jobs:
         run: |
           pip install hatch
       - name: Sphinx build
+        env:
+          SPHINX_GITHUB_CHANGELOG_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           hatch run docs:sphinx-build docs _build
       - name: Deploy to GitHub Pages

@@ -91,6 +91,7 @@ dependencies = [
   "sphinx-copybutton",
   "sphinx-togglebutton",
   "sphinx-autorun",
+  "sphinx-github-changelog",
   "rich-codex",
 ]
 
