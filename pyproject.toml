@@ -85,7 +85,7 @@ dependencies = [
   "sphinx",
   "sphinx-autobuild",
   "myst-parser",
-  "shibuya",
+  "shibuya==2023.10.26",
   "sphinx-design",
   "sphinx-tabs",
   "sphinx-copybutton",
