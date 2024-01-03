@@ -60,7 +60,7 @@ For more complex tasks, I tend to choose a solution that supports redis as a tas
     :class: dropdown
 
     If you are using one of these you might want an automatic reload feature when files changes in dev, you can use the ``hupper``
-    python package for that purpose. It watches for file changes in the cruurent directory and restarts the worker process automatically.
+    python package for that purpose. It watches for file changes in the current directory and restarts the worker process automatically.
 
     .. code-block:: bash
         :caption: usage example

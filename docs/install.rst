@@ -14,13 +14,14 @@ Next Up
 -------
 
 .. grid:: 2
+    :class-row: surface
 
-    .. grid-item-card:: The CLI
+    .. grid-item-card:: :octicon:`terminal` The CLI
       :link: /the_cli/
 
       The documentation for the ``falco`` command line interface (CLI).
 
-    .. grid-item-card:: Guides
+    .. grid-item-card:: :octicon:`book` Guides
       :link: /guides/
 
       A collection of guides on common web development topics and how to address them in django.

@@ -42,6 +42,11 @@ WSGI server
 
 **Process Managers**
 
+
+**Restart without downtime**
+sudo supervisorctl pid gunicorn | sudo xargs kill -s HUP
+https://blog.pecar.me/gunicorn-restart
+
 Web server
 ----------
 

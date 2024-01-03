@@ -1,0 +1,8 @@
+html.light {
+    --yue-c-code-text: var(--yue-c-text);
+}
+
+html.dark {
+    --yue-c-code-text: var(--yue-c-text);
+}
+

@@ -26,6 +26,7 @@ extensions = [
     "sphinx_autorun",
     "cappa.ext.docutils",
     "sphinx_github_changelog",
+    "sphinxcontrib.mermaid",
 ]
 extlinks = {
     "pull": ("https://github.com/tobi-de/falco/pull/%s", "pull request #%s"),
@@ -53,12 +54,21 @@ html_theme_options = {
     "mastodon_url": "https://fosstodon.org/@tobide",
     "github_url": "https://github.com/tobi-de/falco",
     "twitter_url": "https://twitter.com/tobidegnon",
-    "light_css_variables": {
-        "--sy-rc-theme": "77, 210, 255",
-    },
-    "dark_css_variables": {
-        "--sy-rc-theme": "0, 153, 204",
-    },
+    "accent_color": "sky",
 }
 html_logo = "images/logo_with_text.svg"
 html_favicon = "../assets/falco-logo.svg"
+html_css_files = [
+    "custom.css",
+]
+
+# -- Mermaid configuration -----------------------------------------------------
+mermaid_version = "10.6.1"
+mermaid_params = [
+    "--theme",
+    "dark",
+    # "--width",
+    # "600",
+    "--backgroundColor",
+    "transparent",
+]
