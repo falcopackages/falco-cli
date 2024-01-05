@@ -23,6 +23,7 @@
        <img src="https://img.shields.io/badge/license-MIT-blue.svg">
        <img src="https://img.shields.io/pypi/pyversions/falco-cli">
        <img src="https://img.shields.io/pypi/frameworkversions/django/falco-cli">
+       <img src="https://img.shields.io/pypi/dm/falco-cli">
    </div>
 
 
