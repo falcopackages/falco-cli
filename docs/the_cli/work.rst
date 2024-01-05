@@ -39,6 +39,6 @@ and is still running. To kill all previous running processes, run the following 
 
 .. code:: bash
 
-   $ lsof -i :8000 -t | xargs -t kill # replace 8000 with the port you are using
+   $ lsof -i :8000 -sTCP:LISTEN -t | xargs -t kill # replace 8000 with the port you are using
 
 This command was copied from this `blog post <https://adamj.eu/tech/2023/11/19/django-stop-backgrounded-runserver/>`_.
