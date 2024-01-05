@@ -18,6 +18,7 @@ release = version
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
+    "sphinx.ext.extlinks",
     "myst_parser",
     "sphinx_design",
     "sphinx_tabs.tabs",
@@ -31,6 +32,7 @@ extensions = [
 extlinks = {
     "pull": ("https://github.com/tobi-de/falco/pull/%s", "pull request #%s"),
     "issue": ("https://github.com/tobi-de/falco/issues/%s", "issue #%s"),
+    "repo": ("https://github.com/tobi-de/falco", "github repository"),
 }
 
 templates_path = ["_templates"]
