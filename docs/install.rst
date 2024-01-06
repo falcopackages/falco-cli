@@ -13,8 +13,10 @@ Falco is available on PyPI and can be installed with pip or your favorite Python
 Next Up
 -------
 
-.. grid:: 2
+.. grid:: 1 1 1 2
     :class-row: surface
+    :gutter: 2
+    :padding: 0
 
     .. grid-item-card:: :octicon:`terminal` The CLI
       :link: /the_cli/
