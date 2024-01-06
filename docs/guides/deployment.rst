@@ -55,6 +55,10 @@ https://www.nginx.com/products/nginx-unit/
 https://httpd.apache.org/
 https://caddyserver.com/
 
+**A small note on reverse proxies**
+
+https://traefik.io/traefik/
+
 Resources
 ---------
 

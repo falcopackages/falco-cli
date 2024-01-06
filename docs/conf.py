@@ -67,11 +67,4 @@ html_css_files = [
 
 # -- Mermaid configuration -----------------------------------------------------
 mermaid_version = "10.6.1"
-mermaid_params = [
-    "--theme",
-    "dark",
-    # "--width",
-    # "600",
-    "--backgroundColor",
-    "transparent",
-]
+mermaid_output_format = "svg"
