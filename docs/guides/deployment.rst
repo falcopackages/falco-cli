@@ -3,6 +3,7 @@
 Deploy your project
 ===================
 
+https://www.youtube.com/watch?v=t-wsiW5mkgA
 
 Intro
 
@@ -54,6 +55,10 @@ https://www.nginx.com/
 https://www.nginx.com/products/nginx-unit/
 https://httpd.apache.org/
 https://caddyserver.com/
+
+**A small note on reverse proxies**
+
+https://traefik.io/traefik/
 
 Resources
 ---------

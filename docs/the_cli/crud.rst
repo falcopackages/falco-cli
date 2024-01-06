@@ -19,7 +19,7 @@ accessible and you can update it as you see fit. The idea is to accelerate proje
     :class: hint dropdown
 
     I think class-based views get complex faster than function-based views. Both have their use cases, but function-based views
-    stay simpler to manage longer in my experience. There is an excellent document on the topic, read this `django views the right way <https://spookylukey.github.io/django-views-the-right-way/>`_.
+    stay simpler to manage longer in my experience. There is an excellent document on the topic, read `django views the right way <https://spookylukey.github.io/django-views-the-right-way/>`_.
 
 If you want to see an example of the generated code, check out the `source code of the demo project <https://github.com/Tobi-De/falco/tree/main/demo/products.>`_.
 
@@ -28,7 +28,7 @@ Python code
 
 All Python code added by this command will be in **append** mode, meaning it won't override the content of your existing files.
 Instead, it will add code at the end or create the files if they are missing. The files that will be modified
-are ``forms.py``, ``urls.py``, and ``views.py``. For brevity, I'll only show an example of what the `urls.py` file
+are ``forms.py``, ``urls.py``, and ``views.py``. For brevity, I'll only show an example of what the ``urls.py`` file
 might look like for a model named ``Product`` in a django app named ``products``.
 
 .. code-block::bash
@@ -39,8 +39,8 @@ might look like for a model named ``Product`` in a django app named ``products``
 
 As you can see, the convention is quite simple: ``<model_name_lower>_<operation>``. Note that if you don't specify the model name and run
 ``falco crud products``, the same code with the described conventions will be generated for all the models in the ``products`` app.
-Now, if you're anything like me, the code above might have made you cringe due to the excessive repetitions of the term ``product``.
-This wouldn't have been the case if the model was called `Category`, for example. For these specific cases, there is an ``--entry-point`` option.
+Now, if you're anything like me, the code above might have made you cringe due to the excessive repetitions of the word ``product``.
+This wouldn't have been the case if the model was called ``Category``, for example. For these specific cases, there is an ``--entry-point`` option.
 
 Let's try it.
 
@@ -66,7 +66,7 @@ Let's try it.
     ]
 
 Much cleaner, specifying that option means you consider the ``Product`` model as the entry point of your ``products`` app.
-So, instead of the base URL of the app looking like "products/products/", it will just be "products/", assuming you registered your URLs in
+So, instead of the base URL of the app looking like ``products/products/``, it will just be ``products/``, assuming you registered your URLs in
 your root URL config like this:
 
 .. code-block:: python
@@ -99,7 +99,7 @@ Four files are generated:
 * ``<model_name_lower>_update.html``
 
 There is no ``<model_name_lower>_delete.html`` file because deletion is handled in the ``<model_name_lower>_list.html``.
-Each generated HTML file expects to extend from a ``base.html`` template. Therefore, make sure you have a top-level ``base.html`` file in
+Each generated HTML file extends a ``base.html`` template. Therefore, make sure you have a top-level ``base.html`` file in
 your templates directory.
 
 

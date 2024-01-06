@@ -13,7 +13,14 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 20px;
+        column-gap: 20px;
+    }
+
+    @media (max-width: 600px) {
+        #head {
+            flex-wrap: wrap;
+            justify-content: center;
+        }
     }
 
     #head h1 {
@@ -26,7 +33,7 @@
     </style>
 
    <div id="head">
-         <img src="https://raw.githubusercontent.com/Tobi-De/falco/main/assets/falco-logo.svg" width=200 height=200>
+        <img src="https://raw.githubusercontent.com/Tobi-De/falco/main/assets/falco-logo.svg" width=200 height=200>
         <div>
             <h1>Falco</h1>
             <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 3em;">
@@ -57,7 +64,7 @@
     `GitHub <https://github.com/tobi-de/falco>`_
 
 
-.. grid:: 3
+.. grid:: 1 1 2 3
     :class-row: surface
     :padding: 0
     :gutter: 2

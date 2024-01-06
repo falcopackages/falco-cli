@@ -31,8 +31,10 @@ developer in general.
 
 **The obvious ones**
 
-.. grid:: 2
+.. grid:: 1 1 1 2
     :class-row: surface
+    :padding: 0
+    :gutter: 2
 
     .. grid-item-card:: :octicon:`rocket` The official Django documentation
         :link: https://docs.djangoproject.com/en/dev/
@@ -49,7 +51,7 @@ developer in general.
 
 **Programming principles**
 
-.. grid:: 2
+.. grid:: 1 1 1 2
     :class-row: surface
     :padding: 0
     :gutter: 2
@@ -77,8 +79,10 @@ developer in general.
 
 **Blog articles and videos**
 
-.. grid:: 2
+.. grid:: 1 1 1 2
     :class-row: surface
+    :padding: 0
+    :gutter: 2
 
     .. grid-item-card:: :octicon:`book` Adam Johnson blog
         :link: https://adamj.eu/tech/
@@ -93,8 +97,10 @@ developer in general.
 
 **The special ones**
 
-.. grid:: 2
+.. grid:: 1 1 1 2
     :class-row: surface
+    :padding: 0
+    :gutter: 2
 
     .. grid-item-card:: :octicon:`book` The Grug Brained Developer
         :link: https://grugbrain.dev

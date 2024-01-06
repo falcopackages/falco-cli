@@ -22,9 +22,6 @@
 
 
 
-> [!WARNING]
-> This is a work in progress (WIP), this is also [fuzzy-couscous](https://github.com/Tobi-De/fuzzy-couscous) new cooler brother.
-
 <!-- start-docs -->
 
 Falco is a Django-centric toolkit designed to enhance the development experience. The CLI offers commands for initiating new projects, generating simple CRUD views for rapid prototyping, and more. Additionally, it provides a collection of guides to address common issues in web development specifically tailored to Django.
