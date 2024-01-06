@@ -3,6 +3,7 @@
 Deploy your project
 ===================
 
+https://www.youtube.com/watch?v=t-wsiW5mkgA
 
 Intro
 

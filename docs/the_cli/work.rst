@@ -1,12 +1,6 @@
 Running multiple process in parallel
 ====================================
 
-.. warning::
-
-   This command right now does not work as I was hoping it to. To make it work, you need to have the ``falco-cli`` installed in the same virtualenv as your
-   project. I would prefer for that not to be the case, but right now I don't know how to fix it.
-
-
 .. cappa:: falco.commands.Work
 
 
