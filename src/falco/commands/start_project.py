@@ -9,6 +9,7 @@ import cappa
 import httpx
 from django.core.management.commands.startproject import Command as DjangoStartProject
 from falco import falco_version
+from falco.commands.htmx import Htmx
 from falco.utils import clean_project_name
 from falco.utils import get_falco_blueprints_path
 from falco.utils import network_request_with_progress
@@ -97,6 +98,7 @@ class StartProject:
             )
 
         self.init_project()
+        Htmx(version="latest", output=Path(self.project_name) / "static" / "js" / "htmx_test.min.js")()
         msg = f"{RICH_SUCCESS_MARKER} Project initialized, keep up the good work!\n"
         msg += (
             f"{RICH_INFO_MARKER} If you like the project consider dropping a star at "
