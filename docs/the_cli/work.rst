@@ -1,12 +1,6 @@
 Running multiple process in parallel
 ====================================
 
-.. warning::
-
-   This command right now does not work as I was hoping it to. To make it work, you need to have the ``falco-cli`` installed in the same virtualenv as your
-   project. I would prefer for that not to be the case, but right now I don't know how to fix it.
-
-
 .. cappa:: falco.commands.Work
 
 
@@ -39,6 +33,6 @@ and is still running. To kill all previous running processes, run the following 
 
 .. code:: bash
 
-   $ lsof -i :8000 -t | xargs -t kill # replace 8000 with the port you are using
+   $ lsof -i :8000 -sTCP:LISTEN -t | xargs -t kill # replace 8000 with the port you are using
 
 This command was copied from this `blog post <https://adamj.eu/tech/2023/11/19/django-stop-backgrounded-runserver/>`_.
