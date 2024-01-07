@@ -21,9 +21,6 @@
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 
-
-<!-- start-docs -->
-
 Falco is a Django-centric toolkit designed to enhance the development experience. The CLI offers commands for initiating new projects, generating simple CRUD views for rapid prototyping, and more. Additionally, it provides a collection of guides to address common issues in web development specifically tailored to Django.
 
 <!-- [![Read the full documentation](https://img.shields.io/badge/Read%20The%20full%20Documentation-blue?style=for-the-badge&logo=ReadTheDocs)](https://falco.oluwatobi.dev) -->
@@ -122,4 +119,3 @@ Falco is inspired by (and borrows elements from) some excellent open source proj
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
-<!-- end-docs -->

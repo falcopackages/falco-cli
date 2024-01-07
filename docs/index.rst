@@ -99,6 +99,18 @@
 
       Learn how to contribute to the Falco project.
 
+-----
+
+.. raw:: html
+
+    <h2>Contributors</h2>
+
+Thanks to the following wonderful people (`emoji key <https://allcontributors.org/docs/en/emoji-key>`_) who have helped build ``falco``.
+
+.. include:: ../README.md
+    :parser: myst_parser.sphinx_
+    :start-after: <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+    :end-before: <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 .. toctree::
     :caption: Getting started
