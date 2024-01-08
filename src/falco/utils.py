@@ -33,7 +33,9 @@ def get_current_dir_as_project_name():
 
 
 @contextmanager
-def simple_progress(description: str, display_text="[progress.description]{task.description}"):
+def simple_progress(
+    description: str, display_text="[progress.description]{task.description}"
+):
     progress = Progress(SpinnerColumn(), TextColumn(display_text), transient=True)
     progress.add_task(description=description, total=None)
     try:
@@ -43,28 +45,12 @@ def simple_progress(description: str, display_text="[progress.description]{task.
 
 
 @contextmanager
-def network_request_with_progress(url: str, description: str, fail_silently: bool = False):
-    """
-    A context manager for making a network request with a progress bar.
-
-    Args:
-        url (str): The URL to make the request to.
-        description (str): The description to display in the progress bar.
-        fail_silently (bool, optional): Whether to fail silently or raise an exception if the request fails. Defaults to False.
-
-    Yields:
-        httpx.Response: The response from the server.
-
-    Raises:
-        cappa.Exit: If the request fails and fail_silently is False, raises an exception with a message indicating the URL is not reachable.
-    """
+def network_request_with_progress(url: str, description: str):
     try:
         with simple_progress(description):
             yield httpx.get(url)
     except httpx.ConnectError as e:
-        if not fail_silently:
-            raise cappa.Exit(f"Connection error, {url} is not reachable.", code=1) from e
-        yield None
+        raise cappa.Exit(f"Connection error, {url} is not reachable.", code=1) from e
 
 
 class ShellCodeError(Exception):
@@ -84,7 +70,9 @@ def run_in_shell(command: str, eval_result: bool = True):
 
 def is_git_repo_clean() -> bool:
     try:
-        result = subprocess.run(["git", "status", "--porcelain"], capture_output=True, text=True, check=True)
+        result = subprocess.run(
+            ["git", "status", "--porcelain"], capture_output=True, text=True, check=True
+        )
         return result.stdout.strip() == ""
     except subprocess.CalledProcessError:
         return False

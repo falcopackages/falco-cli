@@ -18,6 +18,7 @@ from falco.utils import RICH_SUCCESS_MARKER
 from falco.utils import simple_progress
 from rich import print as rich_print
 from rich.prompt import Prompt
+from contextlib import suppress
 
 
 class StartProjectPlus(DjangoStartProject):
@@ -32,8 +33,12 @@ def get_authors_info() -> tuple[str, str]:
     default_author_email = "tobidegnon@proton.me"
     git_config_cmd = ["git", "config", "--global", "--get"]
     try:
-        user_name_cmd = subprocess.run(git_config_cmd + ["user.name"], capture_output=True, text=True)
-        user_email_cmd = subprocess.run(git_config_cmd + ["user.email"], capture_output=True, text=True)
+        user_name_cmd = subprocess.run(
+            git_config_cmd + ["user.name"], capture_output=True, text=True
+        )
+        user_email_cmd = subprocess.run(
+            git_config_cmd + ["user.email"], capture_output=True, text=True
+        )
     except FileNotFoundError:
         return default_author_name, default_author_email
     if user_email_cmd.returncode != 0:
@@ -98,7 +103,6 @@ class StartProject:
             )
 
         self.init_project()
-        Htmx(version="latest", output=Path(self.project_name) / "static" / "vendors" / "htmx" / "htmx.min.js", fail_silently=True)()
         msg = f"{RICH_SUCCESS_MARKER} Project initialized, keep up the good work!\n"
         msg += (
             f"{RICH_INFO_MARKER} If you like the project consider dropping a star at "
@@ -106,6 +110,7 @@ class StartProject:
         )
 
         rich_print(msg)
+        self.update_htmx()
 
     def init_project(self) -> None:
         project_template_path = get_falco_blueprints_path() / "project_name"
@@ -123,4 +128,19 @@ class StartProject:
                 f"--author-email={author_email}",
             ]
             cmd.run_from_argv(argv)
-            shutil.copytree(project_template_path / ".github", Path(self.project_name) / ".github")
+            shutil.copytree(
+                project_template_path / ".github", Path(self.project_name) / ".github"
+            )
+
+    def update_htmx(self):
+        with suppress(cappa.Exit, httpx.TimeoutException, httpx.ConnectError):
+            Htmx(
+                version="latest",
+                output=Path()
+                / self.project_name
+                / self.project_name
+                / "static"
+                / "vendors"
+                / "htmx"
+                / "htmx.min.js",
+            )()
