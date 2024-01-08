@@ -17,7 +17,7 @@
 ![PyPI - Versions from Framework Classifiers](https://img.shields.io/pypi/frameworkversions/django/falco-cli)
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/falco-cli)
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 
@@ -105,6 +105,7 @@ Falco is inspired by (and borrows elements from) some excellent open source proj
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/hammadarshad1"><img src="https://avatars.githubusercontent.com/u/45298916?v=4?s=100" width="100px;" alt="Muhammad Hammad"/><br /><sub><b>Muhammad Hammad</b></sub></a><br /><a href="#ideas-hammadarshad1" title="Ideas, Planning, & Feedback">🤔</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/mathiasag7"><img src="https://avatars.githubusercontent.com/u/50689712?v=4?s=100" width="100px;" alt="mathiasag7"/><br /><sub><b>mathiasag7</b></sub></a><br /><a href="https://github.com/Tobi-De/falco/commits?author=mathiasag7" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="http://mainlydata.kubadev.com"><img src="https://avatars.githubusercontent.com/u/403435?v=4?s=100" width="100px;" alt="Richard Shea"/><br /><sub><b>Richard Shea</b></sub></a><br /><a href="https://github.com/Tobi-De/falco/commits?author=shearichard" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://lexumsoft.com/"><img src="https://avatars.githubusercontent.com/u/96701299?v=4?s=100" width="100px;" alt="Waqar Khan"/><br /><sub><b>Waqar Khan</b></sub></a><br /><a href="https://github.com/Tobi-De/falco/commits?author=786raees" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
