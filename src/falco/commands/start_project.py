@@ -98,7 +98,7 @@ class StartProject:
             )
 
         self.init_project()
-        Htmx(version="latest", output=Path(self.project_name) / "static" / "js" / "htmx.min.js")()
+        Htmx(version="latest", output=Path(self.project_name) / "static" / "vendors" / "htmx" / "htmx.min.js", fail_silently=True)()
         msg = f"{RICH_SUCCESS_MARKER} Project initialized, keep up the good work!\n"
         msg += (
             f"{RICH_INFO_MARKER} If you like the project consider dropping a star at "

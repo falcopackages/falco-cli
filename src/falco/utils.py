@@ -43,12 +43,28 @@ def simple_progress(description: str, display_text="[progress.description]{task.
 
 
 @contextmanager
-def network_request_with_progress(url: str, description: str):
+def network_request_with_progress(url: str, description: str, fail_silently: bool = False):
+    """
+    A context manager for making a network request with a progress bar.
+
+    Args:
+        url (str): The URL to make the request to.
+        description (str): The description to display in the progress bar.
+        fail_silently (bool, optional): Whether to fail silently or raise an exception if the request fails. Defaults to False.
+
+    Yields:
+        httpx.Response: The response from the server.
+
+    Raises:
+        cappa.Exit: If the request fails and fail_silently is False, raises an exception with a message indicating the URL is not reachable.
+    """
     try:
         with simple_progress(description):
             yield httpx.get(url)
     except httpx.ConnectError as e:
-        raise cappa.Exit(f"Connection error, {url} is not reachable.", code=1) from e
+        if not fail_silently:
+            raise cappa.Exit(f"Connection error, {url} is not reachable.", code=1) from e
+        yield None
 
 
 class ShellCodeError(Exception):
