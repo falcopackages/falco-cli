@@ -58,7 +58,7 @@ def is_new_falco_cli_available() -> bool:
             latest_version = response.json()["info"]["version"]
             current_version = falco_version
             return latest_version != current_version
-    except httpx.HTTPError:
+    except cappa.Exit:
         return False
 
 
