@@ -21,7 +21,7 @@ accessible and you can update it as you see fit. The idea is to accelerate proje
     I think class-based views get complex faster than function-based views. Both have their use cases, but function-based views
     stay simpler to manage longer in my experience. There is an excellent document on the topic, read `django views the right way <https://spookylukey.github.io/django-views-the-right-way/>`_.
 
-If you want to see an example of the generated code, check out the `source code of the demo project <https://github.com/Tobi-De/falco/tree/main/demo/products.>`_.
+If you want to see an example of the generated code, check out the `source code of the demo project <https://github.com/Tobi-De/falco/tree/main/demo/demo/products>`_.
 
 Python code
 ^^^^^^^^^^^
