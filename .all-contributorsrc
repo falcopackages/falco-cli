@@ -35,6 +35,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "shearichard",
+      "name": "Richard Shea",
+      "avatar_url": "https://avatars.githubusercontent.com/u/403435?v=4",
+      "profile": "http://mainlydata.kubadev.com",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
