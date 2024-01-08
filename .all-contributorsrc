@@ -44,6 +44,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "786raees",
+      "name": "Waqar Khan",
+      "avatar_url": "https://avatars.githubusercontent.com/u/96701299?v=4",
+      "profile": "https://lexumsoft.com/",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
