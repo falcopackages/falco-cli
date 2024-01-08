@@ -10,7 +10,7 @@ crud
 
 This command generates htmx-powered create, read, update, and delete views for your model. It follows a similar idea
 as `neapolitan <https://github.com/carltongibson/neapolitan>`_, but with a completely different approach. Instead of inheriting
-from a class as done with `neapolitan`, this command generates basic `views`, `urls`, and HTML `templates`, and updates or overrides the
+from a class as you would with ``neapolitan``, this command generates basic ``views``, ``urls``, and HTML ``templates``, and updates or overrides the
 corresponding files in your project. I prefer this approach because, at the end, you'll have all the new code directly in front of you. It's easily
 accessible and you can update it as you see fit. The idea is to accelerate project prototyping. Write a model and you instantly have views ready for it.
 
