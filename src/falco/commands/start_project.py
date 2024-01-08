@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import shutil
 import subprocess
+from contextlib import suppress
 from pathlib import Path
 from typing import Annotated
 
@@ -9,6 +10,7 @@ import cappa
 import httpx
 from django.core.management.commands.startproject import Command as DjangoStartProject
 from falco import falco_version
+from falco.commands.htmx import Htmx
 from falco.utils import clean_project_name
 from falco.utils import get_falco_blueprints_path
 from falco.utils import network_request_with_progress
@@ -52,7 +54,7 @@ def is_new_falco_cli_available() -> bool:
             latest_version = response.json()["info"]["version"]
             current_version = falco_version
             return latest_version != current_version
-    except httpx.HTTPError:
+    except cappa.Exit:
         return False
 
 
@@ -104,6 +106,7 @@ class StartProject:
         )
 
         rich_print(msg)
+        self.update_htmx()
 
     def init_project(self) -> None:
         project_template_path = get_falco_blueprints_path() / "project_name"
@@ -122,3 +125,10 @@ class StartProject:
             ]
             cmd.run_from_argv(argv)
             shutil.copytree(project_template_path / ".github", Path(self.project_name) / ".github")
+
+    def update_htmx(self):
+        with suppress(cappa.Exit, httpx.TimeoutException, httpx.ConnectError):
+            Htmx(
+                version="latest",
+                output=Path() / self.project_name / self.project_name / "static" / "vendors" / "htmx" / "htmx.min.js",
+            )()
