@@ -301,11 +301,6 @@ That's where ``hatch-pip-compile`` comes in.
 hatch-pip-compile
 *****************
 
-.. warning::
-
-   In my experience, the hatch-pip-compile plugin may not function properly if hatch is not installed using a `binary <https://hatch.pypa.io/latest/install/#standalone-binaries>`_.
-   Therefore, ensure that you have the latest version of hatch (at least 1.8.0) and that you have installed it using the binary distribution.
-
 The `hatch-pip-compile <https://github.com/juftin/hatch-pip-compile>`_ plugin is used with hatch to automatically generate a
 requirements file (lock file) using `pip-tools <https://github.com/jazzband/pip-tools>`_. This file contains the dependencies of your hatch virtual environment with pinned versions.
 The default setup generates a ``requirements.txt`` file that can be used for installing dependencies during deployment, as shown in the provided Dockerfile. However, you can customize the plugin to save
@@ -335,6 +330,37 @@ Here is the current configuration in the ``pyproject.toml`` file relevant to hat
 .. Currently taiwindcss is the less painfull way for me to write css. I stil use bootstrap5 everyday but mostly and it still the best way for a lot of people,
 .. the change to bootstrap is quite simple.
 
+Known issues
+------------
+
+Here is a collection of known issues and their solutions that you may encounter when using the project starter.
+
+hatch-pip-compile
+^^^^^^^^^^^^^^^^^
+
+In my experience, the hatch-pip-compile plugin may not function properly if hatch is not installed using a `binary <https://hatch.pypa.io/latest/install/#standalone-binaries>`_.
+Therefore, ensure that you have the latest version of hatch (at least 1.8.0) and that you have installed it using the binary distribution.
+
+hatch and pre-commit
+^^^^^^^^^^^^^^^^^^^^
+
+If you encounter an error when trying to make a commit after installing the pre-commit hooks, the error message may look like this:
+
+.. code-block:: bash
+
+   $ An unexpected error has occurred: PermissionError: [Errno 13] Permission denied: '/usr/local/hatch/bin/hatch' Check the log at /Users/tobi/.cache/pre-commit/pre-commit.log
+
+To resolve this issue, you can change the owner of the hatch binary using the following command:
+
+.. code-block:: bash
+
+   $ sudo chown $USER /usr/local/hatch/bin/hatch
+
+If you are unsure of the location of your hatch binary, you can use the following command to change the owner:
+
+.. code-block:: bash
+
+   $ sudo chown $USER $(which hatch)
 
 Alternative starters
 --------------------
