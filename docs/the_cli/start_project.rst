@@ -284,16 +284,16 @@ For development, I think this workflow should work quite well. Now, what happens
 the deploy target machine, but I prefer having a ``requirements.txt`` file that I can use to install dependencies on the deployment machine.
 That's where ``hatch-pip-compile`` comes in.
 
-.. note::
-   :class: dropdown
+.. admonition:: why hatch?
+   :class: dropdown note
 
    Using hatch is a recent switch for me. Previously, I used `poetry <https://python-poetry.org/>`_ as my preferred tool. While poetry is still a great tool, I have chosen hatch for the following reasons:
 
-   1. Backed by the `pypa` (Python Packaging Authority), hatch aligns with the efforts to solve packaging and tooling issues in the Python ecosystem. I believe that if the Python ecosystem ever manages to overcome these challenges, it will be because the pypa has reached a consensus, and I hope that hatch will be the chosen solution. We all hope to see a cargo-like tool for Python someday.
+   1. Backed by the **pypa** (Python Packaging Authority), hatch aligns with the efforts to solve packaging and tooling issues in the Python ecosystem. I believe that if the Python ecosystem ever manages to overcome these challenges, it will be because the pypa has reached a consensus, and I hope that hatch will be the chosen solution. We all hope to see a cargo-like tool for Python someday.
 
    2. Hatch now has the ability to install and manage Python versions, along with other existing features. This brings it closer to being the all-in-one tool that every Python developer needs.
 
-   3. Hatch is PEP-friendly, making it compatible with other tools in the ecosystem. It adds minimal custom configuration to the `pyproject.toml` file and relies on existing standards for project information and dependencies.
+   3. Hatch is PEP-friendly, making it compatible with other tools in the ecosystem. It adds minimal custom configuration to the ``pyproject.toml`` file and relies on existing standards for project information and dependencies.
 
    4. In terms of performance, hatch is faster compared to poetry. While poetry is generally not slow, there have been rare instances where it took 30 minutes to install requirements. I have experienced this a few times.
 
@@ -301,12 +301,17 @@ That's where ``hatch-pip-compile`` comes in.
 hatch-pip-compile
 *****************
 
+.. warning::
+
+   In my experience, the hatch-pip-compile plugin may not function properly if hatch is not installed using a `binary <https://hatch.pypa.io/latest/install/#standalone-binaries>`_.
+   Therefore, ensure that you have the latest version of hatch (at least 1.8.0) and that you have installed it using the binary distribution.
+
 The `hatch-pip-compile <https://github.com/juftin/hatch-pip-compile>`_ plugin is used with hatch to automatically generate a
 requirements file (lock file) using `pip-tools <https://github.com/jazzband/pip-tools>`_. This file contains the dependencies of your hatch virtual environment with pinned versions.
-The default setup generates a `requirements.txt` file that can be used for installing dependencies during deployment, as shown in the provided Dockerfile. However, you can customize the plugin to save
+The default setup generates a ``requirements.txt`` file that can be used for installing dependencies during deployment, as shown in the provided Dockerfile. However, you can customize the plugin to save
 locks for all your environments. Refer to the `hatch-pip-compile documentation <https://github.com/juftin/hatch-pip-compile>`_ for more details.
 
-Here is the current configuration in the `pyproject.toml` file relevant to hatch-pip-compile:
+Here is the current configuration in the ``pyproject.toml`` file relevant to hatch-pip-compile:
 
 .. code-block:: toml
 
