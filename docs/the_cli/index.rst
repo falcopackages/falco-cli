@@ -10,17 +10,17 @@ lifecycle of your project, from project setup to deployment.
     `GitHub <https://github.com/tobi-de/falco/discussions>`_.
 
 
-The entrypoint for the CLI is the ``falco`` command. It is used to run every other subcommands.
-Most of the commands here depends on the ``manage.py`` file, so make sur to run them at the root of
-your django project.
+The entrypoint for the CLI is the ``falco`` command. It is used to execute all other subcommands.
+Most of these commands rely on the presence of the ``manage.py`` file, so ensure that you run them from the root directory of your Django project.
+Additionally, these commands require acces to your virtual environment, so make sure to activate it before executing any command.
+
 
 .. important::
 
-    There is a current issue where some commands, which depend on your Django project environment to work, such as the ``work`` or the
+    There is a known issue where certain commands, which depend on your Django project environment to work, such as the ``work`` or the
     ``crud`` commands, might occasionally fail to run. The exact cause of this issue is not entirely clear at the moment, and I've
-    experienced it a few times myself. If you are running a project generated with the ``start-project`` command (which, for example,
-    does not depend on your Django project environment), this issue should never occur. However, if it happens with other setups,
-    try installing the ``falco-cli`` in the same virtual environment as your project. This should resolve the issue.
+    experienced it a few times myself. The simplest solution for now is to install the ``falco-cli`` in the same virtual environment as your project.
+    This should resolve the issue.
 
 .. cappa:: falco.__main__.Falco
 

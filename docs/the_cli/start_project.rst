@@ -284,16 +284,16 @@ For development, I think this workflow should work quite well. Now, what happens
 the deploy target machine, but I prefer having a ``requirements.txt`` file that I can use to install dependencies on the deployment machine.
 That's where ``hatch-pip-compile`` comes in.
 
-.. note::
-   :class: dropdown
+.. admonition:: why hatch?
+   :class: dropdown note
 
    Using hatch is a recent switch for me. Previously, I used `poetry <https://python-poetry.org/>`_ as my preferred tool. While poetry is still a great tool, I have chosen hatch for the following reasons:
 
-   1. Backed by the `pypa` (Python Packaging Authority), hatch aligns with the efforts to solve packaging and tooling issues in the Python ecosystem. I believe that if the Python ecosystem ever manages to overcome these challenges, it will be because the pypa has reached a consensus, and I hope that hatch will be the chosen solution. We all hope to see a cargo-like tool for Python someday.
+   1. Backed by the **pypa** (Python Packaging Authority), hatch aligns with the efforts to solve packaging and tooling issues in the Python ecosystem. I believe that if the Python ecosystem ever manages to overcome these challenges, it will be because the pypa has reached a consensus, and I hope that hatch will be the chosen solution. We all hope to see a cargo-like tool for Python someday.
 
    2. Hatch now has the ability to install and manage Python versions, along with other existing features. This brings it closer to being the all-in-one tool that every Python developer needs.
 
-   3. Hatch is PEP-friendly, making it compatible with other tools in the ecosystem. It adds minimal custom configuration to the `pyproject.toml` file and relies on existing standards for project information and dependencies.
+   3. Hatch is PEP-friendly, making it compatible with other tools in the ecosystem. It adds minimal custom configuration to the ``pyproject.toml`` file and relies on existing standards for project information and dependencies.
 
    4. In terms of performance, hatch is faster compared to poetry. While poetry is generally not slow, there have been rare instances where it took 30 minutes to install requirements. I have experienced this a few times.
 
@@ -303,10 +303,10 @@ hatch-pip-compile
 
 The `hatch-pip-compile <https://github.com/juftin/hatch-pip-compile>`_ plugin is used with hatch to automatically generate a
 requirements file (lock file) using `pip-tools <https://github.com/jazzband/pip-tools>`_. This file contains the dependencies of your hatch virtual environment with pinned versions.
-The default setup generates a `requirements.txt` file that can be used for installing dependencies during deployment, as shown in the provided Dockerfile. However, you can customize the plugin to save
+The default setup generates a ``requirements.txt`` file that can be used for installing dependencies during deployment, as shown in the provided Dockerfile. However, you can customize the plugin to save
 locks for all your environments. Refer to the `hatch-pip-compile documentation <https://github.com/juftin/hatch-pip-compile>`_ for more details.
 
-Here is the current configuration in the `pyproject.toml` file relevant to hatch-pip-compile:
+Here is the current configuration in the ``pyproject.toml`` file relevant to hatch-pip-compile:
 
 .. code-block:: toml
 
@@ -322,6 +322,25 @@ Here is the current configuration in the `pyproject.toml` file relevant to hatch
    lock-filename = "requirements.txt"
 
 
+
+Working without hatch
+*********************
+
+You don't have to use Hatch if you don't want to. Thanks to Hatch being very PEP-friendly, you can use the ``pyproject.toml`` file with recent versions of
+pip to install the main dependencies of the project. You won't be able to use the scripts (for that, you can use `peothepoet <https://github.com/nat-n/poethepoet>`_) or any other Hatch features,
+but you may not need them.
+
+Let's assume you want to use the classic ``venv``. Here's what the workflow would look like:
+
+1. Remove any Hatch-related configuration from the pyproject.toml file, including anything starting with ``[tool.hatch]``. This step is optional and up to your choice.
+2. Create a virtual environment using ``python -m venv venv``.
+3. Activate the virtual environment using ``source venv/bin/activate``.
+4. Install the dependencies using ``pip install -e .``. This command will install your project and its dependencies using the ``pyproject.toml`` file.
+
+To add or remove dependencies, the process is the same. You edit the ``[project.dependencies]`` section of the pyproject.toml file and run ``pip install -e .``. You can complement
+this workflow with `pip-tools <https://github.com/jazzband/pip-tools>`_ to generate a requirements file.
+
+
 ..
 .. CSS Framework
 .. ^^^^^^^^^^^^^
@@ -330,6 +349,37 @@ Here is the current configuration in the `pyproject.toml` file relevant to hatch
 .. Currently taiwindcss is the less painfull way for me to write css. I stil use bootstrap5 everyday but mostly and it still the best way for a lot of people,
 .. the change to bootstrap is quite simple.
 
+Known issues
+------------
+
+Here is a collection of known issues and their solutions that you may encounter when using the project starter.
+
+hatch-pip-compile
+^^^^^^^^^^^^^^^^^
+
+In my experience, the hatch-pip-compile plugin may not function properly if hatch is not installed using a `binary <https://hatch.pypa.io/latest/install/#standalone-binaries>`_.
+Therefore, ensure that you have the latest version of hatch (at least 1.8.0) and that you have installed it using the binary distribution.
+
+hatch and pre-commit
+^^^^^^^^^^^^^^^^^^^^
+
+If you encounter an error when trying to make a commit after installing the pre-commit hooks, the error message may look like this:
+
+.. code-block:: bash
+
+   $ An unexpected error has occurred: PermissionError: [Errno 13] Permission denied: '/usr/local/hatch/bin/hatch' Check the log at /Users/tobi/.cache/pre-commit/pre-commit.log
+
+To resolve this issue, you can change the owner of the hatch binary using the following command:
+
+.. code-block:: bash
+
+   $ sudo chown $USER /usr/local/hatch/bin/hatch
+
+If you are unsure of the location of your hatch binary, you can use the following command to change the owner:
+
+.. code-block:: bash
+
+   $ sudo chown $USER $(which hatch)
 
 Alternative starters
 --------------------
