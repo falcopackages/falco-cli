@@ -322,6 +322,25 @@ Here is the current configuration in the ``pyproject.toml`` file relevant to hat
    lock-filename = "requirements.txt"
 
 
+
+Working without hatch
+*********************
+
+You don't have to use Hatch if you don't want to. Thanks to Hatch being very PEP-friendly, you can use the ``pyproject.toml`` file with recent versions of
+pip to install the main dependencies of the project. You won't be able to use the scripts (for that, you can use `peothepoet <https://github.com/nat-n/poethepoet>`_) or any other Hatch features,
+but you may not need them.
+
+Let's assume you want to use the classic ``venv``. Here's what the workflow would look like:
+
+1. Remove any Hatch-related configuration from the pyproject.toml file, including anything starting with ``[tool.hatch]``. This step is optional and up to your choice.
+2. Create a virtual environment using ``python -m venv venv``.
+3. Activate the virtual environment using ``source venv/bin/activate``.
+4. Install the dependencies using ``pip install -e .``. This command will install your project and its dependencies using the ``pyproject.toml`` file.
+
+To add or remove dependencies, the process is the same. You edit the ``[project.dependencies]`` section of the pyproject.toml file and run ``pip install -e .``. You can complement
+this workflow with `pip-tools <https://github.com/jazzband/pip-tools>`_ to generate a requirements file.
+
+
 ..
 .. CSS Framework
 .. ^^^^^^^^^^^^^
