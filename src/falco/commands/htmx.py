@@ -23,7 +23,7 @@ def get_latest_tag(fail_silently) -> str:
 class Htmx:
     version: Annotated[str, cappa.Arg(default="latest")]
     output: Annotated[Path, cappa.Arg(default=Path("htmx.min.js"), short="-o", long="--output")]
-    fail_silently: Annotated[bool, cappa.Arg(default=False, short="-f", long="--fail-silently")]
+    fail_silently: Annotated[bool, cappa.Arg(default=False, short="-f", long="--fail-silently")] = False
 
     def __call__(self):
         latest_version = get_latest_tag(self.fail_silently)
@@ -52,9 +52,7 @@ class Htmx:
                 )
             )
         else:
-            subtitle = (
-                "You are using the default version of htmx."
-            )
+            subtitle = "You are using the default version of htmx."
             rich_print(
                 Panel(
                     f"[green]htmx with default version added successfully to {filepath} ![/green]\n[red]If you want to update the version, run the command [/red]\n[blue]falco htmx --output <path/to/htmx/>[/blue]",
