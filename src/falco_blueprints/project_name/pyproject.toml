@@ -1,36 +1,43 @@
 [build-system]
-requires = ["hatchling"]
 build-backend = "hatchling.build"
+requires = [
+  "hatchling",
+]
 
 [project]
 name = "{{ project_name }}"
 version = "0.1.0"
-description = ''
+description = ""
 readme = "README.md"
-requires-python = ">=3.11"
 authors = [{ name = "{{ author_name }}", email = "{{ author_email }}" }]
+requires-python = ">=3.11"
+classifiers = [
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+]
 dependencies = [
-  "Pillow",
-  "hiredis",
-  "redis",
   "boto3",
-  "gunicorn",
-  "sentry-sdk",
-  "whitenoise",
-  "psycopg[binary]",
   "crispy-tailwind",
   "django[argon2]",
-  "django-environ",
-  "django-model-utils",
   "django-allauth",
-  "django-template-partials",
-  "django-tailwind-cli",
-  "django-extensions",
-  "django-htmx",
   "django-anymail",
   "django-browser-reload",
   "django-debug-toolbar",
+  "django-environ",
+  "django-extensions",
   "django-fastdev",
+  "django-htmx",
+  "django-model-utils",
+  "django-tailwind-cli",
+  "django-template-partials",
+  "gunicorn",
+  "hiredis",
+  "Pillow",
+  "psycopg[binary]",
+  "redis",
+  "sentry-sdk",
+  "whitenoise",
 ]
 
 [tool.hatch.env]
@@ -43,7 +50,7 @@ type = "pip-compile"
 pip-compile-constraint = "default"
 pip-compile-installer = "pip-sync"
 lock-filename = "requirements.txt"
-dependencies = ["dj-notebook>=0.6.1", "Werkzeug[watchdog]>=3.0.1", "pre-commit"]
+dependencies = ["dj-notebook>=0.6.1", "Werkzeug[watchdog]>=3.0.1", "pre-commit", "django-stubs[compatible-mypy]"]
 
 [tool.hatch.envs.default.scripts]
 runserver = ["migrate", "python manage.py tailwind runserver {args}"]
@@ -71,42 +78,21 @@ test-cov = "coverage run -m pytest {args:tests}"
 cov-report = ["- coverage combine", "coverage report"]
 cov = ["test-cov", "cov-report"]
 
-[tool.hatch.envs.lint]
-dependencies = [
-  "mypy",
-  "django-stubs",
-  "curlylint",
-  "reorder-python-imports",
-  "djhtml",
-  "ruff",
-  "pyupgrade",
-  "django-upgrade",
-  "autoflake",
-]
+[tool.black]
+line-length = 120
+target-version = ['py311']
 
-[tool.hatch.envs.lint.scripts]
-run-mypy = "mypy {args:.}"
-run-format = "hatch fmt --formatter"
-run-autoflake = "autoflake --in-place --remove-all-unused-imports --remove-unused-variables --expand-star-imports --exclude=.*/__init__.py {args:.}"
-run-reorder-python-imports = "reorder-python-imports config/*.py {args:./*/*/*.py}"
-run-ruff = "ruff check --quiet --fix --exit-non-zero-on-fix {args:.}"
-run-curlylint = "curlylint {args:.}"
-run-djhtml = "djhtml --tabwidth 4 {args:.}"
-run-pyupgrade = "pyupgrade --py311-plus {args}"
-run-all-pyupgrade = "git ls-files -- '*.py' | xargs pyupgrade --py311-plus"
-run-django-upgrade = "django-upgrade --target-version 4.2 {args}"
-run-all-django-upgrade = "git ls-files -- '*.py' | xargs django-upgrade --target-version 4.2"
-python = [
-  "run-pyright",
-  "run-format",
-  "run-reorder-python-imports",
-  "run-autoflake",
-  "run-ruff",
-  "run-all-pyupgrade",
-  "run-all-django-upgrade",
-]
-templates = ["run-curlylint", "run-djhtml"]
-all = ["python", "templates"]
+[tool.coverage.run]
+source_pkgs = ["{{ project_name }}", "tests"]
+branch = true
+parallel = true
+
+[tool.coverage.paths]
+{{ project_name }} = ["*/{{ project_name }}/{{ project_name }}"]
+tests = ["tests", "*/{{ project_name }}/tests"]
+
+[tool.coverage.report]
+exclude_lines = ["no cov", "if __name__ == .__main__.:", "if TYPE_CHECKING:"]
 
 [tool.mypy]
 python_version = "3.11"
@@ -148,14 +134,20 @@ meta_viewport = true
 no_autofocus = true
 tabindex_no_positive = true
 
-[tool.coverage.run]
-source_pkgs = ["{{ project_name }}", "tests"]
-branch = true
-parallel = true
+[tool.djlint]
+blank_line_after_tag = "load,extends"
+close_void_tags = true
+format_css = true
+format_js = true
+# TODO: remove T002 when fixed https://github.com/Riverside-Healthcare/djLint/issues/687
+ignore = "H006,H030,H031,T002"
+include = "H017,H035"
+indent = 2
+max_line_length = 120
+profile = "django"
 
-[tool.coverage.paths]
-{{ project_name }} = ["*/{{ project_name }}/{{ project_name }}"]
-tests = ["tests", "*/{{ project_name }}/tests"]
+[tool.djlint.css]
+indent_size = 2
 
-[tool.coverage.report]
-exclude_lines = ["no cov", "if __name__ == .__main__.:", "if TYPE_CHECKING:"]
+[tool.djlint.js]
+indent_size = 2

@@ -1,11 +1,11 @@
 # See https://pre-commit.com for more information
 # See https://pre-commit.com/hooks.html for more hooks
 default_language_version:
-  python: python3.11
+  python: python3.11 # TODO: change this to your system's Python version
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v4.5.0
     hooks:
       - id: trailing-whitespace
       - id: end-of-file-fixer
@@ -17,52 +17,56 @@ repos:
       - id: check-symlinks
       - id: check-json
 
+  - repo: https://github.com/myint/autoflake
+    rev: v2.2.1
+    hooks:
+      - id: autoflake
+        exclude: .*/__init__.py
+        args:
+          - --in-place
+          - --remove-all-unused-imports
+          - --expand-star-imports
+          - --remove-duplicate-keys
+          - --remove-unused-variables
+
+  - repo: https://github.com/psf/black
+    rev: 23.12.1
+    hooks:
+      - id: black
+
+  - repo: https://github.com/asottile/reorder_python_imports
+    rev: v3.12.0
+    hooks:
+      - id: reorder-python-imports
+        args:
+          - "--application-directories={{ project_name }}"
+
+  - repo: https://github.com/Riverside-Healthcare/djLint
+    rev: v1.34.1
+    hooks:
+      - id: djlint-reformat-django
+      - id: djlint-django
+
+  - repo: https://github.com/asottile/pyupgrade
+    rev: 'v3.15.0'
+    hooks:
+      - id: pyupgrade
+
+  - repo: https://github.com/adamchainz/django-upgrade
+    rev: "1.15.0"
+    hooks:
+    -   id: django-upgrade
+        args: [--target-version, "5.0"]
+
+  - repo: https://github.com/tox-dev/pyproject-fmt
+    rev: "1.6.0"
+    hooks:
+      - id: pyproject-fmt
+
   - repo: local
     hooks:
-      - id: pyright
-        name: Run pyright
-        entry: hatch run lint:run-pyright
-        language: system
-        files: \.py$
-
-      - id: ruff
-        name: Run ruff lint
-        entry: hatch run lint:run-ruff
-        language: system
-        files: \.py$
-
-      - id: ruff-format
-        name: Run run format
-        entry: hatch run lint:run-format
-        language: system
-        files: \.py$
-
-      - id: ruff-format
-        name: Run run reorder-python-imports
-        entry: hatch run lint:run-reorder-python-imports
-        language: system
-        files: \.py$
-
-      - id: curlylint
-        name: Run curlylint
-        entry: hatch run lint:run-curlylint
-        language: system
-        files: \.html$
-
-      - id: djhtml
-        name: Run djhtml
-        entry: hatch run lint:djhtml
-        language: system
-        files: \.html$
-
-      - id: pyupgrade
-        name: Run pyupgrade
-        entry: hatch run lint:run-all-pyupgrade
-        language: system
-        files: \.py$
-
-      - id: django-upgrade
-        name: Run django-upgrade
-        entry: hatch run lint:run-all-django-upgrade
+      - id: mypy
+        name: Run mypt
+        entry: hatch run mypy
         language: system
         files: \.py$

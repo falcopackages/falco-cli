@@ -25,6 +25,8 @@ hatch shell
 git init && pre-commit install
 ```
 
+Ensure that the Python version specified in your `.pre-commit-config.yaml` file aligns with the Python version installed on your system.
+
 ### Create a `.env` file
 
 ```shell
@@ -54,3 +56,4 @@ hr runserver
 # if you've added falco-cli as a dependency to your project
 falco work
 ```
+
