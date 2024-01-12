@@ -11,6 +11,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v3
+      - name: Install mermaid cli
+        run: |
+          npm install -g @mermaid-js/mermaid-cli
       - name: Install hatch
         run: |
           pip install hatch

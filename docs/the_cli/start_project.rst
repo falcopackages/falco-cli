@@ -148,7 +148,7 @@ Let's look at a quick example:
 
 The htmx attributes defined above basically say:
 *when the form is submitted, make an asynchronous JavaScript request to the URL `add_element` and add the content of the response before the end (before the last child) element of
-the element with the ID ``element-list``.*
+the element with the ID `element-list` .*
 
 The complementary Django code on the backend would look something like this:
 
