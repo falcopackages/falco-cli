@@ -64,6 +64,13 @@ html_favicon = "../assets/falco-logo.svg"
 html_css_files = [
     "custom.css",
 ]
+# <script defer data-domain="falco.oluwatobi.dev" src="http://plausible.service.dotfm.me/js/script.js"></script>
+html_js_files = [
+    (
+        "https://plausible.service.dotfm.me/js/script.js",
+        {"defer": "", "data-domain": "falco.oluwatobi.dev"},
+    )
+]
 
 # -- Mermaid configuration -----------------------------------------------------
 mermaid_version = "10.6.1"
