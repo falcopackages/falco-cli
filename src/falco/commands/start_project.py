@@ -8,6 +8,7 @@ from typing import Annotated
 
 import cappa
 import httpx
+from django.core.management import CommandError
 from django.core.management.commands.startproject import Command as DjangoStartProject
 from falco import falco_version
 from falco.commands.htmx import Htmx
@@ -33,8 +34,12 @@ def get_authors_info() -> tuple[str, str]:
     default_author_email = "tobidegnon@proton.me"
     git_config_cmd = ["git", "config", "--global", "--get"]
     try:
-        user_name_cmd = subprocess.run(git_config_cmd + ["user.name"], capture_output=True, text=True)
-        user_email_cmd = subprocess.run(git_config_cmd + ["user.email"], capture_output=True, text=True)
+        user_name_cmd = subprocess.run(
+            git_config_cmd + ["user.name"], capture_output=True, text=True
+        )
+        user_email_cmd = subprocess.run(
+            git_config_cmd + ["user.email"], capture_output=True, text=True
+        )
     except FileNotFoundError:
         return default_author_name, default_author_email
     if user_email_cmd.returncode != 0:
@@ -62,8 +67,9 @@ def is_new_falco_cli_available() -> bool:
 class StartProject:
     project_name: Annotated[
         str,
-        cappa.Arg(parse=clean_project_name),
+        cappa.Arg(parse=clean_project_name, help="Name of the project to create."),
     ]
+    directory: Annotated[Path | None, cappa.Arg(help="Directory to create project in.")]
     skip_new_version_check: Annotated[
         bool,
         cappa.Arg(
@@ -92,13 +98,7 @@ class StartProject:
                 )
                 raise cappa.Exit(code=0)
 
-        if Path(self.project_name).exists():
-            raise cappa.Exit(
-                f"A directory with the name {self.project_name} already exists in the current directory",
-                code=1,
-            )
-
-        self.init_project()
+        project_dir = self.init_project()
         msg = f"{RICH_SUCCESS_MARKER} Project initialized, keep up the good work!\n"
         msg += (
             f"{RICH_INFO_MARKER} If you like the project consider dropping a star at "
@@ -106,13 +106,12 @@ class StartProject:
         )
 
         rich_print(msg)
-        self.update_htmx()
+        self.update_htmx(project_dir)
 
-    def init_project(self) -> None:
+    def init_project(self) -> Path:
         project_template_path = get_falco_blueprints_path() / "project_name"
         author_name, author_email = get_authors_info()
         with simple_progress("Initializing your new django project... :sunglasses:"):
-            cmd = StartProjectPlus()
             argv = [
                 "falco",
                 "startproject",
@@ -122,13 +121,28 @@ class StartProject:
                 "-e=py,html,toml,md,json,js,sh,yml,ipynb",
                 f"--author-name={author_name}",
                 f"--author-email={author_email}",
+                "--traceback",
             ]
-            cmd.run_from_argv(argv)
-            shutil.copytree(project_template_path / ".github", Path(self.project_name) / ".github")
+            if self.directory:
+                argv.insert(3, str(self.directory.resolve()))
+            try:
+                StartProjectPlus().run_from_argv(argv)
+            except CommandError as e:
+                raise cappa.Exit(str(e), code=1) from e
 
-    def update_htmx(self):
+            project_dir = self.directory or Path(self.project_name)
+
+            shutil.copytree(project_template_path / ".github", project_dir / ".github")
+        return project_dir
+
+    def update_htmx(self, project_dir: Path):
         with suppress(cappa.Exit, httpx.TimeoutException, httpx.ConnectError):
             Htmx(
                 version="latest",
-                output=Path() / self.project_name / self.project_name / "static" / "vendors" / "htmx" / "htmx.min.js",
+                output=project_dir
+                / self.project_name
+                / "static"
+                / "vendors"
+                / "htmx"
+                / "htmx.min.js",
             )()
