@@ -1,54 +1,40 @@
 :layout: landing
 :description: Falco is an opinionated toolkit for a modern Django development experience.
 
+.. container::
+    :name: home-head
 
-.. raw:: html
+    .. image:: https://raw.githubusercontent.com/Tobi-De/falco/main/assets/falco-logo.svg
+        :alt: Falco
+        :width: 400
+        :height: 400
 
-    <style>
-    .yue img {
-        margin-top: 0;
-        margin-bottom: 0;
-    }
-    #head {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        column-gap: 20px;
-    }
+    .. container::
 
-    @media (max-width: 600px) {
-        #head {
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-    }
+        .. raw:: html
 
-    #head h1 {
-        font-size: 4.2rem;
-        margin-top: 3.4rem;
-        margin-bottom: 1rem;
-        font-weight: 700;
-        line-height: 1.2;
-    }
-    </style>
-
-   <div id="head">
-        <img src="https://raw.githubusercontent.com/Tobi-De/falco/main/assets/falco-logo.svg" width=200 height=200>
-        <div>
             <h1>Falco</h1>
-            <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 3em;">
-                <img src="https://github.com/Tobi-De/falco/actions/workflows/documentation.yml/badge.svg">
-                <img src="https://github.com/Tobi-De/falco/actions/workflows/ci.yml/badge.svg">
-                <img src="https://badge.fury.io/py/falco-cli.svg">
-                <img src="https://img.shields.io/badge/%F0%9F%A5%9A-Hatch-4051b5.svg">
-                <img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json">
-                <img src="https://img.shields.io/badge/license-MIT-blue.svg">
-                <img src="https://img.shields.io/pypi/pyversions/falco-cli">
-                <img src="https://img.shields.io/pypi/frameworkversions/django/falco-cli">
-                <img src="https://img.shields.io/pypi/dm/falco-cli">
-            </div>
-        </div>
-   </div>
+
+        .. container:: badges
+           :name: badges
+
+           .. image:: https://github.com/Tobi-De/falco/actions/workflows/documentation.yml/badge.svg
+
+           .. image:: https://github.com/Tobi-De/falco/actions/workflows/ci.yml/badge.svg
+
+           .. image:: https://badge.fury.io/py/falco-cli.svg
+
+           .. image:: https://img.shields.io/badge/%F0%9F%A5%9A-Hatch-4051b5.svg
+
+           .. image:: https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json
+
+           .. image:: https://img.shields.io/badge/license-MIT-blue.svg
+
+           .. image:: https://img.shields.io/pypi/pyversions/falco-cli
+
+           .. image:: https://img.shields.io/pypi/frameworkversions/django/falco-cli
+
+           .. image:: https://img.shields.io/pypi/dm/falco-cli
 
 
 
