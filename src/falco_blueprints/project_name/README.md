@@ -56,4 +56,3 @@ hr runserver
 # if you've added falco-cli as a dependency to your project
 falco work
 ```
-
