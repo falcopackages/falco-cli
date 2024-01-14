@@ -17,23 +17,6 @@ repos:
       - id: check-symlinks
       - id: check-json
 
-  - repo: https://github.com/myint/autoflake
-    rev: v2.2.1
-    hooks:
-      - id: autoflake
-        exclude: .*/__init__.py
-        args:
-          - --in-place
-          - --remove-all-unused-imports
-          - --expand-star-imports
-          - --remove-duplicate-keys
-          - --remove-unused-variables
-
-  - repo: https://github.com/psf/black
-    rev: 23.12.1
-    hooks:
-      - id: black
-
   - repo: https://github.com/asottile/reorder_python_imports
     rev: v3.12.0
     hooks:
@@ -46,11 +29,6 @@ repos:
     hooks:
       - id: djlint-reformat-django
       - id: djlint-django
-
-  - repo: https://github.com/asottile/pyupgrade
-    rev: 'v3.15.0'
-    hooks:
-      - id: pyupgrade
 
   - repo: https://github.com/adamchainz/django-upgrade
     rev: "1.15.0"
@@ -70,3 +48,9 @@ repos:
         entry: hatch run mypy
         language: system
         files: \.py$
+
+      - id: hatch fmt
+        name: run hatch fmt
+        entry: hatch fmt
+        language: system
+        files: \.py
