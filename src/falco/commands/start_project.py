@@ -34,12 +34,8 @@ def get_authors_info() -> tuple[str, str]:
     default_author_email = "tobidegnon@proton.me"
     git_config_cmd = ["git", "config", "--global", "--get"]
     try:
-        user_name_cmd = subprocess.run(
-            git_config_cmd + ["user.name"], capture_output=True, text=True
-        )
-        user_email_cmd = subprocess.run(
-            git_config_cmd + ["user.email"], capture_output=True, text=True
-        )
+        user_name_cmd = subprocess.run(git_config_cmd + ["user.name"], capture_output=True, text=True)
+        user_email_cmd = subprocess.run(git_config_cmd + ["user.email"], capture_output=True, text=True)
     except FileNotFoundError:
         return default_author_name, default_author_email
     if user_email_cmd.returncode != 0:
@@ -139,10 +135,5 @@ class StartProject:
         with suppress(cappa.Exit, httpx.TimeoutException, httpx.ConnectError):
             Htmx(
                 version="latest",
-                output=project_dir
-                / self.project_name
-                / "static"
-                / "vendors"
-                / "htmx"
-                / "htmx.min.js",
+                output=project_dir / self.project_name / "static" / "vendors" / "htmx" / "htmx.min.js",
             )()
