@@ -24,7 +24,9 @@ class SyncDotenv:
         ),
     ]
 
-    def __call__(self, project_name: Annotated[str, cappa.Dep(get_current_dir_as_project_name)]):
+    def __call__(
+        self, project_name: Annotated[str, cappa.Dep(get_current_dir_as_project_name)]
+    ):
         dotenv_file = Path(".env")
         dotenv_template_file = Path(".env.template")
 
@@ -33,7 +35,7 @@ class SyncDotenv:
             "DJANGO_ENV": "dev",
             "DJANGO_SECRET_KEY": secrets.token_urlsafe(64),
             "DJANGO_ALLOWED_HOSTS": "*",
-            "DATABASE_URL": "sqlite:///db.sqlite",
+            "DATABASE_URL": "sqlite:///db.sqlite3",
             "DJANGO_SUPERUSER_EMAIL": "",
             "DJANGO_SUPERUSER_PASSWORD": "",
         }
@@ -50,7 +52,9 @@ class SyncDotenv:
                     config[key] = Prompt.ask(f"{key}")
             postgres_user = Prompt.ask("Postgres user", default="postgres")
             postgres_password = Prompt.ask("Postgres password", default="postgres")
-            config["DATABASE_URL"] = f"postgres://{postgres_user}:{postgres_password}@127.0.0.1:5432/{project_name}"
+            config[
+                "DATABASE_URL"
+            ] = f"postgres://{postgres_user}:{postgres_password}@127.0.0.1:5432/{project_name}"
 
         sorted_config = dict(sorted(config.items(), key=lambda x: str(x[0])))
 
@@ -79,4 +83,6 @@ class SyncDotenv:
                 encoding="utf-8",
             )
 
-        rich_print(f"[green] {dotenv_file} and {dotenv_template_file} synchronised [/green]")
+        rich_print(
+            f"[green] {dotenv_file} and {dotenv_template_file} synchronised [/green]"
+        )

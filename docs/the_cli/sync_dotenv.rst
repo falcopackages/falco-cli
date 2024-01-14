@@ -40,7 +40,7 @@ The command uses the following default values:
   DJANGO_SECRET_KEY = <a_randomly_generated_secure_token>
   DJANGO_ENV = dev
   DJANGO_ALLOWED_HOSTS = *
-  DATABASE_URL = sqlite:///db.sqlite
+  DATABASE_URL = sqlite:///db.sqlite3
   DJANGO_SUPERUSER_EMAIL =
   DJANGO_SUPERUSER_PASSWORD =
 
