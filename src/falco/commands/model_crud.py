@@ -80,12 +80,13 @@ def extract_content_from(text: str, start_comment: str, end_comment: str):
 
 
 def get_urls(model_name_lower: str, urlsafe_model_verbose_name_plural: str) -> str:
+    prefix = urlsafe_model_verbose_name_plural
     return f"""
-        path('{urlsafe_model_verbose_name_plural}/', views.{model_name_lower}_list, name='{model_name_lower}_list'),
-        path('{urlsafe_model_verbose_name_plural}/create/', views.{model_name_lower}_create, name='{model_name_lower}_create'),
-        path('{urlsafe_model_verbose_name_plural}/<int:pk>/', views.{model_name_lower}_detail, name='{model_name_lower}_detail'),
-        path('{urlsafe_model_verbose_name_plural}/<int:pk>/update/', views.{model_name_lower}_update, name='{model_name_lower}_update'),
-        path('{urlsafe_model_verbose_name_plural}/<int:pk>/delete/', views.{model_name_lower}_delete, name='{model_name_lower}_delete'),
+        path('{prefix}/', views.{model_name_lower}_list, name='{model_name_lower}_list'),
+        path('{prefix}/create/', views.{model_name_lower}_create, name='{model_name_lower}_create'),
+        path('{prefix}/<int:pk>/', views.{model_name_lower}_detail, name='{model_name_lower}_detail'),
+        path('{prefix}/<int:pk>/update/', views.{model_name_lower}_update, name='{model_name_lower}_update'),
+        path('{prefix}/<int:pk>/delete/', views.{model_name_lower}_delete, name='{model_name_lower}_delete'),
     """
 
 
@@ -116,9 +117,9 @@ def run_python_formatters(filepath: str):
     ]
     black = ["black", filepath]
     isort = ["isort", filepath]
-    subprocess.run(autoflake, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    subprocess.run(isort, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    subprocess.run(black, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    subprocess.run(autoflake, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
+    subprocess.run(isort, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
+    subprocess.run(black, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
 
 
 @simple_progress("Running html formatters")
@@ -126,7 +127,7 @@ def run_html_formatters(filepath: str):
     # djhtml = ["djhtml", filepath, "--tabwidth=4"]
     djlint = ["djlint", filepath, "--reformat"]
     # subprocess.run(djhtml, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    subprocess.run(djlint, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    subprocess.run(djlint, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
 
 
 def get_blueprints_ending_in(file_ext: str) -> list[Path]:

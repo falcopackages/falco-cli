@@ -1,4 +1,3 @@
-import socket
 from pathlib import Path
 from unittest import mock
 
@@ -35,7 +34,7 @@ def test_user_name_and_email(runner: CommandRunner, git_user_infos):
 
 
 def test_no_internet_access(runner: CommandRunner):
-    with mock.patch("socket.socket", side_effect=socket.error("Network access is cut off")):
+    with mock.patch("socket.socket", side_effect=OSError("Network access is cut off")):
         runner.invoke("start-project", "dotfm", "--skip-new-version-check")
     assert Path("dotfm").exists()
     # sourcery skip: no-loop-in-tests

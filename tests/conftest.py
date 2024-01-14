@@ -54,8 +54,7 @@ def set_git_repo_to_clean():
             mock.returncode = 0
             mock.stdout = ""
             return mock
-        else:
-            return original_run(args, **kwargs)
+        return original_run(args, **kwargs)
 
     original_run = subprocess.run
 
@@ -74,13 +73,13 @@ def git_user_infos():
             mock.returncode = 0
             mock.stdout = name
             return mock
-        elif args == ["git", "config", "--global", "--get", "user.email"]:
+        if args == ["git", "config", "--global", "--get", "user.email"]:
             mock = MagicMock()
             mock.returncode = 0
             mock.stdout = email
             return mock
-        else:
-            return original_run(args, **kwargs)
+
+        return original_run(args, **kwargs)
 
     original_run = subprocess.run
 

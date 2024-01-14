@@ -1,6 +1,5 @@
 from pathlib import Path
 from typing import Annotated
-from typing import Optional
 
 import cappa
 import httpx
@@ -17,9 +16,9 @@ REGISTRY_URL = "https://htmx-extensions.oluwatobi.dev/extensions.json"
 @cappa.command(help="Download one of htmx extensions.", name="htmx-ext")
 class HtmxExtension:
     name: Annotated[
-        Optional[str],
+        str | None,
         cappa.Arg(
-            default="",
+            default=None,
             help="The name of the extension to download.",
         ),
     ]
@@ -44,7 +43,8 @@ class HtmxExtension:
         extension = extensions.get(self.name)
 
         if not extension:
-            raise cappa.Exit(f"Could not find {self.name} extension.", code=1)
+            msg = f"Could not find {self.name} extension."
+            raise cappa.Exit(msg, code=1)
 
         with simple_progress(f"Downloading {self.name} extension"):
             download_url = extension.get("download_url")

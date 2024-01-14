@@ -5,21 +5,19 @@ from falco.utils import run_in_shell
 
 
 def makemigrations():
-    subprocess.run(["python", "manage.py", "makemigrations"])
+    subprocess.run(["python", "manage.py", "makemigrations"], check=False)
 
 
 def migrate():
-    subprocess.run(["python", "manage.py", "migrate"])
+    subprocess.run(["python", "manage.py", "migrate"], check=False)
 
 
 def change_model_attribute(django_project_dir):
     models_file = django_project_dir / "blog" / "models.py"
     models_file_content = models_file.read_text()
-    print(models_file_content)
     models_file.write_text(
         models_file_content + "\n" + "    new_attribute = models.CharField(max_length=200, default='v')\n"
     )
-    print(models_file_content)
 
 
 def insert_a_post(django_project_dir):

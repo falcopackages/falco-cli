@@ -11,31 +11,11 @@ repos:
         name: make-blueprints
         entry: hatch run make-blueprints
         language: system
-      - id: hatch-format
-        name: hatch format
-        entry: hatch fmt src/falco/ --formatter
+      - id: hatch fmt
+        name: run hatch fmt
+        entry: hatch fmt --formatter
         language: system
         files: '\.py$'
-
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
-    hooks:
-      - id: trailing-whitespace
-        exclude: '\.svg$'
-#      - id: end-of-file-fixer
-  #      - id: check-added-large-files
-
-  # - repo: https://github.com/myint/autoflake
-  #   rev: v2.2.1
-  #   hooks:
-  #     - id: autoflake
-  #       exclude: .*/__init__.py,.*/project_name/.*
-  #       args:
-  #         - --in-place
-  #         - --remove-all-unused-imports
-  #         - --expand-star-imports
-  #         - --remove-duplicate-keys
-  #         - --remove-unused-variables
 
   - repo: https://github.com/asottile/reorder_python_imports
     rev: v3.12.0

@@ -1,5 +1,3 @@
-.. highlight:: shell
-
 ============
 Contributing
 ============
@@ -13,8 +11,9 @@ You can contribute in many ways:
 The Guides
 ----------
 
-Contributions to the guides should be made via `GitHub Discussions <https://github.com/Tobi-De/falco/discussions>`_. Any contribution is welcome, even for typos and grammatical errors.
-If a contribution requires a complete rewrite of a section or an entire guide, or adds new insights (similar to an article review), proper credits will be given at the bottom of the relevant guide.
+Contributions to the guides should be made via `GitHub Discussions <https://github.com/Tobi-De/falco/discussions>`_. Any
+contribution is welcome, even for typos and grammatical errors. If a contribution requires a complete rewrite of a section or
+an entire guide, or adds new insights (similar to an article review), proper credits will be given at the bottom of the relevant guide.
 I will not accept any pull request that directly changes a guide without prior discussion on the topic, except for minor typo fixes.
 
 

@@ -43,7 +43,6 @@ class ResetMigrations:
             )
 
             if result.returncode != 0:
-                print(result.stderr)
                 raise cappa.Exit(code=1)
 
         RmMigrations(skip_git_check=self.skip_git_check, apps_dir=self.apps_dir)(project_name)

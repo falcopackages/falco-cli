@@ -32,7 +32,7 @@ Scaling strategies
 ------------------
 
 This is mostly a buzzword, people use that term to represent an app that can handle thousands or millions of requests per second.
-Scalability is a problem you want to have (that means you've made it), but people are out there solving scalability issues for 
+Scalability is a problem you want to have (that means you've made it), but people are out there solving scalability issues for
 apps that have not even been shipped, like a `classic chicken and egg <https://en.wikipedia.org/wiki/Chicken_or_the_egg>`_ problem.
 I don't have enough personal experience here to give good advice, but I'll try to provide some pointers based on what I've read and
 the little experience I have (apps I've seen even if I haven't worked on them).

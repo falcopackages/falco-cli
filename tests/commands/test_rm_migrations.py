@@ -7,7 +7,7 @@ from cappa.testing import CommandRunner
 
 
 def makemigaration():
-    subprocess.run(["python", "manage.py", "makemigrations"])
+    subprocess.run(["python", "manage.py", "makemigrations"], check=False)
 
 
 def test_rm_migrations(django_project, runner: CommandRunner, set_git_repo_to_clean):

@@ -5,11 +5,11 @@ from falco.utils import run_in_shell
 
 
 def makemigrations():
-    subprocess.run(["python", "manage.py", "makemigrations"])
+    subprocess.run(["python", "manage.py", "makemigrations"], check=False)
 
 
 def migrate():
-    subprocess.run(["python", "manage.py", "migrate"])
+    subprocess.run(["python", "manage.py", "migrate"], check=False)
 
 
 def add_settings(django_project_dir):
@@ -18,12 +18,12 @@ def add_settings(django_project_dir):
     settings_file.write_text(
         settings_content + "\n" + "SUPERUSER_USERNAME = 'admin'\n" + "SUPERUSER_PASSWORD = 'admin'"
     )
-    print(settings_file.read_text())
 
 
 def is_superuser_created():
     return run_in_shell(
-        "from django.contrib.auth.models import User; print(User.objects.filter(is_superuser=True, username='admin').exists())"
+        "from django.contrib.auth.models import User;"
+        "print(User.objects.filter(is_superuser=True, username='admin').exists())"
     )
 
 

@@ -1,3 +1,4 @@
+import ast
 import importlib.util
 import subprocess
 from contextlib import contextmanager
@@ -60,10 +61,11 @@ def run_in_shell(command: str, eval_result: bool = True):
         ["python", "manage.py", "shell", "-c", command],
         capture_output=True,
         text=True,
+        check=False,
     )
     if result.returncode != 0:
         raise ShellCodeError(result.stderr)
-    return eval(result.stdout) if eval_result else result.stdout
+    return ast.literal_eval(result.stdout) if eval_result else result.stdout
 
 
 def is_git_repo_clean() -> bool:

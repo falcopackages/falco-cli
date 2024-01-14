@@ -5,7 +5,6 @@ import cappa
 import pytest
 from cappa.testing import CommandRunner
 
-
 views_functions = ["post_list", "post_detail", "post_update", "post_create"]
 html_templates = [
     "post_list.html",
@@ -30,7 +29,6 @@ def healthy_django_project() -> bool:
         capture_output=True,
         text=True,
     )
-    print(result.stderr)
     return result.returncode == 0
 
 

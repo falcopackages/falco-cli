@@ -1,5 +1,5 @@
-import django.utils.timezone as timezone
 from django.db import models
+from django.utils import timezone
 
 
 class Product(models.Model):
