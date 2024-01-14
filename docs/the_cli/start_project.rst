@@ -146,9 +146,9 @@ Let's look at a quick example:
 
    {% endblock main %}
 
-The htmx attributes defined above basically say:
-*when the form is submitted, make an asynchronous JavaScript request to the URL `add_element` and add the content of the response before the end (before the last child) element of
-the element with the ID `element-list` .*
+The htmx attributes (prefixed with ``hx-``) defined above basically say:
+
+ when the form is submitted, make an asynchronous JavaScript request to the URL ``{% url 'add_element' %}`` and add the content of the response before the end (before the last child) element of the element with the ID ``element-list`` .
 
 The complementary Django code on the backend would look something like this:
 
@@ -159,8 +159,6 @@ The complementary Django code on the backend would look something like this:
 
    def add_element(request):
       new_element = add_new_element(request.POST)
-      template_name =  if request.htmx else "myapp/elements.html"
-
       if request.htmx:
          return render(request, "myapp/elements.html#element-partial", {"el": new_element})
       else:
@@ -172,8 +170,8 @@ choose the specific HTML fragment from the ``elements.html`` file that is enclos
 The ``htmx`` attribute on the ``request`` element is provided by django-htmx_, which is already configured in the project.
 
 This example illustrates how you can create a button that adds a new element to a list of elements on a page without reloading the entire page.
-Although this may not seem very useful, the `interactive user interfaces guide </guides/interactive_user_interfaces.html>`_ provides more practical examples to demonstrate the usefulness
-of this approach.
+Although this might not seem particularly exciting, the `interactive user interfaces guide </guides/interactive_user_interfaces.html>`_ provides more
+practical examples that demonstrate the extensive possibilities offered by this approach.
 
 
 DjangoFastDev
