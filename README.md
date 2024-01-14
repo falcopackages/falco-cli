@@ -16,9 +16,6 @@
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/falco-cli)
 ![PyPI - Versions from Framework Classifiers](https://img.shields.io/pypi/frameworkversions/django/falco-cli)
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/falco-cli)
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors-)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 
 Falco is a Django-centric toolkit designed to enhance the development experience. The CLI offers commands for initiating new projects, generating simple CRUD views for rapid prototyping, and more. Additionally, it provides a collection of guides to address common issues in web development specifically tailored to Django.
@@ -91,6 +88,12 @@ Falco is inspired by (and borrows elements from) some excellent open source proj
 - [neapolitan](https://github.com/carltongibson/neapolitan)
 
 ## Contributors
+<!-- contributors:start -->
+Thanks to the following wonderful people [emoji key](https://allcontributors.org/docs/en/emoji-key) who have helped build `falco`.
+
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
@@ -118,4 +121,4 @@ Falco is inspired by (and borrows elements from) some excellent open source proj
 <!-- prettier-ignore-end -->
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
-
+<!-- contributors:end -->
