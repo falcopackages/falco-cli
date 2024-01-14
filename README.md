@@ -50,7 +50,8 @@ pip install falco-cli
 
 > [!NOTE]
 > These are currently a work in progress. Most of them are half-written or not written at all. I hope
-> to get them in a usable state by the end of january 2024.
+> to get them in a usable state ~~by the end of january 2024~~ as soon as I can. To receive updates [subscribe to this discussion](https://github.com/Tobi-De/falco/discussions/39) or
+> follow me on [x](https://twitter.com/tobidegnon) or [mastodon](https://fosstodon.org/@tobide)
 
 If you don't find any use of the CLI, I hope you will in these guides. This is a collection of guides that address common issues in web development, specifically tailored to Django. Each guide provides solutions, patterns, and approaches that are relevant to Django projects. It is similar to the [Django topic guides](https://docs.djangoproject.com/en/5.0/topics/), but instead of focusing on components of the framework like `forms`, `models`, `views`, etc., it focuses on more general topics like `task queues`, `deployment`, `realtime`, etc.
 
