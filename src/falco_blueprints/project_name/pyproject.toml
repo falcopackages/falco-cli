@@ -111,29 +111,6 @@ ignore_errors = true
 [tool.django-stubs]
 django_settings_module = "config.settings"
 
-[tool.curlylint]
-include = '\.(html|jinja)$'
-exclude = '''
-(
-  /(
-      \.eggs           # exclude a few common directories in the root of the project
-    | \.git
-    | \.venv
-    | \.ruff_cache
-  )/
-  | webpack-stats.html # also separately exclude a file named webpack-stats.html in the root of the project
-)
-'''
-
-[tool.curlylint.rules]
-indent = 4
-aria_role = true
-django_forms_rendering = true
-image_alt = true
-meta_viewport = true
-no_autofocus = true
-tabindex_no_positive = true
-
 [tool.djlint]
 blank_line_after_tag = "load,extends"
 close_void_tags = true
