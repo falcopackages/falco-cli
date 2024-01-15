@@ -120,7 +120,7 @@ interactivity to your web app. The `interactive user interfaces guide </guides/i
 
 Let's look at a quick example:
 
-.. code-block:: html
+.. code-block:: django
    :linenos:
    :caption: elements.html
    :emphasize-lines: 4, 6, 11-13
