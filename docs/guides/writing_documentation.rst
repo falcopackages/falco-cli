@@ -40,7 +40,7 @@ Sphinx
 Installation and configuration
 ++++++++++++++++++++++++++++++
 
-Deployment your documentation
+Deploy your documentation
 +++++++++++++++++++++++++++++
 
 
