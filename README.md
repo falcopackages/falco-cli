@@ -8,7 +8,7 @@
 </h1>
 
 [![Documentation](https://github.com/Tobi-De/falco/actions/workflows/documentation.yml/badge.svg)](https://github.com/Tobi-De/falco/actions/workflows/documentation.yml)
-[![Continuous Integration](https://github.com/Tobi-De/falco/actions/workflows/ci.yml/badge.svg)](https://github.com/Tobi-De/falco/actions/workflows/ci.yml)
+[![Publish Python Package](https://github.com/Tobi-De/falco/actions/workflows/publish.yml/badge.svg)](https://github.com/Tobi-De/falco/actions/workflows/publish.yml)
 [![pypi](https://badge.fury.io/py/falco-cli.svg)](https://pypi.org/project/falco-cli/)
 [![Hatch project](https://img.shields.io/badge/%F0%9F%A5%9A-Hatch-4051b5.svg)](https://github.com/pypa/hatch)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
