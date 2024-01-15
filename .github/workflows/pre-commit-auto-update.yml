@@ -33,7 +33,7 @@ jobs:
         run: pre-commit autoupdate
 
       - name: Autoupdate generated projects
-        working-directory: "templates/project_name"
+        working-directory: "src/falco_blueprints/project_name"
         run: pre-commit autoupdate
 
       - name: Create Pull Request
