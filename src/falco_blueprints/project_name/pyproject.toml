@@ -78,6 +78,9 @@ test-cov = "coverage run -m pytest {args:tests}"
 cov-report = ["- coverage combine", "coverage report"]
 cov = ["test-cov", "cov-report"]
 
+[tool.falco.work]
+server = "python manage.py migrate && python manage.py tailwind runserver"
+
 [tool.ruff.lint]
 extend-ignore = ["TID252", "RUF012", "TRY003", "EM101", "I001", "I002"]
 
