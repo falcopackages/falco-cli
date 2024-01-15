@@ -110,7 +110,7 @@
 
                     {% if products_page.has_next %}
                         <li>
-                            <a class="{{ page_class }}}" hx-get="?page={{ products_page.next_page_number }}">
+                            <a class="{{ page_class }}" hx-get="?page={{ products_page.next_page_number }}">
                                 Next
                             </a>
                         </li>
@@ -127,5 +127,5 @@
     </div>
 
 {% endpartialdef %}
-{% endblock %}
+{% endblock content %}
 {% endverbatim %}

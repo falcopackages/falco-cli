@@ -16,7 +16,7 @@ from .models import {{model_name}}
 # CODE:START
 def {{model_name|lower}}_list(request: HttpRequest):
     {{model_name|lower}}s = {{model_name}}.objects.all()
-    template_name = "{{model_name|lower}}s/{{model_name|lower}}_list.html#table" if request.htmx else "{{model_name|lower}}s/{{model_name|lower}}_list.html"
+    template_name = "{{model_name|lower}}s/{{model_name|lower}}_list.html#table" if request.htmx else "{{model_name|lower}}s/{{model_name|lower}}_list.html"  # type: ignore
     return TemplateResponse(
         request,
         template_name,

@@ -16,7 +16,7 @@ from .models import Product
 # CODE:START
 def product_list(request: HttpRequest):
     products = Product.objects.all()
-    template_name = "products/product_list.html#table" if request.htmx else "products/product_list.html"
+    template_name = "products/product_list.html#table" if request.htmx else "products/product_list.html"  # type: ignore
     return TemplateResponse(
         request,
         template_name,
