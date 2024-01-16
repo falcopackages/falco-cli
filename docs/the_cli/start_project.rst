@@ -414,6 +414,24 @@ If you are unsure of the location of your hatch binary, you can use the followin
 
    $ sudo chown $USER $(which hatch)
 
+
+pre-commit python version
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If you encounter the following error:
+
+.. code-block:: shell
+
+   RuntimeError: failed to find interpreter for Builtin discover of python_spec='python3.11'
+
+You need to update the section below (located at the beginning of the ``.pre-commit-config.yaml`` file) to match the Python version in your virtual environment:
+
+.. code-block:: yaml
+
+   default_language_version:
+      python: python3.11 # TODO: Change this to match your virtual environment's Python version
+
+
 Alternative starters
 --------------------
 
