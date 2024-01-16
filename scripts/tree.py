@@ -1,18 +1,17 @@
 # copied from https://github.com/Textualize/rich/blob/master/examples/tree.py
-
-
 import os
 import pathlib
 import sys
 
 from rich import print
-# from rich.filesize import decimal
+from rich.console import Console
 from rich.markup import escape
+from rich.table import Table
+from rich.terminal_theme import DIMMED_MONOKAI
+from rich.terminal_theme import SVG_EXPORT_THEME
 from rich.text import Text
 from rich.tree import Tree
-from rich.console import Console
-from rich.table import Table
-from rich.terminal_theme import DIMMED_MONOKAI, SVG_EXPORT_THEME
+# from rich.filesize import decimal
 
 
 def walk_directory(directory: pathlib.Path, tree: Tree) -> None:
