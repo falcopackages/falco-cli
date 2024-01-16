@@ -45,6 +45,11 @@ dependencies = [
 [tool.hatch.metadata]
 allow-direct-references = true
 
+[tool.hatch.env]
+requires = [
+  "hatch-pip-compile"
+]
+
 [project.scripts]
 falco = "falco.__main__:main"
 
@@ -61,12 +66,17 @@ path = "src/falco/__about__.py"
 packages = ["src/falco", "src/falco_blueprints"]
 
 [tool.hatch.envs.default]
+type = "pip-compile"
+pip-compile-constraint = "default"
+pip-compile-installer = "pip-sync"
+lock-filename = "requirements.txt"
 dependencies = [
   "coverage[toml]>=6.5",
   "pytest",
   "ipython",
   "pre-commit",
 ]
+
 [tool.hatch.envs.default.scripts]
 test = "pytest {args:tests}"
 test-cov = "coverage run -m pytest {args:tests}"
@@ -79,6 +89,7 @@ cov = [
   "cov-report",
 ]
 make-blueprints = "python scripts/make_blueprints_from_demo.py"
+upgrade-deps = ["rm requirements.txt", "hatch env run --env default -- python --version"]
 
 [tool.hatch.envs.docs]
 dependencies = [
@@ -93,17 +104,16 @@ dependencies = [
   "sphinxcontrib-mermaid",
   "sphinx-autorun",
   "sphinx-github-changelog",
-  "rich-codex",
 ]
 
 [tool.hatch.envs.docs.scripts]
 serve = "sphinx-autobuild docs docs/_build/html --port 8002"
-cli-images = "rich-codex --configs docs/.rich-codex.yml  --skip-git-checks --no-confirm --terminal-theme MONOKAI"
+project-tree = "python scripts/tree.py src/falco_blueprints/project_name"
 update-readme-guides = "python scripts/update_readme_guides.py"
-prepare-deploy = ["update-readme-guides", "cli-images"]
+prepare-deploy = ["update-readme-guides", "project-tree"]
 
 [[tool.hatch.envs.all.matrix]]
-python = ["3.8", "3.9", "3.10", "3.11", "3.12"]
+python = ["3.10", "3.11", "3.12"]
 
 [tool.ruff.lint]
 extend-ignore = ["I001", "I002", "TID252", "EM101", "TCH001"]
