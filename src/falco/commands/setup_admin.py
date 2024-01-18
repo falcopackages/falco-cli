@@ -2,7 +2,7 @@ import cappa
 from falco.utils import run_in_shell
 from rich import print as rich_print
 
-make_superuser_code = """
+admin_setup_code = """
 from django.contrib.auth import get_user_model
 from django.conf import settings
 
@@ -32,10 +32,10 @@ user.save()
 
 
 @cappa.command(
-    help="Make a superuser from some pre-defined django settings.",
-    name="make-superuser",
+    help="Create a superuser from some pre-defined django settings.",
+    name="setup-admin",
 )
-class MakeSuperUser:
+class SetupAdmin:
     def __call__(self):
-        run_in_shell(make_superuser_code, eval_result=False)
+        run_in_shell(admin_setup_code, eval_result=False)
         rich_print("[green]Superuser created successfully.")

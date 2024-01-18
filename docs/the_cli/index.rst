@@ -33,4 +33,4 @@ Additionally, these commands require acces to your virtual environment, so make 
    work
    migrations
    sync_dotenv
-   make_superuser
+   setup_admin
