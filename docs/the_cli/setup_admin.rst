@@ -1,9 +1,9 @@
 :description:
 
-Make a superuser from pre-configured settings
-=============================================
+Setup admin user
+================
 
-.. cappa:: falco.commands.MakeSuperUser
+.. cappa:: falco.commands.SetupAdmin
 
 This command is designed for convenience. It allows you to set up a superuser with pre-configured settings,
 eliminating the need to enter any input. Here's how it works: it reads all the settings that start with ``SUPERUSER_``, such as

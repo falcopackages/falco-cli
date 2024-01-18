@@ -2,10 +2,10 @@ import cappa
 from falco.commands import Htmx
 from falco.commands import HtmxExtension
 from falco.commands import InstallCrudUtils
-from falco.commands import MakeSuperUser
 from falco.commands import ModelCRUD
 from falco.commands import ResetMigrations
 from falco.commands import RmMigrations
+from falco.commands import SetupAdmin
 from falco.commands import StartProject
 from falco.commands import SyncDotenv
 from falco.commands import Work
@@ -25,7 +25,7 @@ class Falco:
         | SyncDotenv
         | RmMigrations
         | ResetMigrations
-        | MakeSuperUser
+        | SetupAdmin
     ]
 
 

@@ -43,7 +43,7 @@ pip install falco-cli
 - [sync-dotenv](https://falco.oluwatobi.dev/the_cli/sync_dotenv.html): Synchronize the `.env` file with the `.env.template` file.
 - [rm-migrations](https://falco.oluwatobi.dev/the_cli/migrations.html): Remove all migrations for the specified applications directory. (development only)
 - [reset-migrations](https://falco.oluwatobi.dev/the_cli/migrations.html#reset-migrations): Delete and recreate all migrations. (development only)
-- [make-superuser](https://falco.oluwatobi.dev/the_cli/make_superuser.html): Make a superuser from some pre-defined django settings.
+- [setup-admin](https://falco.oluwatobi.dev/the_cli/setup_admin.html): Create a superuser from some pre-defined django settings.
 
 
 ## The guides
