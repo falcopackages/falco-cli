@@ -14,19 +14,7 @@ functioning normally and serving your clients. Once the assistant completes the 
 
 .. admonition:: Example
 
-        .. mermaid::
-
-                flowchart LR
-                        browser[Client]
-                        dj[Django app]
-                        broker[("Broker (e.g: redis)")]
-                        worker[Worker]
-
-                        browser-- uploads a large excel file (1) -->dj
-                        dj-- show *processing...* message (2) -->browser
-                        dj-- Enqueue Task (3) -->broker
-                        worker-- Dequeue Task (4) -->broker
-                        worker-- Process Task (5) -->worker
+        .. image:: ../images/task_queue.png
 
 
         1. A user uploads a large excel file to your web application for processing.
