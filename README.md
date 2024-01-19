@@ -65,7 +65,7 @@ If you don't find any use of the CLI, I hope you will in these guides. This is a
 - [Writing documentation](https://falco.oluwatobi.dev/guides/writing_documentation.html)
 - [Writing tests](https://falco.oluwatobi.dev/guides/writing_tests.html)
 - [Logging and monitoring](https://falco.oluwatobi.dev/guides/logging_and_monitoring.html)
-- [Deploy your project](https://falco.oluwatobi.dev/guides/deployment.html)
+- [The ultimate deployment guide](https://falco.oluwatobi.dev/guides/deployment.html)
 - [Optimizing Database Access](https://falco.oluwatobi.dev/guides/optimizing_database_access.html)
 - [Business logic in django](https://falco.oluwatobi.dev/guides/avoiding_god_models.html)
 - [Dynamic Model Schema](https://falco.oluwatobi.dev/guides/dynamic_model_schema.html)

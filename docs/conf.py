@@ -20,6 +20,7 @@ release = version
 extensions = [
     "sphinx.ext.extlinks",
     "myst_parser",
+    "sphinx.ext.todo",
     "sphinx_design",
     "sphinx_tabs.tabs",
     "sphinx_copybutton",
@@ -29,6 +30,7 @@ extensions = [
     "sphinx_github_changelog",
     "sphinxcontrib.mermaid",
 ]
+todo_include_todos = True
 extlinks = {
     "pull": ("https://github.com/tobi-de/falco/pull/%s", "pull request #%s"),
     "issue": ("https://github.com/tobi-de/falco/issues/%s", "issue #%s"),
@@ -64,7 +66,7 @@ html_favicon = "../assets/falco-logo.svg"
 html_css_files = [
     "custom.css",
 ]
-# <script defer data-domain="falco.oluwatobi.dev" src="http://plausible.service.dotfm.me/js/script.js"></script>
+
 html_js_files = [
     (
         "https://plausible.service.dotfm.me/js/script.js",
