@@ -2,7 +2,7 @@ from pathlib import Path
 from typing import Annotated
 
 import cappa
-from falco.utils import get_falco_blueprints_path
+from falco.utils import get_crud_blueprints_path
 from falco.utils import get_project_name
 from falco.utils import simple_progress
 from rich import print as rich_print
@@ -10,7 +10,7 @@ from rich import print as rich_print
 from .model_crud import extract_python_file_templates
 from .model_crud import run_python_formatters
 
-UTILS_FILE = get_falco_blueprints_path() / "crud" / "utils.py"
+UTILS_FILE = get_crud_blueprints_path() / "crud" / "utils.py"
 DEFAULT_INSTALL_PATH = "core/utils.py"
 
 

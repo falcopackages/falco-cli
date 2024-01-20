@@ -5,7 +5,7 @@ from typing import cast
 from typing import TypedDict
 
 import cappa
-from falco.utils import get_falco_blueprints_path
+from falco.utils import get_crud_blueprints_path
 from falco.utils import get_project_name
 from falco.utils import is_git_repo_clean
 from falco.utils import run_in_shell
@@ -141,7 +141,7 @@ def run_html_formatters(filepath: str):
 def get_blueprints_ending_in(file_ext: str) -> list[Path]:
     return [
         file
-        for file in (get_falco_blueprints_path() / "crud").iterdir()
+        for file in (get_crud_blueprints_path() / "crud").iterdir()
         if file.name.endswith(file_ext)
     ]
 

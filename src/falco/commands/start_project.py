@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import shutil
 import subprocess
 from contextlib import suppress
@@ -9,17 +10,19 @@ from typing import Annotated
 import cappa
 import httpx
 from cookiecutter.exceptions import CookiecutterException
-from cookiecutter.main import cookiecutter
+from cruft import create
+from cruft.exceptions import InvalidCookiecutterRepository
 from falco import falco_version
 from falco.commands.htmx import Htmx
 from falco.utils import clean_project_name
-from falco.utils import get_falco_blueprints_path
 from falco.utils import network_request_with_progress
 from falco.utils import RICH_INFO_MARKER
 from falco.utils import RICH_SUCCESS_MARKER
 from falco.utils import simple_progress
 from rich import print as rich_print
 from rich.prompt import Prompt
+from tomlkit import dumps
+from tomlkit import parse
 
 
 def get_authors_info() -> tuple[str, str]:
@@ -114,16 +117,16 @@ class StartProject:
 
         rich_print(msg)
         self.update_htmx(project_dir)
+        self.cruft_to_falco_state(project_dir)
 
     def init_project(self) -> Path:
-        project_template_path = get_falco_blueprints_path()
         author_name, author_email = get_authors_info()
         with simple_progress("Initializing your new django project... :sunglasses:"):
             try:
-                cookiecutter(
-                    str(project_template_path),
+                project_dir = create(
+                    "https://github.com/Tobi-De/falco_blueprint.git",
                     no_input=True,
-                    output_dir=str(self.directory) if self.directory else ".",
+                    output_dir=self.directory or Path(),
                     extra_context={
                         "project_name": self.project_name,
                         "project_slug": self.project_name,
@@ -135,12 +138,10 @@ class StartProject:
             except CookiecutterException as e:
                 msg = str(e).replace("Error:", "")
                 raise cappa.Exit(msg, code=1) from e
-
-            project_dir = (
-                self.directory / self.project_name
-                if self.directory
-                else Path(self.project_name)
-            )
+            except InvalidCookiecutterRepository as e:
+                raise cappa.Exit(
+                    "Network error, check your internet connection.", code=1
+                ) from e
 
             if self.is_root:
                 project_dir = self.directory / self.project_name
@@ -157,3 +158,21 @@ class StartProject:
             static_path = "static/vendors/htmx/htmx.min.js"
             base_path = project_dir if self.is_root else project_dir / self.project_name
             Htmx(version="latest", output=base_path / static_path)()
+
+    def cruft_to_falco_state(self, project_dir: Path):
+        cruft_file = (
+            project_dir.parent / ".cruft.json"
+            if self.is_root
+            else project_dir / ".cruft.json"
+        )
+        pyproject = (
+            project_dir.parent / "pyproject.toml"
+            if self.is_root
+            else project_dir / "pyproject.toml"
+        )
+        cruft_state = json.loads(cruft_file.read_text())
+        pyproject_dict = parse(pyproject.read_text())
+        pyproject_dict["tool"]["falco"]["commit"] = cruft_state["commit"]
+        pyproject_dict["tool"]["falco"]["template"] = "basic"
+        pyproject.write_text(dumps(pyproject_dict))
+        cruft_file.unlink()

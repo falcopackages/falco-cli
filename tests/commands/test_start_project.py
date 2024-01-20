@@ -2,20 +2,21 @@ from pathlib import Path
 from unittest import mock
 
 from cappa.testing import CommandRunner
-from falco.utils import get_falco_blueprints_path
 
 
 def generated_project_files(project_name) -> list[str]:
-    project_blueprint = get_falco_blueprints_path() / "{{ cookiecutter.project_name }}"
-    result = []
-    for file in project_blueprint.iterdir():
-        if "{{ cookiecutter.project_name }}" in file.name:
-            result.append(
-                file.name.replace("{{ cookiecutter.project_name }}", project_name)
-            )
-        else:
-            result.append(file.name)
-    return result
+    return [
+        project_name,
+        "pyproject.toml",
+        "README.md",
+        ".gitignore",
+        "config",
+        ".github",
+        "deploy",
+        "tests",
+        "manage.py",
+        ".env.template",
+    ]
 
 
 def test_start_project(runner: CommandRunner):

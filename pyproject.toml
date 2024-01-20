@@ -63,7 +63,7 @@ Source = "https://github.com/tobi-de/falco"
 path = "src/falco/__about__.py"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/falco", "src/falco_blueprints"]
+packages = ["src/falco"]
 
 [tool.hatch.envs.default]
 type = "pip-compile"

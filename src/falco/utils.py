@@ -18,8 +18,8 @@ RICH_COMMAND_MARKER = "[yellow]"
 RICH_COMMAND_MARKER_END = "[/yellow]"
 
 
-def get_falco_blueprints_path() -> Path:
-    package = importlib.util.find_spec("falco_blueprints")
+def get_crud_blueprints_path() -> Path:
+    package = importlib.util.find_spec("falco")
     if package is None:
         raise cappa.Exit("The falco base install path could not be found.", code=1)
     return Path(package.submodule_search_locations[0])
