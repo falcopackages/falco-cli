@@ -2,8 +2,8 @@ from pathlib import Path
 from typing import Annotated
 
 import cappa
-from falco.utils import get_current_dir_as_project_name
 from falco.utils import get_falco_blueprints_path
+from falco.utils import get_project_name
 from falco.utils import simple_progress
 from rich import print as rich_print
 
@@ -32,9 +32,7 @@ class InstallCrudUtils:
         ),
     ]
 
-    def __call__(
-        self, project_name: Annotated[str, cappa.Dep(get_current_dir_as_project_name)]
-    ):
+    def __call__(self, project_name: Annotated[str, cappa.Dep(get_project_name)]):
         if not self.apps_dir:
             self.apps_dir = Path() / project_name
 

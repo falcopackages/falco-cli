@@ -3,7 +3,7 @@ from pathlib import Path
 from typing import Annotated
 
 import cappa
-from falco.utils import get_current_dir_as_project_name
+from falco.utils import get_project_name
 from falco.utils import run_in_shell
 from falco.utils import simple_progress
 from rich import print as rich_print
@@ -33,9 +33,7 @@ class ResetMigrations:
         ),
     ]
 
-    def __call__(
-        self, project_name: Annotated[str, cappa.Dep(get_current_dir_as_project_name)]
-    ):
+    def __call__(self, project_name: Annotated[str, cappa.Dep(get_project_name)]):
         with simple_progress("Running django check..."):
             result = subprocess.run(
                 ["python", "manage.py", "check"],

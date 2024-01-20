@@ -42,6 +42,15 @@ class Post(models.Model):
     settings_content = settings_file.read_text()
     settings_file.write_text(settings_content + "\n" + "INSTALLED_APPS += ['blog']\n")
 
+    # create a pyproject.toml
+    (project_dir / "pyproject.toml").write_text(
+        """
+        [project]
+        name = "myproject"
+        version = "0.1.0"
+        """
+    )
+
     yield project_dir
     os.chdir(tmp_path)
 

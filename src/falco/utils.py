@@ -9,6 +9,7 @@ import httpx
 from rich.progress import Progress
 from rich.progress import SpinnerColumn
 from rich.progress import TextColumn
+from tomlkit import parse
 
 RICH_SUCCESS_MARKER = "[green]SUCCESS:"
 RICH_ERROR_MARKER = "[red]ERROR:"
@@ -28,9 +29,13 @@ def clean_project_name(val: str) -> str:
     return val.strip().replace(" ", "_").replace("-", "_")
 
 
-def get_current_dir_as_project_name():
-    current_dir = Path().resolve(strict=True).stem
-    return clean_project_name(current_dir)
+def get_project_name():
+    try:
+        pyproject = parse(Path("pyproject.toml").read_text())
+    except FileNotFoundError as e:
+        raise cappa.Exit("The pyproject.toml could not be found.", code=1) from e
+
+    return pyproject["project"]["name"]
 
 
 @contextmanager

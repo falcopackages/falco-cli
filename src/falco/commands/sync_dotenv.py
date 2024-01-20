@@ -7,7 +7,7 @@ from typing import Annotated
 import cappa
 from dotenv import dotenv_values
 from dotenv import set_key
-from falco.utils import get_current_dir_as_project_name
+from falco.utils import get_project_name
 from rich import print as rich_print
 from rich.prompt import Prompt
 
@@ -24,9 +24,7 @@ class SyncDotenv:
         ),
     ]
 
-    def __call__(
-        self, project_name: Annotated[str, cappa.Dep(get_current_dir_as_project_name)]
-    ):
+    def __call__(self, project_name: Annotated[str, cappa.Dep(get_project_name)]):
         dotenv_file = Path(".env")
         dotenv_template_file = Path(".env.template")
 

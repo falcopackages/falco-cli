@@ -5,8 +5,8 @@ from typing import cast
 from typing import TypedDict
 
 import cappa
-from falco.utils import get_current_dir_as_project_name
 from falco.utils import get_falco_blueprints_path
+from falco.utils import get_project_name
 from falco.utils import is_git_repo_clean
 from falco.utils import run_in_shell
 from falco.utils import simple_progress
@@ -223,9 +223,7 @@ class ModelCRUD:
         ),
     ]
 
-    def __call__(
-        self, project_name: Annotated[str, cappa.Dep(get_current_dir_as_project_name)]
-    ):
+    def __call__(self, project_name: Annotated[str, cappa.Dep(get_project_name)]):
         if not is_git_repo_clean() and not self.skip_git_check:
             raise cappa.Exit(
                 "Your git repo is not clean. Please commit or stash your changes before running this command.",

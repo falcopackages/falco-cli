@@ -35,7 +35,7 @@ dependencies = [
     "rich",
     "httpx",
     "honcho",
-    "tomli",
+    "tomlkit",
     "python-dotenv",
     "autoflake",
     "black",
