@@ -1,14 +1,11 @@
 # copied from https://github.com/Textualize/rich/blob/master/examples/tree.py
-import os
 import pathlib
-import sys
+from tempfile import TemporaryDirectory
 
-from rich import print
+from falco.commands import StartProject
 from rich.console import Console
 from rich.markup import escape
-from rich.table import Table
 from rich.terminal_theme import DIMMED_MONOKAI
-from rich.terminal_theme import SVG_EXPORT_THEME
 from rich.text import Text
 from rich.tree import Tree
 # from rich.filesize import decimal
@@ -43,20 +40,32 @@ def walk_directory(directory: pathlib.Path, tree: Tree) -> None:
             tree.add(Text(icon) + text_filename)
 
 
-try:
-    directory = os.path.abspath(sys.argv[1])
-except IndexError:
-    print("[b]Usage:[/] python tree.py <DIRECTORY>")
-else:
+def main():
     tree = Tree(
         ":open_file_folder: project_name"
         # f":open_file_folder: [link file://{directory}]{directory}",
         # guide_style="bold bright_blue",
     )
-    walk_directory(pathlib.Path(directory), tree)
+    with TemporaryDirectory() as temp:
+        temp_dir = pathlib.Path(temp)
+        StartProject(
+            project_name="my_awesome_project",
+            directory=temp_dir.resolve(),
+            is_root=True,
+            skip_new_version_check=True,
+        )()
 
-    table = Table(title="Star Wars Movies")
-    console = Console(record=True)
-    with console.capture() as capture:
-        console.print(tree)
-    console.save_svg("docs/images/project-tree.svg", title="project blueprint tree", theme=DIMMED_MONOKAI)
+        walk_directory(temp_dir, tree)
+
+        console = Console(record=True)
+        with console.capture():
+            console.print(tree)
+        console.save_svg(
+            "docs/images/project-tree.svg",
+            title="project tree",
+            theme=DIMMED_MONOKAI,
+        )
+
+
+if __name__ == "__main__":
+    main()
