@@ -6,15 +6,7 @@ from pathlib import Path
 import cappa
 from dotenv import load_dotenv
 from honcho.manager import Manager
-
-try:
-    import tomllib
-except ModuleNotFoundError:
-    import tomli as tomllib
-
-
-def read_toml(file: Path) -> dict:
-    return tomllib.loads(file.read_text())
+from tomlkit import parse
 
 
 @cappa.command(help="Run your whole django projects in one command.")
@@ -34,8 +26,10 @@ class Work:
         commands = {"server": "python manage.py migrate && python manage.py runserver"}
 
         with suppress(FileNotFoundError):
-            pyproject_config = read_toml(Path("pyproject.toml"))
-            user_commands = pyproject_config.get("tool", {}).get("falco", {}).get("work", {})
+            pyproject_config = parse(Path("pyproject.toml").read_text())
+            user_commands = (
+                pyproject_config.get("tool", {}).get("falco", {}).get("work", {})
+            )
             commands |= user_commands
 
         manager = Manager()
