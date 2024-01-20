@@ -1,0 +1,6 @@
+{
+  "project_name": "{{ cookiecutter.project_name }}",
+  "author_name": "{{ cookiecutter.author_name }}",
+  "author_email": "{{ cookiecutter.author_name }}",
+  "falco_version": "{{ cookiecutter.falco_version }}"
+}

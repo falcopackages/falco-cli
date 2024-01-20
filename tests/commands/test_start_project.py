@@ -6,11 +6,13 @@ from falco.utils import get_falco_blueprints_path
 
 
 def generated_project_files(project_name) -> list[str]:
-    project_blueprint = get_falco_blueprints_path() / "project_name"
+    project_blueprint = get_falco_blueprints_path() / "{{ cookiecutter.project_name }}"
     result = []
     for file in project_blueprint.iterdir():
-        if "project_name" in file.name:
-            result.append(file.name.replace("project_name", project_name))
+        if "{{ cookiecutter.project_name }}" in file.name:
+            result.append(
+                file.name.replace("{{ cookiecutter.project_name }}", project_name)
+            )
         else:
             result.append(file.name)
     return result

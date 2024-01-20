@@ -39,7 +39,7 @@ class UserManager(DjangoUserManager):
 
 class User(AbstractUser):
     """
-    Default custom user model for {{project_name}}.
+    Default custom user model for {{ cookiecutter.project_name }}.
     """
 
     first_name = None  # type: ignore

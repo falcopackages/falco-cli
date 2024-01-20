@@ -12,7 +12,7 @@ python_variables_mapping = {
     "product": "{{model_name|lower}}",
     "Product": "{{model_name}}",
     "Products": "{{model_name}}s",
-    "demo.core.utils": "{{project_name}}.core.utils",
+    "demo.core.utils": "{{ cookiecutter.project_name }}.core.utils",
     'fields = ("id", "name", "description", "price", "sku", "created_at")': """fields = (
         {% for item in model_fields %}
             {% if not forloop.first %}, {% endif %}"{{ item }}"

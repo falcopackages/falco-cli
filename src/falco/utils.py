@@ -34,7 +34,9 @@ def get_current_dir_as_project_name():
 
 
 @contextmanager
-def simple_progress(description: str, display_text="[progress.description]{task.description}"):
+def simple_progress(
+    description: str, display_text="[progress.description]{task.description}"
+):
     progress = Progress(SpinnerColumn(), TextColumn(display_text), transient=True)
     progress.add_task(description=description, total=None)
     try:
@@ -70,7 +72,9 @@ def run_in_shell(command: str, eval_result: bool = True):
 
 def is_git_repo_clean() -> bool:
     try:
-        result = subprocess.run(["git", "status", "--porcelain"], capture_output=True, text=True, check=True)
+        result = subprocess.run(
+            ["git", "status", "--porcelain"], capture_output=True, text=True, check=True
+        )
         return result.stdout.strip() == ""
     except subprocess.CalledProcessError:
         return False

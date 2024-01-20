@@ -14,7 +14,9 @@ UTILS_FILE = get_falco_blueprints_path() / "crud" / "utils.py"
 DEFAULT_INSTALL_PATH = "core/utils.py"
 
 
-@cappa.command(help="Install utils necessary for CRUD views.", name="install-crud-utils")
+@cappa.command(
+    help="Install utils necessary for CRUD views.", name="install-crud-utils"
+)
 class InstallCrudUtils:
     apps_dir: Annotated[
         Path | None,
@@ -30,18 +32,24 @@ class InstallCrudUtils:
         ),
     ]
 
-    def __call__(self, project_name: Annotated[str, cappa.Dep(get_current_dir_as_project_name)]):
+    def __call__(
+        self, project_name: Annotated[str, cappa.Dep(get_current_dir_as_project_name)]
+    ):
         if not self.apps_dir:
             self.apps_dir = Path() / project_name
 
         output = self.apps_dir / self.output
 
         with simple_progress("Installing crud utils"):
-            imports_template, code_template = extract_python_file_templates(UTILS_FILE.read_text())
+            imports_template, code_template = extract_python_file_templates(
+                UTILS_FILE.read_text()
+            )
             output_file = output if output.name.endswith(".py") else output / "utils.py"
             output_file.parent.mkdir(parents=True, exist_ok=True)
             (output_file.parent / "__init__.py").touch(exist_ok=True)
             output_file.touch(exist_ok=True)
-            output_file.write_text(imports_template + output_file.read_text() + code_template)
+            output_file.write_text(
+                imports_template + output_file.read_text() + code_template
+            )
         run_python_formatters(str(output_file))
         rich_print(f"[green]CRUD Utils installed successfully to {output_file}.")

@@ -22,7 +22,7 @@ repos:
     hooks:
       - id: reorder-python-imports
         args:
-          - "--application-directories={{ project_name }}"
+          - "--application-directories={{ cookiecutter.project_name }}"
 
   - repo: https://github.com/Riverside-Healthcare/djLint
     rev: v1.34.1

@@ -5,11 +5,11 @@ requires = [
 ]
 
 [project]
-name = "{{ project_name }}"
+name = "{{ cookiecutter.project_name }}"
 version = "0.1.0"
 description = ""
 readme = "README.md"
-authors = [{ name = "{{ author_name }}", email = "{{ author_email }}" }]
+authors = [{ name = "{{ cookiecutter.author_name }}", email = "{{ cookiecutter.author_email }}" }]
 requires-python = ">=3.11"
 classifiers = [
   "Programming Language :: Python :: 3 :: Only",
@@ -58,7 +58,7 @@ migrate = "python manage.py migrate {args}"
 makemigrations = "python manage.py makemigrations {args}"
 reset-db = "python manage.py reset_db --noinput"
 shell = "python manage.py shell_plus {args}"
-start-app = "python manage.py startapp {args} && mv {args} {{ project_name }} && sed -i 's/{args}/{{ project_name }}.{args}/g' {{ project_name }}/{args}/apps.py"
+start-app = "python manage.py startapp {args} && mv {args} {{ cookiecutter.project_name }} && sed -i 's/{args}/{{ cookiecutter.project_name }}.{args}/g' {{ cookiecutter.project_name }}/{args}/apps.py"
 upgrade-deps = ["rm requirements.txt", "hatch env run --env default -- python --version"]
 
 [[tool.hatch.envs.all.matrix]]
@@ -78,6 +78,9 @@ test-cov = "coverage run -m pytest {args:tests}"
 cov-report = ["- coverage combine", "coverage report"]
 cov = ["test-cov", "cov-report"]
 
+[tool.falco]
+version = "{{ cookiecutter.falco_version }}"
+
 [tool.falco.work]
 server = "python manage.py migrate && python manage.py tailwind runserver"
 
@@ -89,13 +92,13 @@ extend-ignore = ["TID252", "RUF012", "TRY003", "EM101", "I001", "I002"]
 "*/migrations/*" = ["E501"]
 
 [tool.coverage.run]
-source_pkgs = ["{{ project_name }}", "tests"]
+source_pkgs = ["{{ cookiecutter.project_name }}", "tests"]
 branch = true
 parallel = true
 
 [tool.coverage.paths]
-{{ project_name }} = ["*/{{ project_name }}/{{ project_name }}"]
-tests = ["tests", "*/{{ project_name }}/tests"]
+{{ cookiecutter.project_name }} = ["*/{{ cookiecutter.project_name }}/{{ cookiecutter.project_name }}"]
+tests = ["tests", "*/{{ cookiecutter.project_name }}/tests"]
 
 [tool.coverage.report]
 exclude_lines = ["no cov", "if __name__ == .__main__.:", "if TYPE_CHECKING:"]

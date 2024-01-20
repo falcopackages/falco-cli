@@ -14,7 +14,9 @@ print(settings.DEBUG)
 """
 
 
-@cappa.command(help="Remove all migrations for the specified applications directory, intended only for development.")
+@cappa.command(
+    help="Remove all migrations for the specified applications directory, intended only for development."
+)
 class RmMigrations:
     apps_dir: Annotated[
         Path | None,
@@ -29,7 +31,9 @@ class RmMigrations:
         ),
     ]
 
-    def __call__(self, project_name: Annotated[str, cappa.Dep(get_current_dir_as_project_name)]):
+    def __call__(
+        self, project_name: Annotated[str, cappa.Dep(get_current_dir_as_project_name)]
+    ):
         if not is_git_repo_clean() and not self.skip_git_check:
             raise cappa.Exit(
                 "Your git repo is not clean. Please commit or stash your changes before running this command.",

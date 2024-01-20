@@ -11,43 +11,43 @@ requires-python = ">=3.10"
 license = "MIT"
 keywords = ["django", "python", "cookiecutter", "project-template"]
 authors = [
-  { name = "Tobi DEGNON", email = "tobidegnon@proton.me" },
+    { name = "Tobi DEGNON", email = "tobidegnon@proton.me" },
 ]
 classifiers = [
-  "Development Status :: 4 - Beta",
-  "Programming Language :: Python",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
-  "Programming Language :: Python :: 3.12",
-  "Programming Language :: Python :: Implementation :: CPython",
-  "Programming Language :: Python :: Implementation :: PyPy",
-  "Framework :: Django :: 4",
-  "Framework :: Django :: 4.0",
-  "Framework :: Django :: 4.1",
-  "Framework :: Django :: 4.2",
-  "Framework :: Django :: 5.0",
-  "Intended Audience :: Developers",
-  "Natural Language :: English",
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "Framework :: Django :: 4",
+    "Framework :: Django :: 4.0",
+    "Framework :: Django :: 4.1",
+    "Framework :: Django :: 4.2",
+    "Framework :: Django :: 5.0",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
 ]
 dependencies = [
-  "django",
-  "cappa",
-  "rich",
-  "httpx",
-  "honcho",
-  "tomli",
-  "python-dotenv",
-  "autoflake",
-  "black",
-  "isort",
-  "djlint",
+    "cruft",
+    "cappa",
+    "rich",
+    "httpx",
+    "honcho",
+    "tomli",
+    "python-dotenv",
+    "autoflake",
+    "black",
+    "isort",
+    "djlint",
 ]
 [tool.hatch.metadata]
 allow-direct-references = true
 
 [tool.hatch.env]
 requires = [
-  "hatch-pip-compile"
+    "hatch-pip-compile"
 ]
 
 [project.scripts]
@@ -71,39 +71,41 @@ pip-compile-constraint = "default"
 pip-compile-installer = "pip-sync"
 lock-filename = "requirements.txt"
 dependencies = [
-  "coverage[toml]>=6.5",
-  "pytest",
-  "ipython",
-  "pre-commit",
+    "coverage[toml]>=6.5",
+    "pytest",
+    "ipython",
+    "pre-commit",
+    "django",
+    "pytest-cookies",
 ]
 
 [tool.hatch.envs.default.scripts]
 test = "pytest {args:tests}"
 test-cov = "coverage run -m pytest {args:tests}"
 cov-report = [
-  "- coverage combine",
-  "coverage report",
+    "- coverage combine",
+    "coverage report",
 ]
 cov = [
-  "test-cov",
-  "cov-report",
+    "test-cov",
+    "cov-report",
 ]
 make-blueprints = "python scripts/make_blueprints_from_demo.py"
 upgrade-deps = ["rm requirements.txt", "hatch env run --env default -- python --version"]
 
 [tool.hatch.envs.docs]
 dependencies = [
-  "sphinx",
-  "sphinx-autobuild",
-  "myst-parser",
-  "shibuya",
-  "sphinx-design",
-  "sphinx-tabs",
-  "sphinx-copybutton",
-  "sphinx-togglebutton",
-  "sphinxcontrib-mermaid",
-  "sphinx-autorun",
-  "sphinx-github-changelog",
+    "sphinx",
+    "sphinx-autobuild",
+    "myst-parser",
+    "shibuya",
+    "sphinx-design",
+    "sphinx-tabs",
+    "sphinx-copybutton",
+    "sphinx-togglebutton",
+    "sphinxcontrib-mermaid",
+    "sphinx-autorun",
+    "sphinx-github-changelog",
 ]
 
 [tool.hatch.envs.docs.scripts]
@@ -123,7 +125,7 @@ extend-ignore = ["I001", "I002", "TID252", "EM101", "TCH001"]
 
 [tool.hatch.envs.types]
 dependencies = [
-  "mypy>=1.0.0",
+    "mypy>=1.0.0",
 ]
 [tool.hatch.envs.types.scripts]
 check = "mypy --install-types --non-interactive {args:src/falco tests}"
@@ -133,8 +135,8 @@ source_pkgs = ["falco", "tests"]
 branch = true
 parallel = true
 omit = [
-  "src/falco/__about__.py",
-  "src/falco_blueprints/*",
+    "src/falco/__about__.py",
+    "src/falco_blueprints/*",
 ]
 
 [tool.coverage.paths]
@@ -143,15 +145,15 @@ tests = ["tests", "*/falco/tests"]
 
 [tool.coverage.report]
 exclude_lines = [
-  "no cov",
-  "if __name__ == .__main__.:",
-  "if TYPE_CHECKING:",
+    "no cov",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
 ]
 
 [tool.pytest.ini_options]
 filterwarnings = [
-  "ignore::DeprecationWarning",
+    "ignore::DeprecationWarning",
 ]
 testpaths = [
-  "tests",
+    "tests",
 ]

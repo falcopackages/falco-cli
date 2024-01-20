@@ -1,4 +1,4 @@
-{% verbatim %}
+{%- raw %}
 {% load static %}
 {% load django_htmx %}
 {% load tailwind_cli %}
@@ -10,7 +10,7 @@
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
-    {% endverbatim %}<title>{{ project_name }}</title>{% verbatim %}
+    {% endraw %}<title>{{ cookiecutter.project_name }}</title>{% raw %}
     {% tailwind_css %}
     <script defer src="{% static "vendors/htmx/htmx.min.js" %}"></script>
     {% django_htmx_script %}
@@ -24,4 +24,4 @@
     {% endblock extra_body %}
   </body>
 </html>
-{% endverbatim %}
+{%- endraw %}

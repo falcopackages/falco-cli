@@ -4,7 +4,7 @@ from pathlib import Path
 import environ
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-APPS_DIR = BASE_DIR / "{{ project_name }}"
+APPS_DIR = BASE_DIR / "{{ cookiecutter.project_name }}"
 
 env = environ.Env()
 environ.Env.read_env(BASE_DIR / ".env")
@@ -43,7 +43,10 @@ THIRD_PARTY_APPS = [
     "django_fastdev",
 ]
 
-LOCAL_APPS = ["{{ project_name }}.core", "{{ project_name }}.users"]
+LOCAL_APPS = [
+    "{{ cookiecutter.project_name }}.core",
+    "{{ cookiecutter.project_name }}.users",
+]
 
 INSTALLED_APPS = LOCAL_APPS + THIRD_PARTY_APPS + DJANGO_APPS
 
@@ -91,7 +94,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
-DATABASES = {"default": env.db("DATABASE_URL", default="postgres:///{{ project_name }}")}
+DATABASES = {
+    "default": env.db(
+        "DATABASE_URL", default="postgres:///{{ cookiecutter.project_name }}"
+    )
+}
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
@@ -128,7 +135,7 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = "optional"
-ACCOUNT_FORMS = {"signup": "{{ project_name }}.users.forms.UserSignupForm"}
+ACCOUNT_FORMS = {"signup": "{{ cookiecutter.project_name }}.users.forms.UserSignupForm"}
 
 EMAIL_BACKEND = env(
     "DJANGO_EMAIL_BACKEND",
@@ -183,7 +190,9 @@ if DJANGO_ENV == "production":
     SECURE_HSTS_SECONDS = 31536000
     SECURE_HSTS_PRELOAD = True
     # Only set this to True if you are certain that all subdomains of your domain should be served exclusively via SSL.
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = env.bool("SECURE_HSTS_INCLUDE_SUBDOMAINS", default=False)
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = env.bool(
+        "SECURE_HSTS_INCLUDE_SUBDOMAINS", default=False
+    )
 
     # email
     EMAIL_BACKEND = "anymail.backends.amazon_ses.EmailBackend"

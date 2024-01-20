@@ -8,8 +8,8 @@ from typing import Annotated
 
 import cappa
 import httpx
-from django.core.management import CommandError
-from django.core.management.commands.startproject import Command as DjangoStartProject
+from cookiecutter.exceptions import CookiecutterException
+from cookiecutter.main import cookiecutter
 from falco import falco_version
 from falco.commands.htmx import Htmx
 from falco.utils import clean_project_name
@@ -22,20 +22,17 @@ from rich import print as rich_print
 from rich.prompt import Prompt
 
 
-class StartProjectPlus(DjangoStartProject):
-    def add_arguments(self, parser):
-        super().add_arguments(parser)
-        parser.add_argument("--author-name", dest="author_name")
-        parser.add_argument("--author-email", dest="author_email")
-
-
 def get_authors_info() -> tuple[str, str]:
     default_author_name = "Tobi DEGNON"
     default_author_email = "tobidegnon@proton.me"
     git_config_cmd = ["git", "config", "--global", "--get"]
     try:
-        user_name_cmd = subprocess.run([*git_config_cmd, "user.name"], capture_output=True, text=True, check=False)
-        user_email_cmd = subprocess.run([*git_config_cmd, "user.email"], capture_output=True, text=True, check=False)
+        user_name_cmd = subprocess.run(
+            [*git_config_cmd, "user.name"], capture_output=True, text=True, check=False
+        )
+        user_email_cmd = subprocess.run(
+            [*git_config_cmd, "user.email"], capture_output=True, text=True, check=False
+        )
     except FileNotFoundError:
         return default_author_name, default_author_email
     if user_email_cmd.returncode != 0:
@@ -66,6 +63,15 @@ class StartProject:
         cappa.Arg(parse=clean_project_name, help="Name of the project to create."),
     ]
     directory: Annotated[Path | None, cappa.Arg(help="Directory to create project in.")]
+    is_root: Annotated[
+        bool,
+        cappa.Arg(
+            default=False,
+            short="-r",
+            long="--root",
+            help="Consider the specified directory as the root directory.",
+        ),
+    ]
     skip_new_version_check: Annotated[
         bool,
         cappa.Arg(
@@ -76,6 +82,10 @@ class StartProject:
     ]
 
     def __call__(self) -> None:
+        if self.is_root and not self.directory:
+            raise cappa.Exit(
+                "You need to specify a directory when using the --root flag.", code=1
+            )
         if not self.skip_new_version_check and is_new_falco_cli_available():
             message = (
                 f"{RICH_INFO_MARKER} A new version of falco-cli is available. To upgrade, run "
@@ -90,7 +100,8 @@ class StartProject:
 
             if response.lower() == "y":
                 rich_print(
-                    f"{RICH_INFO_MARKER}To see the latest features and improvements, visit https://github.com/Tobi-De/falco/releases."
+                    f"{RICH_INFO_MARKER}To see the latest features and improvements, "
+                    f"visit https://github.com/Tobi-De/falco/releases."
                 )
                 raise cappa.Exit(code=0)
 
@@ -105,35 +116,44 @@ class StartProject:
         self.update_htmx(project_dir)
 
     def init_project(self) -> Path:
-        project_template_path = get_falco_blueprints_path() / "project_name"
+        project_template_path = get_falco_blueprints_path()
         author_name, author_email = get_authors_info()
         with simple_progress("Initializing your new django project... :sunglasses:"):
-            argv = [
-                "falco",
-                "startproject",
-                self.project_name,
-                "--template",
-                str(project_template_path),
-                "-e=py,html,toml,md,json,js,sh,yml,ipynb",
-                f"--author-name={author_name}",
-                f"--author-email={author_email}",
-                "--traceback",
-            ]
-            if self.directory:
-                argv.insert(3, str(self.directory.resolve()))
             try:
-                StartProjectPlus().run_from_argv(argv)
-            except CommandError as e:
-                raise cappa.Exit(str(e), code=1) from e
+                cookiecutter(
+                    str(project_template_path),
+                    no_input=True,
+                    output_dir=str(self.directory) if self.directory else ".",
+                    extra_context={
+                        "project_name": self.project_name,
+                        "project_slug": self.project_name,
+                        "author_name": author_name,
+                        "author_email": author_email,
+                        "falco_version": falco_version,
+                    },
+                )
+            except CookiecutterException as e:
+                msg = str(e).replace("Error:", "")
+                raise cappa.Exit(msg, code=1) from e
 
-            project_dir = self.directory or Path(self.project_name)
+            project_dir = (
+                self.directory / self.project_name
+                if self.directory
+                else Path(self.project_name)
+            )
 
-            shutil.copytree(project_template_path / ".github", project_dir / ".github")
+            if self.is_root:
+                project_dir = self.directory / self.project_name
+                tmp_project_dir = self.directory / "tmp"
+                shutil.move(project_dir, tmp_project_dir)
+                for obj in tmp_project_dir.iterdir():
+                    shutil.move(obj, self.directory)
+                tmp_project_dir.rmdir()
+
         return project_dir
 
     def update_htmx(self, project_dir: Path):
         with suppress(cappa.Exit, httpx.TimeoutException, httpx.ConnectError):
-            Htmx(
-                version="latest",
-                output=project_dir / self.project_name / "static" / "vendors" / "htmx" / "htmx.min.js",
-            )()
+            static_path = "static/vendors/htmx/htmx.min.js"
+            base_path = project_dir if self.is_root else project_dir / self.project_name
+            Htmx(version="latest", output=base_path / static_path)()
