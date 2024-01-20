@@ -72,6 +72,17 @@ def set_git_repo_to_clean():
 
 
 @pytest.fixture
+def pyproject_toml(tmp_path):
+    (tmp_path / "pyproject.toml").write_text(
+        """
+        [project]
+        name = "myproject"
+        version = "0.1.0"
+        """
+    )
+
+
+@pytest.fixture
 def git_user_infos():
     name = "John Doe"
     email = "johndoe@example.com"

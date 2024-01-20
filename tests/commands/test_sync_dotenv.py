@@ -3,7 +3,7 @@ from pathlib import Path
 from cappa.testing import CommandRunner
 
 
-def test_sync_dotenv(runner: CommandRunner):
+def test_sync_dotenv(runner: CommandRunner, pyproject_toml):
     runner.invoke("sync-dotenv")
     env_file = Path(".env")
     env_template_file = Path(".env.template")
@@ -13,7 +13,7 @@ def test_sync_dotenv(runner: CommandRunner):
     assert "DJANGO_DEBUG=" in env_template_file.read_text()
 
 
-def test_sync_dotenv_update_files(runner: CommandRunner):
+def test_sync_dotenv_update_files(runner: CommandRunner, pyproject_toml):
     env_file = Path(".env")
     env_template_file = Path(".env.template")
     env_file.write_text("ANOTHER_SPECIAL_ENV=True")
@@ -23,7 +23,7 @@ def test_sync_dotenv_update_files(runner: CommandRunner):
     assert "ANOTHER_SPECIAL_ENV=" in env_template_file.read_text()
 
 
-def test_sync_dotenv_priority(runner: CommandRunner):
+def test_sync_dotenv_priority(runner: CommandRunner, pyproject_toml):
     env_file = Path(".env")
     env_template_file = Path(".env.template")
     env_file.write_text("SPECIAL_ENV=True")
