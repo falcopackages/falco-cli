@@ -75,7 +75,7 @@ Ready to contribute? Here's how to set up `falco` for local development.
 1. Fork the `falco` repo on GitHub.
 2. Clone your fork locally::
 
-    $ git clone git@github.com:your_name_here/falco.git
+    $ git clone git@github.com:your_name_here/falco.git --recurse-submodules
 
 3. Install your local copy into a virtualenv. Assuming you have hatch installed, this is how you set up your fork for local development::
 
