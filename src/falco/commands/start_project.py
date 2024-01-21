@@ -21,7 +21,6 @@ from falco.utils import RICH_SUCCESS_MARKER
 from falco.utils import simple_progress
 from rich import print as rich_print
 from rich.prompt import Prompt
-from tomlkit import dumps
 from tomlkit import parse
 
 
@@ -160,5 +159,5 @@ class StartProject:
         config = default_falco_config()
         config.update({"revision": cruft_state["commit"]})
         pyproject_dict["tool"]["falco"] = config
-        pyproject.write_text(dumps(pyproject_dict))
+        # pyproject.write_text(dumps(pyproject_dict)) TODO: comment out when update feature ready
         cruft_file.unlink()
