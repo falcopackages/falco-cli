@@ -452,7 +452,12 @@ Even though my experience with these platforms is limited, they are generally si
 * `AWS Elastic Beanstalk <https://aws.amazon.com/elasticbeanstalk/>`_ : Deploy and scale web applications
 * `Heroku <https://www.heroku.com/>`_ : Build data-driven apps with fully managed data services.
 * `Railway <https://railway.app/>`_ : Railway is the cloud for building, shipping, and monitoring applications. No Platform Engineer required.
-* `Appliku <https://appliku.com>`_ : Deploy Django in 5 minutes.
+
+.. hint::
+
+    A special mention goes to `Appliku <https://appliku.com>`_. While it does not provide direct hosting services,
+    it offers an intuitive interface that simplifies deployment on various platforms such as AWS, Digital Ocean, and more.
+
 
 
 Self-Managed solutions
