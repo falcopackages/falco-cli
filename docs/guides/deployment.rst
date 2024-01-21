@@ -505,10 +505,17 @@ for instance, by using a tool like `ansible <https://www.ansible.com>`_.
 * `PythonAnywhere <https://www.pythonanywhere.com/>`_
 * `Contabo <https://contabo.com/>`_
 
+Recommendations
+^^^^^^^^^^^^^^^
+
+Here are my personal recommendations if you feel a bit overwhelmed by the options provided above:
+
+- Consider using **Linode** with manual deployment if you have never deployed an application before and want to understand the process.
+- Opt for **Contabo** + **CapRover** for your personal projects once you have a grasp on the general deployment process.
+- Use **AWS** through **AppLiku** for a more sophisticated option.
 
 Resources
 ---------
-
 
 - `myjourney github repository <https://github.com/Tobi-De/myjourney>`_: The source code for myjourney + some more deployment ressources.
 - `Django Deployment Checklist <https://docs.djangoproject.com/en/dev/howto/deployment/checklist/>`_ : The official django deployment checklist.
