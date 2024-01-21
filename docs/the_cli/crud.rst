@@ -164,4 +164,4 @@ Below is the content of the current ``utils.py``:
 
     Rest assured, the comments won't be included in your final code.
 
-.. literalinclude:: ../../src/falco_blueprints/crud/utils.py
+.. literalinclude:: ../../demo/demo/core/utils.py
