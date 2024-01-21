@@ -124,7 +124,7 @@ class StartProject:
         with simple_progress("Initializing your new django project... :sunglasses:"):
             try:
                 project_dir = create(
-                    "https://github.com/Tobi-De/falco_blueprint.git",
+                    "https://github.com/Tobi-De/falco_blueprint_basic.git",
                     no_input=True,
                     output_dir=self.directory or Path(),
                     extra_context={
@@ -132,7 +132,6 @@ class StartProject:
                         "project_slug": self.project_name,
                         "author_name": author_name,
                         "author_email": author_email,
-                        "falco_version": falco_version,
                     },
                 )
             except CookiecutterException as e:
@@ -173,6 +172,6 @@ class StartProject:
         cruft_state = json.loads(cruft_file.read_text())
         pyproject_dict = parse(pyproject.read_text())
         pyproject_dict["tool"]["falco"]["commit"] = cruft_state["commit"]
-        pyproject_dict["tool"]["falco"]["template"] = "basic"
+        pyproject_dict["tool"]["falco"]["blueprint"] = "basic"
         pyproject.write_text(dumps(pyproject_dict))
         cruft_file.unlink()
