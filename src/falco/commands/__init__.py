@@ -7,4 +7,5 @@ from .rm_migrations import RmMigrations  # noqa
 from .setup_admin import SetupAdmin  # noqa
 from .start_project import StartProject  # noqa
 from .sync_dotenv import SyncDotenv  # noqa
+from .update import Update  # noqa
 from .work import Work  # noqa

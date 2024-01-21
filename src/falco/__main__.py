@@ -8,6 +8,7 @@ from falco.commands import RmMigrations
 from falco.commands import SetupAdmin
 from falco.commands import StartProject
 from falco.commands import SyncDotenv
+from falco.commands import Update
 from falco.commands import Work
 
 
@@ -19,6 +20,7 @@ class Falco:
         StartProject
         | ModelCRUD
         | InstallCrudUtils
+        | Update
         | Htmx
         | HtmxExtension
         | Work

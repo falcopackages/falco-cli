@@ -26,6 +26,7 @@ class Work:
         commands = {"server": "python manage.py migrate && python manage.py runserver"}
 
         with suppress(FileNotFoundError):
+            # TODO: put this logic in FalcoConfig
             pyproject_config = parse(Path("pyproject.toml").read_text())
             user_commands = (
                 pyproject_config.get("tool", {}).get("falco", {}).get("work", {})

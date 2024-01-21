@@ -3,9 +3,11 @@ import importlib.util
 import subprocess
 from contextlib import contextmanager
 from pathlib import Path
+from typing import TypedDict
 
 import cappa
 import httpx
+from falco import falco_version
 from rich.progress import Progress
 from rich.progress import SpinnerColumn
 from rich.progress import TextColumn
@@ -16,6 +18,27 @@ RICH_ERROR_MARKER = "[red]ERROR:"
 RICH_INFO_MARKER = "[blue]INFO:"
 RICH_COMMAND_MARKER = "[yellow]"
 RICH_COMMAND_MARKER_END = "[/yellow]"
+
+
+class FalcoConfig(TypedDict):
+    revision: str
+    blueprint: str
+    skip: list[str]
+    work: dict[str, str]
+
+
+def default_falco_config() -> FalcoConfig:
+    return {
+        "revision": "f018c4c5184b8f10ddc2110ef6b75d556c2b29cd",
+        "blueprint": "https://github.com/Tobi-De/falco_blueprint_basic.git",
+        "skip": [
+            "playground.ipynb",
+            "README.md",
+        ],
+        "work": {
+            "server": "python manage.py migrate && python manage.py tailwind runserver"
+        },
+    }
 
 
 def get_crud_blueprints_path() -> Path:
@@ -36,6 +59,15 @@ def get_project_name():
         raise cappa.Exit("The pyproject.toml could not be found.", code=1) from e
 
     return pyproject["project"]["name"]
+
+
+def get_author_info():
+    try:
+        pyproject = parse(Path("pyproject.toml").read_text())
+    except FileNotFoundError as e:
+        raise cappa.Exit("The pyproject.toml could not be found.", code=1) from e
+
+    return pyproject["project"]["authors"][0]
 
 
 @contextmanager
@@ -82,4 +114,19 @@ def is_git_repo_clean() -> bool:
         )
         return result.stdout.strip() == ""
     except subprocess.CalledProcessError:
+        return False
+
+
+def is_new_falco_cli_available(fail_on_error: bool = False) -> bool:
+    try:
+        with network_request_with_progress(
+            "https://pypi.org/pypi/falco-cli/json",
+            "Checking for new falco version...",
+        ) as response:
+            latest_version = response.json()["info"]["version"]
+            current_version = falco_version
+            return latest_version != current_version
+    except cappa.Exit:
+        if fail_on_error:
+            raise
         return False

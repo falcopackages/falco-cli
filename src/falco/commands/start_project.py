@@ -12,10 +12,10 @@ import httpx
 from cookiecutter.exceptions import CookiecutterException
 from cruft import create
 from cruft.exceptions import InvalidCookiecutterRepository
-from falco import falco_version
 from falco.commands.htmx import Htmx
 from falco.utils import clean_project_name
-from falco.utils import network_request_with_progress
+from falco.utils import default_falco_config
+from falco.utils import is_new_falco_cli_available
 from falco.utils import RICH_INFO_MARKER
 from falco.utils import RICH_SUCCESS_MARKER
 from falco.utils import simple_progress
@@ -44,19 +44,6 @@ def get_authors_info() -> tuple[str, str]:
         user_name_cmd.stdout.strip("\n"),
         user_email_cmd.stdout.strip("\n"),
     )
-
-
-def is_new_falco_cli_available() -> bool:
-    try:
-        with network_request_with_progress(
-            "https://pypi.org/pypi/falco-cli/json",
-            "Checking for new falco version...",
-        ) as response:
-            latest_version = response.json()["info"]["version"]
-            current_version = falco_version
-            return latest_version != current_version
-    except cappa.Exit:
-        return False
 
 
 @cappa.command(help="Initialize a new django project the falco way.")
@@ -129,7 +116,6 @@ class StartProject:
                     output_dir=self.directory or Path(),
                     extra_context={
                         "project_name": self.project_name,
-                        "project_slug": self.project_name,
                         "author_name": author_name,
                         "author_email": author_email,
                     },
@@ -171,7 +157,8 @@ class StartProject:
         )
         cruft_state = json.loads(cruft_file.read_text())
         pyproject_dict = parse(pyproject.read_text())
-        pyproject_dict["tool"]["falco"]["commit"] = cruft_state["commit"]
-        pyproject_dict["tool"]["falco"]["blueprint"] = "basic"
+        config = default_falco_config()
+        config.update({"revision": cruft_state["commit"]})
+        pyproject_dict["tool"]["falco"] = config
         pyproject.write_text(dumps(pyproject_dict))
         cruft_file.unlink()
