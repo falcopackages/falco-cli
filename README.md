@@ -87,6 +87,7 @@ Falco is inspired by (and borrows elements from) some excellent open source proj
 - [django-hatch-startproject](https://github.com/oliverandrich/django-hatch-startproject)
 - [django-unicorn](https://github.com/adamghill/django-unicorn) (Inspiration for the logo)
 - [neapolitan](https://github.com/carltongibson/neapolitan)
+- [fuzzy-couscous](https://github.com/Tobi-De/fuzzy-couscous) (predecessor of falco)
 
 ## Contributors
 <!-- contributors:start -->
