@@ -514,8 +514,8 @@ Resources
 
 
 
-Alternatives strategies
------------------------
+Alternative strategies
+----------------------
 
 The web is not the only medium to distribute your app. It's the most popular one, but certainly not the sole option.
 
