@@ -19,6 +19,8 @@ CODE_END_COMMENT = "# CODE:END"
 
 
 class PythonBlueprintContext(TypedDict):
+    project_name: str
+    login: bool
     app_label: str
     model_name: str
     model_verbose_name_plural: str
@@ -33,7 +35,11 @@ class UrlsForContext(TypedDict):
     delete_view_url: str
 
 
-class HtmlBlueprintContext(PythonBlueprintContext, UrlsForContext):
+class HtmlBlueprintContext(UrlsForContext):
+    app_label: str
+    model_name: str
+    model_verbose_name_plural: str
+    model_fields: dict[str, str]
     # a example of the dict: {"Name": "product.name", "Price": "{{product.price}}"}
     fields_verbose_name_with_accessor: dict[str, str]
 
@@ -214,6 +220,14 @@ class ModelCRUD:
             help="Use the specified model as the entry point of the app.",
         ),
     ]
+    login: Annotated[
+        bool,
+        cappa.Arg(
+            default=False,
+            long="--login",
+            help="Add login required decorator to views.",
+        ),
+    ]
     skip_git_check: Annotated[
         bool,
         cappa.Arg(
@@ -275,6 +289,7 @@ class ModelCRUD:
                 {
                     "project_name": project_name,
                     "app_label": app_label,
+                    "login": self.login,
                     "model_name": django_model["name"],
                     "model_verbose_name_plural": django_model["verbose_name_plural"],
                     "model_fields": django_model["fields"],

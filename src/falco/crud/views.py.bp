@@ -6,6 +6,9 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
 from django.views.decorators.http import require_http_methods
+{% if login %}
+from django.contrib.auth.decorators import login_required
+{% endif %}
 
 from .forms import {{model_name}}Form
 from .models import {{model_name}}
@@ -14,6 +17,9 @@ from .models import {{model_name}}
 
 
 # CODE:START
+{% if login %}
+@login_required
+{% endif %}
 def {{model_name|lower}}_list(request: HttpRequest):
     {{model_name|lower}}s = {{model_name}}.objects.all()
     template_name = "{{model_name|lower}}s/{{model_name|lower}}_list.html#table" if request.htmx else "{{model_name|lower}}s/{{model_name|lower}}_list.html"  # type: ignore
@@ -23,7 +29,9 @@ def {{model_name|lower}}_list(request: HttpRequest):
         context={"{{model_name|lower}}s_page": paginate_queryset(request, {{model_name|lower}}s)},
     )
 
-
+{% if login %}
+@login_required
+{% endif %}
 def {{model_name|lower}}_detail(request: HttpRequest, pk: int):
     {{model_name|lower}} = get_object_or_404({{model_name}}.objects, pk=pk)
     return TemplateResponse(
@@ -32,7 +40,9 @@ def {{model_name|lower}}_detail(request: HttpRequest, pk: int):
         context={"{{model_name|lower}}": {{model_name|lower}}},
     )
 
-
+{% if login %}
+@login_required
+{% endif %}
 def {{model_name|lower}}_create(request: HttpRequest):
     form = {{model_name}}Form(request.POST or None)
     if request.method == "POST" and form.is_valid():
@@ -44,7 +54,9 @@ def {{model_name|lower}}_create(request: HttpRequest):
         context={"form": form},
     )
 
-
+{% if login %}
+@login_required
+{% endif %}
 def {{model_name|lower}}_update(request: HttpRequest, pk: int):
     {{model_name|lower}} = get_object_or_404({{model_name}}.objects, pk=pk)
     form = {{model_name}}Form(request.POST or None, instance={{model_name|lower}})
@@ -57,7 +69,9 @@ def {{model_name|lower}}_update(request: HttpRequest, pk: int):
         context={"{{model_name|lower}}": {{model_name|lower}}, "form": form},
     )
 
-
+{% if login %}
+@login_required
+{% endif %}
 @require_http_methods(["DELETE"])
 def {{model_name|lower}}_delete(_: HttpRequest, pk: int):
     {{model_name}}.objects.filter(pk=pk).delete()
