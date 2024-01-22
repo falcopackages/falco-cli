@@ -28,9 +28,7 @@ class Work:
         with suppress(FileNotFoundError):
             # TODO: put this logic in FalcoConfig
             pyproject_config = parse(Path("pyproject.toml").read_text())
-            user_commands = (
-                pyproject_config.get("tool", {}).get("falco", {}).get("work", {})
-            )
+            user_commands = pyproject_config.get("tool", {}).get("falco", {}).get("work", {})
             commands |= user_commands
 
         manager = Manager()

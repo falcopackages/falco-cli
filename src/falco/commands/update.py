@@ -17,9 +17,7 @@ from rich import print as rich_print
 # TODO add  --diff to just check diff without update
 
 
-def cruft_state_from(
-    config: FalcoConfig, project_name: str, author_name: str, author_email: str
-) -> dict:
+def cruft_state_from(config: FalcoConfig, project_name: str, author_name: str, author_email: str) -> dict:
     return {
         "template": config["blueprint"],
         "commit": config["revision"],
@@ -41,18 +39,12 @@ def cruft_state_from(
 class Update:
     init: Annotated[
         bool,
-        cappa.Arg(
-            default=False, short="-i", long="--init", help="Initialize falco config."
-        ),
+        cappa.Arg(default=False, short="-i", long="--init", help="Initialize falco config."),
     ]
 
-    def __call__(
-        self, project_name: Annotated[str, cappa.Dep(get_project_name)]
-    ) -> None:
+    def __call__(self, project_name: Annotated[str, cappa.Dep(get_project_name)]) -> None:
         if is_new_falco_cli_available(fail_on_error=True):
-            raise cappa.Exit(
-                "You need have the latest version of falco-cli to update.", code=1
-            )
+            raise cappa.Exit("You need have the latest version of falco-cli to update.", code=1)
 
         if not is_git_repo_clean():
             raise cappa.Exit(
@@ -65,9 +57,7 @@ class Update:
         try:
             pyproject = tomlkit.parse(pyproject_path.read_text())
         except FileNotFoundError as e:
-            raise cappa.Exit(
-                "Could not find a pyproject.toml file in the current directory.", code=1
-            ) from e
+            raise cappa.Exit("Could not find a pyproject.toml file in the current directory.", code=1) from e
 
         if self.init:
             existing_config = pyproject["tool"].get("falco", {})
@@ -86,15 +76,11 @@ class Update:
             )
         )
         if last_commit is None:
-            rich_print(
-                f"{RICH_INFO_MARKER} Nothing to do, project is already up to date!"
-            )
+            rich_print(f"{RICH_INFO_MARKER} Nothing to do, project is already up to date!")
             raise cappa.Exit(code=0)
         pyproject["tool"]["falco"]["revision"] = last_commit
         pyproject_path.write_text(tomlkit.dumps(pyproject))
-        rich_print(
-            f"{RICH_SUCCESS_MARKER} Great! Your project has been updated to the latest version!"
-        )
+        rich_print(f"{RICH_SUCCESS_MARKER} Great! Your project has been updated to the latest version!")
 
     def _update(self, cruft_state: dict, project_dir: Path = Path(".")) -> str | None:
         """The update function from cruft"""
@@ -116,15 +102,11 @@ class Update:
             new_template_dir = tmpdir / "new_template"
             deleted_paths: Set[Path] = set()
             # Clone the template
-            with utils.cookiecutter.get_cookiecutter_repo(
-                cruft_state["template"], repo_dir
-            ) as repo:
+            with utils.cookiecutter.get_cookiecutter_repo(cruft_state["template"], repo_dir) as repo:
                 last_commit = repo.head.object.hexsha
 
                 # Bail early if the repo is already up to date and no inputs are asked
-                if utils.cruft.is_project_updated(
-                    repo, cruft_state["commit"], last_commit, strict=strict
-                ):
+                if utils.cruft.is_project_updated(repo, cruft_state["commit"], last_commit, strict=strict):
                     return None
 
                 # Generate clean outputs via the cookiecutter

@@ -1,5 +1,11 @@
 # IMPORTS:START
 from {{project_name}}.core.utils import paginate_queryset
+{% if login %}
+from {{project_name}}.core.utils import AuthenticatedHttpRequest
+{% else %}
+from {{project_name}}.core.utils import HttpRequest
+{% endif %}
+
 from django.http import HttpRequest
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
@@ -19,8 +25,10 @@ from .models import {{model_name}}
 # CODE:START
 {% if login %}
 @login_required
-{% endif %}
+def {{model_name|lower}}_list(request: AuthenticatedHttpRequest):
+{% else %}
 def {{model_name|lower}}_list(request: HttpRequest):
+{% endif %}
     {{model_name|lower}}s = {{model_name}}.objects.all()
     template_name = "{{model_name|lower}}s/{{model_name|lower}}_list.html#table" if request.htmx else "{{model_name|lower}}s/{{model_name|lower}}_list.html"  # type: ignore
     return TemplateResponse(
@@ -31,8 +39,10 @@ def {{model_name|lower}}_list(request: HttpRequest):
 
 {% if login %}
 @login_required
-{% endif %}
+def {{model_name|lower}}_detail(request: AuthenticatedHttpRequest, pk: int):
+{% else %}
 def {{model_name|lower}}_detail(request: HttpRequest, pk: int):
+{% endif %}
     {{model_name|lower}} = get_object_or_404({{model_name}}.objects, pk=pk)
     return TemplateResponse(
         request,
@@ -42,8 +52,10 @@ def {{model_name|lower}}_detail(request: HttpRequest, pk: int):
 
 {% if login %}
 @login_required
-{% endif %}
+def {{model_name|lower}}_create(request: AuthenticatedHttpRequest):
+{% else %}
 def {{model_name|lower}}_create(request: HttpRequest):
+{% endif %}
     form = {{model_name}}Form(request.POST or None)
     if request.method == "POST" and form.is_valid():
         form.save()
@@ -56,8 +68,10 @@ def {{model_name|lower}}_create(request: HttpRequest):
 
 {% if login %}
 @login_required
-{% endif %}
+def {{model_name|lower}}_update(request: AuthenticatedHttpRequest, pk: int):
+{% else %}
 def {{model_name|lower}}_update(request: HttpRequest, pk: int):
+{% endif %}
     {{model_name|lower}} = get_object_or_404({{model_name}}.objects, pk=pk)
     form = {{model_name}}Form(request.POST or None, instance={{model_name|lower}})
     if request.method == "POST" and form.is_valid():
@@ -69,11 +83,13 @@ def {{model_name|lower}}_update(request: HttpRequest, pk: int):
         context={"{{model_name|lower}}": {{model_name|lower}}, "form": form},
     )
 
+@require_http_methods(["DELETE"])
 {% if login %}
 @login_required
-{% endif %}
-@require_http_methods(["DELETE"])
+def {{model_name|lower}}_delete(_: AuthenticatedHttpRequest, pk: int):
+{% else %}
 def {{model_name|lower}}_delete(_: HttpRequest, pk: int):
+{% endif %}
     {{model_name}}.objects.filter(pk=pk).delete()
     return HttpResponse("")
 

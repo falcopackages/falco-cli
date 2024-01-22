@@ -45,9 +45,7 @@ class ResetMigrations:
             if result.returncode != 0:
                 raise cappa.Exit(code=1)
 
-        RmMigrations(skip_git_check=self.skip_git_check, apps_dir=self.apps_dir)(
-            project_name
-        )
+        RmMigrations(skip_git_check=self.skip_git_check, apps_dir=self.apps_dir)(project_name)
         with simple_progress("Resetting migrations..."):
             run_in_shell(reset_migrations_table_code, eval_result=False)
             subprocess.run(

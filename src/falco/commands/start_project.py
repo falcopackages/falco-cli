@@ -29,12 +29,8 @@ def get_authors_info() -> tuple[str, str]:
     default_author_email = "tobidegnon@proton.me"
     git_config_cmd = ["git", "config", "--global", "--get"]
     try:
-        user_name_cmd = subprocess.run(
-            [*git_config_cmd, "user.name"], capture_output=True, text=True, check=False
-        )
-        user_email_cmd = subprocess.run(
-            [*git_config_cmd, "user.email"], capture_output=True, text=True, check=False
-        )
+        user_name_cmd = subprocess.run([*git_config_cmd, "user.name"], capture_output=True, text=True, check=False)
+        user_email_cmd = subprocess.run([*git_config_cmd, "user.email"], capture_output=True, text=True, check=False)
     except FileNotFoundError:
         return default_author_name, default_author_email
     if user_email_cmd.returncode != 0:
@@ -72,9 +68,7 @@ class StartProject:
 
     def __call__(self) -> None:
         if self.is_root and not self.directory:
-            raise cappa.Exit(
-                "You need to specify a directory when using the --root flag.", code=1
-            )
+            raise cappa.Exit("You need to specify a directory when using the --root flag.", code=1)
         if not self.skip_new_version_check and is_new_falco_cli_available():
             message = (
                 f"{RICH_INFO_MARKER} A new version of falco-cli is available. To upgrade, run "
@@ -123,9 +117,7 @@ class StartProject:
                 msg = str(e).replace("Error:", "")
                 raise cappa.Exit(msg, code=1) from e
             except InvalidCookiecutterRepository as e:
-                raise cappa.Exit(
-                    "Network error, check your internet connection.", code=1
-                ) from e
+                raise cappa.Exit("Network error, check your internet connection.", code=1) from e
 
             if self.is_root:
                 project_dir = self.directory / self.project_name
@@ -144,16 +136,8 @@ class StartProject:
             Htmx(version="latest", output=base_path / static_path)()
 
     def cruft_to_falco_state(self, project_dir: Path):
-        cruft_file = (
-            project_dir.parent / ".cruft.json"
-            if self.is_root
-            else project_dir / ".cruft.json"
-        )
-        pyproject = (
-            project_dir.parent / "pyproject.toml"
-            if self.is_root
-            else project_dir / "pyproject.toml"
-        )
+        cruft_file = project_dir.parent / ".cruft.json" if self.is_root else project_dir / ".cruft.json"
+        pyproject = project_dir.parent / "pyproject.toml" if self.is_root else project_dir / "pyproject.toml"
         cruft_state = json.loads(cruft_file.read_text())
         pyproject_dict = parse(pyproject.read_text())
         config = default_falco_config()

@@ -1,0 +1,14 @@
+# IMPORTS:START
+from django.http import HttpRequest as HttpRequestBase
+from django_htmx.middleware import HtmxDetails
+from {project_name}.users.models import User
+# IMPORTS:END
+
+
+# CODE:START
+class HttpRequest(HttpRequestBase):
+    htmx: HtmxDetails
+
+class AuthenticatedHttpRequest(HttpRequest):
+    user: User
+# CODE:END

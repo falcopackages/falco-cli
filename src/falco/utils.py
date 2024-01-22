@@ -35,9 +35,7 @@ def default_falco_config() -> FalcoConfig:
             "playground.ipynb",
             "README.md",
         ],
-        "work": {
-            "server": "python manage.py migrate && python manage.py tailwind runserver"
-        },
+        "work": {"server": "python manage.py migrate && python manage.py tailwind runserver"},
     }
 
 
@@ -45,7 +43,7 @@ def get_crud_blueprints_path() -> Path:
     package = importlib.util.find_spec("falco")
     if package is None:
         raise cappa.Exit("The falco base install path could not be found.", code=1)
-    return Path(package.submodule_search_locations[0])
+    return Path(package.submodule_search_locations[0]) / "crud"
 
 
 def clean_project_name(val: str) -> str:
@@ -71,9 +69,7 @@ def get_author_info():
 
 
 @contextmanager
-def simple_progress(
-    description: str, display_text="[progress.description]{task.description}"
-):
+def simple_progress(description: str, display_text="[progress.description]{task.description}"):
     progress = Progress(SpinnerColumn(), TextColumn(display_text), transient=True)
     progress.add_task(description=description, total=None)
     try:
@@ -109,9 +105,7 @@ def run_in_shell(command: str, eval_result: bool = True):
 
 def is_git_repo_clean() -> bool:
     try:
-        result = subprocess.run(
-            ["git", "status", "--porcelain"], capture_output=True, text=True, check=True
-        )
+        result = subprocess.run(["git", "status", "--porcelain"], capture_output=True, text=True, check=True)
         return result.stdout.strip() == ""
     except subprocess.CalledProcessError:
         return False
