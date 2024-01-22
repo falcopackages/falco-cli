@@ -63,6 +63,23 @@ def test_crud(django_project, runner: CommandRunner, set_git_repo_to_clean):
     for t in html_templates:
         assert (app_dir / "templates" / "blog" / f"{t}").exists()
 
+def test_crud_login(django_project, runner: CommandRunner, set_git_repo_to_clean):
+    runner.invoke("crud", "blog.post", "--login")
+    runner.invoke("install-crud-utils", ".")
+    fix_core_import(Path("blog"))
+    register_project_urls()
+    assert healthy_django_project()
+    app_dir = Path("blog")
+    assert (app_dir / "urls.py").exists()
+    for a in forms_attributes:
+        assert a in (app_dir / "forms.py").read_text()
+
+    # sourcery skip: no-loop-in-tests
+    for f in views_functions:
+        assert f in (app_dir / "views.py").read_text()
+    for t in html_templates:
+        assert (app_dir / "templates" / "blog" / f"{t}").exists()
+
 
 def test_crud_entry_point(django_project, runner: CommandRunner, set_git_repo_to_clean):
     runner.invoke("crud", "blog.post", "--entry-point")
