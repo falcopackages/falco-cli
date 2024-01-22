@@ -13,16 +13,17 @@ from .model_crud import run_python_formatters
 
 @cappa.command(help="Install utils necessary for CRUD views.", name="install-crud-utils")
 class InstallCrudUtils:
-    apps_dir: Annotated[
+    output_dir: Annotated[
         Path | None,
-        cappa.Arg(default=None, help="The path to your django apps directory."),
+        cappa.Arg(default=None, help="The folder in which to install the crud utils."),
     ]
 
     def __call__(self, project_name: Annotated[str, cappa.Dep(get_project_name)]):
-        if not self.apps_dir:
-            self.apps_dir = Path() / project_name
+        if not self.output_dir:
+            output_dir = Path() / project_name / "core"
+        else:
+            output_dir = self.output_dir
 
-        output_dir = self.apps_dir / "core"
         output_dir.mkdir(parents=True, exist_ok=True)
         (output_dir / "__init__.py").touch(exist_ok=True)
 
