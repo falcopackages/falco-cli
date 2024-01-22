@@ -30,7 +30,7 @@ def {{model_name|lower}}_list(request: AuthenticatedHttpRequest):
 def {{model_name|lower}}_list(request: HttpRequest):
 {% endif %}
     {{model_name|lower}}s = {{model_name}}.objects.all()
-    template_name = "{{model_name|lower}}s/{{model_name|lower}}_list.html#table" if request.htmx else "{{model_name|lower}}s/{{model_name|lower}}_list.html"  # type: ignore
+    template_name = "{{model_name|lower}}s/{{model_name|lower}}_list.html#table" if request.htmx else "{{model_name|lower}}s/{{model_name|lower}}_list.html"
     return TemplateResponse(
         request,
         template_name,
