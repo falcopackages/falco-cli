@@ -45,10 +45,6 @@ dependencies = [
 [tool.hatch.metadata]
 allow-direct-references = true
 
-[tool.hatch.env]
-requires = [
-    "hatch-pip-compile"
-]
 
 [project.scripts]
 falco = "falco.__main__:main"
@@ -66,10 +62,6 @@ path = "src/falco/__about__.py"
 packages = ["src/falco"]
 
 [tool.hatch.envs.default]
-type = "pip-compile"
-pip-compile-constraint = "default"
-pip-compile-installer = "pip-sync"
-lock-filename = "requirements.txt"
 dependencies = [
     "coverage[toml]>=6.5",
     "pytest",
