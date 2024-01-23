@@ -75,11 +75,6 @@ app_templates_dir = templates_dir / "{}"
 print((str(app.path), str(app_templates_dir)))
 """
 
-django_render_template_code = """
-from django.template.engine import Context, Template
-print(Template('''{}''').render(Context({})))
-"""
-
 
 def extract_content_from(text: str, start_comment: str, end_comment: str):
     start_index = text.find(start_comment) + len(start_comment)
