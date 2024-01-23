@@ -7,11 +7,13 @@ import tomlkit
 from falco.utils import default_falco_config
 from falco.utils import FalcoConfig
 from falco.utils import get_project_name
-from falco.utils import is_git_repo_clean
+from falco.utils import get_pyproject_file
 from falco.utils import is_new_falco_cli_available
 from falco.utils import RICH_INFO_MARKER
 from falco.utils import RICH_SUCCESS_MARKER
 from rich import print as rich_print
+
+from . import checks
 
 
 # TODO add  --diff to just check diff without update
@@ -42,28 +44,23 @@ class Update:
         cappa.Arg(default=False, short="-i", long="--init", help="Initialize falco config."),
     ]
 
-    def __call__(self, project_name: Annotated[str, cappa.Dep(get_project_name)]) -> None:
+    def __call__(
+        self,
+        project_name: Annotated[str, cappa.Dep(get_project_name)],
+        pyproject_file: Annotated[Path, cappa.Dep(get_pyproject_file)],
+    ) -> None:
         if is_new_falco_cli_available(fail_on_error=True):
             raise cappa.Exit("You need have the latest version of falco-cli to update.", code=1)
 
-        if not is_git_repo_clean():
-            raise cappa.Exit(
-                "Update cannot be applied on an unclean git repo. Please commit or stash"
-                " your changes before running this command.",
-                code=1,
-            )
+        checks.clean_git_repo()
 
-        pyproject_path = Path("pyproject.toml")
-        try:
-            pyproject = tomlkit.parse(pyproject_path.read_text())
-        except FileNotFoundError as e:
-            raise cappa.Exit("Could not find a pyproject.toml file in the current directory.", code=1) from e
+        pyproject = tomlkit.parse(pyproject_file.read_text())
 
         if self.init:
             existing_config = pyproject["tool"].get("falco", {})
             existing_config.update(default_falco_config())
             pyproject["tool"]["falco"] = existing_config
-            pyproject_path.write_text(tomlkit.dumps(pyproject))
+            pyproject_file.write_text(tomlkit.dumps(pyproject))
             rich_print(f"{RICH_SUCCESS_MARKER} Initialized falco config.")
             raise cappa.Exit()
 
@@ -79,7 +76,7 @@ class Update:
             rich_print(f"{RICH_INFO_MARKER} Nothing to do, project is already up to date!")
             raise cappa.Exit(code=0)
         pyproject["tool"]["falco"]["revision"] = last_commit
-        pyproject_path.write_text(tomlkit.dumps(pyproject))
+        pyproject_file.write_text(tomlkit.dumps(pyproject))
         rich_print(f"{RICH_SUCCESS_MARKER} Great! Your project has been updated to the latest version!")
 
     def _update(self, cruft_state: dict, project_dir: Path = Path(".")) -> str | None:
@@ -136,3 +133,5 @@ class Update:
                 allow_untracked_files,
             ):
                 return last_commit
+
+        return None

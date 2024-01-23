@@ -7,10 +7,11 @@ from typing import TypedDict
 import cappa
 from falco.utils import get_crud_blueprints_path
 from falco.utils import get_project_name
-from falco.utils import is_git_repo_clean
 from falco.utils import run_in_shell
 from falco.utils import simple_progress
 from rich import print as rich_print
+
+from . import checks
 
 IMPORT_START_COMMENT = "# IMPORTS:START"
 IMPORT_END_COMMENT = "# IMPORTS:END"
@@ -216,11 +217,7 @@ class ModelCRUD:
     ]
 
     def __call__(self, project_name: Annotated[str, cappa.Dep(get_project_name)]):
-        if not is_git_repo_clean() and not self.skip_git_check:
-            raise cappa.Exit(
-                "Your git repo is not clean. Please commit or stash your changes before running this command.",
-                code=1,
-            )
+        checks.clean_git_repo(ignore_dirty=self.skip_git_check)
 
         v = self.model_path.split(".")
 

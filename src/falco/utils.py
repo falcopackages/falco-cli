@@ -50,21 +50,20 @@ def clean_project_name(val: str) -> str:
     return val.strip().replace(" ", "_").replace("-", "_")
 
 
-def get_project_name():
-    try:
-        pyproject = parse(Path("pyproject.toml").read_text())
-    except FileNotFoundError as e:
-        raise cappa.Exit("The pyproject.toml could not be found.", code=1) from e
+def get_pyproject_file() -> Path:
+    pyproject_path = Path("pyproject.toml")
+    if pyproject_path.exists():
+        return pyproject_path
+    raise cappa.Exit("Could not find a pyproject.toml file in the current directory.", code=1)
 
+
+def get_project_name() -> str:
+    pyproject = parse(get_pyproject_file().read_text())
     return pyproject["project"]["name"]
 
 
 def get_author_info():
-    try:
-        pyproject = parse(Path("pyproject.toml").read_text())
-    except FileNotFoundError as e:
-        raise cappa.Exit("The pyproject.toml could not be found.", code=1) from e
-
+    pyproject = parse(get_pyproject_file()).read_text()
     return pyproject["project"]["authors"][0]
 
 
@@ -101,14 +100,6 @@ def run_in_shell(command: str, eval_result: bool = True):
     if result.returncode != 0:
         raise ShellCodeError(result.stderr)
     return ast.literal_eval(result.stdout) if eval_result else result.stdout
-
-
-def is_git_repo_clean() -> bool:
-    try:
-        result = subprocess.run(["git", "status", "--porcelain"], capture_output=True, text=True, check=True)
-        return result.stdout.strip() == ""
-    except subprocess.CalledProcessError:
-        return False
 
 
 def is_new_falco_cli_available(fail_on_error: bool = False) -> bool:

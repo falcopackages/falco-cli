@@ -41,6 +41,7 @@ class ResetMigrations:
                 capture_output=True,
                 text=True,
             )
+            # TODO: what evne happens here when checks are not printed, is something printed to the terminal ?
 
             if result.returncode != 0:
                 raise cappa.Exit(code=1)
