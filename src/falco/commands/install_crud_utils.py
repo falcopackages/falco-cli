@@ -2,12 +2,13 @@ from pathlib import Path
 from typing import Annotated
 
 import cappa
-from falco.utils import get_crud_blueprints_path
 from falco.utils import get_project_name
 from falco.utils import simple_progress
 from rich import print as rich_print
 
 from .model_crud import extract_python_file_templates
+from .model_crud import get_crud_blueprints_path
+from .model_crud import render_to_string
 from .model_crud import run_python_formatters
 
 
@@ -28,24 +29,27 @@ class InstallCrudUtils:
         (output_dir / "__init__.py").touch(exist_ok=True)
 
         generated_files = []
-        crud_blueprint_path = get_crud_blueprints_path()
 
+        context = {"project_name": project_name}
         with simple_progress("Installing crud utils"):
-            for file in ["utils.py", "types.py"]:
-                file_path = crud_blueprint_path / file
+            for file_path in (get_crud_blueprints_path() / "utils").iterdir():
                 imports_template, code_template = extract_python_file_templates(file_path.read_text())
-                output_file = output_dir / file
+                filename = ".".join(file_path.name.split(".")[:-1])
+                output_file = output_dir / filename
                 output_file.touch(exist_ok=True)
-                output_file.write_text(imports_template + code_template + output_file.read_text())
+                output_file.write_text(
+                    render_to_string(imports_template, context)
+                    + render_to_string(code_template, context)
+                    + output_file.read_text()
+                )
                 generated_files.append(output_file)
 
                 # in case the types already include the HttpRequest import from django, it might class with the
                 # types imports
-                if file == "types.py":
+                if file_path.name == "types.py.jinja":
                     content = output_file.read_text()
                     # remove the line with the exact text "from django.http import HttpRequest"
                     content = content.replace("from django.http import HttpRequest\n", "")
-                    output_file.write_text(content.format(project_name=project_name))
 
         for file in generated_files:
             run_python_formatters(str(file))

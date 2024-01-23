@@ -1,3 +1,4 @@
+import importlib
 import subprocess
 from pathlib import Path
 from typing import Annotated
@@ -5,10 +6,10 @@ from typing import cast
 from typing import TypedDict
 
 import cappa
-from falco.utils import get_crud_blueprints_path
 from falco.utils import get_project_name
 from falco.utils import run_in_shell
 from falco.utils import simple_progress
+from jinja2 import Template
 from rich import print as rich_print
 
 from . import checks
@@ -108,10 +109,14 @@ def get_urls_template_string(app_label: str, model_name_lower: str) -> UrlsForCo
 
 
 def render_to_string(template_content: str, context: dict):
-    return run_in_shell(
-        django_render_template_code.format(template_content, context),
-        eval_result=False,
-    )
+    return Template(template_content).render(**context)
+
+
+def get_crud_blueprints_path() -> Path:
+    package = importlib.util.find_spec("falco")
+    if package is None:
+        raise cappa.Exit("The falco base install path could not be found.", code=1)
+    return Path(package.submodule_search_locations[0]) / "crud"
 
 
 @simple_progress("Running python formatters")
@@ -133,17 +138,6 @@ def run_python_formatters(filepath: str):
 def run_html_formatters(filepath: str):
     djlint = ["djlint", filepath, "--reformat"]
     subprocess.run(djlint, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
-
-
-def get_blueprints_ending_in(file_ext: str) -> list[Path]:
-    return [file for file in (get_crud_blueprints_path()).iterdir() if file.name.endswith(file_ext)]
-
-
-def resolve_html_blueprints(user_blueprints_path: str | None) -> list[Path]:
-    if not user_blueprints_path:
-        return get_blueprints_ending_in(".html")
-
-    return list(Path(user_blueprints_path).glob("*.html"))
 
 
 def extract_python_file_templates(file_content: str) -> tuple[str, str]:
@@ -284,7 +278,7 @@ class ModelCRUD:
         updated_python_files = set()
 
         if not self.only_html:
-            python_blueprints = get_blueprints_ending_in(".py.bp")
+            python_blueprints = list((get_crud_blueprints_path() / "python").iterdir())
             updated_python_files.update(
                 self.generate_python_code(
                     blueprints=python_blueprints,
@@ -305,7 +299,12 @@ class ModelCRUD:
 
         updated_html_files = set()
         if not self.only_python:
-            html_blueprints = resolve_html_blueprints(self.blueprints)
+            html_blueprints = (
+                list((get_crud_blueprints_path() / "html").iterdir())
+                if not self.blueprints
+                else list(Path(self.blueprints).glob("*.html"))
+            )
+
             updated_html_files.update(
                 self.generate_html_templates(
                     contexts=html_blueprint_context,
@@ -340,9 +339,9 @@ class ModelCRUD:
 
         for blueprint in blueprints:
             imports_template, code_template = extract_python_file_templates(blueprint.read_text())
-            # blueprints python files end in .py.bp
-            file_name_without_bp = ".".join(blueprint.name.split(".")[:-1])
-            file_to_write_to = app_folder_path / file_name_without_bp
+            # blueprints python files end in .py.jinja
+            file_name_without_jinja = ".".join(blueprint.name.split(".")[:-1])
+            file_to_write_to = app_folder_path / file_name_without_jinja
             file_to_write_to.touch(exist_ok=True)
 
             imports_content, code_content = "", ""
@@ -414,9 +413,7 @@ class ModelCRUD:
                 file_to_write_to = templates_dir / new_filename
                 file_to_write_to.touch(exist_ok=True)
                 views_content = render_to_string(filecontent, context=context)
-                views_content = self.patch_paginations_variables(
-                    model_name_lower=model_name_lower, content=views_content
-                )
+
                 if entry_point:
                     views_content = views_content.replace(f"{model_name_lower}_", "")
                     views_content = views_content.replace("list", "index")
@@ -424,20 +421,3 @@ class ModelCRUD:
                 updated_files.append(file_to_write_to)
 
         return updated_files
-
-    def patch_paginations_variables(self, model_name_lower: str, content: str) -> str:
-        # the pagination part is hard to get right even with using verbatim
-        # this is a hack until I find a better solution
-        conversion_map = {
-            "products_page.has_previous": f"{model_name_lower}s_page.has_previous",
-            "products_page.has_next": f"{model_name_lower}s_page.has_next",
-            "products_page.paginator.page_range": f"{model_name_lower}s_page.paginator.page_range",
-            "products_page.number": f"{model_name_lower}s_page.number",
-            "products_page.next_page_number": f"{model_name_lower}s_page.next_page_number",
-            "products_page.previous_page_number": f"{model_name_lower}s_page.previous_page_number",
-            "products_page.paginator.num_pages": f"{model_name_lower}s_page.paginator.num_pages",
-            "for product in products_page": f"for {model_name_lower} in {model_name_lower}s_page",
-        }
-        for key, value in conversion_map.items():
-            content = content.replace(key, value)
-        return content

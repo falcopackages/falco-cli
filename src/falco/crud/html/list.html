@@ -1,20 +1,20 @@
-{% verbatim %}
+{% raw %}
 {% extends 'base.html' %}
 {% load partials %}
 
 
 {% block content %}
-{% endverbatim %}
+{% endraw %}
     <section class="flex justify-between">
-        <h1 class="text-lg font-bold">{{ model_verbose_name_plural|capfirst }}</h1>
+        <h1 class="text-lg font-bold">{{ model_verbose_name_plural|capitalize }}</h1>
 
         <a href="{{ create_view_url|safe }}"
            class="cursor-pointer py-2 px-4 bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 focus:ring-offset-blue-200 text-white text-center text-base font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg">
-            New {{ model_name|capfirst }}
+            New {{ model_name|capitalize }}
         </a>
     </section>
 
-{% verbatim %}
+{% raw %}
   {% partialdef table inline=True %}
 
   <div id="table">
@@ -26,36 +26,36 @@
                     <table class="min-w-full">
                         <thead class="border">
                             {% with th_class="text-sm font-medium text-gray-900 border-r px-6 py-4 text-left" %}
-                            {% endverbatim %}
+                            {% endraw %}
                                 <tr>
-                                    {% for _, field_verbose_name in model_fields.items %}
-                                    <th scope="col" class="{% verbatim %} {{ th_class }} {% endverbatim %}">{{ field_verbose_name  }}</th>
+                                    {% for _, field_verbose_name in model_fields.items() %}
+                                    <th scope="col" class="{% raw -%} {{ th_class }} {%- endraw %}">{{ field_verbose_name  }}</th>
                                     {% endfor %}
                                 </tr>
-                            {% verbatim %}
+                            {% raw %}
                             {% endwith %}
                         </thead>
                         <tbody>
                             {% with td_class="px-6 py-4 whitespace-nowrap text-sm font-medium border-r text-gray-900" %}
-                                {% for product in products_page %}
-                                  {% endverbatim %}
+                                {% for {% endraw %} {{ model_name|lower }}in{{model_name|lower}}s_page {% raw %} %}
+                                  {% endraw %}
                                     <tr class="border">
-                                        {% for _, field_accessor in fields_verbose_name_with_accessor.items %}
-                                        <td class="{% verbatim %} {{ td_class }} {% endverbatim %}">{{field_accessor}}</td>
+                                        {% for _, field_accessor in fields_verbose_name_with_accessor.items() %}
+                                        <td class="{% raw -%} {{ td_class }} {%- endraw %}">{{field_accessor}}</td>
                                        {% endfor %}
 
-                                        <td class="{% verbatim %} {{ td_class }} {% endverbatim %}">
-                                             {% verbatim %}
+                                        <td class="{% raw %} {{ td_class }} {% endraw %}">
+                                             {% raw %}
                                             {% with href_class="text-blue-600 hover:underline hover:text-blue-500" %}
-                                              {% endverbatim %}
-                                                <a {% verbatim %} class="{{ href_class }}" {% endverbatim %}
+                                              {% endraw %}
+                                                <a {% raw %} class="{{ href_class }}" {% endraw %}
                                                    href="{{ detail_view_url|safe }}">View
                                                 </a>|
-                                                <a  {% verbatim %} class="{{ href_class }}"  {% endverbatim %}
+                                                <a  {% raw %} class="{{ href_class }}"  {% endraw %}
                                                    href="{{ update_view_url|safe }}">Edit
                                                 </a>|
                                                 <a
-                                                   {% verbatim %} class="cursor-pointer {{ href_class }}" {% endverbatim %}
+                                                   {% raw %} class="cursor-pointer {{ href_class }}" {% endraw %}
                                                     hx-target="closest tr"
                                                     hx-swap="outerHTML"
                                                     hx-confirm="Are you sure you?"
@@ -64,7 +64,7 @@
                                                 </a>
                                                 </td>
                                                 </tr>
-                                            {% verbatim %}
+                                            {% raw %}
                                             {% endwith %}
                                 {% endfor %}
                             {% endwith %}
@@ -74,49 +74,49 @@
             </div>
         </div>
     </div>
- {% endverbatim %}
 
- {% verbatim %}
-    {% if products_page.paginator.num_pages > 1 %}
+
+
+    {% if{% endraw %} {{model_name|lower}}s_page.paginator.num_pages {% raw %}> 1 %}
         <div class="flex justify-end py-4">
             <ul class="flex list-reset border border-grey-light rounded"
             hx-target="#table" hx-swap="outerHTML"  hx-push-url="true"
             >
                 {% with page_class="cursor-pointer block px-3 py-2 hover:text-white hover:bg-blue-500 border-r border-grey-light" %}
 
-                    {% if products_page.has_previous %}
+                    {% if{% endraw %} {{model_name|lower}}s_page.has_previous {% raw %}%}
                         <li>
                             <a class="{{ page_class }}" hx-get="?page=1">First</a>
                         </li>
                         <li>
-                            <a class="{{ page_class }}"  hx-get="?page={{ products_page.previous_page_number }}">
+                            <a class="{{ page_class }}"  hx-get="?page={{ {% endraw %}{{model_name|lower}}s_page.previous_page_number{% raw %} }}">
                                 Previous
                             </a>
                         </li>
                     {% endif %}
 
 
-                    {% for num in products_page.paginator.page_range %}
-                        {% if products_page.number == num %}
+                    {% for num in{% endraw %} {{model_name|lower}}s_page.paginator.page_range {% raw %}%}
+                        {% if{% endraw %} {{model_name|lower}}s_page.number == num {% raw %}%}
                             <li>
                                 <a class="{{ page_class }}"  hx-get="?page={{ num }}">{{ num }}</a>
                             </li>
-                        {% elif num > products_page.number|add:'-3' and num < products_page.number|add:'3' %}
+                        {% elif num > {% endraw %}{{model_name|lower}}s_page.number|add:'-3'{% raw %}and num < {% endraw %}{{model_name|lower}}s_page.number|add:'3' {% raw %}%}
                             <li>
                                 <a class="{{ page_class }}" hx-get="?page={{ num }}">{{ num }}</a>
                             </li>
                         {% endif %}
                     {% endfor %}
 
-                    {% if products_page.has_next %}
+                    {% if{% endraw %} {{model_name|lower}}s_page.has_next {% raw %}%}
                         <li>
-                            <a class="{{ page_class }}" hx-get="?page={{ products_page.next_page_number }}">
+                            <a class="{{ page_class }}" hx-get="?page={{ {% endraw %} {{model_name|lower}}s_page.next_page_number {% raw %}}}">
                                 Next
                             </a>
                         </li>
                         <li>
                             <a class="cursor-pointer block px-3 py-2 hover:text-white hover:bg-blue-500"
-                                hx-get="?page={{ products_page.paginator.num_pages }}">Last
+                                hx-get="?page={{ {% endraw %} {{model_name|lower}}s_page.paginator.num_pages {% raw %}}}">Last
                             </a>
                         </li>
                     {% endif %}
@@ -128,4 +128,4 @@
 
 {% endpartialdef %}
 {% endblock content %}
-{% endverbatim %}
+{% endraw %}

@@ -12,7 +12,7 @@ class {{model_name}}Form(ModelForm):
         model = {{model_name}}
         fields = (
         {% for item in model_fields %}
-            {% if not forloop.first %}, {% endif %}"{{ item }}"
+            {% if not loop.first %}, {% endif %}"{{ item }}"
         {% endfor %}
         )
 

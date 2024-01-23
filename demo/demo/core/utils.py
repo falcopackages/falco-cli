@@ -1,4 +1,3 @@
-# IMPORTS:START
 from django.core.paginator import InvalidPage
 from django.core.paginator import Paginator
 from django.db.models import QuerySet
@@ -6,10 +5,7 @@ from django.http import Http404
 from django.http import HttpRequest
 from django.utils.translation import gettext_lazy as _
 
-# IMPORTS:END
 
-
-# CODE:START
 def paginate_queryset(request: HttpRequest, queryset: QuerySet, page_size: int = 20):
     paginator = Paginator(queryset, page_size)
     page_number = request.GET.get("page") or 1
@@ -27,6 +23,3 @@ def paginate_queryset(request: HttpRequest, queryset: QuerySet, page_size: int =
     except InvalidPage as exc:
         msg = "Invalid page (%s): %s"
         raise Http404(_(msg) % (page_number, str(exc))) from exc
-
-
-# CODE:END

@@ -152,3 +152,16 @@ some imports after executing the ``crud`` command.
 
     If you're using the default Django project structure, it's likely that your apps are located in the root directory of your project.
     In this case, you can run the command ``falco install-crud-utils core`` to install the utils in a ``core`` package in the current directory.
+
+
+Here is an example of the output of the ``install-crud-utils`` command.
+
+.. tabs::
+
+    .. tab:: utils.py
+        
+        .. literalinclude:: ../../demo/demo/core/utils.py
+
+    .. tab:: types.py
+
+        .. literalinclude:: ../../demo/demo/core/types.py

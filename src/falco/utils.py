@@ -1,5 +1,4 @@
 import ast
-import importlib.util
 import subprocess
 from contextlib import contextmanager
 from pathlib import Path
@@ -37,13 +36,6 @@ def default_falco_config() -> FalcoConfig:
         ],
         "work": {"server": "python manage.py migrate && python manage.py tailwind runserver"},
     }
-
-
-def get_crud_blueprints_path() -> Path:
-    package = importlib.util.find_spec("falco")
-    if package is None:
-        raise cappa.Exit("The falco base install path could not be found.", code=1)
-    return Path(package.submodule_search_locations[0]) / "crud"
 
 
 def clean_project_name(val: str) -> str:

@@ -1,12 +1,12 @@
-{% verbatim %}
+{% raw %}
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 
 {% block content %}
-{% endverbatim %}
+{% endraw %}
     <h1 class="text-lg font-bold py-4">Create {{ model_name }}</h1>
 
-    {% verbatim %}
+    {% raw %}
 
     <form method="post">
         {% csrf_token %}
@@ -17,4 +17,4 @@
         </button>
     </form>
 {% endblock content %}
-{% endverbatim %}
+{% endraw %}
