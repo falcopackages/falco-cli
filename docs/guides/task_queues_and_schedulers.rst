@@ -170,43 +170,43 @@ In my experience, there are no real advantages of one over the other, so I would
 
 Here are some basic configuration examples. Please note that the code provided only concerns the worker process.
 
-Systemd example
-^^^^^^^^^^^^^^^
+.. tabs::
 
-.. code-block:: text
-        :caption: supervisord.conf
+        .. tab:: Systemd
 
-        [Unit]
-        Description=Your Django Qcluster Worker
+                .. code-block:: text
+                        :caption: supervisord.conf
 
-        [Service]
-        WorkingDirectory=/path/to/your/project
-        ExecStart=/path/to/your/venv/bin/python manage.py qcluster
-        User=your_username
-        Group=your_groupname
-        Restart=always
-        StandardOutput=append:/var/log/your_project/qcluster.out.log
-        StandardError=append:/var/log/your_project/qcluster.err.log
+                        [Unit]
+                        Description=Your Django Qcluster Worker
 
-        [Install]
-        WantedBy=multi-user.target
+                        [Service]
+                        WorkingDirectory=/path/to/your/project
+                        ExecStart=/path/to/your/venv/bin/python manage.py qcluster
+                        User=your_username
+                        Group=your_groupname
+                        Restart=always
+                        StandardOutput=append:/var/log/your_project/qcluster.out.log
+                        StandardError=append:/var/log/your_project/qcluster.err.log
+
+                        [Install]
+                        WantedBy=multi-user.target
 
 
-Supervisor example
-^^^^^^^^^^^^^^^^^^
+        .. tab:: Supervisord
 
-.. code-block:: text
-        :caption: worker.service
+                .. code-block:: text
+                        :caption: worker.service
 
-        [program:your_project_qcluster]
-        command=/path/to/your/venv/bin/python manage.py qcluster
-        directory=/path/to/your/project
-        user=your_username
-        group=your_groupname
-        autostart=true
-        autorestart=true
-        stderr_logfile=/var/log/your_project_qcluster.err.log
-        stdout_logfile=/var/log/your_project_qcluster.out.log
+                        [program:your_project_qcluster]
+                        command=/path/to/your/venv/bin/python manage.py qcluster
+                        directory=/path/to/your/project
+                        user=your_username
+                        group=your_groupname
+                        autostart=true
+                        autorestart=true
+                        stderr_logfile=/var/log/your_project_qcluster.err.log
+                        stdout_logfile=/var/log/your_project_qcluster.out.log
 
 
 If you are running your project with Docker, the process is the same. You need to have another Dockerfile in addition to your main one.
