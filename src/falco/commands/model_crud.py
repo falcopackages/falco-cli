@@ -187,6 +187,42 @@ def register_app_urls(app_label: str, app_name: str) -> Path:
     return rool_url_path
 
 
+def register_models_in_admin(app_folder_path: Path, app_label: str, model_name: str | None = None) -> Path:
+    admin_file = app_folder_path / "admin.py"
+    admin_file.touch(exist_ok=True)
+    cmd_args = [app_label]
+    if model_name:
+        cmd_args.append(model_name)
+
+    result = subprocess.run(
+        ["python", "manage.py", "admin_generator", *cmd_args], capture_output=True, text=True, check=False
+    )
+    if result.returncode != 0:
+        return admin_file
+
+    # the first set the encoding, it is useless
+    admin_code = result.stdout.split("\n", 1)[1]
+    admin_file.write_text(admin_file.read_text() + admin_code)
+
+    if not model_name:
+        # we probably don't need to reorder the imports if the admin code is being generated for all models
+        return admin_file
+
+    # if this is not the first time running this, the imports will be messed up, move all
+    # of them to the top
+    admin_lines = admin_file.read_text().split("\n")
+    _imports = []
+    _code = []
+    for line in admin_lines:
+        if line.startswith("from"):
+            _imports.append(line)
+        else:
+            _code.append(line)
+    admin_file.write_text("\n".join(_imports) + "\n" + "\n".join(_code))
+
+    return admin_file
+
+
 @cappa.command(help="Generate CRUD (Create, Read, Update, Delete) views for a model.", name="crud")
 class ModelCRUD:
     model_path: Annotated[
@@ -259,13 +295,13 @@ class ModelCRUD:
                 run_in_shell(models_data_code.format(app_label, self.excluded_fields)),
             )
 
-            app_folder_path, app_name, templates_dir = cast(
+            app_folder_path_str, app_name, templates_dir_str = cast(
                 tuple[str, str, str],
                 run_in_shell(app_path_name_and_templates_dir_code.format(app_label, app_label)),
             )
 
-            app_folder_path = Path(app_folder_path)
-            templates_dir = Path(templates_dir)
+            app_folder_path = Path(app_folder_path_str)
+            templates_dir = Path(templates_dir_str)
 
         django_models = (
             [m for m in all_django_models if m["name"].lower() == name.lower()] if name else all_django_models
@@ -310,6 +346,7 @@ class ModelCRUD:
             python_blueprints = list((get_crud_blueprints_path() / "python").iterdir())
             updated_python_files.update(
                 self.generate_python_code(
+                    app_label=app_label,
                     blueprints=python_blueprints,
                     app_folder_path=app_folder_path,
                     contexts=python_blueprint_context,
@@ -360,6 +397,7 @@ class ModelCRUD:
     @simple_progress("Generating python code")
     def generate_python_code(
         self,
+        app_label: str,
         app_folder_path: Path,
         blueprints: list[Path],
         contexts: list[PythonBlueprintContext],
@@ -389,6 +427,10 @@ class ModelCRUD:
             file_to_write_to.write_text(imports_content + file_to_write_to.read_text() + code_content)
             updated_files.append(file_to_write_to)
 
+        model_name = contexts[0]["model_name"] if len(contexts) == 1 else None
+        updated_files.append(
+            register_models_in_admin(app_folder_path=app_folder_path, app_label=app_label, model_name=model_name)
+        )
         return updated_files
 
     @simple_progress("Generating urls")

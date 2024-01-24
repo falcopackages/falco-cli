@@ -10,8 +10,8 @@ crud
 
 This command generates htmx-powered create, read, update, and delete views for your model. It follows a similar idea
 as `neapolitan <https://github.com/carltongibson/neapolitan>`_, but with a completely different approach. Instead of inheriting
-from a class as you would with ``neapolitan``, this command generates basic ``views``, ``urls``, and HTML ``templates``, and updates or overrides the
-corresponding files in your project. I prefer this approach because, at the end, you'll have all the new code directly in front of you. It's easily
+from a class as you would with ``neapolitan``, this command generates basic ``views``, ``urls``, ``forms``, ``admin`` (thanks to `django-extensions <https://django-extensions.readthedocs.io/en/latest/admin_generator.html>`_) 
+and HTML ``templates``, and updates or overrides the corresponding files in your project. I prefer this approach because, at the end, you'll have all the new code directly in front of you. It's easily
 accessible and you can update it as you see fit. The idea is to accelerate project prototyping. Write a model and you instantly have views ready for it.
 
 
@@ -28,8 +28,10 @@ Python code
 
 All Python code added by this command will be in **append** mode, meaning it won't override the content of your existing files.
 Instead, it will add code at the end or create the files if they are missing. The files that will be modified
-are ``forms.py``, ``urls.py``, and ``views.py``. For brevity, I'll only show an example of what the ``urls.py`` file
-might look like for a model named ``Product`` in a django app named ``products``.
+are ``forms.py``, ``urls.py``, ``admin.py`` (if you have `django-extension <https://django-extensions.readthedocs.io/en/latest/index.html>`_ installed), 
+``views.py`` and your project root ``urls.py``. 
+
+For the sake brevity, I'll only show an example of what the ``urls.py`` file might look like for a model named ``Product`` in a django app named ``products``.
 
 .. code-block::bash
 
@@ -68,9 +70,11 @@ Let's try it.
 Much cleaner, specifying that option means you consider the ``Product`` model as the entry point of your ``products`` app.
 So, instead of the base URL of the app looking like ``products/products/``, it will just be ``products/``.
 
-Note that the app is also registered in your root URL config. Here is an example of how the ``products`` app will be registered.
-This occurs when you generate ``crud`` views for a model and there is no existing ``urls.py`` file for the app. 
-The command is responsible for creating it.
+As previously mentioned, the command will also register your app in your project root URLs configuration. This occurs when 
+you generate ``crud`` views for a model and there is no existing ``urls.py`` file for the app. In such cases, it is assumed 
+that you haven't already registered the URLs for your app since the command just created the file.
+
+Here is an example of how the ``products`` app will be registered.
 
 .. code-block:: python
     :caption: config/urls.py

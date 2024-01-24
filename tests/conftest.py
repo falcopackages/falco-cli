@@ -40,7 +40,7 @@ class Post(models.Model):
     # Register the app in the project's settings
     settings_file = project_dir / "myproject" / "settings.py"
     settings_content = settings_file.read_text()
-    settings_file.write_text(settings_content + "\n" + "INSTALLED_APPS += ['blog']\n")
+    settings_file.write_text(settings_content + "\n" + "INSTALLED_APPS += ['blog', 'django_extensions']\n")
 
     # create a pyproject.toml
     (project_dir / "pyproject.toml").write_text(

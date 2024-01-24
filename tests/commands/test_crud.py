@@ -20,6 +20,7 @@ html_templates_point = [
     "create.html",
 ]
 forms_attributes = ["PostForm", "Post", "title", "content"]
+admin_attributes = ["PostAdmin", "Post", "title", "content"]
 
 
 def healthy_django_project() -> bool:
@@ -46,10 +47,13 @@ def test_crud(django_project, runner: CommandRunner, set_git_repo_to_clean):
     assert healthy_django_project()
     app_dir = Path("blog")
     assert (app_dir / "urls.py").exists()
+    # sourcery skip: no-loop-in-tests
     for a in forms_attributes:
         assert a in (app_dir / "forms.py").read_text()
 
-    # sourcery skip: no-loop-in-tests
+    for a in admin_attributes:
+        assert a in (app_dir / "admin.py").read_text()
+
     for f in views_functions:
         assert f in (app_dir / "views.py").read_text()
     for t in html_templates:
@@ -65,6 +69,9 @@ def test_crud_login(django_project, runner: CommandRunner, set_git_repo_to_clean
     assert (app_dir / "urls.py").exists()
     for a in forms_attributes:
         assert a in (app_dir / "forms.py").read_text()
+
+    for a in admin_attributes:
+        assert a in (app_dir / "admin.py").read_text()
 
     # sourcery skip: no-loop-in-tests
     for f in views_functions:
@@ -82,6 +89,9 @@ def test_crud_entry_point(django_project, runner: CommandRunner, set_git_repo_to
     assert (app_dir / "urls.py").exists()
     for a in forms_attributes:
         assert a in (app_dir / "forms.py").read_text()
+
+    for a in admin_attributes:
+        assert a in (app_dir / "admin.py").read_text()
     # sourcery skip: no-loop-in-tests
     for f in views_functions_entry_point:
         assert f in (app_dir / "views.py").read_text()
@@ -98,6 +108,9 @@ def test_crud_entry_point_login(django_project, runner: CommandRunner, set_git_r
     assert (app_dir / "urls.py").exists()
     for a in forms_attributes:
         assert a in (app_dir / "forms.py").read_text()
+
+    for a in admin_attributes:
+        assert a in (app_dir / "admin.py").read_text()
     # sourcery skip: no-loop-in-tests
     for f in views_functions_entry_point:
         assert f in (app_dir / "views.py").read_text()
@@ -130,6 +143,9 @@ def test_crud_only_python(django_project, runner: CommandRunner, set_git_repo_to
     # sourcery skip: no-loop-in-tests
     for a in forms_attributes:
         assert a in (app_dir / "forms.py").read_text()
+
+    for a in admin_attributes:
+        assert a in (app_dir / "admin.py").read_text()
     # sourcery skip: no-loop-in-tests
     for f in views_functions:
         assert f in (app_dir / "views.py").read_text()

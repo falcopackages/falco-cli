@@ -71,6 +71,7 @@ dependencies = [
     "django",
     "pytest-cookies",
     "django_htmx",
+    "django_extensions"
 ]
 
 [tool.hatch.envs.default.scripts]
@@ -116,6 +117,7 @@ extend-ignore = ["I001", "I002", "TID252", "EM101", "TCH001", "TRY003", "S607", 
 
 [tool.ruff.lint.extend-per-file-ignores]
 "tests/*" = ["ARG001", "INP001"]
+"demo/config/settings.py" = ["S105"]
 
 [tool.hatch.envs.types]
 dependencies = [

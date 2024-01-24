@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "crispy_tailwind",
     "template_partials",
     "django_htmx",
+    "django_extensions",
     "demo.core",
     "demo.products",
     "demo.orders",
