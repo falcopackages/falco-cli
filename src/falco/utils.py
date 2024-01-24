@@ -75,14 +75,15 @@ def network_request_with_progress(url: str, description: str):
         with simple_progress(description):
             yield httpx.get(url)
     except httpx.ConnectError as e:
-        raise cappa.Exit(f"Connection error, {url} is not reachable.", code=1) from e
+        msg = f"Connection error, {url} is not reachable."
+        raise cappa.Exit(msg, code=1) from e
 
 
 class ShellCodeError(Exception):
     pass
 
 
-def run_in_shell(command: str, eval_result: bool = True):
+def run_in_shell(command: str, *, eval_result: bool = True):
     result = subprocess.run(
         ["python", "manage.py", "shell", "-c", command],
         capture_output=True,
@@ -94,7 +95,7 @@ def run_in_shell(command: str, eval_result: bool = True):
     return ast.literal_eval(result.stdout) if eval_result else result.stdout
 
 
-def is_new_falco_cli_available(fail_on_error: bool = False) -> bool:
+def is_new_falco_cli_available(*, fail_on_error: bool = False) -> bool:
     try:
         with network_request_with_progress(
             "https://pypi.org/pypi/falco-cli/json",

@@ -5,7 +5,7 @@ repos:
     hooks:
       - id: hatch fmt
         name: run hatch fmt
-        entry: hatch fmt --formatter
+        entry: hatch fmt
         language: system
         files: '\.py$'
 

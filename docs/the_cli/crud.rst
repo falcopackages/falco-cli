@@ -66,8 +66,11 @@ Let's try it.
     ]
 
 Much cleaner, specifying that option means you consider the ``Product`` model as the entry point of your ``products`` app.
-So, instead of the base URL of the app looking like ``products/products/``, it will just be ``products/``, assuming you registered your URLs in
-your root URL config like this:
+So, instead of the base URL of the app looking like ``products/products/``, it will just be ``products/``.
+
+Note that the app is also registered in your root URL config. Here is an example of how the ``products`` app will be registered.
+This occurs when you generate ``crud`` views for a model and there is no existing ``urls.py`` file for the app. 
+The command is responsible for creating it.
 
 .. code-block:: python
     :caption: config/urls.py
@@ -80,9 +83,6 @@ your root URL config like this:
     path("products/", include("products.urls", namespace="products"))
     ]
 
-.. important::
-
-    Currently, the root ``urls.py`` file is not automatically updated, so you need to do this manually.
 
 
 HTML templates

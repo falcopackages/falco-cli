@@ -6,6 +6,7 @@ from typing import cast
 from typing import TypedDict
 
 import cappa
+import parso
 from falco.utils import get_project_name
 from falco.utils import run_in_shell
 from falco.utils import simple_progress
@@ -64,7 +65,7 @@ def get_model_dict(model):
 print([get_model_dict(model) for model in models])
 """
 
-app_path_and_templates_dir_code = """
+app_path_name_and_templates_dir_code = """
 from django.apps import apps
 from django.conf import settings
 from pathlib import Path
@@ -72,7 +73,13 @@ app = apps.get_app_config("{}")
 dirs = settings.TEMPLATES[0].get("DIRS", [])
 templates_dir = Path(dirs[0]) if dirs else Path(app.path) / "templates"
 app_templates_dir = templates_dir / "{}"
-print((str(app.path), str(app_templates_dir)))
+print((str(app.path), str(app.name), str(app_templates_dir)))
+"""
+
+root_url_config_path_code = """
+from django.conf import settings
+root_urlconf = settings.ROOT_URLCONF
+print(root_urlconf)
 """
 
 
@@ -154,6 +161,32 @@ urlpatterns = [
         """
 
 
+def register_app_urls(app_label: str, app_name: str) -> Path:
+    root_url = run_in_shell(root_url_config_path_code, eval_result=False)
+    root_url = root_url.strip().replace(".", "/")
+    rool_url_path = Path(f"{root_url}.py")
+    module = parso.parse(rool_url_path.read_text())
+    new_path = parso.parse(f"path('{app_label}/', include('{app_name}.urls', namespace='{app_label}'))")
+
+    for node in module.children:
+        try:
+            if (
+                node.children[0].type == parso.python.tree.ExprStmt.type
+                and node.children[0].children[0].value == "urlpatterns"
+            ):
+                patterns = node.children[0].children[2]
+                elements = patterns.children[1]
+                elements.children.append(new_path)
+                new_content = module.get_code()
+                new_content = "from django.urls import include\n" + new_content
+
+                rool_url_path.write_text(new_content)
+        except AttributeError:
+            continue
+
+    return rool_url_path
+
+
 @cappa.command(help="Generate CRUD (Create, Read, Update, Delete) views for a model.", name="crud")
 class ModelCRUD:
     model_path: Annotated[
@@ -226,9 +259,9 @@ class ModelCRUD:
                 run_in_shell(models_data_code.format(app_label, self.excluded_fields)),
             )
 
-            app_folder_path, templates_dir = cast(
-                tuple[str, str],
-                run_in_shell(app_path_and_templates_dir_code.format(app_label, app_label)),
+            app_folder_path, app_name, templates_dir = cast(
+                tuple[str, str, str],
+                run_in_shell(app_path_name_and_templates_dir_code.format(app_label, app_label)),
             )
 
             app_folder_path = Path(app_folder_path)
@@ -238,7 +271,8 @@ class ModelCRUD:
             [m for m in all_django_models if m["name"].lower() == name.lower()] if name else all_django_models
         )
         if name and not django_models:
-            raise cappa.Exit(f"Model {name} not found in app {app_label}", code=1)
+            msg = f"Model {name} not found in app {app_label}"
+            raise cappa.Exit(msg, code=1)
 
         python_blueprint_context: list[PythonBlueprintContext] = []
         html_blueprint_context: list[HtmlBlueprintContext] = []
@@ -283,8 +317,9 @@ class ModelCRUD:
                 )
             )
 
-            updated_python_files.add(
+            updated_python_files.update(
                 self.generating_urls(
+                    app_name=app_name,
                     app_folder_path=app_folder_path,
                     app_label=app_label,
                     django_models=django_models,
@@ -328,6 +363,7 @@ class ModelCRUD:
         app_folder_path: Path,
         blueprints: list[Path],
         contexts: list[PythonBlueprintContext],
+        *,
         entry_point: bool,
     ) -> list[Path]:
         updated_files = []
@@ -360,9 +396,11 @@ class ModelCRUD:
         self,
         app_folder_path: Path,
         app_label: str,
+        app_name: str,
         django_models: list[DjangoModel],
+        *,
         entry_point: bool,
-    ) -> Path:
+    ) -> list[Path]:
         urls_content = ""
         for django_model in django_models:
             model_name_lower = django_model["name"].lower()
@@ -377,13 +415,15 @@ class ModelCRUD:
                 urls_content = urls_content.replace(f"{model_name_lower}_", "")
 
         app_urls = app_folder_path / "urls.py"
+        updated_files = [app_urls]
         if app_urls.exists():
             urlpatterns = f"\nurlpatterns +=[{urls_content}]"
             app_urls.write_text(app_urls.read_text() + urlpatterns)
         else:
             app_urls.touch()
             app_urls.write_text(initial_urls_content(app_label, urls_content))
-        return app_urls
+            updated_files.append(register_app_urls(app_label=app_label, app_name=app_name))
+        return updated_files
 
     @simple_progress("Generating html templates")
     def generate_html_templates(
@@ -391,6 +431,7 @@ class ModelCRUD:
         templates_dir: Path,
         blueprints: list[Path],
         contexts: list[HtmlBlueprintContext],
+        *,
         entry_point: bool,
     ) -> list[Path]:
         updated_files = []

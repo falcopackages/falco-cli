@@ -20,10 +20,7 @@ class InstallCrudUtils:
     ]
 
     def __call__(self, project_name: Annotated[str, cappa.Dep(get_project_name)]):
-        if not self.output_dir:
-            output_dir = Path() / project_name / "core"
-        else:
-            output_dir = self.output_dir
+        output_dir = Path() / project_name / "core" if not self.output_dir else self.output_dir
 
         output_dir.mkdir(parents=True, exist_ok=True)
         (output_dir / "__init__.py").touch(exist_ok=True)

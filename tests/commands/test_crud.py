@@ -29,18 +29,7 @@ def healthy_django_project() -> bool:
         capture_output=True,
         text=True,
     )
-    print(result.stdout)
-    print(result.stderr)
     return result.returncode == 0
-
-
-def register_project_urls():
-    urls_file = Path("myproject/urls.py")
-    urls_file.write_text(
-        "from django.urls import include\n\n"
-        + urls_file.read_text()
-        + "\n\nurlpatterns += [path('blog/', include('blog.urls'))]",
-    )
 
 
 def fix_core_import(app_dir: Path):
@@ -54,7 +43,6 @@ def test_crud(django_project, runner: CommandRunner, set_git_repo_to_clean):
     runner.invoke("crud", "blog.post")
     runner.invoke("install-crud-utils", "core")
     fix_core_import(Path("blog"))
-    register_project_urls()
     assert healthy_django_project()
     app_dir = Path("blog")
     assert (app_dir / "urls.py").exists()
@@ -72,7 +60,6 @@ def test_crud_login(django_project, runner: CommandRunner, set_git_repo_to_clean
     runner.invoke("crud", "blog.post", "--login")
     runner.invoke("install-crud-utils", "core")
     fix_core_import(Path("blog"))
-    register_project_urls()
     assert healthy_django_project()
     app_dir = Path("blog")
     assert (app_dir / "urls.py").exists()
@@ -90,7 +77,6 @@ def test_crud_entry_point(django_project, runner: CommandRunner, set_git_repo_to
     runner.invoke("crud", "blog.post", "--entry-point")
     runner.invoke("install-crud-utils", "core")
     fix_core_import(Path("blog"))
-    register_project_urls()
     assert healthy_django_project()
     app_dir = Path("blog")
     assert (app_dir / "urls.py").exists()
@@ -107,7 +93,6 @@ def test_crud_entry_point_login(django_project, runner: CommandRunner, set_git_r
     runner.invoke("crud", "blog.post", "--entry-point", "--login")
     runner.invoke("install-crud-utils", "core")
     fix_core_import(Path("blog"))
-    register_project_urls()
     assert healthy_django_project()
     app_dir = Path("blog")
     assert (app_dir / "urls.py").exists()
@@ -139,7 +124,6 @@ def test_crud_only_python(django_project, runner: CommandRunner, set_git_repo_to
     runner.invoke("crud", "blog.post", "--only-python")
     runner.invoke("install-crud-utils", "core")
     fix_core_import(Path("blog"))
-    register_project_urls()
     assert healthy_django_project()
     app_dir = Path("blog")
     assert (app_dir / "urls.py").exists()

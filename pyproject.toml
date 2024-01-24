@@ -41,6 +41,7 @@ dependencies = [
     "black",
     "isort",
     "djlint",
+    "parso",
 ]
 [tool.hatch.metadata]
 allow-direct-references = true
@@ -111,7 +112,7 @@ prepare-deploy = ["update-readme-guides", "project-tree"]
 python = ["3.10", "3.11", "3.12"]
 
 [tool.ruff.lint]
-extend-ignore = ["I001", "I002", "TID252", "EM101", "TCH001"]
+extend-ignore = ["I001", "I002", "TID252", "EM101", "TCH001", "TRY003", "S607", "TCH003"]
 
 [tool.ruff.lint.extend-per-file-ignores]
 "tests/*" = ["ARG001", "INP001"]

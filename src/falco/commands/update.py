@@ -1,6 +1,5 @@
 from pathlib import Path
 from typing import Annotated
-from typing import Set
 
 import cappa
 import tomlkit
@@ -16,7 +15,7 @@ from rich import print as rich_print
 from . import checks
 
 
-# TODO add  --diff to just check diff without update
+# TODO: add  --diff to just check diff without update
 
 
 def cruft_state_from(config: FalcoConfig, project_name: str, author_name: str, author_email: str) -> dict:
@@ -62,7 +61,7 @@ class Update:
             pyproject["tool"]["falco"] = existing_config
             pyproject_file.write_text(tomlkit.dumps(pyproject))
             rich_print(f"{RICH_SUCCESS_MARKER} Initialized falco config.")
-            raise cappa.Exit()
+            raise cappa.Exit(code=0)
 
         last_commit = self._update(
             cruft_state=cruft_state_from(
@@ -97,7 +96,7 @@ class Update:
             repo_dir = tmpdir / "repo"
             current_template_dir = tmpdir / "current_template"
             new_template_dir = tmpdir / "new_template"
-            deleted_paths: Set[Path] = set()
+            deleted_paths: set[Path] = set()
             # Clone the template
             with utils.cookiecutter.get_cookiecutter_repo(cruft_state["template"], repo_dir) as repo:
                 last_commit = repo.head.object.hexsha

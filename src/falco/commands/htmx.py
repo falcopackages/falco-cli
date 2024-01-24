@@ -5,6 +5,7 @@ from typing import Annotated
 
 import cappa
 from falco.utils import network_request_with_progress
+from httpx import codes
 from rich import print as rich_print
 from rich.panel import Panel
 
@@ -29,8 +30,9 @@ class Htmx:
 
         with network_request_with_progress(url, f"Downloading htmx version {version}") as response:
             content = response.content.decode("utf-8")
-            if response.status_code == 404:
-                raise cappa.Exit(f"Could not find htmx version {version}.", code=1)
+            if response.status_code == codes.NOT_FOUND:
+                msg = f"Could not find htmx version {version}."
+                raise cappa.Exit(msg, code=1)
 
         filepath = self.output if str(self.output).endswith(".js") else self.output / "htmx.min.js"
         filepath.parent.mkdir(parents=True, exist_ok=True)
