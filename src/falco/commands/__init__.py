@@ -5,6 +5,7 @@ from .model_crud import ModelCRUD  # noqa
 from .reset_migrations import ResetMigrations  # noqa
 from .rm_migrations import RmMigrations  # noqa
 from .setup_admin import SetupAdmin  # noqa
+from .start_app import StartApp  # noqa
 from .start_project import StartProject  # noqa
 from .sync_dotenv import SyncDotenv  # noqa
 from .update import Update  # noqa

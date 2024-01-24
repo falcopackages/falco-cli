@@ -71,7 +71,8 @@ dependencies = [
     "django",
     "pytest-cookies",
     "django_htmx",
-    "django_extensions"
+    "django_extensions",
+    "django-model-utils",
 ]
 
 [tool.hatch.envs.default.scripts]

@@ -92,7 +92,7 @@ def run_in_shell(command: str, *, eval_result: bool = True):
     )
     if result.returncode != 0:
         raise ShellCodeError(result.stderr)
-    return ast.literal_eval(result.stdout) if eval_result else result.stdout
+    return ast.literal_eval(result.stdout) if eval_result else result.stdout.strip()
 
 
 def is_new_falco_cli_available(*, fail_on_error: bool = False) -> bool:

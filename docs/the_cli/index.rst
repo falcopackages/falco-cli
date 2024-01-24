@@ -28,6 +28,7 @@ Additionally, these commands require acces to your virtual environment, so make 
    :hidden:
 
    start_project
+   start_app
    crud
    htmx
    work
