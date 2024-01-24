@@ -181,6 +181,7 @@ def register_app_urls(app_label: str, app_name: str) -> Path:
                 new_content = "from django.urls import include\n" + new_content
 
                 rool_url_path.write_text(new_content)
+                break
         except AttributeError:
             continue
 
