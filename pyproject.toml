@@ -42,6 +42,7 @@ dependencies = [
   "black",
   "cappa",
   "cookiecutter",
+  "cruft",
   "djlint",
   "honcho",
   "httpx",

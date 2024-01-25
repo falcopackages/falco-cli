@@ -4,6 +4,9 @@ default := "blueprints/falco_tailwind"
 _default:
     @just --list
 
+@install:
+    hatch run python --version
+
 # Install dependencies
 @bootstrap:
     hatch env create

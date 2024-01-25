@@ -8,6 +8,7 @@ from falco.commands import RmMigrations
 from falco.commands import StartApp
 from falco.commands import StartProject
 from falco.commands import SyncDotenv
+from falco.commands import UpdateProject
 from falco.commands import Work
 
 
@@ -17,6 +18,7 @@ from falco.commands import Work
 class Falco:
     subcommand: cappa.Subcommands[
         StartProject
+        | UpdateProject
         | StartApp
         | ModelCRUD
         | InstallCrudUtils
