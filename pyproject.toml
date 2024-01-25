@@ -113,12 +113,16 @@ prepare-deploy = ["update-readme-guides", "project-tree"]
 [[tool.hatch.envs.all.matrix]]
 python = ["3.10", "3.11", "3.12"]
 
+[tool.ruff]
+extend-exclude = ["demo/*", "blueprints/*"]
+
 [tool.ruff.lint]
 extend-ignore = ["I001", "I002", "TID252", "EM101", "TCH001", "TRY003", "S607", "TCH003"]
 
 [tool.ruff.lint.extend-per-file-ignores]
 "tests/*" = ["ARG001", "INP001"]
 "demo/config/settings.py" = ["S105"]
+"docs/conf.py" = ["A001", "INP001"]
 
 [tool.hatch.envs.types]
 dependencies = [
