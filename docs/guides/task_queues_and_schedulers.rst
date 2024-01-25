@@ -11,7 +11,7 @@ Task queues are used to offload tasks to a dedicated worker process when the pro
 In other words, if you need to do something that might take too long to process and whose result does not need to be shown immediately to the user, you use a queue manager.
 
 Think of it as your Django application having an assistant. When a task is too time-consuming to be handled instantly, it's assigned to the assistant for completion, allowing your app to continue
-functioning normally and serving your clients. Once the assistant completes the task, it returns the result to you.
+functioning normally and serving your clients. Once the assistant completes the task, it returns the result to your django app.
 
 .. admonition:: Example
 
