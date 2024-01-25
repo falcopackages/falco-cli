@@ -1,3 +1,5 @@
+:image: https://raw.githubusercontent.com/Tobi-De/falco/main/assets/falco-logo.svg
+
 Remove / Reset your migrations
 ==============================
 

@@ -1,3 +1,4 @@
+:image: https://raw.githubusercontent.com/Tobi-De/falco/main/assets/falco-logo.svg
 :description: A set of handy utilities for easily obtaining the htmx library and its extensions locally on your computer.
 
 HTMX goodies

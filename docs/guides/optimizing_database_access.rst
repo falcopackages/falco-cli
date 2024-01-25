@@ -1,3 +1,4 @@
+:image: https://raw.githubusercontent.com/Tobi-De/falco/main/assets/falco-logo.svg
 :description: Optimizing Database Access in django
 
 Optimizing Database Access

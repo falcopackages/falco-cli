@@ -1,3 +1,4 @@
+:image: https://raw.githubusercontent.com/Tobi-De/falco/main/assets/falco-logo.svg
 :description: Things that does not deserve a full guide or I don’t know where to put them.
 
 Tips and extra

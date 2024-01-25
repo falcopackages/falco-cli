@@ -1,4 +1,5 @@
-:description: start a new django app ready for your next saas idea.
+:image: https://raw.githubusercontent.com/Tobi-De/falco/main/assets/falco-logo.svg
+:description: Start a new django app that's automatically registered to your installed apps.
 
 Start Application
 =================

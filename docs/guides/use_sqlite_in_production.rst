@@ -1,3 +1,4 @@
+:image: https://raw.githubusercontent.com/Tobi-De/falco/main/assets/falco-logo.svg
 :description: A guide on how to use sqlite in production
 
 Use Sqlite in production

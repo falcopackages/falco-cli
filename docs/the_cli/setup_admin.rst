@@ -1,4 +1,5 @@
-:description:
+:image: https://raw.githubusercontent.com/Tobi-De/falco/main/assets/falco-logo.svg
+:description: Create a django admin user from pre-configured settings.
 
 Setup admin user
 ================

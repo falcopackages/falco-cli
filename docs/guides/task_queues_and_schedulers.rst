@@ -1,3 +1,4 @@
+:image: https://raw.githubusercontent.com/Tobi-De/falco/main/assets/falco-logo.svg
 :description: Offload tasks in django using task queues and periodic tasks using schedulers.
 
 Task Queues and Schedulers
