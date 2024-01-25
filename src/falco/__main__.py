@@ -21,7 +21,6 @@ class Falco:
         | StartApp
         | ModelCRUD
         | InstallCrudUtils
-        # | Update
         | Htmx
         | HtmxExtension
         | Work
