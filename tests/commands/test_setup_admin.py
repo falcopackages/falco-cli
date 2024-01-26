@@ -16,10 +16,7 @@ def add_settings(django_project_dir):
     settings_file = django_project_dir / "myproject" / "settings.py"
     settings_content = settings_file.read_text()
     settings_file.write_text(
-        settings_content
-        + "\n"
-        + "SUPERUSER_USERNAME = 'admin'\n"
-        + "SUPERUSER_PASSWORD = 'admin'"
+        settings_content + "\n" + "SUPERUSER_USERNAME = 'admin'\n" + "SUPERUSER_PASSWORD = 'admin'"
     )
 
 

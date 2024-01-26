@@ -136,8 +136,7 @@ source_pkgs = ["falco", "tests"]
 branch = true
 parallel = true
 omit = [
-    "src/falco/__about__.py",
-    "src/falco_blueprints/*",
+    "src/falco/__about__.py"
 ]
 
 [tool.coverage.paths]

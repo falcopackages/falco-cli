@@ -9,19 +9,25 @@ from typing import Annotated
 
 import cappa
 import httpx
+import tomlkit
 from cookiecutter.exceptions import CookiecutterException
 from cruft import create
 from cruft.exceptions import InvalidCookiecutterRepository
 from falco.commands.htmx import Htmx
 from falco.utils import clean_project_name
-from falco.utils import default_falco_config
 from falco.utils import is_new_falco_cli_available
 from falco.utils import RICH_INFO_MARKER
 from falco.utils import RICH_SUCCESS_MARKER
 from falco.utils import simple_progress
 from rich import print as rich_print
 from rich.prompt import Prompt
-from tomlkit import parse
+
+
+DEFAULT_SKIP = [
+    "playground.ipynb",
+    "README.md",
+]
+DEFAUL_WORK = {"server": "python manage.py migrate && python manage.py tailwind runserver"}
 
 
 def get_authors_info() -> tuple[str, str]:
@@ -97,7 +103,7 @@ class StartProject:
 
         rich_print(msg)
         self.update_htmx(project_dir)
-        self.cruft_to_falco_state(project_dir)
+        self.cruft_to_falco_config(project_dir)
 
     def init_project(self) -> Path:
         author_name, author_email = get_authors_info()
@@ -135,13 +141,14 @@ class StartProject:
             base_path = project_dir if self.is_root else project_dir / self.project_name
             Htmx(version="latest", output=base_path / static_path)()
 
-    def cruft_to_falco_state(self, project_dir: Path):
+    def cruft_to_falco_config(self, project_dir: Path):
         cruft_file = project_dir.parent / ".cruft.json" if self.is_root else project_dir / ".cruft.json"
         pyproject = project_dir.parent / "pyproject.toml" if self.is_root else project_dir / "pyproject.toml"
         cruft_state = json.loads(cruft_file.read_text())
-        pyproject_dict = parse(pyproject.read_text())
-        config = default_falco_config()
-        config.update({"revision": cruft_state["commit"]})
-        pyproject_dict["tool"]["falco"] = config
-        # pyproject.write_text(dumps(pyproject_dict)) TODO: comment out when update feature ready
+        pyproject_dict: dict = tomlkit.parse(pyproject.read_text())
+        pyproject_dict["tool"]["falco"]["revision"] = cruft_state["commit"]
+        pyproject_dict["tool"]["falco"]["skip"] = DEFAULT_SKIP
+        pyproject_dict["tool"]["falco"]["work"] = DEFAUL_WORK
+        pyproject_dict["tool"]["falco"]["blueprint"] = "https://github.com/Tobi-De/falco_blueprint_basic.git"
+        pyproject.write_text(tomlkit.dumps(pyproject_dict))
         cruft_file.unlink()
