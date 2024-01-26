@@ -3,12 +3,15 @@ from typing import Annotated
 
 import cappa
 import httpx
+from falco.utils import get_pyproject_file
 from falco.utils import network_request_with_progress
 from falco.utils import simple_progress
 from rich import print as rich_print
 from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
+
+from .htmx import Htmx
 
 REGISTRY_URL = "https://htmx-extensions.oluwatobi.dev/extensions.json"
 
@@ -23,9 +26,9 @@ class HtmxExtension:
         ),
     ]
     output: Annotated[
-        Path,
+        Path | None,
         cappa.Arg(
-            default=Path(),
+            default=None,
             help="The directory to write the downloaded file to.",
             short="-o",
             long="--output",
@@ -50,7 +53,7 @@ class HtmxExtension:
             download_url = extension.get("download_url")
             response = httpx.get(download_url, follow_redirects=True)
 
-            output_file = self.output if self.output.name.endswith(".js") else self.output / f"{self.name}.js"
+            output_file = self.resolve_filepath()
             output_file.parent.mkdir(parents=True, exist_ok=True)
             output_file.write_text(response.text)
 
@@ -60,6 +63,23 @@ class HtmxExtension:
                 subtitle=extension.get("doc_url"),
             )
         )
+
+    def resolve_filepath(self) -> Path:
+        try:
+            pyproject_path = get_pyproject_file()
+        except cappa.Exit:
+            pyproject_path = None
+
+        if self.output:
+            filepath = self.output if self.output.name.endswith(".js") else self.output / f"{self.name}.js"
+        elif self.output is None and pyproject_path:
+            htmx_config = Htmx.read_from_config(pyproject_path=pyproject_path)
+            htmx_filepath, _ = htmx_config
+            filepath = htmx_filepath.parent / f"{self.name}.js"
+        else:
+            filepath = Path(f"{self.name}.js")
+
+        return filepath
 
     def list_all(self):
         extensions = self.read_registry()

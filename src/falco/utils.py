@@ -24,6 +24,7 @@ class FalcoConfig(TypedDict):
     blueprint: str
     skip: list[str]
     work: dict[str, str]
+    htmx: str
 
 
 def clean_project_name(val: str) -> str:

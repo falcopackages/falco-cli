@@ -1,2 +1,6 @@
 [project]
 name = "demo"
+
+
+[tool.falco]
+htmx = "static/vendors/htmx.min.js:1.9.10"
