@@ -11,6 +11,11 @@ crud
 
 .. cappa:: falco.commands.ModelCRUD
 
+.. warning::
+
+    To prevent potential issues, especially with the admin code generation, it is recommended to execute the ``install-crud-utils`` 
+    command prior to any usage of the ``crud`` command.
+
 This command generates htmx-powered create, read, update, and delete views for your model. It follows a similar idea
 as `neapolitan <https://github.com/carltongibson/neapolitan>`_, but with a completely different approach. Instead of inheriting
 from a class as you would with ``neapolitan``, this command generates basic ``views``, ``urls``, ``forms``, ``admin`` (thanks to `django-extensions <https://django-extensions.readthedocs.io/en/latest/admin_generator.html>`_) 
