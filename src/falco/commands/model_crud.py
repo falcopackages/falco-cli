@@ -239,8 +239,7 @@ class ModelCRUD:
         cappa.Arg(
             default="",
             long="--blueprints",
-            help="The path to custom html templates that will server as blueprints.",
-            hidden=True,
+            help="The path to custom html templates that will serve as blueprints.",
         ),
     ]
     excluded_fields: Annotated[
