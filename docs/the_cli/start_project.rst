@@ -6,11 +6,6 @@ Start project
 
 .. cappa:: falco.commands.StartProject
 
-.. important::
-
-    Starting from release `0.3.2 <https://falco.oluwatobi.dev/changelog.html#release-v0-3-2>`_, the project blueprint is now maintained
-    in its own `repository <https://github.com/Tobi-De/falco_blueprint_basic>`_.
-
 Initialize a new django project the falco way. This project-starter makes several assumptions; we'll go through the most important choices I made below.
 I'll list some alternatives below in case you don't agree with my choices. But even if you choose to use an alternative, most commands
 can still be useful to you, and the `guides </guides/index.html>`_ are not particularly tied to the generated project. So, even with another project-starter, **Falco**
