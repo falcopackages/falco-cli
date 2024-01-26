@@ -27,7 +27,6 @@ DEFAULT_SKIP = [
     "playground.ipynb",
     "README.md",
 ]
-DEFAUL_WORK = {"server": "python manage.py migrate && python manage.py tailwind runserver"}
 
 
 def get_authors_info() -> tuple[str, str]:
@@ -156,7 +155,6 @@ class StartProject:
         pyproject_dict: dict = tomlkit.parse(pyproject.read_text())
         pyproject_dict["tool"]["falco"]["revision"] = cruft_state["commit"]
         pyproject_dict["tool"]["falco"]["skip"] = DEFAULT_SKIP
-        pyproject_dict["tool"]["falco"]["work"] = DEFAUL_WORK
         pyproject_dict["tool"]["falco"]["blueprint"] = self.repo_url
         pyproject.write_text(tomlkit.dumps(pyproject_dict))
         cruft_file.unlink()
