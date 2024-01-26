@@ -8,6 +8,7 @@ from typing import TypedDict
 import cappa
 import parso
 from falco.utils import get_project_name
+from falco.utils import RICH_ERROR_MARKER
 from falco.utils import run_in_shell
 from falco.utils import simple_progress
 from jinja2 import Template
@@ -198,6 +199,8 @@ def register_models_in_admin(app_folder_path: Path, app_label: str, model_name: 
         ["python", "manage.py", "admin_generator", *cmd_args], capture_output=True, text=True, check=False
     )
     if result.returncode != 0:
+        msg = result.stderr.split("\n")[-2]
+        rich_print(f"{RICH_ERROR_MARKER}Admin failed to generate: {msg}")
         return admin_file
 
     # the first set the encoding, it is useless
