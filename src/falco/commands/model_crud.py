@@ -28,6 +28,7 @@ class PythonBlueprintContext(TypedDict):
     model_name: str
     model_verbose_name_plural: str
     model_fields: dict[str, str]
+    excluded_fields: list[str]
 
 
 class UrlsForContext(TypedDict):
@@ -56,11 +57,10 @@ class DjangoModel(TypedDict):
 models_data_code = """
 from django.apps import apps
 models = apps.get_app_config("{}").get_models()
-exclude_fields = {}
 def get_model_dict(model):
     name = model.__name__
     verbose_name_plural = getattr(model._meta, 'verbose_name_plural', f"{{name}}s")
-    fields = {{field.name: field.verbose_name for field in model._meta.fields if field.name not in exclude_fields}}
+    fields = {{field.name: field.verbose_name for field in model._meta.fields}}
     return {{"name": name, "fields": fields, "verbose_name_plural": verbose_name_plural}}
 print([get_model_dict(model) for model in models])
 """
@@ -242,7 +242,7 @@ class ModelCRUD:
     ]
     excluded_fields: Annotated[
         list[str],
-        cappa.Arg(short=True, default=[], long="--exclude", help="Fields to exclude."),
+        cappa.Arg(short=True, default=[], long="--exclude", help="Fields to exclude from the form."),
     ]
     only_python: Annotated[
         bool,
@@ -279,6 +279,8 @@ class ModelCRUD:
 
         v = self.model_path.split(".")
 
+        excluded_fields = [*self.excluded_fields, "created", "modified"]
+
         if len(v) == 1:
             name = None
             app_label = v[0]
@@ -292,7 +294,7 @@ class ModelCRUD:
         with simple_progress("Getting models info"):
             all_django_models = cast(
                 list[DjangoModel],
-                run_in_shell(models_data_code.format(app_label, self.excluded_fields)),
+                run_in_shell(models_data_code.format(app_label)),
             )
 
             app_folder_path_str, app_name, templates_dir_str = cast(
@@ -321,6 +323,7 @@ class ModelCRUD:
                     "model_name": django_model["name"],
                     "model_verbose_name_plural": django_model["verbose_name_plural"],
                     "model_fields": django_model["fields"],
+                    "excluded_fields": excluded_fields,
                 }
             )
             html_blueprint_context.append(

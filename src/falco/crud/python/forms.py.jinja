@@ -11,7 +11,7 @@ class {{model_name}}Form(ModelForm):
     class Meta:
         model = {{model_name}}
         fields = (
-        {% for item in model_fields %}
+        {% for item in model_fields if item not in excluded_fields %}
             {% if not loop.first %}, {% endif %}"{{ item }}"
         {% endfor %}
         )
