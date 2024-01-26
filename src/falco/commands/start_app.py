@@ -52,12 +52,18 @@ class StartApp:
             models_file = app_dir / "models.py"
 
             models_file.write_text(
-                f"from model_utils.models import TimeStampedModel\nclass {model_name}(TimeStampedModel):\n\tpass"
+                f"""
+from django.db import models
+from model_utils.models import TimeStampedModel
+
+class {model_name}(TimeStampedModel):
+    name=models.CharField(max_length=255)
+"""
             )
 
-            (app_dir / "admin.py").write_text("from django.contrib import admin")
+            (app_dir / "admin.py").write_text("")
 
-            (app_dir / "views.py").write_text("from django.template.response import TemplateResponse")
+            (app_dir / "views.py").write_text("")
 
             app_config_file = app_dir / "apps.py"
             app_config_file.write_text(app_config_file.read_text().replace(self.app_name, final_app_name))

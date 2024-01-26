@@ -218,7 +218,7 @@ def register_models_in_admin(app_folder_path: Path, app_label: str, model_name: 
             _imports.append(line)
         else:
             _code.append(line)
-    admin_file.write_text("\n".join(_imports) + "\n" + "\n".join(_code))
+    admin_file.write_text("\n" + "\n".join(_imports) + "\n" + "\n".join(_code))
 
     return admin_file
 
