@@ -4,7 +4,7 @@ from typing import Annotated
 
 import cappa
 import parso
-from falco.commands.model_crud import run_python_formatters
+from falco.commands.crud.utils import run_python_formatters
 from falco.utils import get_project_name
 from falco.utils import run_in_shell
 from falco.utils import simple_progress

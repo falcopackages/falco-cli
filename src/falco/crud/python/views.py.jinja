@@ -1,9 +1,9 @@
 # IMPORTS:START
-from {{project_name}}.core.utils import paginate_queryset
+from {{crud_utils_import}}.utils import paginate_queryset
 {% if login %}
-from {{project_name}}.core.types import AuthenticatedHttpRequest
+from {{crud_utils_import}}.types import AuthenticatedHttpRequest
 {% else %}
-from {{project_name}}.core.types import HttpRequest
+from {{crud_utils_import}}.types import HttpRequest
 {% endif %}
 
 from django.http import HttpRequest

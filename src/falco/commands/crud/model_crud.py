@@ -1,4 +1,3 @@
-import importlib
 import subprocess
 from pathlib import Path
 from typing import Annotated
@@ -8,18 +7,21 @@ from typing import TypedDict
 import cappa
 import parso
 from falco.utils import get_project_name
+from falco.utils import read_falco_config
 from falco.utils import RICH_ERROR_MARKER
+from falco.utils import RICH_INFO_MARKER
+from falco.utils import RICH_SUCCESS_MARKER
 from falco.utils import run_in_shell
 from falco.utils import simple_progress
-from jinja2 import Template
 from rich import print as rich_print
 
-from . import checks
-
-IMPORT_START_COMMENT = "# IMPORTS:START"
-IMPORT_END_COMMENT = "# IMPORTS:END"
-CODE_START_COMMENT = "# CODE:START"
-CODE_END_COMMENT = "# CODE:END"
+from .. import checks
+from .install_crud_utils import InstallCrudUtils
+from .utils import extract_python_file_templates
+from .utils import get_crud_blueprints_path
+from .utils import render_to_string
+from .utils import run_html_formatters
+from .utils import run_python_formatters
 
 
 class PythonBlueprintContext(TypedDict):
@@ -30,6 +32,7 @@ class PythonBlueprintContext(TypedDict):
     model_verbose_name_plural: str
     model_fields: dict[str, str]
     excluded_fields: list[str]
+    crud_utils_import: str
 
 
 class UrlsForContext(TypedDict):
@@ -84,12 +87,6 @@ print(root_urlconf)
 """
 
 
-def extract_content_from(text: str, start_comment: str, end_comment: str):
-    start_index = text.find(start_comment) + len(start_comment)
-    end_index = text.find(end_comment)
-    return text[start_index:end_index]
-
-
 def get_urls(model_name_lower: str, urlsafe_model_verbose_name_plural: str) -> str:
     prefix = urlsafe_model_verbose_name_plural
     return f"""
@@ -109,44 +106,6 @@ def get_urls_template_string(app_label: str, model_name_lower: str) -> UrlsForCo
         "update_view_url": f"{{% url '{app_label}:{model_name_lower}_update' {model_name_lower}.pk %}}",
         "delete_view_url": f"{{% url '{app_label}:{model_name_lower}_delete' {model_name_lower}.pk %}}",
     }
-
-
-def render_to_string(template_content: str, context: dict):
-    return Template(template_content).render(**context)
-
-
-def get_crud_blueprints_path() -> Path:
-    package = importlib.util.find_spec("falco")
-    if package is None:
-        raise cappa.Exit("The falco base install path could not be found.", code=1)
-    return Path(package.submodule_search_locations[0]) / "crud"
-
-
-@simple_progress("Running python formatters")
-def run_python_formatters(filepath: str):
-    autoflake = [
-        "autoflake",
-        "--in-place",
-        "--remove-all-unused-imports",
-        filepath,
-    ]
-    black = ["black", filepath]
-    isort = ["isort", filepath]
-    subprocess.run(autoflake, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
-    subprocess.run(isort, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
-    subprocess.run(black, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
-
-
-@simple_progress("Running html formatters")
-def run_html_formatters(filepath: str):
-    djlint = ["djlint", filepath, "--reformat"]
-    subprocess.run(djlint, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
-
-
-def extract_python_file_templates(file_content: str) -> tuple[str, str]:
-    imports_template = extract_content_from(file_content, IMPORT_START_COMMENT, IMPORT_END_COMMENT)
-    code_template = extract_content_from(file_content, CODE_START_COMMENT, CODE_END_COMMENT)
-    return imports_template, code_template
 
 
 def initial_urls_content(app_label: str, urls_content: str) -> str:
@@ -196,7 +155,10 @@ def register_models_in_admin(app_folder_path: Path, app_label: str, model_name: 
         cmd_args.append(model_name)
 
     result = subprocess.run(
-        ["python", "manage.py", "admin_generator", *cmd_args], capture_output=True, text=True, check=False
+        ["python", "manage.py", "admin_generator", *cmd_args],
+        capture_output=True,
+        text=True,
+        check=False,
     )
     if result.returncode != 0:
         msg = result.stderr.split("\n")[-2]
@@ -244,7 +206,12 @@ class ModelCRUD:
     ]
     excluded_fields: Annotated[
         list[str],
-        cappa.Arg(short=True, default=[], long="--exclude", help="Fields to exclude from the form."),
+        cappa.Arg(
+            short=True,
+            default=[],
+            long="--exclude",
+            help="Fields to exclude from the form.",
+        ),
     ]
     only_python: Annotated[
         bool,
@@ -316,6 +283,13 @@ class ModelCRUD:
 
         python_blueprint_context: list[PythonBlueprintContext] = []
         html_blueprint_context: list[HtmlBlueprintContext] = []
+        pyproject_path = Path("pyproject.toml")
+        falco_config = read_falco_config(pyproject_path=pyproject_path) if pyproject_path.exists() else {}
+        install_path, crud_utils_installed = InstallCrudUtils.get_install_path(
+            project_name=project_name,
+            falco_config=falco_config,
+        )
+        crud_utils_import = str(install_path).replace("/", ".")
         for django_model in django_models:
             python_blueprint_context.append(
                 {
@@ -326,6 +300,7 @@ class ModelCRUD:
                     "model_verbose_name_plural": django_model["verbose_name_plural"],
                     "model_fields": django_model["fields"],
                     "excluded_fields": excluded_fields,
+                    "crud_utils_import": crud_utils_import,
                 }
             )
             html_blueprint_context.append(
@@ -372,9 +347,9 @@ class ModelCRUD:
         updated_html_files = set()
         if not self.only_python:
             html_blueprints = (
-                list((get_crud_blueprints_path() / "html").iterdir())
-                if not self.blueprints
-                else list(Path(self.blueprints).glob("*.html"))
+                list(Path(self.blueprints).glob("*.html"))
+                if self.blueprints
+                else list((get_crud_blueprints_path() / "html").iterdir())
             )
 
             updated_html_files.update(
@@ -393,11 +368,12 @@ class ModelCRUD:
             run_html_formatters(str(file))
 
         display_names = ", ".join(m.get("name") for m in django_models)
-        rich_print(f"[green]CRUD views generated for: {display_names}[/green]")
-        rich_print(
-            "[blue]If this is your first time running this command, please also execute "
-            "'falco install-crud-utils' to ensure all necessary utilities are installed.[/blue]"
-        )
+        rich_print(f"{RICH_SUCCESS_MARKER}CRUD views generated for: {display_names}[/green]")
+        if not crud_utils_installed:
+            rich_print(
+                f"{RICH_INFO_MARKER}It appears that your CRUD utilities have not been installed yet. "
+                f"Please execute the command 'falco install-crud-utils' to install them."
+            )
 
     @simple_progress("Generating python code")
     def generate_python_code(
@@ -434,7 +410,11 @@ class ModelCRUD:
 
         model_name = contexts[0]["model_name"] if len(contexts) == 1 else None
         updated_files.append(
-            register_models_in_admin(app_folder_path=app_folder_path, app_label=app_label, model_name=model_name)
+            register_models_in_admin(
+                app_folder_path=app_folder_path,
+                app_label=app_label,
+                model_name=model_name,
+            )
         )
         return updated_files
 

@@ -9,10 +9,10 @@ from falco.utils import simple_progress
 from falco.utils import write_falco_config
 from rich import print as rich_print
 
-from .model_crud import extract_python_file_templates
-from .model_crud import get_crud_blueprints_path
-from .model_crud import render_to_string
-from .model_crud import run_python_formatters
+from .utils import extract_python_file_templates
+from .utils import get_crud_blueprints_path
+from .utils import render_to_string
+from .utils import run_python_formatters
 
 
 @cappa.command(help="Install utils necessary for CRUD views.", name="install-crud-utils")

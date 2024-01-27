@@ -1,7 +1,7 @@
+from .crud import InstallCrudUtils  # noqa
+from .crud import ModelCRUD  # noqa
 from .htmx import Htmx  # noqa
 from .htmx_extension import HtmxExtension  # noqa
-from .install_crud_utils import InstallCrudUtils  # noqa
-from .model_crud import ModelCRUD  # noqa
 from .reset_migrations import ResetMigrations  # noqa
 from .rm_migrations import RmMigrations  # noqa
 from .setup_admin import SetupAdmin  # noqa
