@@ -19,8 +19,17 @@ def generated_project_files(project_name) -> list[str]:
     ]
 
 
+blueprint_path = Path("blueprints/falco_blueprint_basic").resolve(strict=True)
+
+
 def test_start_project(runner: CommandRunner):
-    runner.invoke("start-project", "dotfm", "--skip-new-version-check")
+    runner.invoke(
+        "start-project",
+        "dotfm",
+        "--skip-new-version-check",
+        "--repo-url",
+        str(blueprint_path),
+    )
     assert Path("dotfm").exists()
     # sourcery skip: no-loop-in-tests
     project_files = [file.name for file in Path("dotfm").iterdir()]
@@ -30,7 +39,13 @@ def test_start_project(runner: CommandRunner):
 
 def test_user_name_and_email(runner: CommandRunner, git_user_infos):
     name, email = git_user_infos
-    runner.invoke("start-project", "dotfm", "--skip-new-version-check")
+    runner.invoke(
+        "start-project",
+        "dotfm",
+        "--skip-new-version-check",
+        "--repo-url",
+        str(blueprint_path),
+    )
     pyproject_content = (Path("dotfm") / "pyproject.toml").read_text()
     assert name in pyproject_content
     assert email in pyproject_content
