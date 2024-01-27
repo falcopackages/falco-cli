@@ -131,3 +131,6 @@ dmypy.json
 .DS_Store
 .idea/
 .idea/sonarlint/
+
+
+test_projects/
