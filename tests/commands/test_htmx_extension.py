@@ -1,8 +1,7 @@
 from pathlib import Path
 
 from cappa.testing import CommandRunner
-
-from tests.utils import add_pyproject_file
+from falco.utils import write_falco_config
 
 
 def test_htmx_ext_download(runner: CommandRunner):
@@ -29,14 +28,16 @@ def test_htmx_ext_download_to_output_file(runner: CommandRunner):
 
 
 def test_htmx_ext_file_existing_config(runner: CommandRunner):
-    add_pyproject_file(htmx_path="config/htmx/htmx.js")
+    pyproject_toml = Path("pyproject.toml")
+    write_falco_config(pyproject_path=pyproject_toml, htmx="config/htmx/htmx.js")
     output = Path("config/htmx/sse.js")
     runner.invoke("htmx-ext", "sse")
     assert output.exists()
 
 
 def test_htmx_ext_download_to_output_file_existing_config(runner: CommandRunner):
-    add_pyproject_file(htmx_path="config/htmx/htmx.js")
+    pyproject_toml = Path("pyproject.toml")
+    write_falco_config(pyproject_path=pyproject_toml, htmx="config/htmx/htmx.js")
     output = Path("config/htmx/sse.js")
     runner.invoke("htmx-ext", "sse", "-o", ".")
     assert not output.exists()

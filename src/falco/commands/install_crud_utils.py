@@ -2,8 +2,11 @@ from pathlib import Path
 from typing import Annotated
 
 import cappa
+from falco.utils import FalcoConfig
 from falco.utils import get_project_name
+from falco.utils import read_falco_config
 from falco.utils import simple_progress
+from falco.utils import write_falco_config
 from rich import print as rich_print
 
 from .model_crud import extract_python_file_templates
@@ -17,10 +20,12 @@ class InstallCrudUtils:
     output_dir: Annotated[
         Path | None,
         cappa.Arg(default=None, help="The folder in which to install the crud utils."),
-    ]
+    ] = None
 
     def __call__(self, project_name: Annotated[str, cappa.Dep(get_project_name)]):
-        output_dir = Path() / project_name / "core" if not self.output_dir else self.output_dir
+        pyproject_path = Path("pyproject.toml")
+        falco_config = read_falco_config(pyproject_path) if pyproject_path.exists() else {}
+        output_dir = self.output_dir or self.get_install_path(project_name=project_name, falco_config=falco_config)[0]
 
         output_dir.mkdir(parents=True, exist_ok=True)
         (output_dir / "__init__.py").touch(exist_ok=True)
@@ -41,14 +46,16 @@ class InstallCrudUtils:
                 )
                 generated_files.append(output_file)
 
-                # in case the types already include the HttpRequest import from django, it might class with the
-                # types imports
-                if file_path.name == "types.py.jinja":
-                    content = output_file.read_text()
-                    # remove the line with the exact text "from django.http import HttpRequest"
-                    content = content.replace("from django.http import HttpRequest\n", "")
-
         for file in generated_files:
             run_python_formatters(str(file))
 
+        if pyproject_path.exists():
+            write_falco_config(pyproject_path=pyproject_path, crud_utils=str(output_dir))
+
         rich_print(f"[green]CRUD Utils installed successfully to {output_dir}.")
+
+    @classmethod
+    def get_install_path(cls, project_name: str, falco_config: FalcoConfig) -> tuple[Path, bool]:
+        if _import_path := falco_config.get("crud_utils"):
+            return Path(_import_path), True
+        return Path(f"{project_name}/core"), False

@@ -1,27 +1,29 @@
 from __future__ import annotations
 
 import json
+import os
 import shutil
 import subprocess
+from contextlib import contextmanager
 from contextlib import suppress
 from pathlib import Path
 from typing import Annotated
 
 import cappa
 import httpx
-import tomlkit
 from cookiecutter.exceptions import CookiecutterException
 from cruft import create
 from cruft.exceptions import InvalidCookiecutterRepository
+from falco.commands import InstallCrudUtils
 from falco.commands.htmx import Htmx
 from falco.utils import clean_project_name
 from falco.utils import is_new_falco_cli_available
 from falco.utils import RICH_INFO_MARKER
 from falco.utils import RICH_SUCCESS_MARKER
 from falco.utils import simple_progress
+from falco.utils import write_falco_config
 from rich import print as rich_print
 from rich.prompt import Prompt
-
 
 DEFAULT_SKIP = [
     "playground.ipynb",
@@ -44,6 +46,16 @@ def get_authors_info() -> tuple[str, str]:
         user_name_cmd.stdout.strip("\n"),
         user_email_cmd.stdout.strip("\n"),
     )
+
+
+@contextmanager
+def change_directory(new_directory):
+    current_directory = Path.cwd()
+    try:
+        os.chdir(new_directory)
+        yield
+    finally:
+        os.chdir(current_directory)
 
 
 @cappa.command(help="Initialize a new django project the falco way.")
@@ -102,6 +114,12 @@ class StartProject:
                 raise cappa.Exit(code=0)
 
         project_dir = self.init_project()
+        with change_directory(project_dir):
+            with suppress(cappa.Exit, httpx.TimeoutException, httpx.ConnectError):
+                Htmx()()
+            InstallCrudUtils()(project_name=self.project_name)
+            self.cruft_file_to_falco_config()
+
         msg = f"{RICH_SUCCESS_MARKER} Project initialized, keep up the good work!\n"
         msg += (
             f"{RICH_INFO_MARKER} If you like the project consider dropping a star at "
@@ -109,8 +127,6 @@ class StartProject:
         )
 
         rich_print(msg)
-        self.update_htmx(project_dir)
-        self.cruft_to_falco_config(project_dir)
 
     def init_project(self) -> Path:
         author_name, author_email = get_authors_info()
@@ -133,28 +149,23 @@ class StartProject:
                 raise cappa.Exit("Network error, check your internet connection.", code=1) from e
 
             if self.is_root:
-                project_dir = self.directory / self.project_name
-                tmp_project_dir = self.directory / "tmp"
-                shutil.move(project_dir, tmp_project_dir)
-                for obj in tmp_project_dir.iterdir():
+                renamed_project_dir = self.directory / "tmp_renamed_dir"
+                shutil.move(project_dir, renamed_project_dir)
+                for obj in Path(renamed_project_dir).iterdir():
                     shutil.move(obj, self.directory)
-                tmp_project_dir.rmdir()
+                renamed_project_dir.rmdir()
+                project_dir = self.directory
 
         return project_dir
 
-    def update_htmx(self, project_dir: Path):
-        with suppress(cappa.Exit, httpx.TimeoutException, httpx.ConnectError):
-            static_path = "static/vendors/htmx/htmx.min.js"
-            base_path = project_dir if self.is_root else project_dir / self.project_name
-            Htmx(version="latest", output=base_path / static_path)()
-
-    def cruft_to_falco_config(self, project_dir: Path):
-        cruft_file = project_dir.parent / ".cruft.json" if self.is_root else project_dir / ".cruft.json"
-        pyproject = project_dir.parent / "pyproject.toml" if self.is_root else project_dir / "pyproject.toml"
+    def cruft_file_to_falco_config(self):
+        cruft_file = Path(".cruft.json")
+        pyproject_path = Path("pyproject.toml")
         cruft_state = json.loads(cruft_file.read_text())
-        pyproject_dict: dict = tomlkit.parse(pyproject.read_text())
-        pyproject_dict["tool"]["falco"]["revision"] = cruft_state["commit"]
-        pyproject_dict["tool"]["falco"]["skip"] = DEFAULT_SKIP
-        pyproject_dict["tool"]["falco"]["blueprint"] = self.repo_url
-        pyproject.write_text(tomlkit.dumps(pyproject_dict))
+        write_falco_config(
+            pyproject_path=pyproject_path,
+            revision=cruft_state["commit"],
+            skip=DEFAULT_SKIP,
+            blueprint=self.repo_url,
+        )
         cruft_file.unlink()

@@ -4,9 +4,10 @@ from pathlib import Path
 from typing import Annotated
 
 import cappa
-import tomlkit
 from falco.utils import get_pyproject_file
 from falco.utils import network_request_with_progress
+from falco.utils import read_falco_config
+from falco.utils import write_falco_config
 from httpx import codes
 from rich import print as rich_print
 from rich.panel import Panel
@@ -25,8 +26,8 @@ def get_latest_tag() -> str:
 
 @cappa.command(help="Download the latest version (if no version is specified) of htmx.")
 class Htmx:
-    version: Annotated[str, cappa.Arg(default="latest")]
-    output: Annotated[Path | None, cappa.Arg(default=None, short="-o", long="--output")]
+    version: Annotated[str, cappa.Arg(default="latest")] = "latest"
+    output: Annotated[Path | None, cappa.Arg(default=None, short="-o", long="--output")] = None
 
     def __call__(self):
         latest_version = get_latest_tag()
@@ -55,7 +56,7 @@ class Htmx:
         )
 
         if pyproject_path:
-            self.write_to_config(version, filepath, pyproject_path)
+            write_falco_config(pyproject_path=pyproject_path, htmx=f"{filepath}:{version}")
 
         rich_print(
             Panel(
@@ -76,18 +77,8 @@ class Htmx:
         return filepath
 
     @classmethod
-    def write_to_config(cls, version: str, filepath: Path, pyproject_path: Path) -> None:
-        pyproject: dict = tomlkit.parse(pyproject_path.read_text())
-        try:
-            pyproject["tool"]["falco"]["htmx"] = f"{filepath}:{version}"
-        except tomlkit.exceptions.NonExistentKey:
-            return
-        pyproject_path.write_text(tomlkit.dumps(pyproject))
-
-    @classmethod
     def read_from_config(cls, pyproject_path: Path) -> HtmxConfig:
-        pyproject = tomlkit.parse(pyproject_path.read_text())
-        htmx = pyproject.get("tool", {}).get("falco", {}).get("htmx", None)
+        htmx = read_falco_config(pyproject_path).get("htmx", None)
         if not htmx:
             return Path("htmx.min.js"), None
 

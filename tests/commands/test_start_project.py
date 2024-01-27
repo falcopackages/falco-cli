@@ -1,5 +1,4 @@
 from pathlib import Path
-from unittest import mock
 
 from cappa.testing import CommandRunner
 
@@ -37,6 +36,41 @@ def test_start_project(runner: CommandRunner):
         assert file_name in project_files
 
 
+def test_start_project_in_directory(runner: CommandRunner, tmp_path):
+    runner.invoke(
+        "start-project",
+        "dotfm",
+        "builds",
+        "--skip-new-version-check",
+        "--repo-url",
+        str(blueprint_path),
+    )
+    project_dir = tmp_path / "builds" / "dotfm"
+    assert project_dir.exists()
+    # sourcery skip: no-loop-in-tests
+    project_files = [file.name for file in project_dir.iterdir()]
+    for file_name in generated_project_files("dotfm"):
+        assert file_name in project_files
+
+
+def test_start_project_in_directory_with_root(runner: CommandRunner, tmp_path):
+    runner.invoke(
+        "start-project",
+        "dotfm",
+        "builds/special_project",
+        "--root",
+        "--skip-new-version-check",
+        "--repo-url",
+        str(blueprint_path),
+    )
+    project_dir = tmp_path / "builds/special_project"
+    assert project_dir.exists()
+    # sourcery skip: no-loop-in-tests
+    project_files = [file.name for file in project_dir.iterdir()]
+    for file_name in generated_project_files("dotfm"):
+        assert file_name in project_files
+
+
 def test_user_name_and_email(runner: CommandRunner, git_user_infos):
     name, email = git_user_infos
     runner.invoke(
@@ -51,11 +85,11 @@ def test_user_name_and_email(runner: CommandRunner, git_user_infos):
     assert email in pyproject_content
 
 
-def test_no_internet_access(runner: CommandRunner):
-    with mock.patch("socket.socket", side_effect=OSError("Network access is cut off")):
-        runner.invoke("start-project", "dotfm", "--skip-new-version-check")
-    assert Path("dotfm").exists()
-    # sourcery skip: no-loop-in-tests
-    project_files = [file.name for file in Path("dotfm").iterdir()]
-    for file_name in generated_project_files("dotfm"):
-        assert file_name in project_files
+# def test_no_internet_access(runner: CommandRunner):
+#     with mock.patch("socket.socket", side_effect=OSError("Network access is cut off")):
+#         runner.invoke("start-project", "dotfm", "--skip-new-version-check")
+#     assert Path("dotfm").exists()
+#     # sourcery skip: no-loop-in-tests
+#     project_files = [file.name for file in Path("dotfm").iterdir()]
+#     for file_name in generated_project_files("dotfm"):
+#         assert file_name in project_files

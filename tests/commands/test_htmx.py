@@ -1,9 +1,8 @@
 from pathlib import Path
 
 from cappa.testing import CommandRunner
-
 from falco.commands.htmx import Htmx
-from tests.utils import add_pyproject_file
+from falco.utils import write_falco_config
 
 
 def test_htmx_download(runner: CommandRunner):
@@ -34,7 +33,8 @@ def test_htmx_download_to_output_file(runner: CommandRunner):
 
 
 def test_htmx_with_pyproject_toml(runner: CommandRunner):
-    pyproject_toml = add_pyproject_file()
+    pyproject_toml = Path("pyproject.toml")
+    write_falco_config(pyproject_path=pyproject_toml)
     runner.invoke("htmx")
     assert Path("htmx.min.js").exists()
     filepath, version = Htmx.read_from_config(pyproject_toml)
@@ -42,7 +42,8 @@ def test_htmx_with_pyproject_toml(runner: CommandRunner):
 
 
 def test_htmx_with_pyproject_toml_custom_folder(runner: CommandRunner):
-    pyproject_toml = add_pyproject_file()
+    pyproject_toml = Path("pyproject.toml")
+    write_falco_config(pyproject_path=pyproject_toml)
     runner.invoke("htmx", "-o", "static/htmx")
     output = Path("static/htmx/htmx.min.js")
     assert output.exists()
@@ -51,7 +52,8 @@ def test_htmx_with_pyproject_toml_custom_folder(runner: CommandRunner):
 
 
 def test_htmx_with_pyproject_toml_custom_file(runner: CommandRunner):
-    pyproject_toml = add_pyproject_file()
+    pyproject_toml = Path("pyproject.toml")
+    write_falco_config(pyproject_path=pyproject_toml)
     runner.invoke("htmx", "-o", "static/htmx/htmx.js")
     output = Path("static/htmx/htmx.js")
     assert output.exists()
@@ -60,7 +62,8 @@ def test_htmx_with_pyproject_toml_custom_file(runner: CommandRunner):
 
 
 def test_htmx_with_pyproject_toml_custom_file_existing_config(runner: CommandRunner):
-    pyproject_toml = add_pyproject_file(htmx_path="config/htmx/htmx.js")
+    pyproject_toml = Path("pyproject.toml")
+    write_falco_config(pyproject_path=pyproject_toml, htmx="config/htmx/htmx.js")
     existing_path = Path("config/htmx/htmx.js")
     runner.invoke("htmx")
     filepath, version = Htmx.read_from_config(pyproject_toml)
