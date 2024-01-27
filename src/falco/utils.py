@@ -4,7 +4,11 @@ from contextlib import contextmanager
 from pathlib import Path
 from typing import cast
 from typing import TypedDict
-from typing import Unpack
+
+try:
+    from typing import Unpack
+except ImportError:
+    from typing_extensions import Unpack
 
 import cappa
 import httpx
