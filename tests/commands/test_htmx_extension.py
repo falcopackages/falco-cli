@@ -29,6 +29,7 @@ def test_htmx_ext_download_to_output_file(runner: CommandRunner):
 
 def test_htmx_ext_file_existing_config(runner: CommandRunner):
     pyproject_toml = Path("pyproject.toml")
+    pyproject_toml.touch()
     write_falco_config(pyproject_path=pyproject_toml, htmx="config/htmx/htmx.js")
     output = Path("config/htmx/sse.js")
     runner.invoke("htmx-ext", "sse")
@@ -37,6 +38,7 @@ def test_htmx_ext_file_existing_config(runner: CommandRunner):
 
 def test_htmx_ext_download_to_output_file_existing_config(runner: CommandRunner):
     pyproject_toml = Path("pyproject.toml")
+    pyproject_toml.touch()
     write_falco_config(pyproject_path=pyproject_toml, htmx="config/htmx/htmx.js")
     output = Path("config/htmx/sse.js")
     runner.invoke("htmx-ext", "sse", "-o", ".")

@@ -34,6 +34,7 @@ def test_htmx_download_to_output_file(runner: CommandRunner):
 
 def test_htmx_with_pyproject_toml(runner: CommandRunner):
     pyproject_toml = Path("pyproject.toml")
+    pyproject_toml.touch()
     write_falco_config(pyproject_path=pyproject_toml)
     runner.invoke("htmx")
     assert Path("htmx.min.js").exists()
@@ -43,6 +44,7 @@ def test_htmx_with_pyproject_toml(runner: CommandRunner):
 
 def test_htmx_with_pyproject_toml_custom_folder(runner: CommandRunner):
     pyproject_toml = Path("pyproject.toml")
+    pyproject_toml.touch()
     write_falco_config(pyproject_path=pyproject_toml)
     runner.invoke("htmx", "-o", "static/htmx")
     output = Path("static/htmx/htmx.min.js")
@@ -53,6 +55,7 @@ def test_htmx_with_pyproject_toml_custom_folder(runner: CommandRunner):
 
 def test_htmx_with_pyproject_toml_custom_file(runner: CommandRunner):
     pyproject_toml = Path("pyproject.toml")
+    pyproject_toml.touch()
     write_falco_config(pyproject_path=pyproject_toml)
     runner.invoke("htmx", "-o", "static/htmx/htmx.js")
     output = Path("static/htmx/htmx.js")
@@ -63,6 +66,7 @@ def test_htmx_with_pyproject_toml_custom_file(runner: CommandRunner):
 
 def test_htmx_with_pyproject_toml_custom_file_existing_config(runner: CommandRunner):
     pyproject_toml = Path("pyproject.toml")
+    pyproject_toml.touch()
     write_falco_config(pyproject_path=pyproject_toml, htmx="config/htmx/htmx.js")
     existing_path = Path("config/htmx/htmx.js")
     runner.invoke("htmx")
