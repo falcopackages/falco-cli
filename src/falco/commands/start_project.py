@@ -15,6 +15,7 @@ from cookiecutter.exceptions import CookiecutterException
 from cruft import create
 from cruft.exceptions import InvalidCookiecutterRepository
 from falco.commands import InstallCrudUtils
+from falco.commands.crud.utils import run_html_formatters
 from falco.commands.htmx import Htmx
 from falco.utils import clean_project_name
 from falco.utils import is_new_falco_cli_available
@@ -119,6 +120,8 @@ class StartProject:
                 Htmx()()
             InstallCrudUtils()(project_name=self.project_name)
             self.cruft_file_to_falco_config()
+
+        run_html_formatters(project_dir / self.project_name / "templates")
 
         msg = f"{RICH_SUCCESS_MARKER} Project initialized, keep up the good work!\n"
         msg += (

@@ -1,122 +1,106 @@
 {% extends 'base.html' %}
 {% load partials %}
-
-
 {% block content %}
-
     <section class="flex justify-between">
         <h1 class="text-lg font-bold">Products</h1>
-
         <a href="{% url 'products:product_create' %}"
            class="cursor-pointer py-2 px-4 bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 focus:ring-offset-blue-200 text-white text-center text-base font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg">
             New Product
         </a>
     </section>
-
-  {% partialdef table inline=True %}
-
-  <div id="table">
-
-    <div class="flex flex-col">
-        <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
-                <div class="overflow-x-auto">
-                    <table class="min-w-full">
-                        <thead class="border">
-                            {% with th_class="text-sm font-medium text-gray-900 border-r px-6 py-4 text-left" %}
-                                <tr>
-                                    <th scope="col" class="{{ th_class }}">Name</th>
-                                    <th scope="col" class="{{ th_class }}">Description</th>
-                                    <th scope="col" class="{{ th_class }}">Price</th>
-                                    <th scope="col" class="{{ th_class }}">Slug</th>
-                                    <th scope="col" class="{{ th_class }}">Sku</th>
-                                    <th scope="col" class="{{ th_class }}">Actions</th>
-                                </tr>
-                            {% endwith %}
-                        </thead>
-                        <tbody>
-                            {% with td_class="px-6 py-4 whitespace-nowrap text-sm font-medium border-r text-gray-900" %}
-                                {% for product in products_page %}
-                                    <tr class="border">
-                                        <td class="{{ td_class }}">{{product.name}}</td>
-                                        <td class="{{ td_class }}">{{product.description}}</td>
-                                        <td class="{{ td_class }}">{{product.price}}</td>
-                                        <td class="{{ td_class }}">{{product.slug}}</td>
-                                        <td class="{{ td_class }}">{{product.sku}}</td>
-                                        <td class="{{ td_class }}">
-                                            {% with href_class="text-blue-600 hover:underline hover:text-blue-500" %}
-                                                <a class="{{ href_class }}}"
-                                                   href="{% url 'products:product_detail' product.pk %}">View
-                                                </a>|
-                                                <a class="{{ href_class }}}"
-                                                   href="{% url 'products:product_update' product.pk %}">Edit
-                                                </a>|
-                                                <a
-                                                    class="cursor-pointer {{ href_class }}"
-                                                    hx-target="closest tr"
-                                                    hx-swap="outerHTML"
-                                                    hx-confirm="Are you sure you want to delete {{product}}?"
-                                                    hx-delete="{% url 'products:product_delete' product.pk %}">
-                                                    Delete
-                                                </a>
+    {% partialdef table inline=True %}
+    <div id="table">
+        <div class="flex flex-col">
+            <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full">
+                            <thead class="border">
+                                {% with th_class="text-sm font-medium text-gray-900 border-r px-6 py-4 text-left" %}
+                                    <tr>
+                                        <th scope="col" class="{{ th_class }}">Name</th>
+                                        <th scope="col" class="{{ th_class }}">Description</th>
+                                        <th scope="col" class="{{ th_class }}">Price</th>
+                                        <th scope="col" class="{{ th_class }}">Slug</th>
+                                        <th scope="col" class="{{ th_class }}">Sku</th>
+                                        <th scope="col" class="{{ th_class }}">Actions</th>
+                                    </tr>
+                                {% endwith %}
+                            </thead>
+                            <tbody>
+                                {% with td_class="px-6 py-4 whitespace-nowrap text-sm font-medium border-r text-gray-900" %}
+                                    {% for product in products_page %}
+                                        <tr class="border">
+                                            <td class="{{ td_class }}">{{ product.name }}</td>
+                                            <td class="{{ td_class }}">{{ product.description }}</td>
+                                            <td class="{{ td_class }}">{{ product.price }}</td>
+                                            <td class="{{ td_class }}">{{ product.slug }}</td>
+                                            <td class="{{ td_class }}">{{ product.sku }}</td>
+                                            <td class="{{ td_class }}">
+                                                {% with href_class="text-blue-600 hover:underline hover:text-blue-500" %}
+                                                    <a class="{{ href_class }}}"
+                                                       href="{% url 'products:product_detail' product.pk %}">View</a>|
+                                                    <a class="{{ href_class }}}"
+                                                       href="{% url 'products:product_update' product.pk %}">Edit</a>|
+                                                    <a class="cursor-pointer {{ href_class }}"
+                                                       hx-target="closest tr"
+                                                       hx-swap="outerHTML"
+                                                       hx-confirm="Are you sure you want to delete {{ product }}?"
+                                                       hx-delete="{% url 'products:product_delete' product.pk %}">
+                                                        Delete
+                                                    </a>
                                                 </td>
-                                                </tr>
-                                            {% endwith %}
-                                {% endfor %}
-                            {% endwith %}
-                        </tbody>
-                    </table>
+                                            </tr>
+                                        {% endwith %}
+                                    {% endfor %}
+                                {% endwith %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    {% if products_page.paginator.num_pages > 1 %}
-        <div class="flex justify-end py-4">
-            <ul class="flex list-reset border border-grey-light rounded"
-            hx-target="#table" hx-swap="outerHTML" hx-push-url="true"
-            >
-                {% with page_class="cursor-pointer block px-3 py-2 hover:text-white hover:bg-blue-500 border-r border-grey-light" %}
-
-                    {% if products_page.has_previous %}
-                        <li>
-                            <a class="{{ page_class }}}" hx-get="?page=1">First</a>
-                        </li>
-                        <li>
-                            <a class="{{ page_class }}}" hx-get="?page={{ products_page.previous_page_number }}">
-                                Previous
-                            </a>
-                        </li>
-                    {% endif %}
-
-                    {% for num in products_page.paginator.page_range %}
-                        {% if products_page.number == num %}
+        {% if products_page.paginator.num_pages > 1 %}
+            <div class="flex justify-end py-4">
+                <ul class="flex list-reset border border-grey-light rounded"
+                    hx-target="#table"
+                    hx-swap="outerHTML"
+                    hx-push-url="true">
+                    {% with page_class="cursor-pointer block px-3 py-2 hover:text-white hover:bg-blue-500 border-r border-grey-light" %}
+                        {% if products_page.has_previous %}
                             <li>
-                                <a class="{{ page_class }}}" hx-get="?page={{ num }}">{{ num }}</a>
+                                <a class="{{ page_class }}}" hx-get="?page=1">First</a>
                             </li>
-                        {% elif num > products_page.number|add:'-3' and num < products_page.number|add:'3' %}
                             <li>
-                                <a class="{{ page_class }}}" hx-get="?page={{ num }}">{{ num }}</a>
+                                <a class="{{ page_class }}}"
+                                   hx-get="?page={{ products_page.previous_page_number }}">Previous</a>
                             </li>
                         {% endif %}
-                    {% endfor %}
-
-                    {% if products_page.has_next %}
-                        <li>
-                            <a class="{{ page_class }}" hx-get="?page={{ products_page.next_page_number }}">
-                                Next
-                            </a>
-                        </li>
-                        <li>
-                            <a class="cursor-pointer block px-3 py-2 hover:text-white hover:bg-blue-500"
-                               hx-get="?page={{ products_page.paginator.num_pages }}">Last
-                            </a>
-                        </li>
-                    {% endif %}
-                {% endwith %}
-            </ul>
-        </div>
-    {% endif %}
+                        {% for num in products_page.paginator.page_range %}
+                            {% if products_page.number == num %}
+                                <li>
+                                    <a class="{{ page_class }}}" hx-get="?page={{ num }}">{{ num }}</a>
+                                </li>
+                            {% elif num > products_page.number|add:'-3' and num < products_page.number|add:'3' %}
+                                <li>
+                                    <a class="{{ page_class }}}" hx-get="?page={{ num }}">{{ num }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if products_page.has_next %}
+                            <li>
+                                <a class="{{ page_class }}"
+                                   hx-get="?page={{ products_page.next_page_number }}">Next</a>
+                            </li>
+                            <li>
+                                <a class="cursor-pointer block px-3 py-2 hover:text-white hover:bg-blue-500"
+                                   hx-get="?page={{ products_page.paginator.num_pages }}">Last</a>
+                            </li>
+                        {% endif %}
+                    {% endwith %}
+                </ul>
+            </div>
+        {% endif %}
     </div>
 {% endpartialdef %}
 {% endblock %}

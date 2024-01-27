@@ -48,7 +48,7 @@ class HtmlBlueprintContext(UrlsForContext):
     model_name: str
     model_verbose_name_plural: str
     model_fields: dict[str, str]
-    # a example of the dict: {"Name": "product.name", "Price": "{{product.price}}"}
+    # a example of the dict: {"Name": "{{product.name}}", "Price": "{{product.price}}"}
     fields_verbose_name_with_accessor: dict[str, str]
 
 
@@ -303,6 +303,7 @@ class ModelCRUD:
                     "crud_utils_import": crud_utils_import,
                 }
             )
+            model_name_lower = django_model["name"].lower()
             html_blueprint_context.append(
                 {
                     "app_label": app_label,
@@ -310,8 +311,8 @@ class ModelCRUD:
                     "model_verbose_name_plural": django_model["verbose_name_plural"],
                     "model_fields": django_model["fields"],
                     "fields_verbose_name_with_accessor": {
-                        field_verbose_name: "{{" + f"{django_model['name'].lower()}.{field_name}" + "}}"
-                        for field_name, field_verbose_name in django_model["fields"].items()
+                        verbose_name: "{{" + f"{model_name_lower}.{name}" + "}}"
+                        for name, verbose_name in django_model["fields"].items()
                     },
                     **get_urls_template_string(
                         app_label=app_label,
