@@ -101,6 +101,8 @@ dependencies = [
     "sphinx-togglebutton",
     "sphinxcontrib-mermaid",
     "sphinx-autorun",
+    "jupyter-sphinx",
+    "ipykernel",
     "sphinx-github-changelog",
 ]
 
