@@ -32,7 +32,7 @@ Lifecycle not signals
 I've come to fall in love with `django-lifecycle <https://github.com/rsinger86/django-lifecycle>`_ and their approach to hooking into
 your Django objects' lifecycle. Traditionally, the way of dealing with this in Django is using `signals <https://docs.djangoproject.com/en/dev/topics/signals/>`_. Even
 though there is a lot of criticism on using signals in the community, I think they can be particularly useful in certain scenarios (e.g: implementing a plugin system). However, one scenario where they are not beneficial in my humble opinion is in
-organizing business logic. In such cases, I personally favor ``django-lifecycle`` because it follows the ``fat models`` approach (essentially business logic in models), a practice I find more suitable in Django.
+organizing business logic. In such cases, I personally favor ``django-lifecycle`` because it follows the django ``fat models`` approach (essentially business logic in models).
 
 Here is an example of using ``django-lifecycle`` straight from their README:
 
@@ -67,6 +67,13 @@ and unlikely to change or expand, then use whatever makes sense for them, even `
 
 .. Avoid huge apps for large projects
 .. ----------------------------------
+
+Type Hinting
+------------
+
+These days, I hardly write Django projects without implementing some level of type hinting. However, resources on this topic specific to Django are quite rare.
+A good starting point is the `FAQ section <https://github.com/typeddjango/django-stubs#faq>`_ of the django-stubs README. It provides sufficient information to
+navigate through most common use cases. Since I don't overuse type hinting, I find it more than enough.
 
 Generate admin
 --------------
