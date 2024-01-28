@@ -32,7 +32,6 @@ def test_start_project(runner: CommandRunner):
     )
     assert Path("dotfm").exists()
     keys = read_falco_config(Path("dotfm/pyproject.toml")).keys()
-    assert "htmx" in keys
     assert "crud_utils" in keys
     assert "blueprint" in keys
     assert "revision" in keys

@@ -37,8 +37,12 @@ def get_authors_info() -> tuple[str, str]:
     default_author_email = "tobidegnon@proton.me"
     git_config_cmd = ["git", "config", "--global", "--get"]
     try:
-        user_name_cmd = subprocess.run([*git_config_cmd, "user.name"], capture_output=True, text=True, check=False)
-        user_email_cmd = subprocess.run([*git_config_cmd, "user.email"], capture_output=True, text=True, check=False)
+        user_name_cmd = subprocess.run(
+            [*git_config_cmd, "user.name"], capture_output=True, text=True, check=False
+        )
+        user_email_cmd = subprocess.run(
+            [*git_config_cmd, "user.email"], capture_output=True, text=True, check=False
+        )
     except FileNotFoundError:
         return default_author_name, default_author_email
     if user_email_cmd.returncode != 0:
@@ -94,7 +98,9 @@ class StartProject:
 
     def __call__(self) -> None:
         if self.is_root and not self.directory:
-            raise cappa.Exit("You need to specify a directory when using the --root flag.", code=1)
+            raise cappa.Exit(
+                "You need to specify a directory when using the --root flag.", code=1
+            )
         if not self.skip_new_version_check and is_new_falco_cli_available():
             message = (
                 f"{RICH_INFO_MARKER} A new version of falco-cli is available. To upgrade, run "
@@ -116,10 +122,10 @@ class StartProject:
 
         project_dir = self.init_project()
         with change_directory(project_dir):
-            with suppress(cappa.Exit, httpx.TimeoutException, httpx.ConnectError):
-                Htmx()()
             InstallCrudUtils()(project_name=self.project_name)
             self.cruft_file_to_falco_config()
+            with suppress(cappa.Exit, httpx.TimeoutException, httpx.ConnectError):
+                Htmx()()
 
         run_html_formatters(project_dir / self.project_name / "templates")
 
@@ -149,7 +155,9 @@ class StartProject:
                 msg = str(e).replace("Error:", "")
                 raise cappa.Exit(msg, code=1) from e
             except InvalidCookiecutterRepository as e:
-                raise cappa.Exit("Network error, check your internet connection.", code=1) from e
+                raise cappa.Exit(
+                    "Network error, check your internet connection.", code=1
+                ) from e
 
             if self.is_root:
                 renamed_project_dir = self.directory / "tmp_renamed_dir"

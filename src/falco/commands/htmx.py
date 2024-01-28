@@ -13,28 +13,43 @@ from rich import print as rich_print
 from rich.panel import Panel
 
 HTMX_DOWNLOAD_URL = "https://unpkg.com/htmx.org@{version}/dist/htmx.min.js"
-HTMX_GH_RELEASE_LATEST_URL = "https://api.github.com/repos/bigskysoftware/htmx/releases/latest"
+HTMX_GH_RELEASE_LATEST_URL = (
+    "https://api.github.com/repos/bigskysoftware/htmx/releases/latest"
+)
 
 
 HtmxConfig = tuple[Path, str | None]
 
 
 def get_latest_tag() -> str:
-    with network_request_with_progress(HTMX_GH_RELEASE_LATEST_URL, "Getting latest version") as response:
-        return response.json()["tag_name"][1:]
+    with network_request_with_progress(
+        HTMX_GH_RELEASE_LATEST_URL, "Getting latest version"
+    ) as response:
+        try:
+            return response.json()["tag_name"][1:]
+        except KeyError as e:
+            msg = (
+                "Unable to retrieve the latest version of htmx. "
+                "This issue may be due to reaching the GitHub API rate limit. Please try again later."
+            )
+            raise cappa.Exit(msg, code=1) from e
 
 
 @cappa.command(help="Download the latest version (if no version is specified) of htmx.")
 class Htmx:
     version: Annotated[str, cappa.Arg(default="latest")] = "latest"
-    output: Annotated[Path | None, cappa.Arg(default=None, short="-o", long="--output")] = None
+    output: Annotated[
+        Path | None, cappa.Arg(default=None, short="-o", long="--output")
+    ] = None
 
     def __call__(self):
         latest_version = get_latest_tag()
         version = self.version if self.version != "latest" else latest_version
         url = HTMX_DOWNLOAD_URL.format(version=version)
 
-        with network_request_with_progress(url, f"Downloading htmx version {version}") as response:
+        with network_request_with_progress(
+            url, f"Downloading htmx version {version}"
+        ) as response:
             content = response.content.decode("utf-8")
             if response.status_code == codes.NOT_FOUND:
                 msg = f"Could not find htmx version {version}."
@@ -56,7 +71,9 @@ class Htmx:
         )
 
         if pyproject_path:
-            write_falco_config(pyproject_path=pyproject_path, htmx=f"{filepath}:{version}")
+            write_falco_config(
+                pyproject_path=pyproject_path, htmx=f"{filepath}:{version}"
+            )
 
         rich_print(
             Panel(
@@ -67,7 +84,11 @@ class Htmx:
 
     def resolve_filepath(self, pyproject_path: Path | None) -> Path:
         if self.output:
-            filepath = self.output if str(self.output).endswith(".js") else self.output / "htmx.min.js"
+            filepath = (
+                self.output
+                if str(self.output).endswith(".js")
+                else self.output / "htmx.min.js"
+            )
         elif self.output is None and pyproject_path:
             htmx_config = self.read_from_config(get_pyproject_file())
             filepath, _ = htmx_config
