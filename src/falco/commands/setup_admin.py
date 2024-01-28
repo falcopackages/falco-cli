@@ -1,6 +1,7 @@
 import cappa
 from falco.utils import run_in_shell
 from rich import print as rich_print
+from falco.utils import ShellCodeError
 
 admin_setup_code = """
 from django.contrib.auth import get_user_model
@@ -37,5 +38,9 @@ user.save()
 )
 class SetupAdmin:
     def __call__(self):
-        run_in_shell(admin_setup_code, eval_result=False)
+        try:
+            run_in_shell(admin_setup_code, eval_result=False)
+        except ShellCodeError as e:
+            msg = str(e).split("\n")[-2]
+            raise cappa.Exit(msg, code=1) from e
         rich_print("[green]Superuser created successfully.")
