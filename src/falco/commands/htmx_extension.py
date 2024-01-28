@@ -3,7 +3,7 @@ from typing import Annotated
 
 import cappa
 import httpx
-from falco.utils import get_pyproject_file
+from falco.utils import get_pyproject_file, read_falco_config
 from falco.utils import network_request_with_progress
 from falco.utils import simple_progress
 from rich import print as rich_print
@@ -71,15 +71,18 @@ class HtmxExtension:
             pyproject_path = None
 
         if self.output:
-            filepath = self.output if self.output.name.endswith(".js") else self.output / f"{self.name}.js"
+            return (
+                self.output
+                if self.output.name.endswith(".js")
+                else self.output / f"{self.name}.js"
+            )
         elif self.output is None and pyproject_path:
-            htmx_config = Htmx.read_from_config(pyproject_path=pyproject_path)
+            falco_config = read_falco_config(pyproject_path=pyproject_path)
+            htmx_config = Htmx.read_from_config(falco_config=falco_config)
             htmx_filepath, _ = htmx_config
-            filepath = htmx_filepath.parent / f"{self.name}.js"
+            return htmx_filepath.parent / f"{self.name}.js"
         else:
-            filepath = Path(f"{self.name}.js")
-
-        return filepath
+            return Path(f"{self.name}.js")
 
     def list_all(self):
         extensions = self.read_registry()
@@ -101,7 +104,9 @@ class HtmxExtension:
 
     @classmethod
     def read_registry(cls):
-        with network_request_with_progress(REGISTRY_URL, "Loading extensions registry") as response:
+        with network_request_with_progress(
+            REGISTRY_URL, "Loading extensions registry"
+        ) as response:
             import time
 
             time.sleep(2)

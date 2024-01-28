@@ -2,7 +2,7 @@ from pathlib import Path
 
 from cappa.testing import CommandRunner
 from falco.commands.htmx import Htmx
-from falco.utils import write_falco_config
+from falco.utils import write_falco_config, read_falco_config
 
 
 def test_htmx_download(runner: CommandRunner):
@@ -38,7 +38,7 @@ def test_htmx_with_pyproject_toml(runner: CommandRunner):
     write_falco_config(pyproject_path=pyproject_toml)
     runner.invoke("htmx")
     assert Path("htmx.min.js").exists()
-    filepath, version = Htmx.read_from_config(pyproject_toml)
+    filepath, version = Htmx.read_from_config(read_falco_config(pyproject_toml))
     assert filepath == Path("htmx.min.js")
 
 
@@ -49,7 +49,7 @@ def test_htmx_with_pyproject_toml_custom_folder(runner: CommandRunner):
     runner.invoke("htmx", "-o", "static/htmx")
     output = Path("static/htmx/htmx.min.js")
     assert output.exists()
-    filepath, version = Htmx.read_from_config(pyproject_toml)
+    filepath, version = Htmx.read_from_config(read_falco_config(pyproject_toml))
     assert filepath == output
 
 
@@ -60,7 +60,7 @@ def test_htmx_with_pyproject_toml_custom_file(runner: CommandRunner):
     runner.invoke("htmx", "-o", "static/htmx/htmx.js")
     output = Path("static/htmx/htmx.js")
     assert output.exists()
-    filepath, version = Htmx.read_from_config(pyproject_toml)
+    filepath, version = Htmx.read_from_config(read_falco_config(pyproject_toml))
     assert filepath == output
 
 
@@ -70,6 +70,6 @@ def test_htmx_with_pyproject_toml_custom_file_existing_config(runner: CommandRun
     write_falco_config(pyproject_path=pyproject_toml, htmx="config/htmx/htmx.js")
     existing_path = Path("config/htmx/htmx.js")
     runner.invoke("htmx")
-    filepath, version = Htmx.read_from_config(pyproject_toml)
+    filepath, version = Htmx.read_from_config(read_falco_config(pyproject_toml))
     assert filepath == existing_path
     assert existing_path.exists()
