@@ -57,7 +57,7 @@ If necessary, adjust the python_version value in the ``.pre-commit-config.yaml``
 
 .. code-block:: bash
 
-    hatch run start-app entries && falco start-app entries
+    falco start-app entries
 
 **8. Add some fields to your Entry model**
 
