@@ -67,7 +67,7 @@ If necessary, adjust the python_version value in the ``.pre-commit-config.yaml``
         # the TimeStampedModel adds the fields `created` and `modified` so we don't need to add them
         title = models.CharField(max_length=255)
         content = models.TextField()
-        created_by = models.ForeignKey("users.User", on_delete=models.CASCADE)
+        created_by = models.ForeignKey("users.User", on_delete=models.CASCADE, related_name="entries")
 
 
 **9.  Make migrations for the new model and run them**
