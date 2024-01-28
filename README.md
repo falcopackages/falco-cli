@@ -27,6 +27,7 @@ Falco is a Django-centric toolkit designed to enhance the development experience
 
 This is a set of commands to help you throughout the lifecycle of your django project development, from bootstrapping a new project using modern tools like [htmx](https://htmx.org), [hatch](https://github.com/pypa/hatch), [tailwindcss](https://tailwindcss.com/), to generating CRUD views for your models and a few utilities that might help during deployment.
 
+For a brief introduction to the user experience of the CLI, visit this [page](https://falco.oluwatobi.dev/the_cli/usage.html).
 <!-- [![The CLI full documentation](https://img.shields.io/badge/Read%20The%20CLI%20Documentation-blue?style=for-the-badge&logo=ReadTheDocs)](https://falco.oluwatobi.dev/the_cli/) -->
 
 
