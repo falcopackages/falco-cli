@@ -74,7 +74,7 @@ If necessary, adjust the python_version value in the ``.pre-commit-config.yaml``
 
 .. code-block:: bash
 
-    hatch run makemigrations && hatch run migrate**
+    hatch run makemigrations && hatch run migrate
 
 **10. Generate CRUD views for the Entry model**
 
