@@ -30,7 +30,7 @@ def {{model_name|lower}}_list(request: AuthenticatedHttpRequest):
 def {{model_name|lower}}_list(request: HttpRequest):
 {% endif %}
     {{model_name|lower}}s = {{model_name}}.objects.order_by("id")
-    template_name = "{{model_name|lower}}s/{{model_name|lower}}_list.html#table" if request.htmx else "{{model_name|lower}}s/{{model_name|lower}}_list.html"
+    template_name = "{{app_label}}/{{model_name|lower}}_list.html#table" if request.htmx else "{{app_label}}/{{model_name|lower}}_list.html"
     return TemplateResponse(
         request,
         template_name,
@@ -46,7 +46,7 @@ def {{model_name|lower}}_detail(request: HttpRequest, pk: int):
     {{model_name|lower}} = get_object_or_404({{model_name}}.objects, pk=pk)
     return TemplateResponse(
         request,
-        "{{model_name|lower}}s/{{model_name|lower}}_detail.html",
+        "{{app_label}}/{{model_name|lower}}_detail.html",
         context={"{{model_name|lower}}": {{model_name|lower}}},
     )
 
@@ -62,7 +62,7 @@ def {{model_name|lower}}_create(request: HttpRequest):
         return redirect("{{app_label}}:{{model_name|lower}}_list")
     return TemplateResponse(
         request,
-        "{{model_name|lower}}s/{{model_name|lower}}_create.html",
+        "{{app_label}}/{{model_name|lower}}_create.html",
         context={"form": form},
     )
 
@@ -79,7 +79,7 @@ def {{model_name|lower}}_update(request: HttpRequest, pk: int):
         return redirect("{{app_label}}:{{model_name|lower}}_detail", pk=pk)
     return TemplateResponse(
         request,
-        "{{model_name|lower}}s/{{model_name|lower}}_update.html",
+        "{{app_label}}/{{model_name|lower}}_update.html",
         context={"{{model_name|lower}}": {{model_name|lower}}, "form": form},
     )
 
