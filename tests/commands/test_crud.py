@@ -33,17 +33,19 @@ def healthy_django_project() -> bool:
     return result.returncode == 0
 
 
-def fix_core_import(app_dir: Path):
-    views = app_dir / "views.py"
-    views.write_text(views.read_text().replace("myproject.core", "core"))
+def fix_users_import():
     types = Path("core/types.py")
     types.write_text(types.read_text().replace("myproject.users", "django.contrib.auth"))
 
 
-def test_crud(django_project, runner: CommandRunner, set_git_repo_to_clean):
-    runner.invoke("crud", "blog.post")
+def install_crud_utils(runner):
     runner.invoke("install-crud-utils", "core")
-    fix_core_import(Path("blog"))
+    fix_users_import()
+
+
+def test_crud(django_project, runner: CommandRunner, set_git_repo_to_clean):
+    install_crud_utils(runner)
+    runner.invoke("crud", "blog.post")
     assert healthy_django_project()
     app_dir = Path("blog")
     assert (app_dir / "urls.py").exists()
@@ -61,9 +63,8 @@ def test_crud(django_project, runner: CommandRunner, set_git_repo_to_clean):
 
 
 def test_crud_login(django_project, runner: CommandRunner, set_git_repo_to_clean):
+    install_crud_utils(runner)
     runner.invoke("crud", "blog.post", "--login")
-    runner.invoke("install-crud-utils", "core")
-    fix_core_import(Path("blog"))
     assert healthy_django_project()
     app_dir = Path("blog")
     assert (app_dir / "urls.py").exists()
@@ -81,9 +82,8 @@ def test_crud_login(django_project, runner: CommandRunner, set_git_repo_to_clean
 
 
 def test_crud_entry_point(django_project, runner: CommandRunner, set_git_repo_to_clean):
+    install_crud_utils(runner)
     runner.invoke("crud", "blog.post", "--entry-point")
-    runner.invoke("install-crud-utils", "core")
-    fix_core_import(Path("blog"))
     assert healthy_django_project()
     app_dir = Path("blog")
     assert (app_dir / "urls.py").exists()
@@ -100,9 +100,8 @@ def test_crud_entry_point(django_project, runner: CommandRunner, set_git_repo_to
 
 
 def test_crud_entry_point_login(django_project, runner: CommandRunner, set_git_repo_to_clean):
+    install_crud_utils(runner)
     runner.invoke("crud", "blog.post", "--entry-point", "--login")
-    runner.invoke("install-crud-utils", "core")
-    fix_core_import(Path("blog"))
     assert healthy_django_project()
     app_dir = Path("blog")
     assert (app_dir / "urls.py").exists()
@@ -119,9 +118,8 @@ def test_crud_entry_point_login(django_project, runner: CommandRunner, set_git_r
 
 
 def test_crud_only_html(django_project, runner: CommandRunner, set_git_repo_to_clean):
+    install_crud_utils(runner)
     runner.invoke("crud", "blog.post", "--only-html")
-    runner.invoke("install-crud-utils", "core")
-    fix_core_import(Path("blog"))
     assert healthy_django_project()
     app_dir = Path("blog")
     assert not (app_dir / "urls.py").exists()
@@ -134,9 +132,8 @@ def test_crud_only_html(django_project, runner: CommandRunner, set_git_repo_to_c
 
 
 def test_crud_only_python(django_project, runner: CommandRunner, set_git_repo_to_clean):
+    install_crud_utils(runner)
     runner.invoke("crud", "blog.post", "--only-python")
-    runner.invoke("install-crud-utils", "core")
-    fix_core_import(Path("blog"))
     assert healthy_django_project()
     app_dir = Path("blog")
     assert (app_dir / "urls.py").exists()
@@ -159,9 +156,8 @@ def test_crud_repo_not_clean(django_project, runner: CommandRunner):
 
 
 def test_crud_exclude_field(django_project, runner: CommandRunner, set_git_repo_to_clean):
+    install_crud_utils(runner)
     runner.invoke("crud", "blog.post", "--only-python", "-e=title")
-    runner.invoke("install-crud-utils", "core")
-    fix_core_import(Path("blog"))
     app_dir = Path("blog")
     # sourcery skip: no-loop-in-tests
     assert "title" not in (app_dir / "forms.py").read_text()
