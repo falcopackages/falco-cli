@@ -5,7 +5,7 @@ Usage / Overview
 ================
 
 This page outlines the optimal workflow for the initial setup of a project using the Falco CLI. This includes creating a new project,
-initializing a Django application, adding a model, and generating CRUD views for the model
+initializing a Django application, adding a model, and generating CRUD views for the model.
 This workflow represents the expected experience for a new Falco CLI user. If you encounter any issues reproducing this workflow,
 please create a `new issue <https://github.com/Tobi-De/falco/issues/new>`_.
 
@@ -72,9 +72,9 @@ If necessary, adjust the python_version value in the ``.pre-commit-config.yaml``
 .. admonition:: mypy
     :class: note dropdown
 
-    If you attempt to commit the changes, you may encounter some complaints from mypy. To address these, you'll need to 
-    update your ``User`` model as shown below. For brevity's sake, the entire ``User`` model code is not displayed; 
-    the crucial line is the one emphasized below. This line provides a type hint for the reverse relation between 
+    If you attempt to commit the changes, you may encounter some complaints from mypy. To address these, you'll need to
+    update your ``User`` model as shown below. For brevity's sake, the entire ``User`` model code is not displayed;
+    the crucial line is the one emphasized below. This line provides a type hint for the reverse relation between
     the ``User`` model and the ``Entry`` model.
 
     .. code-block:: python
@@ -93,8 +93,8 @@ If necessary, adjust the python_version value in the ``.pre-commit-config.yaml``
             ...
             entries: "QuerySet[Entry]"
 
-    I understand this process may potentially become irritating over time, if you find it too bothersome, you might consider removing mypy 
-    from your pre-commit hooks. Instead, you can run it manually from time to time to check on your progress. 
+    I understand this process may potentially become irritating over time, if you find it too bothersome, you might consider removing mypy
+    from your pre-commit hooks. Instead, you can run it manually from time to time to check on your progress.
     However, please note that this approach may not be the most advisable.
 
 
