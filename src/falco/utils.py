@@ -40,7 +40,10 @@ def write_falco_config(
     pyproject = tomlkit.parse(pyproject_path.read_text())
     existing_config = pyproject.get("tool", {}).get("falco", {})
     existing_config.update(**kwargs)
-    pyproject["tool"].update({"falco": existing_config})
+    tool = pyproject.get("tool", {})
+    tool.update({"falco": existing_config})
+    pyproject["tool"] = tool
+    print(pyproject)
     pyproject_path.write_text(tomlkit.dumps(pyproject))
     return pyproject
 
