@@ -80,7 +80,7 @@ If necessary, adjust the python_version value in the ``.pre-commit-config.yaml``
     .. code-block:: python
         :caption: models.py
         :linenos:
-        :emphasize-lines: 8
+        :emphasize-lines: 10
 
         from typing import TYPE_CHECKING
 
