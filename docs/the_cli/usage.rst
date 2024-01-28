@@ -69,6 +69,34 @@ If necessary, adjust the python_version value in the ``.pre-commit-config.yaml``
         content = models.TextField()
         created_by = models.ForeignKey("users.User", on_delete=models.CASCADE, related_name="entries")
 
+.. admonition:: mypy
+    :class: note dropdown
+
+    If you attempt to commit the changes, you may encounter some complaints from mypy. To address these, you'll need to 
+    update your ``User`` model as shown below. For brevity's sake, the entire ``User`` model code is not displayed; 
+    the crucial line is the one emphasized below. This line provides a type hint for the reverse relation between 
+    the ``User`` model and the ``Entry`` model.
+
+    .. code-block:: python
+        :caption: models.py
+        :linenos:
+        :emphasize-lines: 8
+
+        from typing import TYPE_CHECKING
+
+        from django.db.models import QuerySet
+
+        if TYPE_CHECKING:
+            from myjourney.entries.models import Entry
+
+        class User(AbstractUser):
+            ...
+            entries: "QuerySet[Entry]"
+
+    I understand this process may potentially become irritating over time, if you find it too bothersome, you might consider removing mypy 
+    from your pre-commit hooks. Instead, you can run it manually from time to time to check on your progress. 
+    However, please note that this approach may not be the most advisable.
+
 
 **9.  Make migrations for the new model and run them**
 
