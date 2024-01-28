@@ -46,7 +46,6 @@ dependencies = [
 [tool.hatch.metadata]
 allow-direct-references = true
 
-
 [project.scripts]
 falco = "falco.__main__:main"
 

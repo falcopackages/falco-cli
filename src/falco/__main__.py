@@ -37,3 +37,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+# runno=ing setup-admin two times in a row result in an ugly erro message
+# maybe crud should take care of the migrations and migrate for the model

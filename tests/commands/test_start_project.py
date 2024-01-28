@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from cappa.testing import CommandRunner
+from falco.utils import read_falco_config
 
 
 def generated_project_files(project_name) -> list[str]:
@@ -30,6 +31,13 @@ def test_start_project(runner: CommandRunner):
         str(blueprint_path),
     )
     assert Path("dotfm").exists()
+    keys = read_falco_config(Path("dotfm/pyproject.toml")).keys()
+    assert "htmx" in keys
+    assert "crud_utils" in keys
+    assert "blueprint" in keys
+    assert "revision" in keys
+    assert "work" in keys
+
     # sourcery skip: no-loop-in-tests
     project_files = [file.name for file in Path("dotfm").iterdir()]
     for file_name in generated_project_files("dotfm"):

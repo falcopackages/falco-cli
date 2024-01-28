@@ -34,16 +34,13 @@ class FalcoConfig(TypedDict, total=False):
     crud_utils: str
 
 
-def write_falco_config(
-    pyproject_path: Path, **kwargs: Unpack[TypedDict]
-) -> FalcoConfig:
+def write_falco_config(pyproject_path: Path, **kwargs: Unpack[TypedDict]) -> FalcoConfig:
     pyproject = tomlkit.parse(pyproject_path.read_text())
     existing_config = pyproject.get("tool", {}).get("falco", {})
     existing_config.update(**kwargs)
     tool = pyproject.get("tool", {})
     tool.update({"falco": existing_config})
     pyproject["tool"] = tool
-    print(pyproject)
     pyproject_path.write_text(tomlkit.dumps(pyproject))
     return pyproject
 
@@ -61,9 +58,7 @@ def get_pyproject_file() -> Path:
     pyproject_path = Path("pyproject.toml")
     if pyproject_path.exists():
         return pyproject_path
-    raise cappa.Exit(
-        "Could not find a pyproject.toml file in the current directory.", code=1
-    )
+    raise cappa.Exit("Could not find a pyproject.toml file in the current directory.", code=1)
 
 
 def get_project_name() -> str:
@@ -77,9 +72,7 @@ def get_author_info():
 
 
 @contextmanager
-def simple_progress(
-    description: str, display_text="[progress.description]{task.description}"
-):
+def simple_progress(description: str, display_text="[progress.description]{task.description}"):
     progress = Progress(SpinnerColumn(), TextColumn(display_text), transient=True)
     progress.add_task(description=description, total=None)
     try:

@@ -3,7 +3,6 @@ from __future__ import annotations
 import secrets
 from pathlib import Path
 from typing import Annotated
-
 import cappa
 from dotenv import dotenv_values
 from dotenv import set_key
