@@ -17,13 +17,12 @@ HTMX_GH_RELEASE_LATEST_URL = (
     "https://api.github.com/repos/bigskysoftware/htmx/releases/latest"
 )
 
-
 HtmxConfig = tuple[Path, str | None]
 
 
 def get_latest_tag() -> str:
     with network_request_with_progress(
-        HTMX_GH_RELEASE_LATEST_URL, "Getting latest version"
+        HTMX_GH_RELEASE_LATEST_URL, "Getting htmx latest version"
     ) as response:
         try:
             return response.json()["tag_name"][1:]
@@ -45,6 +44,39 @@ class Htmx:
     def __call__(self):
         latest_version = get_latest_tag()
         version = self.version if self.version != "latest" else latest_version
+
+        try:
+            pyproject_path = get_pyproject_file()
+            falco_config = read_falco_config(pyproject_path)
+        except cappa.Exit:
+            falco_config = {}
+            pyproject_path = None
+
+        filepath = self.download(version, falco_config=falco_config)
+        if pyproject_path:
+            write_falco_config(
+                pyproject_path=pyproject_path,
+                htmx=self.format_for_config(filepath, version),
+            )
+
+        subtitle = (
+            "You are using the latest version of htmx."
+            if version == latest_version
+            else f"The latest version available is {latest_version}"
+        )
+
+        rich_print(
+            Panel(
+                f"[green]htmx version {version} downloaded successfully to {filepath} ![/green]",
+                subtitle=subtitle,
+            )
+        )
+
+    @classmethod
+    def format_for_config(cls, filepath: Path, version: str | None) -> str:
+        return str(filepath) if version is None else f"{filepath}:{version}"
+
+    def download(self, version: str, falco_config: dict) -> Path:
         url = HTMX_DOWNLOAD_URL.format(version=version)
 
         with network_request_with_progress(
@@ -55,42 +87,20 @@ class Htmx:
                 msg = f"Could not find htmx version {version}."
                 raise cappa.Exit(msg, code=1)
 
-        try:
-            pyproject_path = get_pyproject_file()
-        except cappa.Exit:
-            pyproject_path = None
-
-        filepath = self.resolve_filepath(pyproject_path=pyproject_path)
+        filepath = self.resolve_filepath(falco_config=falco_config)
         filepath.parent.mkdir(parents=True, exist_ok=True)
         filepath.write_text(content)
+        return filepath
 
-        subtitle = (
-            "You are using the latest version of htmx."
-            if version == latest_version
-            else f"The latest version available is {latest_version}"
-        )
-
-        if pyproject_path:
-            write_falco_config(
-                pyproject_path=pyproject_path, htmx=f"{filepath}:{version}"
-            )
-
-        rich_print(
-            Panel(
-                f"[green]htmx version {version} downloaded successfully to {filepath} ![/green]",
-                subtitle=subtitle,
-            )
-        )
-
-    def resolve_filepath(self, pyproject_path: Path | None) -> Path:
+    def resolve_filepath(self, falco_config: dict) -> Path:
         if self.output:
             filepath = (
                 self.output
                 if str(self.output).endswith(".js")
                 else self.output / "htmx.min.js"
             )
-        elif self.output is None and pyproject_path:
-            htmx_config = self.read_from_config(get_pyproject_file())
+        elif self.output is None and "htmx" in falco_config:
+            htmx_config = self.read_from_config(falco_config)
             filepath, _ = htmx_config
         else:
             filepath = Path("htmx.min.js")
@@ -98,8 +108,8 @@ class Htmx:
         return filepath
 
     @classmethod
-    def read_from_config(cls, pyproject_path: Path) -> HtmxConfig:
-        htmx = read_falco_config(pyproject_path).get("htmx", None)
+    def read_from_config(cls, falco_config: dict) -> HtmxConfig:
+        htmx = falco_config.get("htmx")
         if not htmx:
             return Path("htmx.min.js"), None
 
