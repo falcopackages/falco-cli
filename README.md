@@ -17,6 +17,8 @@
 [![PyPI - Versions from Framework Classifiers](https://img.shields.io/pypi/frameworkversions/django/falco-cli)](https://pypi.org/project/falco-cli/)
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/falco-cli)](https://pypistats.org/packages/falco-cli)
 
+> [!WARNING]
+> The falco CLI isn't stable at the moment; stability is expected with the 1.0.0 release. I'm still making numerous changes quite frequently. If you're currently using it, remember to run `pip install --upgrade falco-cli` from time to time.
 
 Falco is a Django-centric toolkit designed to enhance the development experience. The CLI offers commands for initiating new projects, generating simple CRUD views for rapid prototyping, and more. Additionally, it provides a collection of guides to address common issues in web development specifically tailored to Django.
 
