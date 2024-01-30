@@ -26,7 +26,7 @@ from .utils import run_python_formatters
 
 class PythonBlueprintContext(TypedDict):
     project_name: str
-    login: bool
+    login_required: bool
     app_label: str
     model_name: str
     model_verbose_name_plural: str
@@ -188,6 +188,45 @@ def register_models_in_admin(app_folder_path: Path, app_label: str, model_name: 
     return admin_file
 
 
+def get_python_blueprint_context(
+    project_name: str,
+    app_label: str,
+    django_model: DjangoModel,
+    excluded_fields: list[str],
+    crud_utils_import: str,
+    *,
+    login_required: bool,
+) -> PythonBlueprintContext:
+    return {
+        "project_name": project_name,
+        "app_label": app_label,
+        "login_required": login_required,
+        "model_name": django_model["name"],
+        "model_verbose_name_plural": django_model["verbose_name_plural"],
+        "model_fields": django_model["fields"],
+        "excluded_fields": excluded_fields,
+        "crud_utils_import": crud_utils_import,
+    }
+
+
+def get_html_blueprint_context(app_label: str, django_model: DjangoModel) -> HtmlBlueprintContext:
+    model_name_lower = django_model["name"].lower()
+    return {
+        "app_label": app_label,
+        "model_name": django_model["name"],
+        "model_verbose_name_plural": django_model["verbose_name_plural"],
+        "model_fields": django_model["fields"],
+        "fields_verbose_name_with_accessor": {
+            verbose_name: "{{" + f"{model_name_lower}.{name}" + "}}"
+            for name, verbose_name in django_model["fields"].items()
+        },
+        **get_urls_template_string(
+            app_label=app_label,
+            model_name_lower=django_model["name"].lower(),
+        ),
+    }
+
+
 @cappa.command(help="Generate CRUD (Create, Read, Update, Delete) views for a model.", name="crud")
 class ModelCRUD:
     model_path: Annotated[
@@ -226,12 +265,13 @@ class ModelCRUD:
             help="Use the specified model as the entry point of the app.",
         ),
     ]
-    login: Annotated[
+    login_required: Annotated[
         bool,
         cappa.Arg(
             default=False,
-            long="--login",
-            help="Add login required decorator to views.",
+            short="-l",
+            long="--login-required",
+            help="Add the login_required decorator to all views.",
         ),
     ]
     skip_git_check: Annotated[
@@ -290,36 +330,19 @@ class ModelCRUD:
             falco_config=falco_config,
         )
         crud_utils_import = str(install_path).replace("/", ".")
+
         for django_model in django_models:
             python_blueprint_context.append(
-                {
-                    "project_name": project_name,
-                    "app_label": app_label,
-                    "login": self.login,
-                    "model_name": django_model["name"],
-                    "model_verbose_name_plural": django_model["verbose_name_plural"],
-                    "model_fields": django_model["fields"],
-                    "excluded_fields": excluded_fields,
-                    "crud_utils_import": crud_utils_import,
-                }
+                get_python_blueprint_context(
+                    project_name=project_name,
+                    app_label=app_label,
+                    django_model=django_model,
+                    excluded_fields=excluded_fields,
+                    crud_utils_import=crud_utils_import,
+                    login_required=self.login_required,
+                )
             )
-            model_name_lower = django_model["name"].lower()
-            html_blueprint_context.append(
-                {
-                    "app_label": app_label,
-                    "model_name": django_model["name"],
-                    "model_verbose_name_plural": django_model["verbose_name_plural"],
-                    "model_fields": django_model["fields"],
-                    "fields_verbose_name_with_accessor": {
-                        verbose_name: "{{" + f"{model_name_lower}.{name}" + "}}"
-                        for name, verbose_name in django_model["fields"].items()
-                    },
-                    **get_urls_template_string(
-                        app_label=app_label,
-                        model_name_lower=django_model["name"].lower(),
-                    ),
-                }
-            )
+            html_blueprint_context.append(get_html_blueprint_context(app_label=app_label, django_model=django_model))
 
         updated_python_files = set()
 

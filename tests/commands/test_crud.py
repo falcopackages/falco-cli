@@ -64,7 +64,7 @@ def test_crud(django_project, runner: CommandRunner, set_git_repo_to_clean):
 
 def test_crud_login(django_project, runner: CommandRunner, set_git_repo_to_clean):
     install_crud_utils(runner)
-    runner.invoke("crud", "blog.post", "--login")
+    runner.invoke("crud", "blog.post", "--login-required")
     assert healthy_django_project()
     app_dir = Path("blog")
     assert (app_dir / "urls.py").exists()
@@ -101,7 +101,7 @@ def test_crud_entry_point(django_project, runner: CommandRunner, set_git_repo_to
 
 def test_crud_entry_point_login(django_project, runner: CommandRunner, set_git_repo_to_clean):
     install_crud_utils(runner)
-    runner.invoke("crud", "blog.post", "--entry-point", "--login")
+    runner.invoke("crud", "blog.post", "--entry-point", "--login-required")
     assert healthy_django_project()
     app_dir = Path("blog")
     assert (app_dir / "urls.py").exists()
@@ -164,3 +164,15 @@ def test_crud_exclude_field(django_project, runner: CommandRunner, set_git_repo_
     forms_attributes_ = ["PostForm", "Post", "content"]
     for a in forms_attributes_:
         assert a in (app_dir / "forms.py").read_text()
+
+
+def test_crud_login_required(django_project, runner: CommandRunner, set_git_repo_to_clean):
+    install_crud_utils(runner)
+    runner.invoke("crud", "blog.post", "--login-required")
+    assert healthy_django_project()
+    views = (Path("blog") / "views.py").read_text()
+    assert "@login_required" in views
+    assert "AuthenticatedHttpRequest" in views
+
+
+# TODO: write more tests, test that test all options, example login_required

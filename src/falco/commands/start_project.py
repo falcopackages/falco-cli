@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import io
 import json
 import os
 import shutil
@@ -9,7 +8,6 @@ from contextlib import contextmanager
 from contextlib import suppress
 from pathlib import Path
 from typing import Annotated
-from unittest.mock import patch, MagicMock
 
 import cappa
 import httpx
@@ -18,9 +16,11 @@ from cruft import create
 from cruft.exceptions import InvalidCookiecutterRepository
 from falco.commands import InstallCrudUtils
 from falco.commands.crud.utils import run_html_formatters
-from falco.commands.htmx import Htmx, get_latest_tag as htmx_latest_tag
-from falco.utils import clean_project_name, read_falco_config
+from falco.commands.htmx import get_latest_tag as htmx_latest_tag
+from falco.commands.htmx import Htmx
+from falco.utils import clean_project_name
 from falco.utils import is_new_falco_cli_available
+from falco.utils import read_falco_config
 from falco.utils import RICH_INFO_MARKER
 from falco.utils import RICH_SUCCESS_MARKER
 from falco.utils import simple_progress
@@ -39,12 +39,8 @@ def get_authors_info() -> tuple[str, str]:
     default_author_email = "tobidegnon@proton.me"
     git_config_cmd = ["git", "config", "--global", "--get"]
     try:
-        user_name_cmd = subprocess.run(
-            [*git_config_cmd, "user.name"], capture_output=True, text=True, check=False
-        )
-        user_email_cmd = subprocess.run(
-            [*git_config_cmd, "user.email"], capture_output=True, text=True, check=False
-        )
+        user_name_cmd = subprocess.run([*git_config_cmd, "user.name"], capture_output=True, text=True, check=False)
+        user_email_cmd = subprocess.run([*git_config_cmd, "user.email"], capture_output=True, text=True, check=False)
     except FileNotFoundError:
         return default_author_name, default_author_email
     if user_email_cmd.returncode != 0:
@@ -100,9 +96,7 @@ class StartProject:
 
     def __call__(self) -> None:
         if self.is_root and not self.directory:
-            raise cappa.Exit(
-                "You need to specify a directory when using the --root flag.", code=1
-            )
+            raise cappa.Exit("You need to specify a directory when using the --root flag.", code=1)
         if not self.skip_new_version_check and is_new_falco_cli_available():
             message = (
                 f"{RICH_INFO_MARKER} A new version of falco-cli is available. To upgrade, run "
@@ -126,18 +120,14 @@ class StartProject:
         with change_directory(project_dir):
             pyproject_path = Path("pyproject.toml")
             falco_config = read_falco_config(pyproject_path)
-            crud_utils = InstallCrudUtils().install(
-                project_name=self.project_name, falco_config=falco_config
-            )
+            crud_utils = InstallCrudUtils().install(project_name=self.project_name, falco_config=falco_config)
             config = {
                 "crud_utils": str(crud_utils),
                 **self.cruft_file_to_falco_config(),
             }
             with suppress(cappa.Exit, httpx.TimeoutException, httpx.ConnectError):
                 version = htmx_latest_tag()
-                filepath = Htmx().download(
-                    version=htmx_latest_tag(), falco_config=falco_config
-                )
+                filepath = Htmx().download(version=htmx_latest_tag(), falco_config=falco_config)
                 config["htmx"] = Htmx.format_for_config(filepath, version)
 
             write_falco_config(pyproject_path=pyproject_path, **config)
@@ -170,9 +160,7 @@ class StartProject:
                 msg = str(e).replace("Error:", "")
                 raise cappa.Exit(msg, code=1) from e
             except InvalidCookiecutterRepository as e:
-                raise cappa.Exit(
-                    "Network error, check your internet connection.", code=1
-                ) from e
+                raise cappa.Exit("Network error, check your internet connection.", code=1) from e
 
             if self.is_root:
                 renamed_project_dir = self.directory / "tmp_renamed_dir"

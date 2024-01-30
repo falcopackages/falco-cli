@@ -1,6 +1,6 @@
 # IMPORTS:START
 from {{crud_utils_import}}.utils import paginate_queryset
-{% if login %}
+{% if login_required %}
 from {{crud_utils_import}}.types import AuthenticatedHttpRequest
 {% else %}
 from {{crud_utils_import}}.types import HttpRequest
@@ -11,7 +11,7 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
 from django.views.decorators.http import require_http_methods
-{% if login %}
+{% if login_required %}
 from django.contrib.auth.decorators import login_required
 {% endif %}
 
@@ -22,7 +22,7 @@ from .models import {{model_name}}
 
 
 # CODE:START
-{% if login %}
+{% if login_required %}
 @login_required
 def {{model_name|lower}}_list(request: AuthenticatedHttpRequest):
 {% else %}
@@ -36,7 +36,7 @@ def {{model_name|lower}}_list(request: HttpRequest):
         context={"{{model_name|lower}}s_page": paginate_queryset(request, {{model_name|lower}}s)},
     )
 
-{% if login %}
+{% if login_required %}
 @login_required
 def {{model_name|lower}}_detail(request: AuthenticatedHttpRequest, pk: int):
 {% else %}
@@ -49,7 +49,7 @@ def {{model_name|lower}}_detail(request: HttpRequest, pk: int):
         context={"{{model_name|lower}}": {{model_name|lower}}},
     )
 
-{% if login %}
+{% if login_required %}
 @login_required
 def {{model_name|lower}}_create(request: AuthenticatedHttpRequest):
 {% else %}
@@ -65,7 +65,7 @@ def {{model_name|lower}}_create(request: HttpRequest):
         context={"form": form},
     )
 
-{% if login %}
+{% if login_required %}
 @login_required
 def {{model_name|lower}}_update(request: AuthenticatedHttpRequest, pk: int):
 {% else %}
@@ -83,7 +83,7 @@ def {{model_name|lower}}_update(request: HttpRequest, pk: int):
     )
 
 @require_http_methods(["DELETE"])
-{% if login %}
+{% if login_required %}
 @login_required
 def {{model_name|lower}}_delete(_: AuthenticatedHttpRequest, pk: int):
 {% else %}

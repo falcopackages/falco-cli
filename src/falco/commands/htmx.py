@@ -13,17 +13,13 @@ from rich import print as rich_print
 from rich.panel import Panel
 
 HTMX_DOWNLOAD_URL = "https://unpkg.com/htmx.org@{version}/dist/htmx.min.js"
-HTMX_GH_RELEASE_LATEST_URL = (
-    "https://api.github.com/repos/bigskysoftware/htmx/releases/latest"
-)
+HTMX_GH_RELEASE_LATEST_URL = "https://api.github.com/repos/bigskysoftware/htmx/releases/latest"
 
 HtmxConfig = tuple[Path, str | None]
 
 
 def get_latest_tag() -> str:
-    with network_request_with_progress(
-        HTMX_GH_RELEASE_LATEST_URL, "Getting htmx latest version"
-    ) as response:
+    with network_request_with_progress(HTMX_GH_RELEASE_LATEST_URL, "Getting htmx latest version") as response:
         try:
             return response.json()["tag_name"][1:]
         except KeyError as e:
@@ -37,9 +33,7 @@ def get_latest_tag() -> str:
 @cappa.command(help="Download the latest version (if no version is specified) of htmx.")
 class Htmx:
     version: Annotated[str, cappa.Arg(default="latest")] = "latest"
-    output: Annotated[
-        Path | None, cappa.Arg(default=None, short="-o", long="--output")
-    ] = None
+    output: Annotated[Path | None, cappa.Arg(default=None, short="-o", long="--output")] = None
 
     def __call__(self):
         latest_version = get_latest_tag()
@@ -79,9 +73,7 @@ class Htmx:
     def download(self, version: str, falco_config: dict) -> Path:
         url = HTMX_DOWNLOAD_URL.format(version=version)
 
-        with network_request_with_progress(
-            url, f"Downloading htmx version {version}"
-        ) as response:
+        with network_request_with_progress(url, f"Downloading htmx version {version}") as response:
             content = response.content.decode("utf-8")
             if response.status_code == codes.NOT_FOUND:
                 msg = f"Could not find htmx version {version}."
@@ -94,11 +86,7 @@ class Htmx:
 
     def resolve_filepath(self, falco_config: dict) -> Path:
         if self.output:
-            filepath = (
-                self.output
-                if str(self.output).endswith(".js")
-                else self.output / "htmx.min.js"
-            )
+            filepath = self.output if str(self.output).endswith(".js") else self.output / "htmx.min.js"
         elif self.output is None and "htmx" in falco_config:
             htmx_config = self.read_from_config(falco_config)
             filepath, _ = htmx_config

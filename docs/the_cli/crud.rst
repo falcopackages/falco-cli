@@ -131,8 +131,10 @@ Custom Templates
 The ``crud`` command supports the ability to specify your own HTML templates using the ``--blueprints`` option. 
 This option only takes into account HTML files and will completely override the default templates. The HTML templates 
 use the `jinja2 <https://jinja.palletsprojects.com/en/3.1.x/>`_ syntax. To see examples of what the templates look like, 
-check out the base templates `here <https://github.com/Tobi-De/falco/tree/main/src/falco/crud/html>`_. Below is an example 
-of the context each template will receive.
+check out the base templates `here <https://github.com/Tobi-De/falco/tree/main/src/falco/crud/html>`_.
+
+Below is an example of the context each template will receive.
+
 
 .. jupyter-execute::
     :hide-code:
