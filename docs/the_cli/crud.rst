@@ -165,10 +165,12 @@ Some usage examples.
 
     $ falco crud products.product
     $ falco crud products
-    $ falco crud products.product -e="secret_field1" -e="secret_field2"
+    $ falco crud products.product -e="not_editable1" -e="not_editable2"
     $ falco crud products.product --only-html
     $ falco crud products.product --only-python
     $ falco crud products.product --entry-point
+    $ falco crud products.product --entry-point --login
+    $ falco crud products.product --blueprints /path/to/blueprints
 
 
 install-crud-utils

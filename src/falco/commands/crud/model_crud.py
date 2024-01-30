@@ -232,7 +232,7 @@ class ModelCRUD:
     model_path: Annotated[
         str,
         cappa.Arg(
-            help="The path (<app_label>.<model name>) of the model to generate CRUD views for. Ex: myapp.product"
+            help="The path (<app_label>.<model_name>) of the model to generate CRUD views for. Ex: myapp.product"
         ),
     ]
     blueprints: Annotated[
@@ -254,9 +254,9 @@ class ModelCRUD:
     ]
     only_python: Annotated[
         bool,
-        cappa.Arg(default=False, long="--only-python", help="Generate only python."),
+        cappa.Arg(default=False, long="--only-python", help="Generate only python code."),
     ]
-    only_html: Annotated[bool, cappa.Arg(default=False, long="--only-html", help="Generate only html.")]
+    only_html: Annotated[bool, cappa.Arg(default=False, long="--only-html", help="Generate only html code.")]
     entry_point: Annotated[
         bool,
         cappa.Arg(
