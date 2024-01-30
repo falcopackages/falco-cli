@@ -140,10 +140,20 @@ Below is an example of the context each template will receive.
     :hide-code:
 
     from falco.commands.crud.model_crud import HtmlBlueprintContext
-    from inspect import get_annotations
+    from falco.commands.crud.model_crud import get_html_blueprint_context
+    from falco.commands.crud.model_crud import DjangoModel
     from pprint import pprint
 
-    pprint(get_annotations(HtmlBlueprintContext))
+    dj_model = DjangoModel(
+        name = "Product",
+        verbose_name_plural = "Products",
+        fields = {
+            "name": "Name",
+            "price": "Price",
+        }
+    )
+
+    pprint(get_html_blueprint_context(app_label="products", django_model=dj_model), sort_dicts=False, compact=True, width=120)
 
 
 Examples
