@@ -6,8 +6,9 @@ from typing import TypedDict
 
 import cappa
 import parso
+from falco.config import CRUDConfig
+from falco.config import read_falco_config
 from falco.utils import get_project_name
-from falco.utils import read_falco_config
 from falco.utils import RICH_ERROR_MARKER
 from falco.utils import RICH_INFO_MARKER
 from falco.utils import RICH_SUCCESS_MARKER
@@ -22,6 +23,305 @@ from .utils import get_crud_blueprints_path
 from .utils import render_to_string
 from .utils import run_html_formatters
 from .utils import run_python_formatters
+
+
+@cappa.command(help="Generate CRUD (Create, Read, Update, Delete) views for a model.", name="crud")
+class ModelCRUD:
+    model_path: Annotated[
+        str,
+        cappa.Arg(
+            help="The path (<app_label>.<model_name>) of the model to generate CRUD views for. Ex: myapp.product"
+        ),
+    ]
+    blueprints: Annotated[
+        str,
+        cappa.Arg(
+            default="",
+            long="--blueprints",
+            help="The path to custom html templates that will serve as blueprints.",
+        ),
+    ]
+    excluded_fields: Annotated[
+        list[str],
+        cappa.Arg(
+            short=True,
+            default=[],
+            long="--exclude",
+            help="Fields to exclude from the form.",
+        ),
+    ]
+    only_python: Annotated[
+        bool,
+        cappa.Arg(default=False, long="--only-python", help="Generate only python code."),
+    ]
+    only_html: Annotated[bool, cappa.Arg(default=False, long="--only-html", help="Generate only html code.")]
+    entry_point: Annotated[
+        bool,
+        cappa.Arg(
+            default=False,
+            long="--entry-point",
+            help="Use the specified model as the entry point of the app.",
+        ),
+    ]
+    login_required: Annotated[
+        bool,
+        cappa.Arg(
+            default=False,
+            short="-l",
+            long="--login-required",
+            help="Add the login_required decorator to all views.",
+        ),
+    ]
+    skip_git_check: Annotated[
+        bool,
+        cappa.Arg(
+            default=False,
+            long="--skip-git-check",
+            help="Do not check if your git repo is clean.",
+        ),
+    ]
+
+    def __call__(self, project_name: Annotated[str, cappa.Dep(get_project_name)]):
+        pyproject_path = Path("pyproject.toml")
+        falco_config = read_falco_config(pyproject_path=pyproject_path) if pyproject_path.exists() else {}
+        crud_config: CRUDConfig = falco_config.get("crud", {})
+
+        self.blueprints = self.blueprints or crud_config.get("blueprints")
+        self.login_required = crud_config.get("login_required", self.login_required)
+        self.skip_git_check = crud_config.get("skip_git_check", self.skip_git_check)
+
+        checks.clean_git_repo(ignore_dirty=self.skip_git_check)
+
+        v = self.model_path.split(".")
+
+        excluded_fields = [*self.excluded_fields, "created", "modified"]
+
+        if len(v) == 1:
+            name = None
+            app_label = v[0]
+        else:
+            name = v.pop()
+            app_label = ".".join(v)
+
+        if crud_config.get("always_migrate", False):
+            commands = [f"python manage.py makemigrations {app_label}", f"python manage.py migrate {app_label}"]
+            with simple_progress("Running migrations"):
+                for cmd in commands:
+                    result = subprocess.run(cmd.split(), capture_output=True, check=False, text=True)
+
+                    if result.returncode != 0:
+                        msg = result.stderr
+                        raise cappa.Exit("migrations step failed\n" + msg, code=1)
+
+        if self.entry_point and not name:
+            raise cappa.Exit("The --entry-point option requires a full model path.", code=1)
+
+        with simple_progress("Getting models info"):
+            all_django_models = cast(
+                list[DjangoModel],
+                run_in_shell(models_data_code.format(app_label)),
+            )
+
+            app_folder_path_str, app_name, templates_dir_str = cast(
+                tuple[str, str, str],
+                run_in_shell(app_path_name_and_templates_dir_code.format(app_label, app_label)),
+            )
+
+            app_folder_path = Path(app_folder_path_str)
+            templates_dir = Path(templates_dir_str)
+
+        django_models = (
+            [m for m in all_django_models if m["name"].lower() == name.lower()] if name else all_django_models
+        )
+        if name and not django_models:
+            msg = f"Model {name} not found in app {app_label}"
+            raise cappa.Exit(msg, code=1)
+
+        python_blueprint_context: list[PythonBlueprintContext] = []
+        html_blueprint_context: list[HtmlBlueprintContext] = []
+        install_path, crud_utils_installed = InstallCrudUtils.get_install_path(
+            project_name=project_name,
+            falco_config=falco_config,
+        )
+        crud_utils_import = str(install_path).replace("/", ".")
+
+        for django_model in django_models:
+            python_blueprint_context.append(
+                get_python_blueprint_context(
+                    project_name=project_name,
+                    app_label=app_label,
+                    django_model=django_model,
+                    excluded_fields=excluded_fields,
+                    crud_utils_import=crud_utils_import,
+                    login_required=self.login_required,
+                )
+            )
+            html_blueprint_context.append(get_html_blueprint_context(app_label=app_label, django_model=django_model))
+
+        updated_python_files = set()
+
+        if not self.only_html:
+            python_blueprints = list((get_crud_blueprints_path() / "python").iterdir())
+            updated_python_files.update(
+                self.generate_python_code(
+                    app_label=app_label,
+                    blueprints=python_blueprints,
+                    app_folder_path=app_folder_path,
+                    contexts=python_blueprint_context,
+                    entry_point=self.entry_point,
+                )
+            )
+
+            updated_python_files.update(
+                self.generating_urls(
+                    app_name=app_name,
+                    app_folder_path=app_folder_path,
+                    app_label=app_label,
+                    django_models=django_models,
+                    entry_point=self.entry_point,
+                )
+            )
+
+        updated_html_files = set()
+        if not self.only_python:
+            html_blueprints = (
+                list(Path(self.blueprints).glob("*.html"))
+                if self.blueprints
+                else list((get_crud_blueprints_path() / "html").iterdir())
+            )
+
+            updated_html_files.update(
+                self.generate_html_templates(
+                    contexts=html_blueprint_context,
+                    entry_point=self.entry_point,
+                    blueprints=html_blueprints,
+                    templates_dir=templates_dir,
+                )
+            )
+
+        for file in updated_python_files:
+            run_python_formatters(str(file))
+
+        for file in updated_html_files:
+            run_html_formatters(str(file))
+
+        display_names = ", ".join(m.get("name") for m in django_models)
+        rich_print(f"{RICH_SUCCESS_MARKER}CRUD views generated for: {display_names}[/green]")
+        if not crud_utils_installed:
+            rich_print(
+                f"{RICH_INFO_MARKER}It appears that your CRUD utilities have not been installed yet. "
+                f"Please execute the command 'falco install-crud-utils' to install them."
+            )
+
+    @simple_progress("Generating python code")
+    def generate_python_code(
+        self,
+        app_label: str,
+        app_folder_path: Path,
+        blueprints: list[Path],
+        contexts: list["PythonBlueprintContext"],
+        *,
+        entry_point: bool,
+    ) -> list[Path]:
+        updated_files = []
+
+        for blueprint in blueprints:
+            imports_template, code_template = extract_python_file_templates(blueprint.read_text())
+            # blueprints python files end in .py.jinja
+            file_name_without_jinja = ".".join(blueprint.name.split(".")[:-1])
+            file_to_write_to = app_folder_path / file_name_without_jinja
+            file_to_write_to.touch(exist_ok=True)
+
+            imports_content, code_content = "", ""
+
+            for context in contexts:
+                model_name_lower = context["model_name"].lower()
+                imports_content += render_to_string(imports_template, context)
+                code_content += render_to_string(code_template, context)
+
+                if entry_point:
+                    code_content = code_content.replace(f"{model_name_lower}_", "")
+                    code_content = code_content.replace("list", "index")
+
+            file_to_write_to.write_text(imports_content + file_to_write_to.read_text() + code_content)
+            updated_files.append(file_to_write_to)
+
+        model_name = contexts[0]["model_name"] if len(contexts) == 1 else None
+        updated_files.append(
+            register_models_in_admin(
+                app_folder_path=app_folder_path,
+                app_label=app_label,
+                model_name=model_name,
+            )
+        )
+        return updated_files
+
+    @simple_progress("Generating urls")
+    def generating_urls(
+        self,
+        app_folder_path: Path,
+        app_label: str,
+        app_name: str,
+        django_models: list["DjangoModel"],
+        *,
+        entry_point: bool,
+    ) -> list[Path]:
+        urls_content = ""
+        for django_model in django_models:
+            model_name_lower = django_model["name"].lower()
+            urlsafe_model_verbose_name_plural = django_model["verbose_name_plural"].lower().replace(" ", "-")
+            urls_content += get_urls(
+                model_name_lower=model_name_lower,
+                urlsafe_model_verbose_name_plural=urlsafe_model_verbose_name_plural,
+            )
+            if entry_point:
+                urls_content = urls_content.replace(f"{urlsafe_model_verbose_name_plural}/", "")
+                urls_content = urls_content.replace("list", "index")
+                urls_content = urls_content.replace(f"{model_name_lower}_", "")
+
+        app_urls = app_folder_path / "urls.py"
+        updated_files = [app_urls]
+        if app_urls.exists():
+            urlpatterns = f"\nurlpatterns +=[{urls_content}]"
+            app_urls.write_text(app_urls.read_text() + urlpatterns)
+        else:
+            app_urls.touch()
+            app_urls.write_text(initial_urls_content(app_label, urls_content))
+            updated_files.append(register_app_urls(app_label=app_label, app_name=app_name))
+        return updated_files
+
+    @simple_progress("Generating html templates")
+    def generate_html_templates(
+        self,
+        templates_dir: Path,
+        blueprints: list[Path],
+        contexts: list["HtmlBlueprintContext"],
+        *,
+        entry_point: bool,
+    ) -> list[Path]:
+        updated_files = []
+        templates_dir.mkdir(exist_ok=True, parents=True)
+        for blueprint in blueprints:
+            filecontent = blueprint.read_text()
+
+            for context in contexts:
+                model_name_lower = context["model_name"].lower()
+                new_filename = f"{model_name_lower}_{blueprint.name}"
+                if entry_point:
+                    new_filename = blueprint.name
+                if new_filename.startswith("list"):
+                    new_filename = new_filename.replace("list", "index")
+                file_to_write_to = templates_dir / new_filename
+                file_to_write_to.touch(exist_ok=True)
+                views_content = render_to_string(filecontent, context=context)
+
+                if entry_point:
+                    views_content = views_content.replace(f"{model_name_lower}_", "")
+                    views_content = views_content.replace("list", "index")
+                file_to_write_to.write_text(views_content)
+                updated_files.append(file_to_write_to)
+
+        return updated_files
 
 
 class PythonBlueprintContext(TypedDict):
@@ -225,286 +525,3 @@ def get_html_blueprint_context(app_label: str, django_model: DjangoModel) -> Htm
             model_name_lower=django_model["name"].lower(),
         ),
     }
-
-
-@cappa.command(help="Generate CRUD (Create, Read, Update, Delete) views for a model.", name="crud")
-class ModelCRUD:
-    model_path: Annotated[
-        str,
-        cappa.Arg(
-            help="The path (<app_label>.<model_name>) of the model to generate CRUD views for. Ex: myapp.product"
-        ),
-    ]
-    blueprints: Annotated[
-        str,
-        cappa.Arg(
-            default="",
-            long="--blueprints",
-            help="The path to custom html templates that will serve as blueprints.",
-        ),
-    ]
-    excluded_fields: Annotated[
-        list[str],
-        cappa.Arg(
-            short=True,
-            default=[],
-            long="--exclude",
-            help="Fields to exclude from the form.",
-        ),
-    ]
-    only_python: Annotated[
-        bool,
-        cappa.Arg(default=False, long="--only-python", help="Generate only python code."),
-    ]
-    only_html: Annotated[bool, cappa.Arg(default=False, long="--only-html", help="Generate only html code.")]
-    entry_point: Annotated[
-        bool,
-        cappa.Arg(
-            default=False,
-            long="--entry-point",
-            help="Use the specified model as the entry point of the app.",
-        ),
-    ]
-    login_required: Annotated[
-        bool,
-        cappa.Arg(
-            default=False,
-            short="-l",
-            long="--login-required",
-            help="Add the login_required decorator to all views.",
-        ),
-    ]
-    skip_git_check: Annotated[
-        bool,
-        cappa.Arg(
-            default=False,
-            long="--skip-git-check",
-            help="Do not check if your git repo is clean.",
-        ),
-    ]
-
-    def __call__(self, project_name: Annotated[str, cappa.Dep(get_project_name)]):
-        checks.clean_git_repo(ignore_dirty=self.skip_git_check)
-
-        v = self.model_path.split(".")
-
-        excluded_fields = [*self.excluded_fields, "created", "modified"]
-
-        if len(v) == 1:
-            name = None
-            app_label = v[0]
-        else:
-            name = v.pop()
-            app_label = ".".join(v)
-
-        if self.entry_point and not name:
-            raise cappa.Exit("The --entry-point option requires a full model path.", code=1)
-
-        with simple_progress("Getting models info"):
-            all_django_models = cast(
-                list[DjangoModel],
-                run_in_shell(models_data_code.format(app_label)),
-            )
-
-            app_folder_path_str, app_name, templates_dir_str = cast(
-                tuple[str, str, str],
-                run_in_shell(app_path_name_and_templates_dir_code.format(app_label, app_label)),
-            )
-
-            app_folder_path = Path(app_folder_path_str)
-            templates_dir = Path(templates_dir_str)
-
-        django_models = (
-            [m for m in all_django_models if m["name"].lower() == name.lower()] if name else all_django_models
-        )
-        if name and not django_models:
-            msg = f"Model {name} not found in app {app_label}"
-            raise cappa.Exit(msg, code=1)
-
-        python_blueprint_context: list[PythonBlueprintContext] = []
-        html_blueprint_context: list[HtmlBlueprintContext] = []
-        pyproject_path = Path("pyproject.toml")
-        falco_config = read_falco_config(pyproject_path=pyproject_path) if pyproject_path.exists() else {}
-        install_path, crud_utils_installed = InstallCrudUtils.get_install_path(
-            project_name=project_name,
-            falco_config=falco_config,
-        )
-        crud_utils_import = str(install_path).replace("/", ".")
-
-        for django_model in django_models:
-            python_blueprint_context.append(
-                get_python_blueprint_context(
-                    project_name=project_name,
-                    app_label=app_label,
-                    django_model=django_model,
-                    excluded_fields=excluded_fields,
-                    crud_utils_import=crud_utils_import,
-                    login_required=self.login_required,
-                )
-            )
-            html_blueprint_context.append(get_html_blueprint_context(app_label=app_label, django_model=django_model))
-
-        updated_python_files = set()
-
-        if not self.only_html:
-            python_blueprints = list((get_crud_blueprints_path() / "python").iterdir())
-            updated_python_files.update(
-                self.generate_python_code(
-                    app_label=app_label,
-                    blueprints=python_blueprints,
-                    app_folder_path=app_folder_path,
-                    contexts=python_blueprint_context,
-                    entry_point=self.entry_point,
-                )
-            )
-
-            updated_python_files.update(
-                self.generating_urls(
-                    app_name=app_name,
-                    app_folder_path=app_folder_path,
-                    app_label=app_label,
-                    django_models=django_models,
-                    entry_point=self.entry_point,
-                )
-            )
-
-        updated_html_files = set()
-        if not self.only_python:
-            html_blueprints = (
-                list(Path(self.blueprints).glob("*.html"))
-                if self.blueprints
-                else list((get_crud_blueprints_path() / "html").iterdir())
-            )
-
-            updated_html_files.update(
-                self.generate_html_templates(
-                    contexts=html_blueprint_context,
-                    entry_point=self.entry_point,
-                    blueprints=html_blueprints,
-                    templates_dir=templates_dir,
-                )
-            )
-
-        for file in updated_python_files:
-            run_python_formatters(str(file))
-
-        for file in updated_html_files:
-            run_html_formatters(str(file))
-
-        display_names = ", ".join(m.get("name") for m in django_models)
-        rich_print(f"{RICH_SUCCESS_MARKER}CRUD views generated for: {display_names}[/green]")
-        if not crud_utils_installed:
-            rich_print(
-                f"{RICH_INFO_MARKER}It appears that your CRUD utilities have not been installed yet. "
-                f"Please execute the command 'falco install-crud-utils' to install them."
-            )
-
-    @simple_progress("Generating python code")
-    def generate_python_code(
-        self,
-        app_label: str,
-        app_folder_path: Path,
-        blueprints: list[Path],
-        contexts: list[PythonBlueprintContext],
-        *,
-        entry_point: bool,
-    ) -> list[Path]:
-        updated_files = []
-
-        for blueprint in blueprints:
-            imports_template, code_template = extract_python_file_templates(blueprint.read_text())
-            # blueprints python files end in .py.jinja
-            file_name_without_jinja = ".".join(blueprint.name.split(".")[:-1])
-            file_to_write_to = app_folder_path / file_name_without_jinja
-            file_to_write_to.touch(exist_ok=True)
-
-            imports_content, code_content = "", ""
-
-            for context in contexts:
-                model_name_lower = context["model_name"].lower()
-                imports_content += render_to_string(imports_template, context)
-                code_content += render_to_string(code_template, context)
-
-                if entry_point:
-                    code_content = code_content.replace(f"{model_name_lower}_", "")
-                    code_content = code_content.replace("list", "index")
-
-            file_to_write_to.write_text(imports_content + file_to_write_to.read_text() + code_content)
-            updated_files.append(file_to_write_to)
-
-        model_name = contexts[0]["model_name"] if len(contexts) == 1 else None
-        updated_files.append(
-            register_models_in_admin(
-                app_folder_path=app_folder_path,
-                app_label=app_label,
-                model_name=model_name,
-            )
-        )
-        return updated_files
-
-    @simple_progress("Generating urls")
-    def generating_urls(
-        self,
-        app_folder_path: Path,
-        app_label: str,
-        app_name: str,
-        django_models: list[DjangoModel],
-        *,
-        entry_point: bool,
-    ) -> list[Path]:
-        urls_content = ""
-        for django_model in django_models:
-            model_name_lower = django_model["name"].lower()
-            urlsafe_model_verbose_name_plural = django_model["verbose_name_plural"].lower().replace(" ", "-")
-            urls_content += get_urls(
-                model_name_lower=model_name_lower,
-                urlsafe_model_verbose_name_plural=urlsafe_model_verbose_name_plural,
-            )
-            if entry_point:
-                urls_content = urls_content.replace(f"{urlsafe_model_verbose_name_plural}/", "")
-                urls_content = urls_content.replace("list", "index")
-                urls_content = urls_content.replace(f"{model_name_lower}_", "")
-
-        app_urls = app_folder_path / "urls.py"
-        updated_files = [app_urls]
-        if app_urls.exists():
-            urlpatterns = f"\nurlpatterns +=[{urls_content}]"
-            app_urls.write_text(app_urls.read_text() + urlpatterns)
-        else:
-            app_urls.touch()
-            app_urls.write_text(initial_urls_content(app_label, urls_content))
-            updated_files.append(register_app_urls(app_label=app_label, app_name=app_name))
-        return updated_files
-
-    @simple_progress("Generating html templates")
-    def generate_html_templates(
-        self,
-        templates_dir: Path,
-        blueprints: list[Path],
-        contexts: list[HtmlBlueprintContext],
-        *,
-        entry_point: bool,
-    ) -> list[Path]:
-        updated_files = []
-        templates_dir.mkdir(exist_ok=True, parents=True)
-        for blueprint in blueprints:
-            filecontent = blueprint.read_text()
-
-            for context in contexts:
-                model_name_lower = context["model_name"].lower()
-                new_filename = f"{model_name_lower}_{blueprint.name}"
-                if entry_point:
-                    new_filename = blueprint.name
-                if new_filename.startswith("list"):
-                    new_filename = new_filename.replace("list", "index")
-                file_to_write_to = templates_dir / new_filename
-                file_to_write_to.touch(exist_ok=True)
-                views_content = render_to_string(filecontent, context=context)
-
-                if entry_point:
-                    views_content = views_content.replace(f"{model_name_lower}_", "")
-                    views_content = views_content.replace("list", "index")
-                file_to_write_to.write_text(views_content)
-                updated_files.append(file_to_write_to)
-
-        return updated_files

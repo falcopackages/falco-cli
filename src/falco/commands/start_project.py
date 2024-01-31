@@ -18,13 +18,13 @@ from falco.commands import InstallCrudUtils
 from falco.commands.crud.utils import run_html_formatters
 from falco.commands.htmx import get_latest_tag as htmx_latest_tag
 from falco.commands.htmx import Htmx
+from falco.config import read_falco_config
+from falco.config import write_falco_config
 from falco.utils import clean_project_name
 from falco.utils import is_new_falco_cli_available
-from falco.utils import read_falco_config
 from falco.utils import RICH_INFO_MARKER
 from falco.utils import RICH_SUCCESS_MARKER
 from falco.utils import simple_progress
-from falco.utils import write_falco_config
 from rich import print as rich_print
 from rich.prompt import Prompt
 

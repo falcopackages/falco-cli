@@ -3,9 +3,9 @@ from typing import Annotated
 
 import cappa
 import httpx
+from falco.config import read_falco_config
 from falco.utils import get_pyproject_file
 from falco.utils import network_request_with_progress
-from falco.utils import read_falco_config
 from falco.utils import simple_progress
 from rich import print as rich_print
 from rich.console import Console

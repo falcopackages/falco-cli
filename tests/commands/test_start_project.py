@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from cappa.testing import CommandRunner
-from falco.utils import read_falco_config
+from falco.config import read_falco_config
 
 
 def generated_project_files(project_name) -> list[str]:

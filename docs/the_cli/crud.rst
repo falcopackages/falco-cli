@@ -32,6 +32,52 @@ accessible and you can update it as you see fit. The idea is to accelerate proje
 
 If you want to see an example of the generated code, check out the `source code of the demo project <https://github.com/Tobi-De/falco/tree/main/demo/demo/products>`_.
 
+Configuration
+^^^^^^^^^^^^^
+
+There are some options that you may want to set each time you generate ``CRUD`` views for a model. For instance, most of your views might require user
+login, or you might have a specific set of HTML templates that you use every time you run the command. Typing the same options repeatedly can be tedious. 
+For such scenarios, some of the CLI options can be configured via the ``pyproject.toml`` file.
+
+Here is an example illustrating all available configurations:
+
+.. tabs::
+
+    .. tab:: ``pyproject.toml``
+
+        .. code-block:: toml
+
+            [tool.falco.crud]
+            utils-path = "apps_dir/core"
+            blueprints = "blueprints"
+            login-required = true
+            skip-git-check = true
+            always-migrate = true
+
+        .. note::
+
+            All options are optional.
+
+    .. tab:: description
+
+        .. admonition:: Keys description
+            :class: note
+
+            **utils-path**: This will be written by the ``install-crud-utils`` command. Unless you are changing where the utils are installed, you don't need to worry about this.
+
+            **blueprints**: If you are using custom blueprints for your ``html``, set the path here. It works exactly the same as the equivalent CLI option.
+
+            **login-required**: Always generate views that are decorated with the ``login_required`` decorator.
+
+            **skip-git-check**: (Not recommended) This option is for those who like to live dangerously. It will always skip the git check.
+
+            **always-migrate**: This option can only be set in the ``pyproject.toml`` file. My current workflow is to create a new app, add fields to a model and then run ``crud``. 
+            I often forget to ``makemigrations`` and ``migrate``. This can cause the ``admin`` generation code to fail. With this option set, the ``crud`` command will first try to
+            run ``makemigrations`` and ``migrate``. If either of these operations fails, the command will stop and print the error.
+
+
+
+
 Python code
 ^^^^^^^^^^^
 

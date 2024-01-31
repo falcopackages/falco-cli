@@ -4,6 +4,7 @@ from pathlib import Path
 import cappa
 import pytest
 from cappa.testing import CommandRunner
+from falco.config import write_falco_config
 
 views_functions = ["post_list", "post_detail", "post_update", "post_create"]
 html_templates = [
@@ -21,6 +22,12 @@ html_templates_point = [
 ]
 forms_attributes = ["PostForm", "Post", "title", "content"]
 admin_attributes = ["PostAdmin", "Post", "title", "content"]
+
+
+def create_pyproject_crud_config(**kwargs):
+    pyproject_toml = Path("pyproject.toml")
+    pyproject_toml.touch()
+    write_falco_config(pyproject_path=pyproject_toml, crud=kwargs)
 
 
 def healthy_django_project() -> bool:
@@ -175,4 +182,47 @@ def test_crud_login_required(django_project, runner: CommandRunner, set_git_repo
     assert "AuthenticatedHttpRequest" in views
 
 
-# TODO: write more tests, test that test all options, example login_required
+def test_crud_config_pyproject_skip_git_check_set(django_project, runner: CommandRunner):
+    create_pyproject_crud_config(skip_git_check=True)
+    install_crud_utils(runner)
+    runner.invoke("crud", "blog.post")
+    assert healthy_django_project()
+    views = (Path("blog") / "views.py").read_text()
+    assert "post_list" in views
+
+
+def test_crud_config_pyproject_login_required(django_project, runner: CommandRunner):
+    create_pyproject_crud_config(skip_git_check=True, login_required=True)
+    install_crud_utils(runner)
+    runner.invoke("crud", "blog.post")
+    assert healthy_django_project()
+    views = (Path("blog") / "views.py").read_text()
+    assert "@login_required" in views
+    assert "AuthenticatedHttpRequest" in views
+
+
+def test_crud_config_pyproject_blueprints(django_project, runner: CommandRunner):
+    bp = django_project / "blueprints"
+    bp.mkdir()
+    html_file = bp / "dummy.html"
+    html_file.touch()
+    html_file.write_text("{{ model_name }}")
+    create_pyproject_crud_config(blueprints=str(Path("blueprints")), skip_git_check=True)
+    install_crud_utils(runner)
+    runner.invoke("crud", "blog.post")
+    views = (Path("blog") / "views.py").read_text()
+    rendered_file = Path("blog") / "templates" / "blog" / "post_dummy.html"
+    assert rendered_file.exists()
+    assert "Post" in rendered_file.read_text()
+    assert "Post" in views
+
+
+def test_crud_always_migrate(django_project, runner: CommandRunner, set_git_repo_to_clean):
+    create_pyproject_crud_config(always_migrate=True)
+    settings = django_project / "myproject" / "settings.py"
+    settings.write_text(settings.read_text() + "\n\n" + "INSTALLED_APPS += ['non_existent_app']\n")
+    install_crud_utils(runner)
+    with pytest.raises(cappa.Exit):
+        runner.invoke("crud", "blog.post")
+    assert "post_list" not in Path("blog/views.py").read_text()
+    assert not healthy_django_project()

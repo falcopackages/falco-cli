@@ -2,13 +2,6 @@ import ast
 import subprocess
 from contextlib import contextmanager
 from pathlib import Path
-from typing import cast
-from typing import TypedDict
-
-try:
-    from typing import Unpack
-except ImportError:
-    from typing_extensions import Unpack
 
 import cappa
 import httpx
@@ -21,33 +14,6 @@ from rich.progress import TextColumn
 RICH_SUCCESS_MARKER = "[green]SUCCESS:"
 RICH_ERROR_MARKER = "[red]ERROR:"
 RICH_INFO_MARKER = "[blue]INFO:"
-RICH_COMMAND_MARKER = "[yellow]"
-RICH_COMMAND_MARKER_END = "[/yellow]"
-
-
-class FalcoConfig(TypedDict, total=False):
-    revision: str
-    blueprint: str
-    skip: list[str]
-    work: dict[str, str]
-    htmx: str
-    crud_utils: str
-
-
-def write_falco_config(pyproject_path: Path, **kwargs: Unpack[TypedDict]) -> FalcoConfig:
-    pyproject = tomlkit.parse(pyproject_path.read_text())
-    existing_config = pyproject.get("tool", {}).get("falco", {})
-    existing_config.update(**kwargs)
-    tool = pyproject.get("tool", {})
-    tool.update({"falco": existing_config})
-    pyproject["tool"] = tool
-    pyproject_path.write_text(tomlkit.dumps(pyproject))
-    return pyproject
-
-
-def read_falco_config(pyproject_path: Path) -> FalcoConfig:
-    pyproject = tomlkit.parse(pyproject_path.read_text())
-    return cast(FalcoConfig, pyproject.get("tool", {}).get("falco", {}))
 
 
 def clean_project_name(val: str) -> str:

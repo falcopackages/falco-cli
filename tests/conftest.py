@@ -45,10 +45,10 @@ class Post(models.Model):
     # create a pyproject.toml
     (project_dir / "pyproject.toml").write_text(
         """
-        [project]
-        name = "myproject"
-        version = "0.1.0"
-        """
+[project]
+name = "myproject"
+version = "0.1.0"
+"""
     )
 
     yield project_dir

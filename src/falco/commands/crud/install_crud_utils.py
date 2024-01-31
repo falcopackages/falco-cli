@@ -2,12 +2,12 @@ from pathlib import Path
 from typing import Annotated
 
 import cappa
-from falco.utils import FalcoConfig
+from falco.config import FalcoConfig
+from falco.config import read_falco_config
+from falco.config import write_falco_config
 from falco.utils import get_project_name
 from falco.utils import get_pyproject_file
-from falco.utils import read_falco_config
 from falco.utils import simple_progress
-from falco.utils import write_falco_config
 from rich import print as rich_print
 
 from .utils import extract_python_file_templates
@@ -33,7 +33,7 @@ class InstallCrudUtils:
 
         output_dir = self.install(project_name=project_name, falco_config=falco_config)
         if pyproject_path:
-            write_falco_config(pyproject_path=pyproject_path, crud_utils=str(output_dir))
+            write_falco_config(pyproject_path=pyproject_path, crud={"utils_path": str(output_dir)})
 
         rich_print(f"[green]CRUD Utils installed successfully to {output_dir}.")
 
@@ -66,6 +66,6 @@ class InstallCrudUtils:
 
     @classmethod
     def get_install_path(cls, project_name: str, falco_config: FalcoConfig) -> tuple[Path, bool]:
-        if _import_path := falco_config.get("crud_utils"):
+        if _import_path := falco_config.get("crud", {}).get("utils_path"):
             return Path(_import_path), True
         return Path(f"{project_name}/core"), False
