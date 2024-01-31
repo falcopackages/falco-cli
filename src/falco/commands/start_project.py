@@ -85,12 +85,13 @@ class StartProject:
             help="Do not check for new version.",
         ),
     ]
-    repo_url: Annotated[
+    blueprint: Annotated[
         str,
         cappa.Arg(
             default="https://github.com/Tobi-De/falco_blueprint_basic.git",
-            long="--repo-url",
-            help="The git repository url for the blueprint.",
+            long="--blueprint",
+            short="-b",
+            help="The blueprint to use to generate the project.",
         ),
     ]
 
@@ -147,7 +148,7 @@ class StartProject:
         with simple_progress("Initializing your new django project... :sunglasses:"):
             try:
                 project_dir = create(
-                    self.repo_url,
+                    self.blueprint,
                     no_input=True,
                     output_dir=self.directory or Path(),
                     extra_context={
@@ -179,5 +180,5 @@ class StartProject:
         return {
             "revision": cruft_state["commit"],
             "skip": DEFAULT_SKIP,
-            "blueprint": self.repo_url,
+            "blueprint": self.blueprint,
         }

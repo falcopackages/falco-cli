@@ -27,7 +27,7 @@ def test_start_project(runner: CommandRunner):
         "start-project",
         "dotfm",
         "--skip-new-version-check",
-        "--repo-url",
+        "--blueprint",
         str(blueprint_path),
     )
     assert Path("dotfm").exists()
@@ -49,7 +49,7 @@ def test_start_project_in_directory(runner: CommandRunner, tmp_path):
         "dotfm",
         "builds",
         "--skip-new-version-check",
-        "--repo-url",
+        "--blueprint",
         str(blueprint_path),
     )
     project_dir = tmp_path / "builds" / "dotfm"
@@ -67,7 +67,7 @@ def test_start_project_in_directory_with_root(runner: CommandRunner, tmp_path):
         "builds/special_project",
         "--root",
         "--skip-new-version-check",
-        "--repo-url",
+        "--blueprint",
         str(blueprint_path),
     )
     project_dir = tmp_path / "builds/special_project"
@@ -84,7 +84,7 @@ def test_user_name_and_email(runner: CommandRunner, git_user_infos):
         "start-project",
         "dotfm",
         "--skip-new-version-check",
-        "--repo-url",
+        "--blueprint",
         str(blueprint_path),
     )
     pyproject_content = (Path("dotfm") / "pyproject.toml").read_text()
