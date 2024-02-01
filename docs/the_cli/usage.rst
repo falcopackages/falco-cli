@@ -70,7 +70,7 @@ If necessary, adjust the python_version value in the ``.pre-commit-config.yaml``
         created_by = models.ForeignKey("users.User", on_delete=models.CASCADE, related_name="entries")
 
 .. admonition:: mypy
-    :class: note dropdown
+    :class: tip dropdown
 
     If you attempt to commit the changes, you may encounter some complaints from mypy. To address these, you'll need to
     update your ``User`` model as shown below. For brevity's sake, the entire ``User`` model code is not displayed;
@@ -103,6 +103,18 @@ If necessary, adjust the python_version value in the ``.pre-commit-config.yaml``
 .. code-block:: bash
 
     hatch run makemigrations && hatch run migrate
+
+.. admonition:: auto migrations
+    :class: tip dropdown
+
+    It is highly probable that you will need to run these commands after adding a new model, or just before 
+    executing ``crud`` (the next step). For this reason, there is an option to instruct the ``crud`` command to always 
+    perform this step first:
+
+    .. code-block:: toml
+
+        [tool.falco.crud]
+        always-migrate = true
 
 **10. Generate CRUD views for the Entry model**
 
