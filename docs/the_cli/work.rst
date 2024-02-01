@@ -1,8 +1,8 @@
 :image: https://raw.githubusercontent.com/Tobi-De/falco/main/assets/falco-logo.svg
 :description: Run multiple commands in parallel to start your django project.
 
-Running multiple process in parallel
-====================================
+Work - Running multiple process in one session
+==============================================
 
 .. cappa:: falco.commands.Work
 

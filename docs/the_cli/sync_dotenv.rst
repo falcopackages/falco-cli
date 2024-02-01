@@ -1,8 +1,8 @@
 :image: https://raw.githubusercontent.com/Tobi-De/falco/main/assets/falco-logo.svg
 :description: Keep your .env and .env.template files in sync.
 
-Keep the .env and .env.template in sync
-=======================================
+Sync Dotenv files
+=================
 
 
 .. cappa:: falco.commands.SyncDotenv
