@@ -46,7 +46,7 @@ class ModelCRUD:
             short=True,
             default=[],
             long="--exclude",
-            help="Fields to exclude from the form.",
+            help="Fields to exclude from the views, forms and templates.",
         ),
     ]
     only_python: Annotated[
@@ -93,8 +93,6 @@ class ModelCRUD:
 
         v = self.model_path.split(".")
 
-        excluded_fields = [*self.excluded_fields, "created", "modified"]
-
         if len(v) == 1:
             name = None
             app_label = v[0]
@@ -116,7 +114,7 @@ class ModelCRUD:
             raise cappa.Exit("The --entry-point option requires a full model path.", code=1)
 
         with simple_progress("Getting models info"):
-            all_django_models = run_in_shell(get_models_data, app_label=app_label)
+            all_django_models = run_in_shell(get_models_data, app_label=app_label, excluded_fields=self.excluded_fields)
 
             app_folder_path_str, app_name, templates_dir_str = run_in_shell(
                 get_app_path_name_and_templates_dir, app_label=app_label
@@ -146,7 +144,6 @@ class ModelCRUD:
                     project_name=project_name,
                     app_label=app_label,
                     django_model=django_model,
-                    excluded_fields=excluded_fields,
                     crud_utils_import=crud_utils_import,
                     login_required=self.login_required,
                 )
@@ -326,7 +323,6 @@ class PythonBlueprintContext(TypedDict):
     model_name: str
     model_verbose_name_plural: str
     model_fields: dict[str, str]
-    excluded_fields: list[str]
     crud_utils_import: str
 
 
@@ -347,13 +343,18 @@ class HtmlBlueprintContext(UrlsForContext):
     fields_verbose_name_with_accessor: dict[str, str]
 
 
+class DjangoField(TypedDict):
+    verbose_name: str
+    editable: str
+
+
 class DjangoModel(TypedDict):
     name: str
     verbose_name_plural: str
-    fields: dict[str, str]
+    fields: dict[str, DjangoField]
 
 
-def get_models_data(app_label: str) -> "list[DjangoModel]":
+def get_models_data(app_label: str, excluded_fields: list[str]) -> "list[DjangoModel]":
     from django.apps import apps
 
     models = apps.get_app_config(app_label).get_models()
@@ -361,7 +362,11 @@ def get_models_data(app_label: str) -> "list[DjangoModel]":
     def get_model_dict(model) -> "DjangoModel":
         name = model.__name__
         verbose_name_plural = getattr(model._meta, "verbose_name_plural", f"{name}s")
-        fields = {field.name: field.verbose_name for field in model._meta.fields}
+        fields: dict[str, "DjangoField"] = {
+            field.name: {"verbose_name": field.verbose_name, "editable": field.editable}
+            for field in model._meta.fields
+            if field.name not in excluded_fields
+        }
         return {"name": name, "fields": fields, "verbose_name_plural": verbose_name_plural}
 
     return [get_model_dict(model) for model in models]
@@ -490,7 +495,6 @@ def get_python_blueprint_context(
     project_name: str,
     app_label: str,
     django_model: DjangoModel,
-    excluded_fields: list[str],
     crud_utils_import: str,
     *,
     login_required: bool,
@@ -502,7 +506,6 @@ def get_python_blueprint_context(
         "model_name": django_model["name"],
         "model_verbose_name_plural": django_model["verbose_name_plural"],
         "model_fields": django_model["fields"],
-        "excluded_fields": excluded_fields,
         "crud_utils_import": crud_utils_import,
     }
 
@@ -515,8 +518,8 @@ def get_html_blueprint_context(app_label: str, django_model: DjangoModel) -> Htm
         "model_verbose_name_plural": django_model["verbose_name_plural"],
         "model_fields": django_model["fields"],
         "fields_verbose_name_with_accessor": {
-            verbose_name: "{{" + f"{model_name_lower}.{name}" + "}}"
-            for name, verbose_name in django_model["fields"].items()
+            field_data["verbose_name"]: "{{" + f"{model_name_lower}.{field_name}" + "}}"
+            for field_name, field_data in django_model["fields"].items()
         },
         **get_urls_template_string(
             app_label=app_label,

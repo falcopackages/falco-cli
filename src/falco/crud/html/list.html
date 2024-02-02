@@ -28,8 +28,8 @@
                             {% with th_class="text-sm font-medium text-gray-900 border-r px-6 py-4 text-left" %}
                             {% endraw %}
                                 <tr>
-                                    {% for _, field_verbose_name in model_fields.items() %}
-                                    <th scope="col" class="{% raw -%} {{ th_class }} {%- endraw %}">{{ field_verbose_name  }}</th>
+                                    {% for _, field_data in model_fields.items() %}
+                                    <th scope="col" class="{% raw -%} {{ th_class }} {%- endraw %}">{{ field_data["verbose_name"] }}</th>
                                     {% endfor %}
                                 </tr>
                             {% raw %}

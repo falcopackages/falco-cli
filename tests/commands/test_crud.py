@@ -164,10 +164,12 @@ def test_crud_repo_not_clean(django_project, runner: CommandRunner):
 
 def test_crud_exclude_field(django_project, runner: CommandRunner, set_git_repo_to_clean):
     install_crud_utils(runner)
-    runner.invoke("crud", "blog.post", "--only-python", "-e=title")
+    runner.invoke("crud", "blog.post", "-e=title")
     app_dir = Path("blog")
     # sourcery skip: no-loop-in-tests
     assert "title" not in (app_dir / "forms.py").read_text()
+    assert "title" not in (app_dir / "views.py").read_text()
+    assert "post.title" not in (app_dir / "templates/blog/post_list.html").read_text()
     forms_attributes_ = ["PostForm", "Post", "content"]
     for a in forms_attributes_:
         assert a in (app_dir / "forms.py").read_text()

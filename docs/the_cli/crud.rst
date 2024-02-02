@@ -194,8 +194,8 @@ Below is an example of the context each template will receive.
         name = "Product",
         verbose_name_plural = "Products",
         fields = {
-            "name": "Name",
-            "price": "Price",
+            "name": {"verbose_name": "Name", "editable": True},
+            "price": {"verbose_name": "Price", "editable": True},
         }
     )
 
@@ -211,7 +211,7 @@ Some usage examples.
 
     $ falco crud products.product
     $ falco crud products
-    $ falco crud products.product -e="not_editable1" -e="not_editable2"
+    $ falco crud products.product -e="secret_field1" -e="secret_field2"
     $ falco crud products.product --only-html
     $ falco crud products.product --only-python
     $ falco crud products.product --entry-point

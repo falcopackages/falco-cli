@@ -8,3 +8,4 @@ class Order(models.Model):
     postal_code = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
     products = models.ManyToManyField("products.Product")
+    created = models.DateTimeField(auto_now_add=True)

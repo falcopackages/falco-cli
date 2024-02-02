@@ -115,7 +115,7 @@ prepare-deploy = ["update-readme-guides", "project-tree"]
 python = ["3.10", "3.11", "3.12"]
 
 [tool.ruff]
-extend-exclude = ["demo/*", "blueprints/*"]
+extend-exclude = ["demo/*", "blueprints/*", "demo/demo/*/migrations/*"]
 
 [tool.ruff.lint]
 extend-ignore = ["I001", "I002", "TID252", "EM101", "TCH001", "TRY003", "S607", "TCH003"]
@@ -126,6 +126,7 @@ extend-ignore = ["I001", "I002", "TID252", "EM101", "TCH001", "TRY003", "S607", 
 "docs/conf.py" = ["A001", "INP001"]
 "src/falco/commands/crud/model_crud.py" = ["SLF001"]
 "src/falco/commands/setup_admin.py" = ["N806"]
+"demo/demo/orders/migrations/0002_order_created.py" = ["RUF012"]
 
 [tool.hatch.envs.types]
 dependencies = [

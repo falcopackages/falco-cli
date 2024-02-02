@@ -69,7 +69,13 @@ class ShellCodeError(Exception):
 
 def run_in_shell(func: Callable[..., ReturnType], *, eval_result: bool = True, **kwargs) -> ReturnType:
     source = inspect.getsource(func)
-    arguments = ",".join(f"{k}='{v}'" for k, v in kwargs.items())
+    arguments_list = []
+    for k, v in kwargs.items():
+        if isinstance(v, str):
+            arguments_list.append(f"{k}='{v}'")
+        else:
+            arguments_list.append(f"{k}={v}")
+    arguments = ",".join(arguments_list)
     func_call = f"{func.__name__}({arguments})"
     code = f"{source}\nprint({func_call})"
 
