@@ -20,17 +20,16 @@ def add_settings(django_project_dir):
     )
 
 
-def is_superuser_created():
-    return run_in_shell(
-        "from django.contrib.auth.models import User;"
-        "print(User.objects.filter(is_superuser=True, username='admin').exists())"
-    )
+def is_superuser_created() -> bool:
+    from django.contrib.auth.models import User
+
+    return User.objects.filter(is_superuser=True, username="admin").exists()
 
 
 def test_setup_admin(django_project, runner: CommandRunner):
     add_settings(django_project)
     makemigrations()
     migrate()
-    assert not is_superuser_created()
+    assert not run_in_shell(is_superuser_created, eval_result=True)
     runner.invoke("setup-admin")
-    assert is_superuser_created()
+    assert run_in_shell(is_superuser_created, eval_result=True)

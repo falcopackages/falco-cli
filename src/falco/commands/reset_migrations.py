@@ -10,12 +10,12 @@ from rich import print as rich_print
 
 from .rm_migrations import RmMigrations
 
-reset_migrations_table_code = """
-from django.db import connection
 
-with connection.cursor() as cursor:
-    cursor.execute("DELETE FROM django_migrations")
-"""
+def reset_migrations_table() -> None:
+    from django.db import connection
+
+    with connection.cursor() as cursor:
+        cursor.execute("DELETE FROM django_migrations")
 
 
 @cappa.command(help="Delete and recreate all migrations.", name="reset-migrations")
@@ -48,7 +48,7 @@ class ResetMigrations:
 
         RmMigrations(skip_git_check=self.skip_git_check, apps_dir=self.apps_dir)(project_name)
         with simple_progress("Resetting migrations..."):
-            run_in_shell(reset_migrations_table_code, eval_result=False)
+            run_in_shell(reset_migrations_table, eval_result=False)
             subprocess.run(
                 ["python", "manage.py", "makemigrations"],
                 check=True,

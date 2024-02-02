@@ -2,17 +2,17 @@ from pathlib import Path
 from typing import Annotated
 
 import cappa
+from falco import checks
 from falco.utils import get_project_name
 from falco.utils import run_in_shell
 from falco.utils import simple_progress
 from rich import print as rich_print
 
-from . import checks
 
-django_debug_value_code = """
-from django.conf import settings
-print(settings.DEBUG)
-"""
+def get_django_debug_value() -> bool:
+    from django.conf import settings
+
+    return settings.DEBUG
 
 
 @cappa.command(help="Remove all migrations for the specified applications directory, intended only for development.")
@@ -33,7 +33,7 @@ class RmMigrations:
     def __call__(self, project_name: Annotated[str, cappa.Dep(get_project_name)]):
         checks.clean_git_repo(ignore_dirty=self.skip_git_check)
 
-        django_debug_value = run_in_shell(django_debug_value_code, eval_result=True)
+        django_debug_value = run_in_shell(get_django_debug_value, eval_result=True)
         if not django_debug_value:
             raise cappa.Exit(
                 "Nope, not happening, this command can only be run with DEBUG=True.",

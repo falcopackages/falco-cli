@@ -124,6 +124,8 @@ extend-ignore = ["I001", "I002", "TID252", "EM101", "TCH001", "TRY003", "S607", 
 "tests/*" = ["ARG001", "INP001"]
 "demo/config/settings.py" = ["S105"]
 "docs/conf.py" = ["A001", "INP001"]
+"src/falco/commands/crud/model_crud.py" = ["SLF001"]
+"src/falco/commands/setup_admin.py" = ["N806"]
 
 [tool.hatch.envs.types]
 dependencies = [

@@ -10,12 +10,12 @@ from falco.utils import run_in_shell
 from falco.utils import simple_progress
 
 
-settings_file_path_code = """
-from django.conf import settings
-f = settings.SETTINGS_MODULE
-f = f.replace(".", "/")
-print(f + ".py")
-"""
+def get_settings_file_path() -> str:
+    from django.conf import settings
+
+    s = settings.SETTINGS_MODULE
+    s = s.replace(".", "/")
+    return f"{s}.py"
 
 
 @cappa.command(help="Initialize a new django app the falco way.")
@@ -75,7 +75,7 @@ class {model_name}(TimeStampedModel):
     def register_app(self, app_name: str) -> Path:
         names = ["LOCAL_APPS", "INSTALLED_APPS"]
 
-        settings_file = Path(run_in_shell(settings_file_path_code, eval_result=False))
+        settings_file = Path(run_in_shell(get_settings_file_path, eval_result=False))
 
         module = parso.parse(settings_file.read_text())
 

@@ -1,11 +1,11 @@
 import subprocess
 from pathlib import Path
 from typing import Annotated
-from typing import cast
 from typing import TypedDict
 
 import cappa
 import parso
+from falco import checks
 from falco.config import CRUDConfig
 from falco.config import read_falco_config
 from falco.utils import get_project_name
@@ -16,7 +16,6 @@ from falco.utils import run_in_shell
 from falco.utils import simple_progress
 from rich import print as rich_print
 
-from .. import checks
 from .install_crud_utils import InstallCrudUtils
 from .utils import extract_python_file_templates
 from .utils import get_crud_blueprints_path
@@ -86,7 +85,7 @@ class ModelCRUD:
         falco_config = read_falco_config(pyproject_path=pyproject_path) if pyproject_path.exists() else {}
         crud_config: CRUDConfig = falco_config.get("crud", {})
 
-        self.blueprints = self.blueprints or crud_config.get("blueprints")
+        self.blueprints = crud_config.get("blueprints", self.blueprints)
         self.login_required = crud_config.get("login_required", self.login_required)
         self.skip_git_check = crud_config.get("skip_git_check", self.skip_git_check)
 
@@ -117,14 +116,10 @@ class ModelCRUD:
             raise cappa.Exit("The --entry-point option requires a full model path.", code=1)
 
         with simple_progress("Getting models info"):
-            all_django_models = cast(
-                list[DjangoModel],
-                run_in_shell(models_data_code.format(app_label)),
-            )
+            all_django_models = run_in_shell(get_models_data, app_label=app_label)
 
-            app_folder_path_str, app_name, templates_dir_str = cast(
-                tuple[str, str, str],
-                run_in_shell(app_path_name_and_templates_dir_code.format(app_label, app_label)),
+            app_folder_path_str, app_name, templates_dir_str = run_in_shell(
+                get_app_path_name_and_templates_dir, app_label=app_label
             )
 
             app_folder_path = Path(app_folder_path_str)
@@ -358,33 +353,36 @@ class DjangoModel(TypedDict):
     fields: dict[str, str]
 
 
-models_data_code = """
-from django.apps import apps
-models = apps.get_app_config("{}").get_models()
-def get_model_dict(model):
-    name = model.__name__
-    verbose_name_plural = getattr(model._meta, 'verbose_name_plural', f"{{name}}s")
-    fields = {{field.name: field.verbose_name for field in model._meta.fields}}
-    return {{"name": name, "fields": fields, "verbose_name_plural": verbose_name_plural}}
-print([get_model_dict(model) for model in models])
-"""
+def get_models_data(app_label: str) -> "list[DjangoModel]":
+    from django.apps import apps
 
-app_path_name_and_templates_dir_code = """
-from django.apps import apps
-from django.conf import settings
-from pathlib import Path
-app = apps.get_app_config("{}")
-dirs = settings.TEMPLATES[0].get("DIRS", [])
-templates_dir = Path(dirs[0]) if dirs else Path(app.path) / "templates"
-app_templates_dir = templates_dir / "{}"
-print((str(app.path), str(app.name), str(app_templates_dir)))
-"""
+    models = apps.get_app_config(app_label).get_models()
 
-root_url_config_path_code = """
-from django.conf import settings
-root_urlconf = settings.ROOT_URLCONF
-print(root_urlconf)
-"""
+    def get_model_dict(model) -> "DjangoModel":
+        name = model.__name__
+        verbose_name_plural = getattr(model._meta, "verbose_name_plural", f"{name}s")
+        fields = {field.name: field.verbose_name for field in model._meta.fields}
+        return {"name": name, "fields": fields, "verbose_name_plural": verbose_name_plural}
+
+    return [get_model_dict(model) for model in models]
+
+
+def get_app_path_name_and_templates_dir(app_label: str) -> tuple[str, str, str]:
+    from django.apps import apps
+    from django.conf import settings
+    from pathlib import Path
+
+    app = apps.get_app_config(app_label)
+    dirs = settings.TEMPLATES[0].get("DIRS", [])
+    templates_dir = Path(dirs[0]) if dirs else Path(app.path) / "templates"
+    app_templates_dir = templates_dir / app_label
+    return str(app.path), str(app.name), str(app_templates_dir)
+
+
+def get_root_url_config_path() -> str:
+    from django.conf import settings
+
+    return settings.ROOT_URLCONF
 
 
 def get_urls(model_name_lower: str, urlsafe_model_verbose_name_plural: str) -> str:
@@ -422,7 +420,7 @@ urlpatterns = [
 
 
 def register_app_urls(app_label: str, app_name: str) -> Path:
-    root_url = run_in_shell(root_url_config_path_code, eval_result=False)
+    root_url = run_in_shell(get_root_url_config_path, eval_result=False)
     root_url = root_url.strip().replace(".", "/")
     rool_url_path = Path(f"{root_url}.py")
     module = parso.parse(rool_url_path.read_text())

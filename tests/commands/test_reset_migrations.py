@@ -20,15 +20,16 @@ def change_model_attribute(django_project_dir):
     )
 
 
-def insert_a_post(django_project_dir):
-    run_in_shell(
-        "from blog.models import Post; Post.objects.create(title='t', content='c')",
-        eval_result=False,
-    )
+def insert_a_post():
+    from blog.models import Post
+
+    Post.objects.create(title="t", content="c")
 
 
-def count_nbr_of_posts(django_project_dir):
-    return run_in_shell("from blog.models import Post; print(Post.objects.all().count())")
+def count_nbr_of_posts() -> int:
+    from blog.models import Post
+
+    return Post.objects.all().count()
 
 
 def count_migrations(django_project_dir):
@@ -40,9 +41,10 @@ def test_reset_migrations(django_project, runner: CommandRunner, set_git_repo_to
     makemigrations()
     migrate()
 
-    insert_a_post(django_project)
-    assert count_nbr_of_posts(django_project) == 1
-    assert count_migrations(django_project) == 1
+    run_in_shell(insert_a_post, eval_result=False)
+    count = run_in_shell(count_nbr_of_posts, eval_result=True)
+    assert count == 1
+    assert count == 1
 
     change_model_attribute(django_project)
     makemigrations()
@@ -51,4 +53,6 @@ def test_reset_migrations(django_project, runner: CommandRunner, set_git_repo_to
     assert count_migrations(django_project) == 2
     runner.invoke("reset-migrations", ".")
     assert count_migrations(django_project) == 1
-    assert count_nbr_of_posts(django_project) == 1
+
+    count = run_in_shell(count_nbr_of_posts, eval_result=True)
+    assert count == 1

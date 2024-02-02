@@ -1,35 +1,33 @@
 import cappa
 from falco.utils import run_in_shell
-from rich import print as rich_print
 from falco.utils import ShellCodeError
+from rich import print as rich_print
 
-admin_setup_code = """
-from django.contrib.auth import get_user_model
-from django.conf import settings
 
-User = get_user_model()
-settings_dict = {k: getattr(settings, k) for k in dir(settings) if k.isupper()}
+def admin_setup() -> None:
+    from django.contrib.auth import get_user_model
+    from django.conf import settings
 
-def arg_name_from_settings_name(settings_name):
-    _, *n = settings_name.lower().split("_")
-    return "_".join(n)
+    User = get_user_model()
+    settings_dict = {k: getattr(settings, k) for k in dir(settings) if k.isupper()}
 
-superuser_settings = {
-    arg_name_from_settings_name(key): value
-    for key, value in settings_dict.items()
-    if key.startswith("SUPERUSER_")
-}
-password = superuser_settings.pop("password", None)
-if not password:
-    raise ValueError("SUPERUSER_PASSWORD must be set in your settings file.")
+    def arg_name_from_settings_name(settings_name):
+        _, *n = settings_name.lower().split("_")
+        return "_".join(n)
 
-if User.objects.filter(**superuser_settings).exists():
-    raise ValueError("A superuser with the settings configured already exists.")
+    superuser_settings = {
+        arg_name_from_settings_name(key): value for key, value in settings_dict.items() if key.startswith("SUPERUSER_")
+    }
+    password = superuser_settings.pop("password", None)
+    if not password:
+        raise ValueError("SUPERUSER_PASSWORD must be set in your settings file.")
 
-user = User.objects.create_superuser(**superuser_settings)
-user.set_password(password)
-user.save()
-"""
+    if User.objects.filter(**superuser_settings).exists():
+        raise ValueError("A superuser with the settings configured already exists.")
+
+    user = User.objects.create_superuser(**superuser_settings)
+    user.set_password(password)
+    user.save()
 
 
 @cappa.command(
@@ -39,7 +37,7 @@ user.save()
 class SetupAdmin:
     def __call__(self):
         try:
-            run_in_shell(admin_setup_code, eval_result=False)
+            run_in_shell(admin_setup, eval_result=False)
         except ShellCodeError as e:
             msg = str(e).split("\n")[-2]
             raise cappa.Exit(msg, code=1) from e

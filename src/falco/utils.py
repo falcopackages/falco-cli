@@ -1,7 +1,10 @@
 import ast
+import inspect
 import subprocess
+from collections.abc import Callable
 from contextlib import contextmanager
 from pathlib import Path
+from typing import TypeVar
 
 import cappa
 import httpx
@@ -10,6 +13,9 @@ from falco import falco_version
 from rich.progress import Progress
 from rich.progress import SpinnerColumn
 from rich.progress import TextColumn
+
+ReturnType = TypeVar("ReturnType")
+
 
 RICH_SUCCESS_MARKER = "[green]SUCCESS:"
 RICH_ERROR_MARKER = "[red]ERROR:"
@@ -61,9 +67,14 @@ class ShellCodeError(Exception):
     pass
 
 
-def run_in_shell(command: str, *, eval_result: bool = True):
+def run_in_shell(func: Callable[..., ReturnType], *, eval_result: bool = True, **kwargs) -> ReturnType:
+    source = inspect.getsource(func)
+    arguments = ",".join(f"{k}='{v}'" for k, v in kwargs.items())
+    func_call = f"{func.__name__}({arguments})"
+    code = f"{source}\nprint({func_call})"
+
     result = subprocess.run(
-        ["python", "manage.py", "shell", "-c", command],
+        ["python", "manage.py", "shell", "-c", code],
         capture_output=True,
         text=True,
         check=False,
