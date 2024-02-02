@@ -568,6 +568,7 @@ For an example on how to use BeeWare, you can check out this talk: `Let's build 
 
 Some alternatives to BeeWare are:
 
+- `shiv <https://github.com/linkedin/shiv>`_ (For an introduction, consider reading `this insightful article <https://www.mattlayman.com/blog/2019/python-alternative-docker/>`_)
 - `pyinstaller <https://www.pyinstaller.org/>`_
 - `pyapp <https://github.com/ofek/pyapp>`_
 - `nuitka <https://nuitka.net/>`_
