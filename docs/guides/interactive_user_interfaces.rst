@@ -1,4 +1,4 @@
-:image: https://raw.githubusercontent.com/Tobi-De/falco/main/assets/falco-logo.svg
+:image: https://raw.githubusercontent.com/Tobi-De/falco/main/assets/falco-logo.png
 :description: Building interactive UX in django using HTMX
 
 Interactive user interfaces

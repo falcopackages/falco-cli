@@ -1,4 +1,4 @@
-:image: https://raw.githubusercontent.com/Tobi-De/falco/main/assets/falco-logo.svg
+:image: https://raw.githubusercontent.com/Tobi-De/falco/main/assets/falco-logo.png
 :description: Faster prototyping with basic CRUD (Create, Read, Update, Delete) python views and HTML templates for your django models.
 
 CRUD for your model

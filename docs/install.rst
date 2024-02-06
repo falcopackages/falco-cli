@@ -1,3 +1,4 @@
+:image: https://raw.githubusercontent.com/Tobi-De/falco/main/assets/falco-logo.png
 :description: Here is the guide on how to install the falco's cli.
 
 Installation

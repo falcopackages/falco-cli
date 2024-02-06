@@ -1,4 +1,4 @@
-:image: https://raw.githubusercontent.com/Tobi-De/falco/main/assets/falco-logo.svg
+:image: https://raw.githubusercontent.com/Tobi-De/falco/main/assets/falco-logo.png
 :description: start a new django project ready for your next saas idea.
 
 Start project

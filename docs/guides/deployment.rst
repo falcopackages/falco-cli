@@ -1,4 +1,4 @@
-:image: https://raw.githubusercontent.com/Tobi-De/falco/main/assets/falco-logo.svg
+:image: https://raw.githubusercontent.com/Tobi-De/falco/main/assets/falco-logo.png
 :description: Deployment concepts, plateforms and strategies for django projects.
 
 The ultimate deployment guide

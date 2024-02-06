@@ -1,4 +1,5 @@
 :layout: landing
+:image: https://raw.githubusercontent.com/Tobi-De/falco/main/assets/falco-logo.png
 :description: Falco is an opinionated toolkit for a modern Django development experience.
 
 .. container::
