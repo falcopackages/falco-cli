@@ -1,4 +1,4 @@
-:image: https://raw.githubusercontent.com/Tobi-De/falco/main/assets/falco-logo.png
+:image: https://raw.githubusercontent.com/Tobi-De/falco/main/assets/og-image.jpg
 :description: How to Manage Multitenancy Projects in Django and Maintain Sanity (spoiler, it is impossible).
 
 Managing Multi-tenancy in Django

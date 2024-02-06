@@ -1,4 +1,4 @@
-:image: https://raw.githubusercontent.com/Tobi-De/falco/main/assets/falco-logo.png
+:image: https://raw.githubusercontent.com/Tobi-De/falco/main/assets/og-image.jpg
 :description: A guide on how to handle a dynamic data schema with a django model.
 
 Dynamic Model Schema

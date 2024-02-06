@@ -1,4 +1,4 @@
-:image: https://raw.githubusercontent.com/Tobi-De/falco/main/assets/falco-logo.png
+:image: https://raw.githubusercontent.com/Tobi-De/falco/main/assets/og-image.jpg
 :description: Start a new django app that's automatically registered to your installed apps.
 
 Start Application
