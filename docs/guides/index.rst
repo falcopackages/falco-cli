@@ -1,4 +1,5 @@
 :image: https://raw.githubusercontent.com/Tobi-De/falco/main/assets/og-image.jpg
+:description: This is a collection of guides that address common issues in web development, specifically tailored to Django. Each guide provides solutions, patterns, and approaches that are relevant to Django projects.
 
 Guides
 ======

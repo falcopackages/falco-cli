@@ -1,4 +1,5 @@
 :image: https://raw.githubusercontent.com/Tobi-De/falco/main/assets/og-image.jpg
+:description: A cli for faster prototyping of django projects.
 
 The CLI
 =======
