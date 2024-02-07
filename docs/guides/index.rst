@@ -142,4 +142,5 @@ developer in general.
     writing_async_code
     use_sqlite_in_production
     running_project_in_a_container
+    plugin_system
     tips_and_extra
