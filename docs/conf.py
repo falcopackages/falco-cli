@@ -73,7 +73,8 @@ html_js_files = [
     (
         "https://plausible.service.dotfm.me/js/script.js",
         {"defer": "", "data-domain": "falco.oluwatobi.dev"},
-    )
+    ),
+    "add-og-title-to-home.js",
 ]
 
 # -- Mermaid configuration -----------------------------------------------------
