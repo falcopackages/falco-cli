@@ -31,11 +31,12 @@ def test_start_project(runner: CommandRunner):
         str(blueprint_path),
     )
     assert Path("dotfm").exists()
-    keys = read_falco_config(Path("dotfm/pyproject.toml")).keys()
-    assert "crud_utils" in keys
-    assert "blueprint" in keys
-    assert "revision" in keys
-    assert "work" in keys
+    config = read_falco_config(Path("dotfm/pyproject.toml"))
+    config_keys = config.keys()
+    assert "utils_path" in config.get("crud")
+    assert "blueprint" in config_keys
+    assert "revision" in config_keys
+    assert "work" in config_keys
 
     # sourcery skip: no-loop-in-tests
     project_files = [file.name for file in Path("dotfm").iterdir()]
