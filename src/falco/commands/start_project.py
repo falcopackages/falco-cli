@@ -123,7 +123,7 @@ class StartProject:
             falco_config = read_falco_config(pyproject_path)
             crud_utils = InstallCrudUtils().install(project_name=self.project_name, falco_config=falco_config)
             config = {
-                "crud_utils": str(crud_utils),
+                "crud": {"utils-path": str(crud_utils)},
                 **self.cruft_file_to_falco_config(),
             }
             with suppress(cappa.Exit, httpx.TimeoutException, httpx.ConnectError):
