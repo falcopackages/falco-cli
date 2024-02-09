@@ -88,11 +88,12 @@ If you don't find any use of the CLI, I hope you will in these guides. This is a
 Falco is inspired by (and borrows elements from) some excellent open source projects:
 
 - [cookiecutter-django](https://github.com/cookiecutter/cookiecutter-django)
+- [fuzzy-couscous](https://github.com/Tobi-De/fuzzy-couscous) (predecessor of falco)
 - [django-hatch-startproject](https://github.com/oliverandrich/django-hatch-startproject)
 - [django-unicorn](https://github.com/adamghill/django-unicorn) (Inspiration for the logo)
 - [neapolitan](https://github.com/carltongibson/neapolitan)
-- [fuzzy-couscous](https://github.com/Tobi-De/fuzzy-couscous) (predecessor of falco)
 - [django-base-site](https://github.com/epicserve/django-base-site)
+- [django-twc-project](https://github.com/westerveltco/django-twc-project)
 
 ## Contributors
 <!-- contributors:start -->

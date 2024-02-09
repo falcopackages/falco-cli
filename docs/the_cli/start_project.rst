@@ -32,6 +32,7 @@ Features
 - Htmx_ integration via django-htmx_
 - Frontend CSS: tailwindcss_ via django-tailwind-cli_
 - Template fragment with django-template-partials_
+- Background tasks with `django-q2 <https://github.com/django-q2/django-q2>`_
 - Secure production settings, https only.
 - Settings using `django-environ <https://github.com/joke2k/django-environ>`_
 - Login / signup via `django-allauth <https://github.com/pennersr/django-allauth>`_
