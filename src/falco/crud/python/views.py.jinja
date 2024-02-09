@@ -24,10 +24,8 @@ from .models import {{model_name}}
 # CODE:START
 {% if login_required %}
 @login_required
-def {{model_name|lower}}_list(request: AuthenticatedHttpRequest):
-{% else %}
-def {{model_name|lower}}_list(request: HttpRequest):
-{% endif %}
+def {{model_name|lower}}_list(request: AuthenticatedHttpRequest):{% else %}
+def {{model_name|lower}}_list(request: HttpRequest):{% endif %}
     {{model_name|lower}}s = {{model_name}}.objects.order_by("id")
     template_name = "{{app_label}}/{{model_name|lower}}_list.html#table" if request.htmx else "{{app_label}}/{{model_name|lower}}_list.html"
     return TemplateResponse(
@@ -38,10 +36,8 @@ def {{model_name|lower}}_list(request: HttpRequest):
 
 {% if login_required %}
 @login_required
-def {{model_name|lower}}_detail(request: AuthenticatedHttpRequest, pk: int):
-{% else %}
-def {{model_name|lower}}_detail(request: HttpRequest, pk: int):
-{% endif %}
+def {{model_name|lower}}_detail(request: AuthenticatedHttpRequest, pk: int):{% else %}
+def {{model_name|lower}}_detail(request: HttpRequest, pk: int):{% endif %}
     {{model_name|lower}} = get_object_or_404({{model_name}}.objects, pk=pk)
     return TemplateResponse(
         request,
@@ -51,10 +47,8 @@ def {{model_name|lower}}_detail(request: HttpRequest, pk: int):
 
 {% if login_required %}
 @login_required
-def {{model_name|lower}}_create(request: AuthenticatedHttpRequest):
-{% else %}
-def {{model_name|lower}}_create(request: HttpRequest):
-{% endif %}
+def {{model_name|lower}}_create(request: AuthenticatedHttpRequest):{% else %}
+def {{model_name|lower}}_create(request: HttpRequest):{% endif %}
     form = {{model_name}}Form(request.POST or None)
     if request.method == "POST" and form.is_valid():
         form.save()
@@ -67,10 +61,8 @@ def {{model_name|lower}}_create(request: HttpRequest):
 
 {% if login_required %}
 @login_required
-def {{model_name|lower}}_update(request: AuthenticatedHttpRequest, pk: int):
-{% else %}
-def {{model_name|lower}}_update(request: HttpRequest, pk: int):
-{% endif %}
+def {{model_name|lower}}_update(request: AuthenticatedHttpRequest, pk: int):{% else %}
+def {{model_name|lower}}_update(request: HttpRequest, pk: int):{% endif %}
     {{model_name|lower}} = get_object_or_404({{model_name}}.objects, pk=pk)
     form = {{model_name}}Form(request.POST or None, instance={{model_name|lower}})
     if request.method == "POST" and form.is_valid():
@@ -85,10 +77,8 @@ def {{model_name|lower}}_update(request: HttpRequest, pk: int):
 @require_http_methods(["DELETE"])
 {% if login_required %}
 @login_required
-def {{model_name|lower}}_delete(_: AuthenticatedHttpRequest, pk: int):
-{% else %}
-def {{model_name|lower}}_delete(_: HttpRequest, pk: int):
-{% endif %}
+def {{model_name|lower}}_delete(_: AuthenticatedHttpRequest, pk: int):{% else %}
+def {{model_name|lower}}_delete(_: HttpRequest, pk: int):{% endif %}
     {{model_name}}.objects.filter(pk=pk).delete()
     return HttpResponse("")
 
