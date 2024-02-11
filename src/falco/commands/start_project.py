@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import importlib
 import json
 import os
 import shutil
@@ -11,9 +12,6 @@ from typing import Annotated
 
 import cappa
 import httpx
-from cookiecutter.exceptions import CookiecutterException
-from cruft import create
-from cruft.exceptions import InvalidCookiecutterRepository
 from falco.commands import InstallCrudUtils
 from falco.commands.crud.utils import run_html_formatters
 from falco.commands.htmx import get_latest_tag as htmx_latest_tag
@@ -32,33 +30,6 @@ DEFAULT_SKIP = [
     "playground.ipynb",
     "README.md",
 ]
-
-
-def get_authors_info() -> tuple[str, str]:
-    default_author_name = "Tobi DEGNON"
-    default_author_email = "tobidegnon@proton.me"
-    git_config_cmd = ["git", "config", "--global", "--get"]
-    try:
-        user_name_cmd = subprocess.run([*git_config_cmd, "user.name"], capture_output=True, text=True, check=False)
-        user_email_cmd = subprocess.run([*git_config_cmd, "user.email"], capture_output=True, text=True, check=False)
-    except FileNotFoundError:
-        return default_author_name, default_author_email
-    if user_email_cmd.returncode != 0:
-        return default_author_name, default_author_email
-    return (
-        user_name_cmd.stdout.strip("\n"),
-        user_email_cmd.stdout.strip("\n"),
-    )
-
-
-@contextmanager
-def change_directory(new_directory):
-    current_directory = Path.cwd()
-    try:
-        os.chdir(new_directory)
-        yield
-    finally:
-        os.chdir(current_directory)
 
 
 @cappa.command(help="Initialize a new django project the falco way.")
@@ -117,14 +88,15 @@ class StartProject:
                 )
                 raise cappa.Exit(code=0)
 
-        project_dir = self.init_project()
+        git_installed = is_git_installed()
+        project_dir = self.init_project(git_installed=git_installed)
         with change_directory(project_dir):
             pyproject_path = Path("pyproject.toml")
             falco_config = read_falco_config(pyproject_path)
             crud_utils = InstallCrudUtils().install(project_name=self.project_name, falco_config=falco_config)
             config = {
                 "crud": {"utils-path": str(crud_utils)},
-                **self.cruft_file_to_falco_config(),
+                **self.cruft_file_to_falco_config(git_installed),
             }
             with suppress(cappa.Exit, httpx.TimeoutException, httpx.ConnectError):
                 version = htmx_latest_tag()
@@ -143,8 +115,9 @@ class StartProject:
 
         rich_print(msg)
 
-    def init_project(self) -> Path:
+    def init_project(self, git_installed) -> Path:
         author_name, author_email = get_authors_info()
+        create, CreateProjectError = get_create_function(git_installed=git_installed)
         with simple_progress("Initializing your new django project... :sunglasses:"):
             try:
                 project_dir = create(
@@ -157,11 +130,9 @@ class StartProject:
                         "author_email": author_email,
                     },
                 )
-            except CookiecutterException as e:
+            except CreateProjectError as e:
                 msg = str(e).replace("Error:", "")
                 raise cappa.Exit(msg, code=1) from e
-            except InvalidCookiecutterRepository as e:
-                raise cappa.Exit("Network error, check your internet connection.", code=1) from e
 
             if self.is_root:
                 renamed_project_dir = self.directory / "tmp_renamed_dir"
@@ -173,7 +144,9 @@ class StartProject:
 
         return project_dir
 
-    def cruft_file_to_falco_config(self) -> dict:
+    def cruft_file_to_falco_config(self, git_installed) -> dict:
+        if not git_installed:
+            return {}
         cruft_file = Path(".cruft.json")
         cruft_state = json.loads(cruft_file.read_text())
         cruft_file.unlink()
@@ -182,3 +155,58 @@ class StartProject:
             "skip": DEFAULT_SKIP,
             "blueprint": self.blueprint,
         }
+
+
+def is_git_installed() -> bool:
+    try:
+        result = subprocess.run(["git", "--version"], check=True, capture_output=True)
+    except subprocess.CalledProcessError:
+        return False
+    try:
+        gitpython = importlib.import_module("git")
+    except ModuleNotFoundError:
+        gitpython = None
+
+    return result.returncode == 0 and gitpython
+
+
+def get_create_function(*, git_installed: bool) -> tuple[callable, type[Exception]]:
+    if git_installed:
+        cruft = importlib.import_module("cruft")
+        cruft_exceptions = importlib.import_module("cruft.exceptions")
+        return cruft.create, cruft_exceptions.InvalidCookiecutterRepository
+
+    cookiecutter = importlib.import_module("cookiecutter.main")
+    cookiecutter_exceptions = importlib.import_module("cookiecutter.exceptions")
+
+    def create(*args, **kwargs):
+        return Path(cookiecutter.cookiecutter(*args, **kwargs))
+
+    return create, cookiecutter_exceptions.CookiecutterException
+
+
+def get_authors_info() -> tuple[str, str]:
+    default_author_name = "Tobi DEGNON"
+    default_author_email = "tobidegnon@proton.me"
+    git_config_cmd = ["git", "config", "--global", "--get"]
+    try:
+        user_name_cmd = subprocess.run([*git_config_cmd, "user.name"], capture_output=True, text=True, check=False)
+        user_email_cmd = subprocess.run([*git_config_cmd, "user.email"], capture_output=True, text=True, check=False)
+    except FileNotFoundError:
+        return default_author_name, default_author_email
+    if user_email_cmd.returncode != 0:
+        return default_author_name, default_author_email
+    return (
+        user_name_cmd.stdout.strip("\n"),
+        user_email_cmd.stdout.strip("\n"),
+    )
+
+
+@contextmanager
+def change_directory(new_directory):
+    current_directory = Path.cwd()
+    try:
+        os.chdir(new_directory)
+        yield
+    finally:
+        os.chdir(current_directory)

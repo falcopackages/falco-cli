@@ -1,4 +1,7 @@
+import subprocess
 from pathlib import Path
+from unittest.mock import Mock
+from unittest.mock import patch
 
 from cappa.testing import CommandRunner
 from falco.config import read_falco_config
@@ -91,6 +94,36 @@ def test_user_name_and_email(runner: CommandRunner, git_user_infos):
     pyproject_content = (Path("dotfm") / "pyproject.toml").read_text()
     assert name in pyproject_content
     assert email in pyproject_content
+
+
+def test_no_git_installed(runner: CommandRunner, tmp_path):
+    origina_run = subprocess.run
+
+    def mock_run(*args, **kwargs):
+        if args[0][0] != "git":
+            return origina_run(*args, **kwargs)
+        mock = Mock()
+        mock.returncode = 1
+        return mock
+
+    with patch("subprocess.run", side_effect=mock_run):
+        runner.invoke(
+            "start-project",
+            "dotfm",
+            "--skip-new-version-check",
+            "--blueprint",
+            str(blueprint_path),
+        )
+        assert Path("dotfm").exists()
+        config = read_falco_config(Path("dotfm/pyproject.toml"))
+        config_keys = config.keys()
+        assert "utils_path" in config.get("crud")
+        assert "work" in config_keys
+
+        # sourcery skip: no-loop-in-tests
+        project_files = [file.name for file in Path("dotfm").iterdir()]
+        for file_name in generated_project_files("dotfm"):
+            assert file_name in project_files
 
 
 # def test_no_internet_access(runner: CommandRunner):
