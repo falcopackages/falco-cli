@@ -53,6 +53,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "tissieres",
+      "name": "tissieres",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2410978?v=4",
+      "profile": "https://github.com/tissieres",
+      "contributions": [
+        "financial"
+      ]
     }
   ],
   "contributorsPerLine": 7,
