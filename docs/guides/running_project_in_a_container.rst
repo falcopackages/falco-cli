@@ -1,13 +1,8 @@
 :image: https://raw.githubusercontent.com/Tobi-De/falco/main/assets/og-image.jpg
-:description:
+:description: Run your django project and a background task queue in a single container.
 
 Running your project in a single container
-==========================================
-
-.. warning::
-
-    Work in progress. To receive updates `subscribe to this discussion <https://github.com/Tobi-De/falco/discussions/39>`_ or
-    follow me on `x <https://twitter.com/tobidegnon>`_ or `mastodon <https://fosstodon.org/@tobide>`_.
+===========================================
 
 My mindset has always been aligned with the general consensus of one process per container. Therefore, the idea of running an entire Django project,
 which may involve multiple services such as a web server, Redis, a task queue, a database etc. in a single container feels inherently
@@ -17,3 +12,14 @@ do not claim it to be the best approach, I acknowledge that it can be a valid on
 need to quickly ship something to production while testing out an idea.
 
 https://github.com/just-containers/s6-overlay
+
+
+Why would you want to do this ?
+===============================
+
+Minial Setup
+============
+
+
+The End
+=======
