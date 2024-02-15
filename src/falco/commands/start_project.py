@@ -12,6 +12,7 @@ from typing import Annotated
 
 import cappa
 import httpx
+from cookiecutter.exceptions import CookiecutterException
 from falco.commands import InstallCrudUtils
 from falco.commands.crud.utils import run_html_formatters
 from falco.commands.htmx import get_latest_tag as htmx_latest_tag
@@ -59,7 +60,7 @@ class StartProject:
     blueprint: Annotated[
         str,
         cappa.Arg(
-            default="https://github.com/Tobi-De/falco_blueprint_basic.git",
+            default="tailwind",
             long="--blueprint",
             short="-b",
             help="The blueprint to use to generate the project.",
@@ -89,6 +90,7 @@ class StartProject:
                 raise cappa.Exit(code=0)
 
         git_installed = is_git_installed()
+        self.blueprint = resolve_blueprint(self.blueprint)
         project_dir = self.init_project(git_installed=git_installed)
         with change_directory(project_dir):
             pyproject_path = Path("pyproject.toml")
@@ -130,7 +132,7 @@ class StartProject:
                         "author_email": author_email,
                     },
                 )
-            except CreateProjectError as e:
+            except (CreateProjectError, CookiecutterException) as e:
                 msg = str(e).replace("Error:", "")
                 raise cappa.Exit(msg, code=1) from e
 
@@ -155,6 +157,20 @@ class StartProject:
             "skip": DEFAULT_SKIP,
             "blueprint": self.blueprint,
         }
+
+
+def resolve_blueprint(blueprint: str) -> str:
+    if blueprint.startswith("https"):
+        return blueprint
+    name_to_urls = {
+        "tailwind": "https://github.com/Tobi-De/falco_blueprint_basic.git",
+        "bootstrap": "https://github.com/falco-blueprints/falco_blueprint_basic_bootstrap",
+    }
+    try:
+        return name_to_urls[blueprint]
+    except KeyError as e:
+        msg = f"Unknown blueprint: {blueprint}"
+        raise cappa.Exit(msg, code=1) from e
 
 
 def is_git_installed() -> bool:

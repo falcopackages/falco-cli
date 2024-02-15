@@ -47,6 +47,28 @@ def test_start_project(runner: CommandRunner):
         assert file_name in project_files
 
 
+def test_start_project_alias_name(runner: CommandRunner):
+    runner.invoke(
+        "start-project",
+        "dotfm",
+        "--skip-new-version-check",
+        "--blueprint",
+        "tailwind",
+    )
+    assert Path("dotfm").exists()
+    config = read_falco_config(Path("dotfm/pyproject.toml"))
+    config_keys = config.keys()
+    assert "utils_path" in config.get("crud")
+    assert "blueprint" in config_keys
+    assert "revision" in config_keys
+    assert "work" in config_keys
+
+    # sourcery skip: no-loop-in-tests
+    project_files = [file.name for file in Path("dotfm").iterdir()]
+    for file_name in generated_project_files("dotfm"):
+        assert file_name in project_files
+
+
 def test_start_project_in_directory(runner: CommandRunner, tmp_path):
     runner.invoke(
         "start-project",
