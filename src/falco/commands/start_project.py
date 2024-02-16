@@ -160,17 +160,13 @@ class StartProject:
 
 
 def resolve_blueprint(blueprint: str) -> str:
-    if blueprint.startswith("https"):
-        return blueprint
     name_to_urls = {
         "tailwind": "https://github.com/Tobi-De/falco_blueprint_basic.git",
         "bootstrap": "https://github.com/falco-blueprints/falco_blueprint_basic_bootstrap",
     }
-    try:
+    if blueprint in name_to_urls:
         return name_to_urls[blueprint]
-    except KeyError as e:
-        msg = f"Unknown blueprint: {blueprint}"
-        raise cappa.Exit(msg, code=1) from e
+    return blueprint
 
 
 def is_git_installed() -> bool:
