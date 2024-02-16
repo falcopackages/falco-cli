@@ -114,3 +114,17 @@ In PyCharm, for instance, it's ``CTRL + B``.
 
 This technique enables you to jump directly to the usage of the view. Since you typically use the function only once and that's usually in your ``urls.py``, it will lead 
 you directly to the associated path. This tip might seem obvious to some, but it took me a while to figure it out. So, I'm sharing it for those who might not be aware of this.
+
+Navigating Project URLs with Django-Extensions
+----------------------------------------------
+
+    "✨ If you use #django and don't know about django-extensions' `show_url` management command, it's the cheatsheet you didn't know you needed... or you knew you needed but didn't know what/where to look for it at.
+    It saves me tons of time and frustration when figuring out what a view is named from a third party app."
+
+    -- `Jeff Triplett <https://mastodon.social/@webology/110271223054909764>`_
+
+.. code-block:: bash
+    :caption: usage example
+
+    python manage.py show_urls # show all urls in the project
+    python manage.py show_urls | grep allauth # show all urls for allauth
