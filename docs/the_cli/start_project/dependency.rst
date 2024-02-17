@@ -104,6 +104,7 @@ locks for all your environments. Refer to the `hatch-pip-compile documentation <
 Here is the current configuration in the ``pyproject.toml`` file relevant to hatch-pip-compile:
 
 .. code-block:: toml
+   :caption: pyproject.toml
 
    [tool.hatch.env]
    requires = [
@@ -112,10 +113,19 @@ Here is the current configuration in the ``pyproject.toml`` file relevant to hat
 
    [tool.hatch.envs.default]
    type = "pip-compile"
-   pip-compile-constraint = "default"
-   pip-compile-installer = "pip-sync"
-   lock-filename = "requirements.txt"
+   # pip-compile-installer = "pip-sync"
+   pip-compile-installer = "uv"
+   pip-compile-resolver = "uv"
+   ...
 
+Thanks to `hatch-pip-compile <https://juftin.com/hatch-pip-compile/>`_, we can try `uv <https://github.com/astral-sh/uv>`_, which is, and I quote:
+
+   An extremely fast Python package installer and resolver, written in Rust. Designed as a drop-in replacement for pip and pip-compile
+
+   -- Official github
+
+Needless to say, it does make a noticeable difference in speed. If you encounter any issues with ``uv``, comment out the two lines referencing it in the above
+config, and uncomment the currently commented one.
 
 
 Working without hatch

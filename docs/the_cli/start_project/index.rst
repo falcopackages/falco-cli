@@ -32,12 +32,12 @@ Alternative starters
 Here are some alternative project starters that you can consider if the falco starter is not to your liking:
 
 - `cookiecutter-django <https://github.com/cookiecutter/cookiecutter-django>`_
+- `django-twc-project <https://github.com/westerveltco/django-twc-project>`_
 - `django-hatch-startproject <https://github.com/oliverandrich/django-hatch-startproject>`_
 - `django-poetry-startproject <https://github.com/oliverandrich/django-poetry-startproject>`_
 - `django-startproject <https://github.com/jefftriplett/django-startproject>`_
 - `djangox <https://github.com/wsvincent/djangox>`_
 - `wemake-django-template <https://github.com/wemake-services/wemake-django-template>`_
-- `django-twc-project <https://github.com/westerveltco/django-twc-project>`_
 
 
 .. toctree::
