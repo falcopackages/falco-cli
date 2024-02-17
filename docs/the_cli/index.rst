@@ -31,7 +31,7 @@ Additionally, these commands require acces to your virtual environment, so make 
    :hidden:
 
    usage
-   start_project
+   start_project/index
    start_app
    crud
    htmx
