@@ -4,9 +4,10 @@ from contextlib import suppress
 from pathlib import Path
 
 import cappa
-from dotenv import load_dotenv
 from honcho.manager import Manager
 from tomlkit import parse
+
+from .sync_dotenv import parse as parse_dotenv
 
 
 @cappa.command(help="Run your whole django projects in one command.")
@@ -19,9 +20,8 @@ class Work:
             **os.environ,
             "PYTHONPATH": str(current_dir),
             "PYTHONUNBUFFERED": "true",
+            **parse_dotenv(current_dir / ".env"),
         }
-
-        load_dotenv(current_dir / ".env")
 
         commands = {"server": "python manage.py migrate && python manage.py runserver"}
 
