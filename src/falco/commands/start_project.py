@@ -66,6 +66,7 @@ class StartProject:
             help="The blueprint to use to generate the project.",
         ),
     ]
+    checkout: Annotated[str | None, cappa.Arg(default=None, long="--checkout", short="-c", hidden=True)]
 
     def __call__(self) -> None:
         if self.is_root and not self.directory:
@@ -126,6 +127,7 @@ class StartProject:
                     self.blueprint,
                     no_input=True,
                     output_dir=self.directory or Path(),
+                    checkout=self.checkout,
                     extra_context={
                         "project_name": self.project_name,
                         "author_name": author_name,
@@ -164,9 +166,7 @@ def resolve_blueprint(blueprint: str) -> str:
         "tailwind": "https://github.com/Tobi-De/falco_blueprint_basic.git",
         "bootstrap": "https://github.com/falco-blueprints/falco_blueprint_basic_bootstrap",
     }
-    if blueprint in name_to_urls:
-        return name_to_urls[blueprint]
-    return blueprint
+    return name_to_urls.get(blueprint, blueprint)
 
 
 def is_git_installed() -> bool:
