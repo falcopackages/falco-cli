@@ -36,7 +36,6 @@ dependencies = [
     "httpx",
     "honcho",
     "tomlkit",
-    "python-dotenv",
     "autoflake",
     "black",
     "isort",
