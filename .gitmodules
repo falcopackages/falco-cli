@@ -4,3 +4,6 @@
 [submodule "blueprints/falco_blueprint_basic_bootstrap"]
 	path = blueprints/falco_blueprint_basic_bootstrap
 	url = git@github.com:falco-blueprints/falco_blueprint_basic_bootstrap.git
+[submodule "blueprints/falco_blueprint_basic_pico"]
+	path = blueprints/falco_blueprint_basic_pico
+	url = git@github.com:falco-blueprints/falco_blueprint_basic_pico.git
