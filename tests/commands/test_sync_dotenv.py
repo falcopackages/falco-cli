@@ -1,4 +1,6 @@
+import io
 from pathlib import Path
+from unittest.mock import patch
 
 from cappa.testing import CommandRunner
 
@@ -30,6 +32,16 @@ def test_sync_dotenv_priority(runner: CommandRunner, pyproject_toml):
     env_template_file.write_text("SPECIAL_ENV=")
     runner.invoke("sync-dotenv")
     assert "SPECIAL_ENV=True" in env_file.read_text()
+
+
+def test_print_value(runner: CommandRunner, pyproject_toml):
+    env_template_file = Path(".env.template")
+    env_template_file.write_text("SPECIAL_ENV=")
+    with patch("sys.stdout", new=io.StringIO()) as fake_stdout:
+        runner.invoke("sync-dotenv", "-p")
+        stdout = fake_stdout.getvalue()
+        assert not Path(".env").exists()
+        assert "SPECIAL_ENV=" in stdout
 
 
 # TODO: test fill missing and duplicate
