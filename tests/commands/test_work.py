@@ -5,6 +5,7 @@ from falco.commands.work import Work
 from falco.config import write_falco_config
 
 
+<<<<<<< HEAD
 def test_env_resolution(tmp_path):
     assert Work().resolve_django_env()
 
@@ -14,6 +15,8 @@ def test_env_resolution_with_env(tmp_path):
     assert "FOO" in Work().resolve_django_env()
 
 
+=======
+>>>>>>> c582c5f (feat: add the option to customize the django server address with the work cmd)
 def test_without_pyproject_file():
     assert Work().get_commands() == {"server": default_server_cmd.format(address=default_address)}
 
