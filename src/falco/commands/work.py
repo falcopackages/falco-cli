@@ -18,19 +18,10 @@ class Work:
     address: Annotated[str, cappa.Arg(default=default_address, help="Django server address")] = default_address
 
     def __call__(self) -> None:
-        current_dir = Path().resolve()
-        env_file = current_dir / ".env"
-        env_vars = parse_dotenv(env_file) if env_file.exists() else {}
-
-        django_env = {
-            **os.environ,
-            "PYTHONPATH": str(current_dir),
-            "PYTHONUNBUFFERED": "true",
-            **env_vars,
-        }
-
         commands = self.get_commands()
         manager = Manager()
+
+        django_env = self.resolve_django_env()
 
         for name, cmd in commands.items():
             manager.add_process(name, cmd, env=django_env)
@@ -41,6 +32,18 @@ class Work:
             manager.terminate()
 
         sys.exit(manager.returncode)
+
+    def resolve_django_env(self) -> dict:
+        current_dir = Path().resolve()
+        env_file = current_dir / ".env"
+        env_vars = parse_dotenv(env_file) if env_file.exists() else {}
+
+        return {
+            **os.environ,
+            "PYTHONPATH": str(current_dir),
+            "PYTHONUNBUFFERED": "true",
+            **env_vars,
+        }
 
     def get_commands(self) -> dict:
         commands = {"server": default_server_cmd}
