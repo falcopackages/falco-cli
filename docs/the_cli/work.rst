@@ -21,6 +21,19 @@ Here is an example of what a falco **work** configuration might looks like:
    redis = "redis-server"
    worker = "python manage.py qcluster"
 
+**Examples**
+
+.. code-block:: bash
+
+      falco work
+
+You can customize the address of the Django server just like you would when running ``runserver`` directly
+
+.. code-block:: bash
+
+      falco work 127.0.0.1:8001
+      falco work 8002
+
 Under the hood, this command utilizes `honcho <https://github.com/nickstenning/honcho>`_ to execute the defined commands, with each command running in its own separate process.
 
 .. note::
