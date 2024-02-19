@@ -19,12 +19,14 @@ class Work:
 
     def __call__(self) -> None:
         current_dir = Path().resolve()
+        env_file = current_dir / ".env"
+        env_vars = parse_dotenv(env_file) if env_file.exists() else {}
 
         django_env = {
             **os.environ,
             "PYTHONPATH": str(current_dir),
             "PYTHONUNBUFFERED": "true",
-            **parse_dotenv(current_dir / ".env"),
+            **env_vars,
         }
 
         commands = self.get_commands()
