@@ -38,21 +38,7 @@ class SyncDotenv:
         dotenv_content = dotenv_file.read_text() if dotenv_file.exists() else ""
         dotenv_template_content = dotenv_template_file.read_text() if dotenv_template_file.exists() else ""
 
-        default_values = {
-            "DJANGO_DEBUG": True,
-            "DJANGO_ENV": "dev",
-            "DJANGO_SECRET_KEY": secrets.token_urlsafe(64),
-            "DJANGO_ALLOWED_HOSTS": "*",
-            "DATABASE_URL": "sqlite:///db.sqlite3",
-            "DJANGO_SUPERUSER_EMAIL": "",
-            "DJANGO_SUPERUSER_PASSWORD": "",
-        }
-
-        config = {
-            **parse(dotenv_template_content),
-            **default_values,
-            **parse(dotenv_content),
-        }
+        config = self.get_config(dotenv_content, dotenv_template_content)
 
         if self.fill_missing:
             for key, value in config.items():
@@ -77,6 +63,22 @@ class SyncDotenv:
         dotenv_template_file.write_text(dotenv_template_content)
 
         rich_print(f"[green] {dotenv_file} and {dotenv_template_file} synchronised [/green]")
+
+    def get_config(self, env_content: str, env_template_content: str) -> dict:
+        default_values = {
+            "DJANGO_DEBUG": True,
+            "DJANGO_ENV": "dev",
+            "DJANGO_SECRET_KEY": secrets.token_urlsafe(64),
+            "DJANGO_ALLOWED_HOSTS": "*",
+            "DATABASE_URL": "sqlite:///db.sqlite3",
+            "DJANGO_SUPERUSER_EMAIL": "",
+            "DJANGO_SUPERUSER_PASSWORD": "",
+        }
+        return {
+            **parse(env_template_content),
+            **default_values,
+            **parse(env_content),
+        }
 
 
 def parse(env_content: str) -> dict:

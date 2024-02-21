@@ -33,13 +33,7 @@ Each **entry** represents a journal entry within the **myjourney** app.
 
 If necessary, adjust the python_version value in the ``.pre-commit-config.yaml`` file.
 
-**4. Create a new .env file**
-
-.. code-block:: bash
-
-    falco sync-dotenv
-
-**5. Fill in some values for the admin user**
+**4. Fill in some values for the admin user**
 
 .. code-block:: text
     :caption: .env
@@ -47,19 +41,19 @@ If necessary, adjust the python_version value in the ``.pre-commit-config.yaml``
     DJANGO_SUPERUSER_EMAIL=admin@mail.com
     DJANGO_SUPERUSER_PASSWORD=admin
 
-**6. Migrate, and create the admin user**
+**5. Migrate, and create the admin user**
 
 .. code-block:: bash
 
     hatch run migrate && falco setup-admin
 
-**7. Create the new app, entries**
+**6. Create the new app, entries**
 
 .. code-block:: bash
 
     falco start-app entries
 
-**8. Add some fields to your Entry model**
+**7. Add some fields to your Entry model**
 
 .. code-block:: python
 
@@ -98,7 +92,7 @@ If necessary, adjust the python_version value in the ``.pre-commit-config.yaml``
     However, please note that this approach may not be the most advisable.
 
 
-**9.  Make migrations for the new model and run them**
+**8.  Make migrations for the new model and run them**
 
 .. code-block:: bash
 
@@ -116,13 +110,13 @@ If necessary, adjust the python_version value in the ``.pre-commit-config.yaml``
         [tool.falco.crud]
         always-migrate = true
 
-**10. Generate CRUD views for the Entry model**
+**9. Generate CRUD views for the Entry model**
 
 .. code-block:: bash
 
     falco crud entries.entry --entry-point --skip-git-check
 
-**11. Run the project**
+**10. Run the project**
 
 .. code-block:: bash
 
@@ -130,7 +124,7 @@ If necessary, adjust the python_version value in the ``.pre-commit-config.yaml``
 
 Now, check out http://127.0.0.1:8000/entries to see your running app.
 
-This process currently requires 11 commands. Considering the outcome, it's not too shabby! However, I'm confident there's still plenty of room for improvement.
+This process currently requires 10 commands. Considering the outcome, it's not too shabby! However, I'm confident there's still plenty of room for improvement.
 If you have any suggestions on how to improve this workflow, feel free to open a discussion at https://github.com/Tobi-De/falco/discussions.
 
 .. todo::
