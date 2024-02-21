@@ -82,6 +82,6 @@ def test_htmx_with_pyproject_toml_custom_file_existing_config(runner: CommandRun
     write_falco_config(pyproject_path=pyproject_toml, htmx="config/htmx/htmx.js")
     existing_path = Path("config/htmx/htmx.js")
     runner.invoke("htmx")
-    filepath, version = Htmx.read_from_config(read_falco_config(pyproject_toml))
+    filepath, _ = Htmx.read_from_config(read_falco_config(pyproject_toml))
     assert filepath == existing_path
     assert existing_path.exists()

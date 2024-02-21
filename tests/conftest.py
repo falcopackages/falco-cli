@@ -74,13 +74,16 @@ def set_git_repo_to_clean():
 
 @pytest.fixture
 def pyproject_toml(tmp_path):
-    (tmp_path / "pyproject.toml").write_text(
+    pyproject_toml = tmp_path / "pyproject.toml"
+    pyproject_toml.write_text(
         """
         [project]
         name = "myproject"
         version = "0.1.0"
         """
     )
+    yield pyproject_toml
+    pyproject_toml.unlink()
 
 
 @pytest.fixture
