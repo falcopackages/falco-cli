@@ -36,7 +36,7 @@ class Work:
     def resolve_django_env(self) -> dict:
         current_dir = Path().resolve()
         env_file = current_dir / ".env"
-        env_vars = parse_dotenv(env_file) if env_file.exists() else {}
+        env_vars = parse_dotenv(env_file.read_text()) if env_file.exists() else {}
 
         return {
             **os.environ,
