@@ -12,6 +12,22 @@ Understanding django Settings
 If there is a setting in ``settings.py`` or elsewhere that you don’t understand, go to the `official django settings reference page <https://docs.djangoproject.com/en/dev/ref/settings/>`__
 and press Ctrl + F to search for it. I find this faster than using the search box on the Django documentation site.
 
+
+Create superuserer from env variables
+-------------------------------------
+
+https://docs.djangoproject.com/en/dev/ref/django-admin/#django-admin-createsuperuser
+
+```text
+DJANGO_SUPERUSER_EMAIL=tobidegnon@proton.me
+DJANGO_SUPERUSER_PASSWORD=a-secure-password
+```
+
+```shell
+python manage.py createsuperuser --no-input
+```
+
+
 Local email testing
 --------------------
 
