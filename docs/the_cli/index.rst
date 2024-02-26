@@ -38,4 +38,3 @@ Additionally, these commands require acces to your virtual environment, so make 
    work
    migrations
    sync_dotenv
-   setup_admin

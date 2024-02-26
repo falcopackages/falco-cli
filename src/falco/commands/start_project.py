@@ -17,6 +17,8 @@ from falco.commands import InstallCrudUtils
 from falco.commands.crud.utils import run_html_formatters
 from falco.commands.htmx import get_latest_tag as htmx_latest_tag
 from falco.commands.htmx import Htmx
+from falco.commands.sync_dotenv import get_updated as get_updated_dotenv
+from falco.commands.sync_dotenv import SyncDotenv
 from falco.config import read_falco_config
 from falco.config import write_falco_config
 from falco.utils import clean_project_name
@@ -26,6 +28,7 @@ from falco.utils import RICH_SUCCESS_MARKER
 from falco.utils import simple_progress
 from rich import print as rich_print
 from rich.prompt import Prompt
+
 
 DEFAULT_SKIP = [
     "playground.ipynb",
@@ -96,7 +99,18 @@ class StartProject:
         with change_directory(project_dir):
             pyproject_path = Path("pyproject.toml")
             falco_config = read_falco_config(pyproject_path)
+
             crud_utils = InstallCrudUtils().install(project_name=self.project_name, falco_config=falco_config)
+
+            env_file = Path(".env")
+            env_file.touch()
+            env_file_content = env_file.read_text()
+            env_template_file = Path(".env.template")
+            env_config = SyncDotenv().get_config(
+                env_content=env_file_content, env_template_content=env_template_file.read_text()
+            )
+            env_file.write_text(get_updated_dotenv(env_file_content, env_config))
+
             config = {
                 "crud": {"utils-path": str(crud_utils)},
                 **self.cruft_file_to_falco_config(git_installed),
