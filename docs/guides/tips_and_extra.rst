@@ -13,20 +13,23 @@ If there is a setting in ``settings.py`` or elsewhere that you don’t understan
 and press Ctrl + F to search for it. I find this faster than using the search box on the Django documentation site.
 
 
-Create superuserer from env variables
--------------------------------------
+Create superuser from environment variables
+-------------------------------------------
 
-https://docs.djangoproject.com/en/dev/ref/django-admin/#django-admin-createsuperuser
+You can easily create a Django superuser using environment variables. This is a convenient option of the ``createsuperuser``
+command, and works with the `--no-input` flag. This is especially useful for creating a superuser without being prompted,
+for example as part of your production server setup process. For more details on this, read the ``createsuperuser`` `command documentation <https://docs.djangoproject.com/en/dev/ref/django-admin/#django-admin-createsuperuser>`_.
 
-```text
-DJANGO_SUPERUSER_EMAIL=tobidegnon@proton.me
-DJANGO_SUPERUSER_PASSWORD=a-secure-password
-```
+.. code-block:: text
+    :caption: In your OS environment variables
 
-```shell
-python manage.py createsuperuser --no-input
-```
+    DJANGO_SUPERUSER_EMAIL=your_email@example.com
+    DJANGO_SUPERUSER_PASSWORD=a_secure_password
 
+.. code-block:: bash
+    :caption: Create a superuser
+
+    python manage.py createsuperuser --no-input
 
 Local email testing
 --------------------
