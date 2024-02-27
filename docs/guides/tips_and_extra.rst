@@ -21,10 +21,12 @@ command, and works with the `--no-input` flag. This is especially useful for cre
 for example as part of your production server setup process. For more details on this, read the ``createsuperuser`` `command documentation <https://docs.djangoproject.com/en/dev/ref/django-admin/#django-admin-createsuperuser>`_.
 
 .. code-block:: text
-    :caption: In your OS environment variables
+    :caption: In your OS environment variables or a .env file
 
     DJANGO_SUPERUSER_EMAIL=your_email@example.com
     DJANGO_SUPERUSER_PASSWORD=a_secure_password
+
+You can set these environment variables on your local computer to easily create the same superuser with the same credentials for all your projects for your development needs.
 
 .. code-block:: bash
     :caption: Create a superuser
