@@ -506,14 +506,19 @@ for instance, by using a tool like `ansible <https://www.ansible.com>`_.
 * `PythonAnywhere <https://www.pythonanywhere.com/>`_
 * `Contabo <https://contabo.com/>`_
 
-Recommendations
-^^^^^^^^^^^^^^^
+Personal Recommendations
+^^^^^^^^^^^^^^^^^^^^^^^^
 
-Here are my personal recommendations if you feel a bit overwhelmed by the options provided above:
+If you're feeling a bit overwhelmed by the options provided above, here are my personal recommendations:
 
-- Consider using **Linode** with manual deployment if you have never deployed an application before and want to understand the process.
-- Opt for **Contabo** + **CapRover** for your personal projects once you have a grasp on the general deployment process.
-- Use **AWS** through **AppLiku** for a more sophisticated option.
+If you're trying to learn and have never deployed a Django app before, try the full manual process a few times (2-3 times should do it). 
+Once you get the hang of the process, buy a cheap VPS and install `caprover <https://caprover.com>`_. Try to stick with this setup for as 
+long as you can, or as long as it is **enough**.
+
+The day may come when this setup is no longer sufficient. You'll know it when it happens - you'll have thousands of users, tens of thousands of concurrent requests, 
+and you'll want to offload most of the infrastructure management and maintenance to a managed service so you can focus on improving the core business logic.
+When that day comes, you can opt for one of the managed solutions mentioned above (e.g., AWS, or AppLiku on top of AWS to ease the burden).
+Personally, I've never reached that level of traffic, so I'm still managing all of my projects on a cheap `contabo VPS <https://contabo.com>`_ with `caprover <https://caprover.com>`_.
 
 Resources
 ---------
