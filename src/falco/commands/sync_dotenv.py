@@ -62,7 +62,10 @@ class SyncDotenv:
         dotenv_file.write_text(dotenv_content)
 
         dotenv_template_content = get_updated(
-            dotenv_template_content, {key: "" for key in config}, keep_original=True, keep_whitespace=True
+            dotenv_template_content,
+            {key: "" for key in config},
+            keep_original=True,
+            keep_whitespace=True,
         )
         dotenv_template_file.touch(exist_ok=True)
         dotenv_template_file.write_text(dotenv_template_content)
@@ -80,14 +83,12 @@ class SyncDotenv:
 
 
 def get_superuser_email(project_name: str):
-    default_email = f"admin@{project_name}.com"
     pyproject_file = Path("pyproject.toml")
     if pyproject_file.exists():
         pyproject = tomlkit.parse(pyproject_file.read_text())
-        authors = pyproject.get("project", {}).get("authors", [])
-        if authors:
+        if authors := pyproject.get("project", {}).get("authors", []):
             return authors[0]["email"]
-    return default_email
+    return f"admin@{project_name}.com"
 
 
 def parse(env_content: str) -> dict:
