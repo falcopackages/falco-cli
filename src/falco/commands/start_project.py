@@ -18,8 +18,6 @@ from falco.commands import InstallCrudUtils
 from falco.commands.crud.utils import run_html_formatters
 from falco.commands.htmx import get_latest_tag as htmx_latest_tag
 from falco.commands.htmx import Htmx
-from falco.commands.sync_dotenv import get_updated as get_updated_dotenv
-from falco.commands.sync_dotenv import SyncDotenv
 from falco.config import read_falco_config
 from falco.config import write_falco_config
 from falco.utils import clean_project_name
@@ -105,12 +103,7 @@ class StartProject:
 
             env_file = Path(".env")
             env_file.touch()
-            env_file_content = env_file.read_text()
-            env_template_file = Path(".env.template")
-            env_config = SyncDotenv().get_config(
-                env_content=env_file_content, env_template_content=env_template_file.read_text()
-            )
-            env_file.write_text(get_updated_dotenv(env_file_content, env_config))
+            env_file.write_text("DEBUG=True")
 
             config = {
                 "crud": {"utils-path": str(crud_utils)},

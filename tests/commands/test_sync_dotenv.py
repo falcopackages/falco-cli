@@ -1,7 +1,9 @@
 import io
+import os
 from pathlib import Path
 from unittest.mock import patch
 
+import tomlkit
 from cappa.testing import CommandRunner
 
 
@@ -11,8 +13,8 @@ def test_sync_dotenv(runner: CommandRunner, pyproject_toml):
     env_template_file = Path(".env.template")
     assert env_file.exists()
     assert env_template_file.exists()
-    assert "DJANGO_DEBUG=True" in env_file.read_text()
-    assert "DJANGO_DEBUG=" in env_template_file.read_text()
+    assert "DEBUG=True" in env_file.read_text()
+    assert "DEBUG=" in env_template_file.read_text()
 
 
 def test_sync_dotenv_update_files(runner: CommandRunner, pyproject_toml):
@@ -42,6 +44,17 @@ def test_print_value(runner: CommandRunner, pyproject_toml):
         stdout = fake_stdout.getvalue()
         assert not Path(".env").exists()
         assert "SPECIAL_ENV=" in stdout
+
+
+def test_prod_config(runner: CommandRunner, pyproject_toml):
+    os.environ["DEBUG"] = "False"
+    pyproject = tomlkit.parse(pyproject_toml.read_text())
+    pyproject["project"]["authors"] = [{"email": "tobidegnon@proton.me", "name": "Tobi DEGNON"}]
+    pyproject_toml.write_text(tomlkit.dumps(pyproject))
+    runner.invoke("sync-dotenv")
+    assert "DEBUG=False" in Path(".env").read_text()
+    assert "DJANGO_SUPERUSER_EMAIL=tobidegnon@proton.me" in Path(".env").read_text()
+    assert "SECRET_KEY=" in Path(".env").read_text()
 
 
 # TODO: test fill missing and duplicate

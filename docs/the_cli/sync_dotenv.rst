@@ -33,22 +33,21 @@ When you run the ``sync-dotenv`` command, it performs the following steps:
 #. It empties the ``.env.template`` file and writes the new configuration keys to it. If a key was originally present in the ``.env.template`` file, its value is preserved; otherwise, the value is left empty.
 
 
-**Default Values**
+**Default values for production environments**
 
-The command uses the following default values:
+If you run the command with ``DEBUG=False`` it will try to fill in some default values for variables, such as the 
+``SECRET_KEY``, ``DJANGO_SUPERUSER_EMAIL``, ``DJANGO_SUPERUSER_PASSWORD``, etc, where it makes sense.
 
-.. code-block:: text
+.. code-block:: shell
 
-  DJANGO_DEBUG = True
-  DJANGO_SECRET_KEY = <a_randomly_generated_secure_token>
-  DJANGO_ENV = dev
-  DJANGO_ALLOWED_HOSTS = *
-  DATABASE_URL = sqlite:///db.sqlite3
-  DJANGO_SUPERUSER_EMAIL =
-  DJANGO_SUPERUSER_PASSWORD =
+  export DEBUG=False; falco sync-dotenv -p
 
-As you may have noticed, the default values uses SQLlite as the default database.
-Typically, I use Postgres for both development and production, but using SQLite simplifies the initial setup
-and ensures ``hatch run runserver`` works on the first try. If you choose the ``--fill-missing`` option, it
-will prompt you for your Postgres credentials and configure the ``DATABASE_URL`` accordingly.
-These values are used if they are not already specified in the ``.env`` or ``.env.template`` files.
+You could, for example, pipe the result into another command to easily copy paste the config into your production environments.
+
+.. code-block:: shell
+  :caption: fill the missing values and copy it to the clipboard
+
+  export DEBUG=False; falco sync-dotenv -p -f | clipcopy
+
+
+

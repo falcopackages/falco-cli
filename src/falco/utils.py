@@ -38,11 +38,6 @@ def get_project_name() -> str:
     return pyproject["project"]["name"]
 
 
-def get_author_info():
-    pyproject = tomlkit.parse(get_pyproject_file().read_text())
-    return pyproject["project"]["authors"][0]
-
-
 @contextmanager
 def simple_progress(description: str, display_text="[progress.description]{task.description}"):
     progress = Progress(SpinnerColumn(), TextColumn(display_text), transient=True)

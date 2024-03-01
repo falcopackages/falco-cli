@@ -1,10 +1,10 @@
-from __future__ import annotations
-
+import os
 import secrets
 from pathlib import Path
 from typing import Annotated
 
 import cappa
+import tomlkit
 from falco.utils import get_project_name
 from rich import print as rich_print
 from rich.prompt import Prompt
@@ -38,15 +38,20 @@ class SyncDotenv:
         dotenv_content = dotenv_file.read_text() if dotenv_file.exists() else ""
         dotenv_template_content = dotenv_template_file.read_text() if dotenv_template_file.exists() else ""
 
-        config = self.get_config(dotenv_content, dotenv_template_content)
+        debug = os.getenv("DEBUG", "true").lower() == "true"
+
+        base_config = {"DEBUG": True} if debug else self.get_prod_config(project_name)
+
+        config = {
+            **parse(dotenv_template_content),
+            **base_config,
+            **parse(dotenv_content),
+        }
 
         if self.fill_missing:
             for key, value in config.items():
                 if not value:
                     config[key.upper()] = Prompt.ask(f"{key}")
-            postgres_user = Prompt.ask("Postgres user", default="postgres")
-            postgres_password = Prompt.ask("Postgres password", default="postgres")
-            config["DATABASE_URL"] = f"postgres://{postgres_user}:{postgres_password}@127.0.0.1:5432/{project_name}"
 
         dotenv_content = get_updated(dotenv_content, config)
         if self.print_env:
@@ -64,21 +69,25 @@ class SyncDotenv:
 
         rich_print(f"[green] {dotenv_file} and {dotenv_template_file} synchronised [/green]")
 
-    def get_config(self, env_content: str, env_template_content: str) -> dict:
-        default_values = {
-            "DJANGO_DEBUG": True,
-            "DJANGO_ENV": "dev",
-            "DJANGO_SECRET_KEY": secrets.token_urlsafe(64),
-            "DJANGO_ALLOWED_HOSTS": "*",
-            "DATABASE_URL": "sqlite:///db.sqlite3",
-            "DJANGO_SUPERUSER_EMAIL": "",
-            "DJANGO_SUPERUSER_PASSWORD": "",
-        }
+    def get_prod_config(self, project_name: str) -> dict:
         return {
-            **parse(env_template_content),
-            **default_values,
-            **parse(env_content),
+            "DEBUG": False,
+            "SECRET_KEY": secrets.token_urlsafe(64),
+            "ALLOWED_HOSTS": f"{project_name}.com",
+            "DJANGO_SUPERUSER_EMAIL": get_superuser_email(project_name),
+            "DJANGO_SUPERUSER_PASSWORD": secrets.token_urlsafe(8),
         }
+
+
+def get_superuser_email(project_name: str):
+    default_email = f"admin@{project_name}.com"
+    pyproject_file = Path("pyproject.toml")
+    if pyproject_file.exists():
+        pyproject = tomlkit.parse(pyproject_file.read_text())
+        authors = pyproject.get("project", {}).get("authors", [])
+        if authors:
+            return authors[0]["email"]
+    return default_email
 
 
 def parse(env_content: str) -> dict:
