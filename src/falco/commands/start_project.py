@@ -3,6 +3,7 @@ from __future__ import annotations
 import importlib
 import json
 import os
+import secrets
 import shutil
 import subprocess
 from contextlib import contextmanager
@@ -146,6 +147,7 @@ class StartProject:
                         "project_name": self.project_name,
                         "author_name": author_name,
                         "author_email": author_email,
+                        "secret_key": f"django-insecure-{secrets.token_urlsafe(32)}",
                     },
                 )
             except (CreateProjectError, CookiecutterException) as e:
