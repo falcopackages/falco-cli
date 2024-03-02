@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-import importlib
-import json
 import os
 import secrets
 import shutil
@@ -14,6 +12,7 @@ from typing import Annotated
 import cappa
 import httpx
 from cookiecutter.exceptions import CookiecutterException
+from cookiecutter.main import cookiecutter
 from falco.commands import InstallCrudUtils
 from falco.commands.crud.utils import run_html_formatters
 from falco.commands.htmx import get_latest_tag as htmx_latest_tag
@@ -27,7 +26,6 @@ from falco.utils import RICH_SUCCESS_MARKER
 from falco.utils import simple_progress
 from rich import print as rich_print
 from rich.prompt import Prompt
-
 
 DEFAULT_SKIP = [
     "playground.ipynb",
@@ -92,9 +90,9 @@ class StartProject:
                 )
                 raise cappa.Exit(code=0)
 
-        git_installed = is_git_installed()
-        self.blueprint = resolve_blueprint(self.blueprint)
-        project_dir = self.init_project(git_installed=git_installed)
+        with simple_progress("Resolving blueprint..."):
+            self.blueprint, revision = resolve_blueprint(self.blueprint)
+        project_dir = self.init_project()
         with change_directory(project_dir):
             pyproject_path = Path("pyproject.toml")
             falco_config = read_falco_config(pyproject_path)
@@ -107,7 +105,9 @@ class StartProject:
 
             config = {
                 "crud": {"utils-path": str(crud_utils)},
-                **self.cruft_file_to_falco_config(git_installed),
+                "revision": revision,
+                "skip": DEFAULT_SKIP,
+                "blueprint": self.blueprint,
             }
             with suppress(cappa.Exit, httpx.TimeoutException, httpx.ConnectError):
                 version = htmx_latest_tag()
@@ -126,12 +126,11 @@ class StartProject:
 
         rich_print(msg)
 
-    def init_project(self, git_installed) -> Path:
+    def init_project(self) -> Path:
         author_name, author_email = get_authors_info()
-        create, CreateProjectError = get_create_function(git_installed=git_installed)
         with simple_progress("Initializing your new django project... :sunglasses:"):
             try:
-                project_dir = create(
+                project_dir = cookiecutter(
                     self.blueprint,
                     no_input=True,
                     output_dir=self.directory or Path(),
@@ -143,7 +142,7 @@ class StartProject:
                         "secret_key": f"django-insecure-{secrets.token_urlsafe(32)}",
                     },
                 )
-            except (CreateProjectError, CookiecutterException) as e:
+            except CookiecutterException as e:
                 msg = str(e).replace("Error:", "")
                 raise cappa.Exit(msg, code=1) from e
 
@@ -155,55 +154,27 @@ class StartProject:
                 renamed_project_dir.rmdir()
                 project_dir = self.directory
 
-        return project_dir
-
-    def cruft_file_to_falco_config(self, git_installed) -> dict:
-        if not git_installed:
-            return {}
-        cruft_file = Path(".cruft.json")
-        cruft_state = json.loads(cruft_file.read_text())
-        cruft_file.unlink()
-        return {
-            "revision": cruft_state["commit"],
-            "skip": DEFAULT_SKIP,
-            "blueprint": self.blueprint,
-        }
+        return Path(project_dir)
 
 
-def resolve_blueprint(blueprint: str) -> str:
+def resolve_blueprint(blueprint: str) -> tuple[str, str]:
     name_to_urls = {
         "tailwind": "https://github.com/Tobi-De/falco_blueprint_basic.git",
-        "bootstrap": "https://github.com/falco-blueprints/falco_blueprint_basic_bootstrap",
+        "bootstrap": "https://github.com/falco-blueprints/falco_blueprint_basic_bootstrap.git",
+        "pico": "https://github.com/falco-blueprints/falco_blueprint_basic_pico.git",
     }
-    return name_to_urls.get(blueprint, blueprint)
-
-
-def is_git_installed() -> bool:
-    try:
-        result = subprocess.run(["git", "--version"], check=True, capture_output=True)
-    except subprocess.CalledProcessError:
-        return False
-    try:
-        gitpython = importlib.import_module("git")
-    except ModuleNotFoundError:
-        gitpython = None
-
-    return result.returncode == 0 and gitpython
-
-
-def get_create_function(*, git_installed: bool) -> tuple[callable, type[Exception]]:
-    if git_installed:
-        cruft = importlib.import_module("cruft")
-        cruft_exceptions = importlib.import_module("cruft.exceptions")
-        return cruft.create, cruft_exceptions.InvalidCookiecutterRepository
-
-    cookiecutter = importlib.import_module("cookiecutter.main")
-    cookiecutter_exceptions = importlib.import_module("cookiecutter.exceptions")
-
-    def create(*args, **kwargs):
-        return Path(cookiecutter.cookiecutter(*args, **kwargs))
-
-    return create, cookiecutter_exceptions.CookiecutterException
+    repo = name_to_urls.get(blueprint, blueprint)
+    result = subprocess.run(
+        ["git", "ls-remote", repo, "main", "master"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        msg = f"Blueprint {blueprint} is not supported"
+        raise cappa.Exit(msg, code=1)
+    revision = result.stdout.split("\n")[0].split()[0].strip()
+    return repo, revision
 
 
 def get_authors_info() -> tuple[str, str]:
@@ -224,7 +195,7 @@ def get_authors_info() -> tuple[str, str]:
 
 
 @contextmanager
-def change_directory(new_directory):
+def change_directory(new_directory: str | Path):
     current_directory = Path.cwd()
     try:
         os.chdir(new_directory)

@@ -30,7 +30,6 @@ classifiers = [
     "Natural Language :: English",
 ]
 dependencies = [
-    "cruft",
     "cappa",
     "rich",
     "httpx",
