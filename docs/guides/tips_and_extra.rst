@@ -17,7 +17,7 @@ Create superuser from environment variables
 -------------------------------------------
 
 You can easily create a Django superuser using environment variables. This is a convenient option of the ``createsuperuser``
-command, and works with the `--no-input` flag. This is especially useful for creating a superuser without being prompted,
+command, and works with the ``--no-input`` flag. This is especially useful for creating a superuser without being prompted,
 for example as part of your production server setup process. For more details on this, read the ``createsuperuser`` `command documentation <https://docs.djangoproject.com/en/dev/ref/django-admin/#django-admin-createsuperuser>`_.
 
 .. code-block:: text
@@ -131,9 +131,9 @@ Find Path Declaration for a View
 
 Sometimes, you might need to find the path associated with a specific view. Instead of navigating to your ``urls.py`` file and searching for the
 view (for example, using ``CTRL + F``), there's a simpler and faster method. You can use the common `jump to usage/jump to declaration` feature available in most IDEs.
-In PyCharm, for instance, it's ``CTRL + B``. 
+In PyCharm, for instance, it's ``CTRL + B``.
 
-This technique enables you to jump directly to the usage of the view. Since you typically use the function only once and that's usually in your ``urls.py``, it will lead 
+This technique enables you to jump directly to the usage of the view. Since you typically use the function only once and that's usually in your ``urls.py``, it will lead
 you directly to the associated path. This tip might seem obvious to some, but it took me a while to figure it out. So, I'm sharing it for those who might not be aware of this.
 
 Navigating Project URLs with Django-Extensions

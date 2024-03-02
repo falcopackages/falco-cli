@@ -24,8 +24,7 @@ Each **entry** represents a journal entry within the **myjourney** app.
 
     hatch shell
 
-
-**3. Initialize git and install pre-commit hooks**
+**3. Initialize git and install pre-commit hooks (Optional)**
 
 .. code-block:: bash
 
@@ -33,27 +32,19 @@ Each **entry** represents a journal entry within the **myjourney** app.
 
 If necessary, adjust the python_version value in the ``.pre-commit-config.yaml`` file.
 
-**4. Fill in some values for the admin user**
-
-.. code-block:: text
-    :caption: .env
-
-    DJANGO_SUPERUSER_EMAIL=admin@mail.com
-    DJANGO_SUPERUSER_PASSWORD=admin
-
-**5. Migrate, and create the admin user**
+**4. Migrate the database**
 
 .. code-block:: bash
 
-    hatch run migrate && falco setup-admin
+    hatch run migrate
 
-**6. Create the new app, entries**
+**5. Create the new app, entries**
 
 .. code-block:: bash
 
     falco start-app entries
 
-**7. Add some fields to your Entry model**
+**6. Add some fields to your Entry model**
 
 .. code-block:: python
 
@@ -63,46 +54,17 @@ If necessary, adjust the python_version value in the ``.pre-commit-config.yaml``
         content = models.TextField()
         created_by = models.ForeignKey("users.User", on_delete=models.CASCADE, related_name="entries")
 
-.. admonition:: mypy
-    :class: tip dropdown
-
-    If you attempt to commit the changes, you may encounter some complaints from mypy. To address these, you'll need to
-    update your ``User`` model as shown below. For brevity's sake, the entire ``User`` model code is not displayed;
-    the crucial line is the one emphasized below. This line provides a type hint for the reverse relation between
-    the ``User`` model and the ``Entry`` model.
-
-    .. code-block:: python
-        :caption: models.py
-        :linenos:
-        :emphasize-lines: 10
-
-        from typing import TYPE_CHECKING
-
-        from django.db.models import QuerySet
-
-        if TYPE_CHECKING:
-            from myjourney.entries.models import Entry
-
-        class User(AbstractUser):
-            ...
-            entries: "QuerySet[Entry]"
-
-    I understand this process may potentially become irritating over time, if you find it too bothersome, you might consider removing mypy
-    from your pre-commit hooks. Instead, you can run it manually from time to time to check on your progress.
-    However, please note that this approach may not be the most advisable.
-
-
-**8.  Make migrations for the new model and run them**
+**7.  Make migrations for the new model and run them**
 
 .. code-block:: bash
 
     hatch run makemigrations && hatch run migrate
 
-.. admonition:: auto migrations
+.. admonition:: Auto migrations
     :class: tip dropdown
 
-    It is highly probable that you will need to run these commands after adding a new model, or just before 
-    executing ``crud`` (the next step). For this reason, there is an option to instruct the ``crud`` command to always 
+    It is highly probable that you will need to run these commands after adding a new model, or just before
+    executing ``crud`` (the next step). For this reason, there is an option to instruct the ``crud`` command to always
     perform this step first:
 
     .. code-block:: toml
@@ -110,13 +72,13 @@ If necessary, adjust the python_version value in the ``.pre-commit-config.yaml``
         [tool.falco.crud]
         always-migrate = true
 
-**9. Generate CRUD views for the Entry model**
+**8. Generate CRUD views for the Entry model**
 
 .. code-block:: bash
 
     falco crud entries.entry --entry-point --skip-git-check
 
-**10. Run the project**
+**9. Run the project**
 
 .. code-block:: bash
 
@@ -124,7 +86,18 @@ If necessary, adjust the python_version value in the ``.pre-commit-config.yaml``
 
 Now, check out http://127.0.0.1:8000/entries to see your running app.
 
-This process currently requires 10 commands. Considering the outcome, it's not too shabby! However, I'm confident there's still plenty of room for improvement.
+.. admonition:: Create superuser
+    :class: dropdown tip
+
+    Follow the tip described `here </guides/tips_and_extra.html#create-superuser-from-environment-variables>`_ and
+    execute the command below to create a superuser.
+
+    .. code-block:: shell
+
+        python manage.py createsuperuser --no-input
+
+
+This process currently requires 9 commands. Considering the outcome, it's not too shabby! However, I'm confident there's still plenty of room for improvement.
 If you have any suggestions on how to improve this workflow, feel free to open a discussion at https://github.com/Tobi-De/falco/discussions.
 
 .. todo::
