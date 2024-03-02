@@ -30,6 +30,7 @@ classifiers = [
     "Natural Language :: English",
 ]
 dependencies = [
+    "cookiecutter",
     "cappa",
     "rich",
     "httpx",
