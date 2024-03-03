@@ -53,7 +53,10 @@ class ModelCRUD:
         bool,
         cappa.Arg(default=False, long="--only-python", help="Generate only python code."),
     ]
-    only_html: Annotated[bool, cappa.Arg(default=False, long="--only-html", help="Generate only html code.")]
+    only_html: Annotated[
+        bool,
+        cappa.Arg(default=False, long="--only-html", help="Generate only html code."),
+    ]
     entry_point: Annotated[
         bool,
         cappa.Arg(
@@ -101,7 +104,10 @@ class ModelCRUD:
             app_label = ".".join(v)
 
         if crud_config.get("always_migrate", False):
-            commands = [f"python manage.py makemigrations {app_label}", f"python manage.py migrate {app_label}"]
+            commands = [
+                f"python manage.py makemigrations {app_label}",
+                f"python manage.py migrate {app_label}",
+            ]
             with simple_progress("Running migrations"):
                 for cmd in commands:
                     result = subprocess.run(cmd.split(), capture_output=True, check=False, text=True)
@@ -114,7 +120,11 @@ class ModelCRUD:
             raise cappa.Exit("The --entry-point option requires a full model path.", code=1)
 
         with simple_progress("Getting models info"):
-            all_django_models = run_in_shell(get_models_data, app_label=app_label, excluded_fields=self.excluded_fields)
+            all_django_models = run_in_shell(
+                get_models_data,
+                app_label=app_label,
+                excluded_fields=self.excluded_fields,
+            )
 
             app_folder_path_str, app_name, templates_dir_str = run_in_shell(
                 get_app_path_name_and_templates_dir, app_label=app_label
@@ -177,7 +187,7 @@ class ModelCRUD:
         updated_html_files = set()
         if not self.only_python:
             html_blueprints = (
-                list(Path(self.blueprints).glob("*.html"))
+                list(Path(self.blueprints).glob("*.html.jinja"))
                 if self.blueprints
                 else list((get_crud_blueprints_path() / "html").iterdir())
             )
@@ -298,9 +308,9 @@ class ModelCRUD:
 
             for context in contexts:
                 model_name_lower = context["model_name"].lower()
-                new_filename = f"{model_name_lower}_{blueprint.name}"
+                new_filename = f"{model_name_lower}_{blueprint.name.replace('.jinja', '')}"
                 if entry_point:
-                    new_filename = blueprint.name
+                    new_filename = blueprint.name.replace(".jinja", "")
                 if new_filename.startswith("list"):
                     new_filename = new_filename.replace("list", "index")
                 file_to_write_to = templates_dir / new_filename
@@ -367,7 +377,11 @@ def get_models_data(app_label: str, excluded_fields: list[str]) -> "list[DjangoM
             for field in model._meta.fields
             if field.name not in excluded_fields
         }
-        return {"name": name, "fields": fields, "verbose_name_plural": verbose_name_plural}
+        return {
+            "name": name,
+            "fields": fields,
+            "verbose_name_plural": verbose_name_plural,
+        }
 
     return [get_model_dict(model) for model in models]
 

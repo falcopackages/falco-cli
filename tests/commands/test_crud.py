@@ -206,7 +206,7 @@ def test_crud_config_pyproject_login_required(django_project, runner: CommandRun
 def test_crud_config_pyproject_blueprints(django_project, runner: CommandRunner):
     bp = django_project / "blueprints"
     bp.mkdir()
-    html_file = bp / "dummy.html"
+    html_file = bp / "dummy.html.jinja"
     html_file.touch()
     html_file.write_text("{{ model_name }}")
     create_pyproject_crud_config(blueprints=str(Path("blueprints")), skip_git_check=True)
