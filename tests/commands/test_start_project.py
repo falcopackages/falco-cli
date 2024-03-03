@@ -149,8 +149,7 @@ def test_user_name_and_email(runner: CommandRunner, git_user_infos):
 
 def test_no_internet_access(runner: CommandRunner):
     runner.invoke(
-        "start-project",
-        "dotfm_cache",
+        "start-project", "dotfm_cache", "--skip-new-version-check"
     )  # to make sure the blueprint is downloaded a least once
     with mock.patch("socket.socket", side_effect=OSError("Network access is cut off")):
         runner.invoke("start-project", "dotfm", "--skip-new-version-check")
