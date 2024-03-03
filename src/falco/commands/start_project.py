@@ -161,7 +161,10 @@ class StartProject:
 
 def find_local_cookiecutter(repo: str) -> Path | None:
     repo_name = repo.split("/")[-1].replace(".git", "")
-    for directory in Path(get_user_config()["cookiecutters_dir"]).iterdir():
+    cookiecutters_dir = Path(get_user_config()["cookiecutters_dir"])
+    if not cookiecutters_dir.exists():
+        return None
+    for directory in cookiecutters_dir.iterdir():
         is_empty = not list(directory.iterdir())
         if directory.is_dir() and not is_empty and directory.name == repo_name:
             return directory
