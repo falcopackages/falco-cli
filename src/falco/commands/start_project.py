@@ -189,7 +189,7 @@ def resolve_blueprint(blueprint: str) -> tuple[str, str]:
     }
     repo = name_to_urls.get(blueprint, blueprint)
 
-    if no_internet_access():
+    if repo.startswith("http") and no_internet_access():
         if local_repo := find_local_cookiecutter(repo):
             repo = str(local_repo.resolve())
         else:
