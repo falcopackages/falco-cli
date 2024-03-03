@@ -31,6 +31,7 @@
                                     {% for _, field_data in model_fields.items() %}
                                     <th scope="col" class="{% raw -%} {{ th_class }} {%- endraw %}">{{ field_data["verbose_name"] }}</th>
                                     {% endfor %}
+                                    <th scope="col">Actions</th>
                                 </tr>
                             {% raw %}
                             {% endwith %}
