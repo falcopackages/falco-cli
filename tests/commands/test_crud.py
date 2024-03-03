@@ -228,3 +228,24 @@ def test_crud_always_migrate(django_project, runner: CommandRunner, set_git_repo
         runner.invoke("crud", "blog.post")
     assert "post_list" not in Path("blog/views.py").read_text()
     assert not healthy_django_project()
+
+
+def test_forms_dates_widgets(django_project, runner: CommandRunner, set_git_repo_to_clean):
+    install_crud_utils(runner)
+    runner.invoke("start-app", "authors")
+    models = django_project / "myproject" / "authors" / "models.py"
+    models.write_text(
+        models.read_text()
+        + "\n    birthday=models.DateField()\n"
+        + "    tarted_writing=models.DateTimeField()\n"
+        + "    wake_up_time=models.TimeField()\n"
+    )
+    runner.invoke("crud", "authors.author")
+    runner.invoke("crud", "blog.post")
+    assert healthy_django_project()
+    assert "widgets" not in (django_project / "blog" / "forms.py").read_text()
+    forms = django_project / "myproject" / "authors" / "forms.py"
+    assert "widgets" in forms.read_text()
+    assert "DateInput" in forms.read_text()
+    assert "TimeInput" in forms.read_text()
+    assert "DateTimeInput" in forms.read_text()

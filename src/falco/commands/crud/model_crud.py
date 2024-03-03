@@ -332,8 +332,9 @@ class PythonBlueprintContext(TypedDict):
     app_label: str
     model_name: str
     model_verbose_name_plural: str
-    model_fields: dict[str, str]
+    model_fields: dict[str, "DjangoField"]
     crud_utils_import: str
+    has_editable_date_fields: bool
 
 
 class UrlsForContext(TypedDict):
@@ -355,7 +356,8 @@ class HtmlBlueprintContext(UrlsForContext):
 
 class DjangoField(TypedDict):
     verbose_name: str
-    editable: str
+    editable: bool
+    class_name: str
 
 
 class DjangoModel(TypedDict):
@@ -373,7 +375,11 @@ def get_models_data(app_label: str, excluded_fields: list[str]) -> "list[DjangoM
         name = model.__name__
         verbose_name_plural = getattr(model._meta, "verbose_name_plural", f"{name}s")
         fields: dict[str, "DjangoField"] = {
-            field.name: {"verbose_name": field.verbose_name, "editable": field.editable}
+            field.name: {
+                "verbose_name": field.verbose_name,
+                "editable": field.editable,
+                "class_name": field.__class__.__name__,
+            }
             for field in model._meta.fields
             if field.name not in excluded_fields
         }
@@ -513,14 +519,19 @@ def get_python_blueprint_context(
     *,
     login_required: bool,
 ) -> PythonBlueprintContext:
+    dates_classes = ["DateField", "DateTimeField", "TimeField"]
+    model_fields = django_model["fields"]
+
+    has_editable_date_fields = any(f["class_name"] in dates_classes and f["editable"] for f in model_fields.values())
     return {
         "project_name": project_name,
         "app_label": app_label,
         "login_required": login_required,
         "model_name": django_model["name"],
         "model_verbose_name_plural": django_model["verbose_name_plural"],
-        "model_fields": django_model["fields"],
+        "model_fields": model_fields,
         "crud_utils_import": crud_utils_import,
+        "has_editable_date_fields": has_editable_date_fields,
     }
 
 
