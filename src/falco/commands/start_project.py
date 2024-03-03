@@ -173,7 +173,7 @@ def find_local_cookiecutter(repo: str) -> Path | None:
 
 def no_internet_access() -> bool:
     result = subprocess.run(
-        ["ping", "-c", "1", "github.com"],
+        ["curl", "-s", "https://google.com"],
         capture_output=True,
         text=True,
         check=False,
