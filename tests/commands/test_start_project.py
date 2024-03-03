@@ -1,4 +1,5 @@
 from pathlib import Path
+from unittest import mock
 
 from cappa.testing import CommandRunner
 from falco.config import read_falco_config
@@ -146,11 +147,15 @@ def test_user_name_and_email(runner: CommandRunner, git_user_infos):
 #             assert file_name in project_files
 
 
-# def test_no_internet_access(runner: CommandRunner):
-#     with mock.patch("socket.socket", side_effect=OSError("Network access is cut off")):
-#         runner.invoke("start-project", "dotfm", "--skip-new-version-check")
-#     assert Path("dotfm").exists()
-#     # sourcery skip: no-loop-in-tests
-#     project_files = [file.name for file in Path("dotfm").iterdir()]
-#     for file_name in generated_project_files("dotfm"):
-#         assert file_name in project_files
+def test_no_internet_access(runner: CommandRunner):
+    runner.invoke(
+        "start-project",
+        "dotfm_cache",
+    )  # to make sure the blueprint is downloaded a least once
+    with mock.patch("socket.socket", side_effect=OSError("Network access is cut off")):
+        runner.invoke("start-project", "dotfm", "--skip-new-version-check")
+    assert Path("dotfm").exists()
+    # sourcery skip: no-loop-in-tests
+    project_files = [file.name for file in Path("dotfm").iterdir()]
+    for file_name in generated_project_files("dotfm"):
+        assert file_name in project_files

@@ -11,6 +11,7 @@ from typing import Annotated
 
 import cappa
 import httpx
+from cookiecutter.config import get_user_config
 from cookiecutter.exceptions import CookiecutterException
 from cookiecutter.main import cookiecutter
 from falco.commands import InstallCrudUtils
@@ -26,6 +27,7 @@ from falco.utils import RICH_SUCCESS_MARKER
 from falco.utils import simple_progress
 from rich import print as rich_print
 from rich.prompt import Prompt
+
 
 DEFAULT_SKIP = [
     "playground.ipynb",
@@ -157,6 +159,25 @@ class StartProject:
         return Path(project_dir)
 
 
+def find_local_cookiecutter(repo: str) -> Path | None:
+    repo_name = repo.split("/")[-1].replace(".git", "")
+    for directory in Path(get_user_config()["cookiecutters_dir"]).iterdir():
+        is_empty = not list(directory.iterdir())
+        if directory.is_dir() and not is_empty and directory.name == repo_name:
+            return directory
+    return None
+
+
+def no_internet_access() -> bool:
+    result = subprocess.run(
+        ["ping", "-c", "1", "github.com"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    return result.returncode != 0
+
+
 def resolve_blueprint(blueprint: str) -> tuple[str, str]:
     name_to_urls = {
         "tailwind": "https://github.com/Tobi-De/falco_blueprint_basic.git",
@@ -164,6 +185,14 @@ def resolve_blueprint(blueprint: str) -> tuple[str, str]:
         "pico": "https://github.com/falco-blueprints/falco_blueprint_basic_pico.git",
     }
     repo = name_to_urls.get(blueprint, blueprint)
+
+    if no_internet_access():
+        if local_repo := find_local_cookiecutter(repo):
+            repo = str(local_repo.resolve())
+        else:
+            msg = f"No internet connection and no local blueprint found for {repo}."
+            raise cappa.Exit(msg, code=1)
+
     result = subprocess.run(
         ["git", "ls-remote", repo, "main", "master"],
         capture_output=True,
@@ -171,7 +200,7 @@ def resolve_blueprint(blueprint: str) -> tuple[str, str]:
         check=False,
     )
     if result.returncode != 0:
-        msg = f"Blueprint {blueprint} is not supported"
+        msg = f"Blueprint {blueprint} could not be downloaded."
         raise cappa.Exit(msg, code=1)
     revision = result.stdout.split("\n")[0].split()[0].strip()
     return repo, revision
