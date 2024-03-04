@@ -8,7 +8,7 @@ commit_message = "bump version to {new_version}"
 current_version = "0.18.2"
 push = true
 tag = true
-tag_message = "{new_version}"
+tag_message = "v{new_version}"
 tag_scope = "default"
 version_pattern = "MAJOR.MINOR.PATCH"
 
