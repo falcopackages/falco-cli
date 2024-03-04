@@ -27,7 +27,6 @@ extensions = [
     "sphinx_tabs.tabs",
     "sphinx_copybutton",
     "sphinx_togglebutton",
-    "sphinx_autorun",
     "cappa.ext.docutils",
     "sphinx_github_changelog",
     "sphinxcontrib.mermaid",
