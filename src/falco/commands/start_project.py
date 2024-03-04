@@ -120,7 +120,7 @@ class StartProject:
                 "skip": DEFAULT_SKIP,
                 "blueprint": self.blueprint,
             }
-            if self.local:
+            if not self.local:
                 with suppress(cappa.Exit, httpx.TimeoutException, httpx.ConnectError):
                     version = htmx_latest_tag()
                     filepath = Htmx().download(version=htmx_latest_tag(), falco_config=falco_config)
