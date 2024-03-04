@@ -350,6 +350,7 @@ locks for all your environments. Refer to the `hatch-pip-compile documentation <
 Here is the current configuration in the ``pyproject.toml`` file relevant to hatch-pip-compile:
 
 .. code-block:: toml
+   :caption: pyproject.toml
 
    [tool.hatch.env]
    requires = [
@@ -358,10 +359,19 @@ Here is the current configuration in the ``pyproject.toml`` file relevant to hat
 
    [tool.hatch.envs.default]
    type = "pip-compile"
-   pip-compile-constraint = "default"
-   pip-compile-installer = "pip-sync"
-   lock-filename = "requirements.txt"
+   # pip-compile-installer = "pip-sync"
+   pip-compile-installer = "uv"
+   pip-compile-resolver = "uv"
+   ...
 
+Thanks to `hatch-pip-compile <https://juftin.com/hatch-pip-compile/>`_, we can try `uv <https://github.com/astral-sh/uv>`_, which is, and I quote:
+
+   An extremely fast Python package installer and resolver, written in Rust. Designed as a drop-in replacement for pip and pip-compile
+
+   -- Official github
+
+Needless to say, it does make a noticeable difference in speed. If you encounter any issues with ``uv``, comment out the two lines referencing it in the above
+config, and uncomment the currently commented one.
 
 
 Working without hatch
@@ -397,6 +407,12 @@ Here is a collection of known issues and their solutions that you may encounter 
 
 hatch-pip-compile
 ^^^^^^^^^^^^^^^^^
+
+.. admonition:: 2024-03-04 Update
+   :class: note
+
+   I've recently tried the pip installation of hatch (version 1.9.3), and the issues I was having with hatch-pip-compile seem to be completely resolved.
+   Therefore, I believe that going with pip or pipx install might now be the simplest and best solution.
 
 In my experience, the hatch-pip-compile plugin may not function properly if hatch is not installed using a `binary <https://hatch.pypa.io/latest/install/#standalone-binaries>`_.
 Therefore, ensure that you have the latest version of hatch (at least 1.8.0) and that you have installed it using the binary distribution.
