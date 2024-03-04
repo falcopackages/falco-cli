@@ -1,116 +1,161 @@
 [build-system]
-requires = ["hatchling"]
 build-backend = "hatchling.build"
+requires = ["hatchling"]
 
 [project]
-name = "falco-cli"
-dynamic = ["version"]
-description = 'Enhance your Django developer experience: CLI and Guides for the Modern Developer.'
-readme = "README.md"
-requires-python = ">=3.10"
-license = "MIT"
-keywords = ["django", "python", "cookiecutter", "project-template"]
 authors = [
-    { name = "Tobi DEGNON", email = "tobidegnon@proton.me" },
+  {name = "Tobi DEGNON", email = "tobidegnon@proton.me"}
 ]
 classifiers = [
-    "Development Status :: 4 - Beta",
-    "Programming Language :: Python",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Programming Language :: Python :: Implementation :: CPython",
-    "Programming Language :: Python :: Implementation :: PyPy",
-    "Framework :: Django :: 4",
-    "Framework :: Django :: 4.0",
-    "Framework :: Django :: 4.1",
-    "Framework :: Django :: 4.2",
-    "Framework :: Django :: 5.0",
-    "Intended Audience :: Developers",
-    "Natural Language :: English",
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+  "Framework :: Django :: 4",
+  "Framework :: Django :: 4.0",
+  "Framework :: Django :: 4.1",
+  "Framework :: Django :: 4.2",
+  "Framework :: Django :: 5.0",
+  "Intended Audience :: Developers",
+  "Natural Language :: English"
 ]
 dependencies = [
-    "cookiecutter",
-    "cappa",
-    "rich",
-    "httpx",
-    "honcho",
-    "tomlkit",
-    "autoflake",
-    "black",
-    "isort",
-    "djlint",
-    "parso",
+  "cookiecutter",
+  "cappa",
+  "rich",
+  "httpx",
+  "honcho",
+  "tomlkit",
+  "autoflake",
+  "black",
+  "isort",
+  "djlint",
+  "parso"
 ]
-[tool.hatch.metadata]
-allow-direct-references = true
+description = 'Enhance your Django developer experience: CLI and Guides for the Modern Developer.'
+dynamic = ["version"]
+keywords = ["django", "python", "cookiecutter", "project-template"]
+license = "MIT"
+name = "falco-cli"
+readme = "README.md"
+requires-python = ">=3.10"
 
 [project.scripts]
 falco = "falco.__main__:main"
 
 [project.urls]
-Homepage = "https://falco.oluwatobi.dev/"
 Documentation = "https://falco.oluwatobi.dev/"
+Homepage = "https://falco.oluwatobi.dev/"
 Issues = "https://github.com/tobi-de/falco/issues"
 Source = "https://github.com/tobi-de/falco"
 
-[tool.hatch.version]
-path = "src/falco/__about__.py"
+[tool.coverage.paths]
+falco = ["src/falco", "*/falco/src/falco"]
+tests = ["tests", "*/falco/tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:"
+]
+
+[tool.coverage.run]
+branch = true
+omit = [
+  "src/falco/__about__.py"
+]
+parallel = true
+source_pkgs = ["falco", "tests"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/falco"]
 
-[tool.hatch.envs.default]
-dependencies = [
-    "coverage[toml]>=6.5",
-    "pytest",
-    "ipython",
-    "pre-commit",
-    "django",
-    "pytest-cookies",
-    "django_htmx",
-    "django_extensions",
-    "django-model-utils",
+[tool.hatch.env]
+requires = [
+  "hatch-pip-compile>=1.11.1"
 ]
 
-[tool.hatch.envs.default.scripts]
-test = "pytest {args:tests}"
-test-cov = "coverage run -m pytest {args:tests}"
-cov-report = [
-    "- coverage combine",
-    "coverage report",
+[[tool.hatch.envs.all.matrix]]
+python = ["3.10", "3.11", "3.12"]
+
+[tool.hatch.envs.default]
+dependencies = [
+  "coverage[toml]>=6.5",
+  "pytest",
+  "ipython",
+  "pre-commit",
+  "django",
+  "pytest-cookies",
+  "django_htmx",
+  "django_extensions",
+  "django-model-utils"
 ]
+pip-compile-constraint = "default"
+pip-compile-installer = "uv"
+pip-compile-resolver = "uv"
+type = "pip-compile"
+
+[tool.hatch.envs.default.scripts]
 cov = [
-    "test-cov",
-    "cov-report",
+  "test-cov",
+  "cov-report"
+]
+cov-report = [
+  "- coverage combine",
+  "coverage report"
 ]
 make-blueprints = "python scripts/make_blueprints_from_demo.py"
+test = "pytest {args:tests}"
+test-cov = "coverage run -m pytest {args:tests}"
 upgrade-deps = ["rm requirements.txt", "hatch env run --env default -- python --version"]
 
 [tool.hatch.envs.docs]
 dependencies = [
-    "sphinx",
-    "sphinx-autobuild",
-    "myst-parser",
-    "shibuya",
-    "sphinx-design",
-    "sphinx-tabs",
-    "sphinx-copybutton",
-    "sphinx-togglebutton",
-    "sphinxcontrib-mermaid",
-    "jupyter-sphinx",
-    "ipykernel",
-    "sphinx-github-changelog",
+  "sphinx",
+  "sphinx-autobuild",
+  "myst-parser",
+  "shibuya",
+  "sphinx-design",
+  "sphinx-tabs",
+  "sphinx-copybutton",
+  "sphinx-togglebutton",
+  "sphinxcontrib-mermaid",
+  "jupyter-sphinx",
+  "ipykernel",
+  "sphinx-github-changelog"
 ]
 
 [tool.hatch.envs.docs.scripts]
-serve = "sphinx-autobuild docs docs/_build/html --port 8002"
-project-tree = "python scripts/project_tree.py"
-update-readme-guides = "python scripts/update_readme_guides.py"
 prepare-deploy = ["update-readme-guides", "project-tree"]
+project-tree = "python scripts/project_tree.py"
+serve = "sphinx-autobuild docs docs/_build/html --port 8002"
+update-readme-guides = "python scripts/update_readme_guides.py"
 
-[[tool.hatch.envs.all.matrix]]
-python = ["3.10", "3.11", "3.12"]
+[tool.hatch.envs.types]
+dependencies = [
+  "mypy>=1.0.0"
+]
+
+[tool.hatch.envs.types.scripts]
+check = "mypy --install-types --non-interactive {args:src/falco tests}"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.version]
+path = "src/falco/__about__.py"
+
+[tool.pytest.ini_options]
+filterwarnings = [
+  "ignore::DeprecationWarning"
+]
+testpaths = [
+  "tests"
+]
 
 [tool.ruff]
 extend-exclude = ["demo/*", "blueprints/*", "demo/demo/*/migrations/*"]
@@ -119,44 +164,10 @@ extend-exclude = ["demo/*", "blueprints/*", "demo/demo/*/migrations/*"]
 extend-ignore = ["I001", "I002", "TID252", "EM101", "TCH001", "TRY003", "S607", "TCH003"]
 
 [tool.ruff.lint.extend-per-file-ignores]
-"tests/*" = ["ARG001", "INP001"]
 "demo/config/settings.py" = ["S105"]
+"demo/demo/orders/migrations/0002_order_created.py" = ["RUF012"]
 "docs/conf.py" = ["A001", "INP001"]
 "src/falco/commands/crud/model_crud.py" = ["SLF001"]
 "src/falco/commands/setup_admin.py" = ["N806"]
 "src/falco/commands/start_project.py" = ["N806"]
-"demo/demo/orders/migrations/0002_order_created.py" = ["RUF012"]
-
-[tool.hatch.envs.types]
-dependencies = [
-    "mypy>=1.0.0",
-]
-[tool.hatch.envs.types.scripts]
-check = "mypy --install-types --non-interactive {args:src/falco tests}"
-
-[tool.coverage.run]
-source_pkgs = ["falco", "tests"]
-branch = true
-parallel = true
-omit = [
-    "src/falco/__about__.py"
-]
-
-[tool.coverage.paths]
-falco = ["src/falco", "*/falco/src/falco"]
-tests = ["tests", "*/falco/tests"]
-
-[tool.coverage.report]
-exclude_lines = [
-    "no cov",
-    "if __name__ == .__main__.:",
-    "if TYPE_CHECKING:",
-]
-
-[tool.pytest.ini_options]
-filterwarnings = [
-    "ignore::DeprecationWarning",
-]
-testpaths = [
-    "tests",
-]
+"tests/*" = ["ARG001", "INP001"]
