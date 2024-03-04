@@ -10,6 +10,7 @@
 # - django_htmx
 # - django_extensions
 # - django-model-utils
+# - bumpver
 # - autoflake
 # - black
 # - cappa
@@ -37,6 +38,7 @@ autoflake==2.3.0
 binaryornot==0.4.4
     # via cookiecutter
 black==24.2.0
+bumpver==2023.1129
 cappa==0.17.0
 certifi==2024.2.2
     # via
@@ -52,10 +54,13 @@ charset-normalizer==3.3.2
 click==8.1.7
     # via
     #   black
+    #   bumpver
     #   cookiecutter
     #   djlint
 colorama==0.4.6
-    # via djlint
+    # via
+    #   bumpver
+    #   djlint
 cookiecutter==2.6.0
     # via pytest-cookies
 coverage==7.4.3
@@ -113,6 +118,10 @@ jsbeautifier==1.15.1
     #   djlint
 json5==0.9.20
     # via djlint
+lexid==2021.1006
+    # via bumpver
+looseversion==1.3.0
+    # via bumpver
 markdown-it-py==3.0.0
     # via rich
 markupsafe==2.1.5
@@ -196,6 +205,8 @@ stack-data==0.6.3
     # via ipython
 text-unidecode==1.3
     # via python-slugify
+toml==0.10.2
+    # via bumpver
 tomlkit==0.12.4
 tqdm==4.66.2
     # via djlint

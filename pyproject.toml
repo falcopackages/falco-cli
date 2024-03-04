@@ -2,38 +2,53 @@
 build-backend = "hatchling.build"
 requires = ["hatchling"]
 
+[bumpver]
+commit = true
+commit_message = "bump version to {new_version}"
+current_version = "0.18.1"
+push = true
+tag = true
+tag_message = "{new_version}"
+tag_scope = "default"
+version_pattern = "MAJOR.MINOR.PATCH"
+
+[bumpver.file_patterns]
+"src/falco/__about__.py" = [
+    '^__version__ = "{version}"$'
+]
+
 [project]
 authors = [
-  {name = "Tobi DEGNON", email = "tobidegnon@proton.me"}
+    {name = "Tobi DEGNON", email = "tobidegnon@proton.me"}
 ]
 classifiers = [
-  "Development Status :: 4 - Beta",
-  "Programming Language :: Python",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
-  "Programming Language :: Python :: 3.12",
-  "Programming Language :: Python :: Implementation :: CPython",
-  "Programming Language :: Python :: Implementation :: PyPy",
-  "Framework :: Django :: 4",
-  "Framework :: Django :: 4.0",
-  "Framework :: Django :: 4.1",
-  "Framework :: Django :: 4.2",
-  "Framework :: Django :: 5.0",
-  "Intended Audience :: Developers",
-  "Natural Language :: English"
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "Framework :: Django :: 4",
+    "Framework :: Django :: 4.0",
+    "Framework :: Django :: 4.1",
+    "Framework :: Django :: 4.2",
+    "Framework :: Django :: 5.0",
+    "Intended Audience :: Developers",
+    "Natural Language :: English"
 ]
 dependencies = [
-  "cookiecutter",
-  "cappa",
-  "rich",
-  "httpx",
-  "honcho",
-  "tomlkit",
-  "autoflake",
-  "black",
-  "isort",
-  "djlint",
-  "parso"
+    "cookiecutter",
+    "cappa",
+    "rich",
+    "httpx",
+    "honcho",
+    "tomlkit",
+    "autoflake",
+    "black",
+    "isort",
+    "djlint",
+    "parso"
 ]
 description = 'Enhance your Django developer experience: CLI and Guides for the Modern Developer.'
 dynamic = ["version"]
@@ -58,15 +73,15 @@ tests = ["tests", "*/falco/tests"]
 
 [tool.coverage.report]
 exclude_lines = [
-  "no cov",
-  "if __name__ == .__main__.:",
-  "if TYPE_CHECKING:"
+    "no cov",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:"
 ]
 
 [tool.coverage.run]
 branch = true
 omit = [
-  "src/falco/__about__.py"
+    "src/falco/__about__.py"
 ]
 parallel = true
 source_pkgs = ["falco", "tests"]
@@ -76,7 +91,7 @@ packages = ["src/falco"]
 
 [tool.hatch.env]
 requires = [
-  "hatch-pip-compile>=1.11.1"
+    "hatch-pip-compile>=1.11.1"
 ]
 
 [[tool.hatch.envs.all.matrix]]
@@ -84,15 +99,16 @@ python = ["3.10", "3.11", "3.12"]
 
 [tool.hatch.envs.default]
 dependencies = [
-  "coverage[toml]>=6.5",
-  "pytest",
-  "ipython",
-  "pre-commit",
-  "django",
-  "pytest-cookies",
-  "django_htmx",
-  "django_extensions",
-  "django-model-utils"
+    "coverage[toml]>=6.5",
+    "pytest",
+    "ipython",
+    "pre-commit",
+    "django",
+    "pytest-cookies",
+    "django_htmx",
+    "django_extensions",
+    "django-model-utils",
+    "bumpver"
 ]
 pip-compile-constraint = "default"
 pip-compile-installer = "uv"
@@ -101,12 +117,12 @@ type = "pip-compile"
 
 [tool.hatch.envs.default.scripts]
 cov = [
-  "test-cov",
-  "cov-report"
+    "test-cov",
+    "cov-report"
 ]
 cov-report = [
-  "- coverage combine",
-  "coverage report"
+    "- coverage combine",
+    "coverage report"
 ]
 make-blueprints = "python scripts/make_blueprints_from_demo.py"
 test = "pytest {args:tests}"
@@ -115,18 +131,18 @@ upgrade-deps = ["rm requirements.txt", "hatch env run --env default -- python --
 
 [tool.hatch.envs.docs]
 dependencies = [
-  "sphinx",
-  "sphinx-autobuild",
-  "myst-parser",
-  "shibuya",
-  "sphinx-design",
-  "sphinx-tabs",
-  "sphinx-copybutton",
-  "sphinx-togglebutton",
-  "sphinxcontrib-mermaid",
-  "jupyter-sphinx",
-  "ipykernel",
-  "sphinx-github-changelog"
+    "sphinx",
+    "sphinx-autobuild",
+    "myst-parser",
+    "shibuya",
+    "sphinx-design",
+    "sphinx-tabs",
+    "sphinx-copybutton",
+    "sphinx-togglebutton",
+    "sphinxcontrib-mermaid",
+    "jupyter-sphinx",
+    "ipykernel",
+    "sphinx-github-changelog"
 ]
 
 [tool.hatch.envs.docs.scripts]
@@ -137,7 +153,7 @@ update-readme-guides = "python scripts/update_readme_guides.py"
 
 [tool.hatch.envs.types]
 dependencies = [
-  "mypy>=1.0.0"
+    "mypy>=1.0.0"
 ]
 
 [tool.hatch.envs.types.scripts]
@@ -151,10 +167,10 @@ path = "src/falco/__about__.py"
 
 [tool.pytest.ini_options]
 filterwarnings = [
-  "ignore::DeprecationWarning"
+    "ignore::DeprecationWarning"
 ]
 testpaths = [
-  "tests"
+    "tests"
 ]
 
 [tool.ruff]
