@@ -175,6 +175,8 @@ def find_local_cookiecutter(repo: str) -> Path | None:
     if not cookiecutters_dir.exists():
         return None
     for directory in cookiecutters_dir.iterdir():
+        if not directory.is_dir():
+            continue
         is_empty = not list(directory.iterdir())
         if directory.is_dir() and not is_empty and directory.name == repo_name:
             return directory
