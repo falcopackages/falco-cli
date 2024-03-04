@@ -5,7 +5,7 @@ requires = ["hatchling"]
 [bumpver]
 commit = true
 commit_message = "bump version to {new_version}"
-current_version = "0.18.1"
+current_version = "0.18.2"
 push = true
 tag = true
 tag_message = "{new_version}"
