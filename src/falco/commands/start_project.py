@@ -50,7 +50,7 @@ class StartProject:
             long="--root",
             help="Consider the specified directory as the root directory.",
         ),
-    ]
+    ] = False
     skip_new_version_check: Annotated[
         bool,
         cappa.Arg(
@@ -58,7 +58,7 @@ class StartProject:
             long="--skip-new-version-check",
             help="Do not check for new version.",
         ),
-    ]
+    ] = False
     blueprint: Annotated[
         str,
         cappa.Arg(
@@ -67,8 +67,17 @@ class StartProject:
             short="-b",
             help="The blueprint to use to generate the project.",
         ),
-    ]
-    checkout: Annotated[str | None, cappa.Arg(default=None, long="--checkout", short="-c", hidden=True)]
+    ] = "tailwind"
+    local: Annotated[
+        bool,
+        cappa.Arg(
+            default=False,
+            long="--local",
+            short="-l",
+            help="Use a local copy of the blueprint if it exists.",
+        ),
+    ] = False
+    checkout: Annotated[str | None, cappa.Arg(default=None, long="--checkout", short="-c", hidden=True)] = None
 
     def __call__(self) -> None:
         if self.is_root and not self.directory:
@@ -93,7 +102,7 @@ class StartProject:
                 raise cappa.Exit(code=0)
 
         with simple_progress("Resolving blueprint..."):
-            self.blueprint, revision = resolve_blueprint(self.blueprint)
+            self.blueprint, revision = resolve_blueprint(self.blueprint, use_local=self.local)
         project_dir = self.init_project()
         with change_directory(project_dir):
             pyproject_path = Path("pyproject.toml")
@@ -111,10 +120,11 @@ class StartProject:
                 "skip": DEFAULT_SKIP,
                 "blueprint": self.blueprint,
             }
-            with suppress(cappa.Exit, httpx.TimeoutException, httpx.ConnectError):
-                version = htmx_latest_tag()
-                filepath = Htmx().download(version=htmx_latest_tag(), falco_config=falco_config)
-                config["htmx"] = Htmx.format_for_config(filepath, version)
+            if self.local:
+                with suppress(cappa.Exit, httpx.TimeoutException, httpx.ConnectError):
+                    version = htmx_latest_tag()
+                    filepath = Htmx().download(version=htmx_latest_tag(), falco_config=falco_config)
+                    config["htmx"] = Htmx.format_for_config(filepath, version)
 
             write_falco_config(pyproject_path=pyproject_path, **config)
 
@@ -171,17 +181,7 @@ def find_local_cookiecutter(repo: str) -> Path | None:
     return None
 
 
-def no_internet_access() -> bool:
-    result = subprocess.run(
-        ["curl", "-s", "https://google.com"],
-        capture_output=True,
-        text=True,
-        check=False,
-    )
-    return result.returncode != 0
-
-
-def resolve_blueprint(blueprint: str) -> tuple[str, str]:
+def resolve_blueprint(blueprint: str, *, use_local: bool = False) -> tuple[str, str]:
     name_to_urls = {
         "tailwind": "https://github.com/Tobi-De/falco_blueprint_basic.git",
         "bootstrap": "https://github.com/falco-blueprints/falco_blueprint_basic_bootstrap.git",
@@ -189,7 +189,7 @@ def resolve_blueprint(blueprint: str) -> tuple[str, str]:
     }
     repo = name_to_urls.get(blueprint, blueprint)
 
-    if repo.startswith("http") and no_internet_access():
+    if repo.startswith("http") and use_local:
         if local_repo := find_local_cookiecutter(repo):
             repo = str(local_repo.resolve())
         else:

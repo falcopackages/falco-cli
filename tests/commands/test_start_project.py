@@ -117,12 +117,12 @@ def test_user_name_and_email(runner: CommandRunner, git_user_infos):
     assert email in pyproject_content
 
 
-def test_no_internet_access(runner: CommandRunner):
+def test_use_local_copy(runner: CommandRunner):
     runner.invoke(
         "start-project", "dotfm_cache", "--skip-new-version-check"
     )  # to make sure the blueprint is downloaded a least once
     with mock.patch("socket.socket", side_effect=OSError("Network access is cut off")):
-        runner.invoke("start-project", "dotfm", "--skip-new-version-check")
+        runner.invoke("start-project", "dotfm", "--skip-new-version-check", "--local")
     assert Path("dotfm").exists()
     # sourcery skip: no-loop-in-tests
     project_files = [file.name for file in Path("dotfm").iterdir()]

@@ -85,7 +85,7 @@ def run_in_shell(func: Callable[..., ReturnType], *, eval_result: bool = True, *
     return ast.literal_eval(result.stdout) if eval_result else result.stdout.strip()
 
 
-def is_new_falco_cli_available(*, fail_on_error: bool = False) -> bool:
+def is_new_falco_cli_available() -> bool:
     try:
         with network_request_with_progress(
             "https://pypi.org/pypi/falco-cli/json",
@@ -95,6 +95,4 @@ def is_new_falco_cli_available(*, fail_on_error: bool = False) -> bool:
             current_version = falco_version
             return latest_version != current_version
     except cappa.Exit:
-        if fail_on_error:
-            raise
         return False
