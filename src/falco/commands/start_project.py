@@ -197,7 +197,7 @@ def resolve_blueprint(blueprint: str, *, use_local: bool = False) -> tuple[str, 
             raise cappa.Exit(msg, code=1)
 
     result = subprocess.run(
-        ["git", "ls-remote", repo, "main", "master"],
+        ["git", "ls-remote", repo, "HEAD"],
         capture_output=True,
         text=True,
         check=False,
