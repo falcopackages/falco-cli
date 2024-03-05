@@ -127,12 +127,7 @@ However, its most basic usage is:
    gunicorn myproject.wsgi:application
 
 In this command, Gunicorn needs your Django application as its first argument. For most Django projects, this is specified in the ``wsgi.py`` file which contains a variable named ``application``. ``myproject`` refers to the
-directory where the ``wsgi.py`` file is located. For projects created with Falco, the ``wsgi.py`` file is typically located in the ``config`` directory. Therefore, the command would be:
-
-.. code-block:: bash
-   :caption: Run gunicorn
-
-   gunicorn config.wsgi:application
+directory where the ``wsgi.py`` file is located.
 
 So, what is this **WSGI** we've been talking about?
 
