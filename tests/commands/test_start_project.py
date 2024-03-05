@@ -5,19 +5,23 @@ from cappa.testing import CommandRunner
 from falco.config import read_falco_config
 
 
-def generated_project_files(project_name) -> list[str]:
-    return [
-        project_name,
+def all_files_are_correctly_generated(project_name, project_dir: Path) -> bool:
+    required_files = [
         "pyproject.toml",
         "README.md",
         ".gitignore",
-        "config",
         ".github",
         "deploy",
         "tests",
         "manage.py",
         ".env.template",
+        "docs",
+        "docs/conf.py",
+        f"{project_name}/settings.py",
+        f"{project_name}/urls.py",
+        f"{project_name}/wsgi.py",
     ]
+    return all((project_dir / file).exists() for file in required_files)
 
 
 blueprint_path = Path("blueprints/falco_blueprint_basic").resolve(strict=True)
@@ -39,10 +43,7 @@ def test_start_project(runner: CommandRunner):
     assert "revision" in config_keys
     assert "work" in config_keys
 
-    # sourcery skip: no-loop-in-tests
-    project_files = [file.name for file in Path("dotfm").iterdir()]
-    for file_name in generated_project_files("dotfm"):
-        assert file_name in project_files
+    assert all_files_are_correctly_generated("dotfm", project_dir=Path("dotfm"))
 
 
 def test_start_project_alias_name(runner: CommandRunner):
@@ -62,10 +63,7 @@ def test_start_project_alias_name(runner: CommandRunner):
     assert "work" in config_keys
     assert len(config["revision"]) > 10
 
-    # sourcery skip: no-loop-in-tests
-    project_files = [file.name for file in Path("dotfm").iterdir()]
-    for file_name in generated_project_files("dotfm"):
-        assert file_name in project_files
+    assert all_files_are_correctly_generated("dotfm", project_dir=Path("dotfm"))
 
 
 def test_start_project_in_directory(runner: CommandRunner, tmp_path):
@@ -79,10 +77,7 @@ def test_start_project_in_directory(runner: CommandRunner, tmp_path):
     )
     project_dir = tmp_path / "builds" / "dotfm"
     assert project_dir.exists()
-    # sourcery skip: no-loop-in-tests
-    project_files = [file.name for file in project_dir.iterdir()]
-    for file_name in generated_project_files("dotfm"):
-        assert file_name in project_files
+    assert all_files_are_correctly_generated("dotfm", project_dir=project_dir)
 
 
 def test_start_project_in_directory_with_root(runner: CommandRunner, tmp_path):
@@ -97,10 +92,7 @@ def test_start_project_in_directory_with_root(runner: CommandRunner, tmp_path):
     )
     project_dir = tmp_path / "builds/special_project"
     assert project_dir.exists()
-    # sourcery skip: no-loop-in-tests
-    project_files = [file.name for file in project_dir.iterdir()]
-    for file_name in generated_project_files("dotfm"):
-        assert file_name in project_files
+    assert all_files_are_correctly_generated("dotfm", project_dir=project_dir)
 
 
 def test_user_name_and_email(runner: CommandRunner, git_user_infos):
@@ -124,7 +116,4 @@ def test_use_local_copy(runner: CommandRunner):
     with mock.patch("socket.socket", side_effect=OSError("Network access is cut off")):
         runner.invoke("start-project", "dotfm", "--skip-new-version-check", "--local")
     assert Path("dotfm").exists()
-    # sourcery skip: no-loop-in-tests
-    project_files = [file.name for file in Path("dotfm").iterdir()]
-    for file_name in generated_project_files("dotfm"):
-        assert file_name in project_files
+    assert all_files_are_correctly_generated("dotfm", project_dir=Path("dotfm"))
