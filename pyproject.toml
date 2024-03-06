@@ -2,21 +2,6 @@
 build-backend = "hatchling.build"
 requires = ["hatchling"]
 
-[bumpver]
-commit = true
-commit_message = "bump version to {new_version}"
-current_version = "0.18.4"
-push = true
-tag = true
-tag_message = "v{new_version}"
-tag_scope = "default"
-version_pattern = "MAJOR.MINOR.PATCH"
-
-[bumpver.file_patterns]
-"src/falco/__about__.py" = [
-    '^__version__ = "{version}"$'
-]
-
 [project]
 authors = [
     {name = "Tobi DEGNON", email = "tobidegnon@proton.me"}
