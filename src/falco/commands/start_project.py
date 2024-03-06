@@ -186,8 +186,8 @@ def find_local_cookiecutter(repo: str) -> Path | None:
 def resolve_blueprint(blueprint: str, *, use_local: bool = False) -> tuple[str, str]:
     name_to_urls = {
         "tailwind": "https://github.com/Tobi-De/falco_blueprint_basic.git",
-        "bootstrap": "https://github.com/falco-blueprints/falco_blueprint_basic_bootstrap.git",
-        "pico": "https://github.com/falco-blueprints/falco_blueprint_basic_pico.git",
+        "bootstrap": "https://github.com/Tobi-De/falco_blueprint_basic_bootstrap.git",
+        "pico": "https://github.com/Tobi-De/falco_blueprint_basic_pico.git",
     }
     repo = name_to_urls.get(blueprint, blueprint)
 
