@@ -48,6 +48,11 @@ pip install falco-cli
 - [rm-migrations](https://falco.oluwatobi.dev/the_cli/migrations.html): Remove all migrations for the specified applications directory. (development only)
 - [reset-migrations](https://falco.oluwatobi.dev/the_cli/migrations.html#reset-migrations): Delete and recreate all migrations. (development only)
 
+**Templates**
+
+- [tailwind](https://github.com/Tobi-De/falco_blueprint_basic) (default)
+- [bootstrap](https://github.com/Tobi-De/falco_blueprint_basic_bootstrap)
+- [pico](https://github.com/Tobi-De/falco_blueprint_basic_pico)
 
 ## The guides
 
