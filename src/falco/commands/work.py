@@ -55,7 +55,7 @@ class Work:
         else:
             user_commands = {}
 
-        commands["server"] = commands["server"].format(address=self.address)
         commands |= user_commands
+        commands["server"] = commands["server"].format(address=self.address)
 
         return commands
