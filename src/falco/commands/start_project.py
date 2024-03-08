@@ -41,7 +41,7 @@ class StartProject:
         str,
         cappa.Arg(parse=clean_project_name, help="Name of the project to create."),
     ]
-    directory: Annotated[Path | None, cappa.Arg(help="Directory to create project in.")]
+    directory: Annotated[Path | None, cappa.Arg(help="Directory to create project in.")] = None
     is_root: Annotated[
         bool,
         cappa.Arg(

@@ -55,7 +55,6 @@ def main():
             directory=temp_dir.resolve(),
             is_root=True,
             skip_new_version_check=True,
-            blueprint="tailwind",
         )()
 
         walk_directory(temp_dir, tree)
