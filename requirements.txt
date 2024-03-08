@@ -11,6 +11,7 @@
 # - django_extensions
 # - django-model-utils
 # - bumpver
+# - pytest-xdist
 # - autoflake
 # - black
 # - cappa
@@ -83,6 +84,8 @@ editorconfig==0.12.4
     # via
     #   cssbeautifier
     #   jsbeautifier
+execnet==2.0.2
+    # via pytest-xdist
 executing==2.0.1
     # via stack-data
 filelock==3.13.1
@@ -168,8 +171,11 @@ pygments==2.17.2
     #   ipython
     #   rich
 pytest==8.0.2
-    # via pytest-cookies
+    # via
+    #   pytest-cookies
+    #   pytest-xdist
 pytest-cookies==0.7.0
+pytest-xdist==3.5.0
 python-dateutil==2.9.0.post0
     # via arrow
 python-slugify==8.0.4

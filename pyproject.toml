@@ -93,7 +93,8 @@ dependencies = [
     "django_htmx",
     "django_extensions",
     "django-model-utils",
-    "bumpver"
+    "bumpver",
+    "pytest-xdist"
 ]
 pip-compile-constraint = "default"
 pip-compile-installer = "uv"
@@ -151,6 +152,7 @@ allow-direct-references = true
 path = "src/falco/__about__.py"
 
 [tool.pytest.ini_options]
+addopts = "-n auto"
 filterwarnings = [
     "ignore::DeprecationWarning"
 ]
