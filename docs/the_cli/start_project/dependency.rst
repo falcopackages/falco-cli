@@ -25,6 +25,47 @@ The project is set up to use hatch_ for virtual environment management and depen
 Read the hatch documentation on `environment <https://hatch.pypa.io/latest/environment/>`_ for more information on how to manage virtual environments.
 Hatch can do a lot, including `managing Python installations <https://hatch.pypa.io/latest/cli/reference/#hatch-python>`_, but for the context of the project, these are the things you need to know.
 
+.. admonition:: Specify a Python Version
+   :class: dropdown note
+
+   If you have multiple Python interpreter versions installed on your computer, you can specify the specific version you want to use for a project
+   by setting the ``python`` option in your default environment. Every other environment inherits from the default, so they will use the same version.
+
+   .. code-block:: toml
+      :caption: pyproject.toml
+
+      [tool.hatch.envs.default]
+      python = "3.12"
+      ...
+
+   More information on this can be found `here <https://hatch.pypa.io/latest/plugins/environment/virtual/#pyprojecttoml>`_.
+
+
+Environments
+************
+
+The project comes with three environment configurations: ``default``, ``test``, and ``docs``.
+
+- The ``default`` environment is activated when you run ``hatch shell``. It contains all the necessary requirements and some development tools.
+- The ``test`` environment contains packages used for testing, such as ``pytest``, ``django-pytest``, etc.
+- The ``docs`` environment is for documentation. It contains tools such as ``sphinx``, ``furo``, etc.
+
+Each environment defines a scripts section with some scripts. To run a script, use the following command:
+
+.. code-block:: bash
+
+   hatch run <env>:<script>
+
+The first time you run the script, Hatch automatically sets up and installs dependencies for the specified environment. 
+You don't need to manage it manually. If the dependencies list has changed, Hatch will automatically install them the next 
+time a command from that environment is run.
+
+A requirements file for the environment is also created using `hatch-pip.compile <https://github.com/juftin/hatch-pip-compile>`_. For 
+the default environment, the file will be located at the root of your project and named ``requirements.txt``. This is the file 
+you would use to install the requirements in production. For other environments, the file is created in a 
+``requirements`` folder with the name ``requirements-<env>.txt``.
+
+
 Activate the virtual environment
 ********************************
 
@@ -144,3 +185,8 @@ Let's assume you want to use the classic ``venv``. Here's what the workflow woul
 
 To add or remove dependencies, the process is the same. You edit the ``[project.dependencies]`` section of the pyproject.toml file and run ``pip install -e .``. You can complement
 this workflow with `pip-tools <https://github.com/jazzband/pip-tools>`_ to generate a requirements file.
+
+
+
+
+.. _hatch: https://hatch.pypa.io/latest/

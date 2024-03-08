@@ -12,8 +12,14 @@ hatch-pip-compile
 .. admonition:: 2024-03-04 Update
    :class: note
 
-   I've recently tried the pip installation of hatch (version 1.9.3), and the issues I was having with hatch-pip-compile seem to be completely resolved.
-   Therefore, I believe that going with pip or pipx install might now be the simplest and best solution.
+   I've recently tried the pip installation of Hatch (version 1.9.3), and the issues I was experiencing with hatch-pip-compile appear to be fully resolved.
+   As a result, the binary is no longer a strict requirement, and the issue I describe below should no longer be a concern. However, there is still an advantage to
+   using the binary version: updating hatch is a simple as running the following command:
+
+   .. code-block:: bash
+
+      hatch self update
+
 
 In my experience, the hatch-pip-compile plugin may not function properly if hatch is not installed using a `binary <https://hatch.pypa.io/latest/install/#standalone-binaries>`_.
 Therefore, ensure that you have the latest version of hatch (at least 1.8.0) and that you have installed it using the binary distribution.

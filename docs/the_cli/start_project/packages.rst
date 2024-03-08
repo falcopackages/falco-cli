@@ -5,14 +5,10 @@
 Packages and tools
 ==================
 
-Let's go through an overview of the main packages, tools, and some of the design choices that come with a project generated with Falco.
+Here we'll through an overview of the main packages, tools, and some of the design choices that come with a project generated with Falco.
+First the simple stuff, the ones I dont't have much to say about.
 
-Project Config
---------------
-
-Following `The tweleve factor app <https://12factor.net/config>`_ variables projects setttings are stored in environnent variables u
-
-- Settings using `django-environ <https://github.com/joke2k/django-environ>`_
+- Settings are configured using `environs <https://github.com/sloria/environs>`_
 - Login / signup via `django-allauth <https://github.com/pennersr/django-allauth>`_
 - `Amazon SES <https://aws.amazon.com/ses/?nc1=h_ls>`_ for production email via `Anymail <https://github.com/anymail/django-anymail>`_
 - `Docker <https://www.docker.com/>`_ configured for production, leveraging `s6-overlay <https://github.com/just-containers/s6-overlay>`_ to concurrently operate ``django`` and ``django-q`` within a single container.
@@ -20,6 +16,24 @@ Following `The tweleve factor app <https://12factor.net/config>`_ variables proj
 - Serve static files with `Whitenoise <https://whitenoise.evans.io/en/latest/>`_
 - Default integration with `pre-commit <https://github.com/pre-commit/pre-commit>`_ for identifying simple issues before submission to code review
 - Automatically reload your browser in development via `django-browser-reload <https://github.com/adamchainz/django-browser-reload>`_
+
+
+Packages and Tools
+==================
+
+This section provides an overview of the primary packages and tools, along with some of the design choices incorporated 
+into a project generated with **Falco**.
+
+Let's start with the straightforward components, about which there isn't much to elaborate:
+
+- `environs <https://github.com/sloria/environs>`_: Used for configuring settings via environment variables.
+- `django-allauth <https://github.com/pennersr/django-allauth>`_: Handles login and signup processes.
+- `Amazon SES <https://aws.amazon.com/ses/?nc1=h_ls>`_ and `Anymail <https://github.com/anymail/django-anymail>`_: Amazon SES is used for production email, facilitated by Anymail.
+- `Docker <https://www.docker.com/>`_ and `s6-overlay <https://github.com/just-containers/s6-overlay>`_: Docker is configured for production, with s6-overlay enabling concurrent operation of ``django`` and ``django-q`` within a single container.
+- `Sentry <https://sentry.io/welcome/>`_: Utilized for performance and error monitoring.
+- `Whitenoise <https://whitenoise.evans.io/en/latest/>`_: Used to serve static files.
+- `pre-commit <https://github.com/pre-commit/pre-commit>`_: Integrated by default to identify simple issues before pushing code to remote.
+- `django-browser-reload <https://github.com/adamchainz/django-browser-reload>`_: Automatically reloads your browser on code changes in development.
 
 
 Login via email instead of username
@@ -248,7 +262,6 @@ As with ``dj-notebook``, for your Django code to work, you need some kind of act
 
    os.environ["DJANGO_SETTINGS_MODULE"] = "<your_project>.settings"
    django.setup()
-
 
 
 
