@@ -1,27 +1,10 @@
 :image: https://raw.githubusercontent.com/Tobi-De/falco/main/assets/og-image.jpg
 :description: The packages and tools that comes included with a project generated with falco.
 
-
-Packages and tools
-==================
-
-Here we'll through an overview of the main packages, tools, and some of the design choices that come with a project generated with Falco.
-First the simple stuff, the ones I dont't have much to say about.
-
-- Settings are configured using `environs <https://github.com/sloria/environs>`_
-- Login / signup via `django-allauth <https://github.com/pennersr/django-allauth>`_
-- `Amazon SES <https://aws.amazon.com/ses/?nc1=h_ls>`_ for production email via `Anymail <https://github.com/anymail/django-anymail>`_
-- `Docker <https://www.docker.com/>`_ configured for production, leveraging `s6-overlay <https://github.com/just-containers/s6-overlay>`_ to concurrently operate ``django`` and ``django-q`` within a single container.
-- `Sentry <https://sentry.io/welcome/>`_ for performance/error monitoring
-- Serve static files with `Whitenoise <https://whitenoise.evans.io/en/latest/>`_
-- Default integration with `pre-commit <https://github.com/pre-commit/pre-commit>`_ for identifying simple issues before submission to code review
-- Automatically reload your browser in development via `django-browser-reload <https://github.com/adamchainz/django-browser-reload>`_
-
-
 Packages and Tools
 ==================
 
-This section provides an overview of the primary packages and tools, along with some of the design choices incorporated 
+This section provides an overview of the primary packages and tools, along with some of the design choices incorporated
 into a project generated with **Falco**.
 
 Let's start with the straightforward components, about which there isn't much to elaborate:
@@ -84,7 +67,7 @@ interactivity to your web app. The `interactive user interfaces guide </guides/i
 * htmx_'s job is to make requests to the backend, get a piece of HTML fragment in response, and patch the `DOM <https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction>`_ using it. Basically, htmx allows you to write declarative code to make `AJAX <https://www.w3schools.com/xml/ajax_intro.asp>`_ (Asynchronous JavaScript And XML) requests.
 
 .. admonition:: jetbrains extensions
-    :class: tip dropdown 
+    :class: tip dropdown
 
     If you are using a jetbrains IDE, there is an extension that add support for htmx, you can find it `here <https://plugins.jetbrains.com/plugin/20588-htmx-support>`_.
     If you use `alpinejs <https://alpinejs.dev/>`_ there is also for it via `this extension <https://plugins.jetbrains.com/plugin/15251-alpine-js-support>`_.
@@ -147,8 +130,8 @@ practical examples that demonstrate the extensive possibilities offered by this 
 Django-q2
 ---------
 
-`django-q2 <https://github.com/django-q2/django-q2>`_ is my preferred background task queue system for Django. In most projects, I always utilize either the task queue processing, 
-scheduling, or sometimes both. Regarding scheduling, there is also `django-q-registry <https://github.com/westerveltco/django-q-registry>`_ included, which is a ``django-q2`` extension 
+`django-q2 <https://github.com/django-q2/django-q2>`_ is my preferred background task queue system for Django. In most projects, I always utilize either the task queue processing,
+scheduling, or sometimes both. Regarding scheduling, there is also `django-q-registry <https://github.com/westerveltco/django-q-registry>`_ included, which is a ``django-q2`` extension
 that helps with easily registering scheduling jobs.
 
 Here is an example of how using both looks:
