@@ -10,7 +10,7 @@ repos:
         files: '\.py$'
 
   - repo: https://github.com/myint/autoflake
-    rev: v2.3.0
+    rev: v2.3.1
     hooks:
       - id: autoflake
         exclude: .*/__init__.py
