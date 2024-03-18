@@ -69,6 +69,25 @@ def test_crud(django_project, runner: CommandRunner, set_git_repo_to_clean):
         assert (app_dir / "templates" / "blog" / f"{t}").exists()
 
 
+def test_crud_all_models(django_project, runner: CommandRunner, set_git_repo_to_clean):
+    install_crud_utils(runner)
+    runner.invoke("crud", "blog")
+    assert healthy_django_project()
+    app_dir = Path("blog")
+    assert (app_dir / "urls.py").exists()
+    # sourcery skip: no-loop-in-tests
+    for a in forms_attributes:
+        assert a in (app_dir / "forms.py").read_text()
+
+    for a in admin_attributes:
+        assert a in (app_dir / "admin.py").read_text()
+
+    for f in views_functions:
+        assert f in (app_dir / "views.py").read_text()
+    for t in html_templates:
+        assert (app_dir / "templates" / "blog" / f"{t}").exists()
+
+
 def test_crud_login(django_project, runner: CommandRunner, set_git_repo_to_clean):
     install_crud_utils(runner)
     runner.invoke("crud", "blog.post", "--login-required")
