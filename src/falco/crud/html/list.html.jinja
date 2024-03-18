@@ -44,29 +44,26 @@
                                         {% for _, field_accessor in fields_verbose_name_with_accessor.items() %}
                                         <td class="{% raw -%} {{ td_class }} {%- endraw %}">{{field_accessor}}</td>
                                        {% endfor %}
-
-                                        <td class="{% raw %} {{ td_class }} {% endraw %}">
-                                             {% raw %}
-                                            {% with href_class="text-blue-600 hover:underline hover:text-blue-500" %}
-                                              {% endraw %}
-                                                <a {% raw %} class="{{ href_class }}" {% endraw %}
-                                                   href="{{ detail_view_url|safe }}">View
-                                                </a>|
-                                                <a  {% raw %} class="{{ href_class }}"  {% endraw %}
-                                                   href="{{ update_view_url|safe }}">Edit
-                                                </a>|
+                                        <td class="{% raw -%} {{ td_class }} {%- endraw %} flex gap-8">
+                                                <a class="text-blue-600 hover:text-blue-600"
+                                                   href="{{ detail_view_url|safe }}">
+                                                   {% raw %}{% heroicon_outline "eye" size="18" %}{% endraw %}
+                                                </a>
+                                                <a class="text-blue-600 hover:text-blue-500"
+                                                   href="{{ update_view_url|safe }}">
+                                                   {% raw %}{% heroicon_outline  "pencil-square" size="18" %}{% endraw %}
+                                                </a>
                                                 <a
-                                                   {% raw %} class="cursor-pointer {{ href_class }}" {% endraw %}
+                                                    class="cursor-pointer text-red-600 hover:text-red-500"
                                                     hx-target="closest tr"
                                                     hx-swap="outerHTML"
                                                     hx-confirm="Are you sure you?"
                                                     hx-delete="{{ delete_view_url|safe }}">
-                                                    Delete
+                                                    {% raw %}{% heroicon_outline "trash" size="18" %}{% endraw %}
                                                 </a>
-                                                </td>
-                                                </tr>
+                                            </td>
+                                        </tr>
                                             {% raw %}
-                                            {% endwith %}
                                 {% endfor %}
                             {% endwith %}
                         </tbody>
