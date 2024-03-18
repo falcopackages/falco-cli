@@ -192,6 +192,7 @@ Below is an example of the context each template will receive.
 
     dj_model = DjangoModel(
         name = "Product",
+        verbose_name = "Product",
         verbose_name_plural = "Products",
         fields = {
             "name": {"verbose_name": "Name", "editable": True},

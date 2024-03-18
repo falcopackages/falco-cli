@@ -5,7 +5,7 @@
 {% block content %}
 {% endraw %}
    <section class="flex justify-between">
-        <h1 class="text-lg font-bold py-4">Create {{ model_name }}</h1>
+        <h1 class="text-lg font-bold py-4">Create {{ model_verbose_name|capitalize }}</h1>
         <a href="{{list_view_url|safe}}" class="text-blue-600 hover:underline hover:text-blue-500">All {{model_verbose_name_plural|capitalize}}</a>
     </section>
     {% raw %}

@@ -351,6 +351,7 @@ class UrlsForContext(TypedDict):
 class HtmlBlueprintContext(UrlsForContext):
     app_label: str
     model_name: str
+    model_verbose_name: str
     model_verbose_name_plural: str
     model_fields: dict[str, str]
     # a example of the dict: {"Name": "{{product.name}}", "Price": "{{product.price}}"}
@@ -365,6 +366,7 @@ class DjangoField(TypedDict):
 
 class DjangoModel(TypedDict):
     name: str
+    verbose_name: str
     verbose_name_plural: str
     fields: dict[str, DjangoField]
 
@@ -376,7 +378,8 @@ def get_models_data(app_label: str, excluded_fields: list[str]) -> "list[DjangoM
 
     def get_model_dict(model) -> "DjangoModel":
         name = model.__name__
-        verbose_name_plural = getattr(model._meta, "verbose_name_plural", f"{name}s")
+        verbose_name = model._meta.verbose_name
+        verbose_name_plural = model._meta.verbose_name_plural
         fields: dict[str, "DjangoField"] = {
             field.name: {
                 "verbose_name": field.verbose_name,
@@ -389,6 +392,7 @@ def get_models_data(app_label: str, excluded_fields: list[str]) -> "list[DjangoM
         return {
             "name": name,
             "fields": fields,
+            "verbose_name": verbose_name,
             "verbose_name_plural": verbose_name_plural,
         }
 
@@ -554,6 +558,7 @@ def get_html_blueprint_context(app_label: str, django_model: DjangoModel) -> Htm
     return {
         "app_label": app_label,
         "model_name": django_model["name"],
+        "model_verbose_name": django_model["verbose_name"],
         "model_verbose_name_plural": django_model["verbose_name_plural"],
         "model_fields": django_model["fields"],
         "fields_verbose_name_with_accessor": {
