@@ -10,7 +10,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 # CODE:START
-def paginate_queryset(request: HttpRequest, queryset: QuerySet, page_size: int = 20):
+def paginate_queryset(request: HttpRequest, queryset: QuerySet, page_size: int = 10):
     paginator = Paginator(queryset, page_size)
     page_number = request.GET.get("page") or 1
     try:
