@@ -156,6 +156,7 @@ class ModelCRUD:
                     django_model=django_model,
                     crud_utils_import=crud_utils_import,
                     login_required=self.login_required,
+                    entry_point=self.entry_point,
                 )
             )
             html_blueprint_context.append(get_html_blueprint_context(app_label=app_label, django_model=django_model))
@@ -331,10 +332,12 @@ class PythonBlueprintContext(TypedDict):
     login_required: bool
     app_label: str
     model_name: str
+    object_list_variable_name: str
     model_verbose_name_plural: str
     model_fields: dict[str, "DjangoField"]
     crud_utils_import: str
     has_editable_date_fields: bool
+    entry_point: bool
 
 
 class UrlsForContext(TypedDict):
@@ -518,20 +521,31 @@ def get_python_blueprint_context(
     crud_utils_import: str,
     *,
     login_required: bool,
+    entry_point: bool,
 ) -> PythonBlueprintContext:
     dates_classes = ["DateField", "DateTimeField", "TimeField"]
     model_fields = django_model["fields"]
 
     has_editable_date_fields = any(f["class_name"] in dates_classes and f["editable"] for f in model_fields.values())
+    model_name = django_model["name"]
+    if entry_point:
+        object_list_variable_name = app_label.lower()
+    else:
+        object_list_variable_name = (
+            f"{model_name.replace('y', 'ies')}" if model_name.endswith("y") else f"{model_name}s"
+        )
+        object_list_variable_name = object_list_variable_name.lower()
     return {
         "project_name": project_name,
         "app_label": app_label,
         "login_required": login_required,
-        "model_name": django_model["name"],
+        "model_name": model_name,
+        "object_list_variable_name": object_list_variable_name,
         "model_verbose_name_plural": django_model["verbose_name_plural"],
         "model_fields": model_fields,
         "crud_utils_import": crud_utils_import,
         "has_editable_date_fields": has_editable_date_fields,
+        "entry_point": entry_point,
     }
 
 
