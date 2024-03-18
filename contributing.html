@@ -1,0 +1,442 @@
+
+  <!DOCTYPE html>
+<html lang="en" data-accent-color="sky" data-content_root="./">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Contributing - Falco</title>
+    <link rel="shortcut icon" href="_static/falco-logo.svg"/><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Code of Conduct" href="codeofconduct.html" /><link rel="prev" title="Tips and extra" href="guides/tips_and_extra.html" />
+      <link rel="canonical" href="https://falco.oluwatobi.dev/contributing.html" />
+
+  <script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(sessionStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="_static/pygments.css?v=aecf457f" />
+    <link rel="stylesheet" type="text/css" href="_static/shibuya.css?v=d42a0c83" />
+    <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/tabs.css?v=a5c4661c" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link media="print" rel="stylesheet" type="text/css" href="_static/print.css?v=20ff2c19" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=80ff722c" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/>
+<meta property="og:url" content="https://falco.oluwatobi.dev/contributing.html"/>
+<meta property="og:title" content="Contributing"/>
+<meta name="twitter:card" content="summary"/>
+  </head>
+<body><div class="document"><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand mr-4" href="index.html">
+      <img class="light-logo" src="_static/logo_with_text.svg" alt="Falco" height="28" />
+      <img class="dark-logo" src="_static/logo_with_text.svg" alt="Falco" height="28" />
+      <strong>Falco</strong>
+    </a>
+    <div class="sy-head-links" id="NavLinks">
+      <nav class="sy-head-nav"></nav>
+      <div class="sy-head-extra flex items-center print:hidden">
+<form class="searchbox flex items-center" action="search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form>
+        
+        
+        <div class="sy-head-social flex items-center">
+            <a class="flex items-center" href="https://github.com/tobi-de/falco" aria-label="GitHub">
+              <i class="i-icon github"></i>
+            </a>
+        </div>
+      </div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden">
+      <button class="js-theme theme-switch flex items-center"
+        data-aria-auto="Switch to light color mode"
+        data-aria-light="Switch to dark color mode"
+        data-aria-dark="Switch to auto color mode">
+        <i class="i-icon theme-icon"></i>
+      </button>
+      <button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="NavLinks" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2 -translate-x-2"></span>
+          <span class="hamburger_3 -translate-x-1"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6"><div class="sidebar-links">
+  <ul>
+    <li>
+      <a href="https://github.com/tobi-de/falco/discussions">
+        <span class="icon">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path fill="#0099CC" fill-rule="evenodd" clip-rule="evenodd" d="M11 5a6 6 0 0 0-4.687 9.746c.215.27.315.62.231.954l-.514 2.058a1 1 0 0 0 1.485 1.1l2.848-1.71c.174-.104.374-.15.576-.148H13a6 6 0 0 0 0-12h-2Z"/>
+            <circle fill="white" cx="12" cy="11" r="1"/>
+            <circle fill="white" cx="9" cy="11" r="1"/>
+            <circle fill="white" cx="15" cy="11" r="1"/>
+          </svg>
+        </span>
+        <span class="text">Discussion</span>
+      </a>
+    </li>
+  </ul>
+</div>
+        <div class="globaltoc" data-expand-depth="1"><p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1 _expand"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1 _expand"><a class="reference internal" href="the_cli/index.html">The CLI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="the_cli/usage.html">Usage / Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the_cli/start_project/index.html">Start project</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="the_cli/start_project/structure.html">Project Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="the_cli/start_project/packages.html">Packages and Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="the_cli/start_project/dependency.html">Virtualenv and dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="the_cli/start_project/deploy.html">Deployment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="the_cli/start_project/issues.html">Known issues</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="the_cli/start_app.html">Start Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the_cli/crud.html">CRUD for your model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the_cli/htmx.html">HTMX goodies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the_cli/work.html">Work - Running multiple process in one session</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the_cli/migrations.html">Remove / Reset your migrations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the_cli/sync_dotenv.html">Sync Dotenv files</a></li>
+</ul>
+</li>
+<li class="toctree-l1 _expand"><a class="reference internal" href="guides/index.html">Guides</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="guides/interactive_user_interfaces.html">Interactive user interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/task_queues_and_schedulers.html">Task Queues and Schedulers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/writing_documentation.html">Writing documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/writing_tests.html">Writing tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/logging_and_monitoring.html">Logging and monitoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/deployment.html">The ultimate deployment guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/optimizing_database_access.html">Optimizing Database Access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/avoiding_god_models.html">Business logic in django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/dynamic_model_schema.html">Dynamic Model Schema</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/realtime.html">Realtime in Django: Websockets, SSE, Polling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/permissions_and_authorization.html">Permissions and authorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/database_tips.html">Database Tips: Backup, Scaling, Triggers, and More</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/multitenancy.html">Managing Multi-tenancy in Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/writing_async_code.html">Async Coding in Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/use_sqlite_in_production.html">Use Sqlite in production</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/running_project_in_a_container.html">Running your project in a single container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/tips_and_extra.html">Tips and extra</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Contributing</a></li>
+<li class="toctree-l1 _expand"><a class="reference internal" href="codeofconduct.html">Code of Conduct</a></li>
+<li class="toctree-l1 _expand"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1 _expand"><a class="reference internal" href="changelog.html">Changelog</a></li>
+</ul>
+        </div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-icon close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4">
+  <div class="localtoc">
+    <h3>On this page</h3>
+    <ul>
+<li><a class="reference internal" href="#the-guides">The Guides</a></li>
+<li><a class="reference internal" href="#the-cli">The CLI</a><ul>
+<li><a class="reference internal" href="#types-of-contributions">Types of Contributions</a><ul>
+<li><a class="reference internal" href="#report-bugs">Report Bugs</a></li>
+<li><a class="reference internal" href="#fix-bugs">Fix Bugs</a></li>
+<li><a class="reference internal" href="#implement-features">Implement Features</a></li>
+<li><a class="reference internal" href="#write-documentation">Write Documentation</a></li>
+<li><a class="reference internal" href="#submit-feedback">Submit Feedback</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#get-started">Get Started!</a></li>
+<li><a class="reference internal" href="#pull-request-guidelines">Pull Request Guidelines</a></li>
+<li><a class="reference internal" href="#tips">Tips</a></li>
+<li><a class="reference internal" href="#deploying">Deploying</a></li>
+</ul>
+</li>
+</ul>
+
+  </div><a class="js-repo-stats repo-stats flex items-center" href="https://github.com/tobi-de/falco"
+  data-type="github" data-user="tobi-de" data-repo="falco">
+  <span class="w-8 flex items-center justify-around shrink-0 text-3xl">
+    <i class="i-icon github"></i>
+  </span>
+  <span class="flex-grow px-2">
+    <span>tobi-de/falco</span>
+    <span class="flex text-sm repo-stats-count">
+      <span class="flex items-center pr-3">
+        <i class="i-icon star"></i>
+        <strong class="js-repo-stars ml-1">0</strong>
+      </span>
+      <span class="flex items-center">
+        <i class="i-icon git-fork"></i>
+        <strong class="js-repo-forks ml-1">0</strong>
+      </span>
+    </span>
+  </span>
+</a><div class="edit-this-page">
+  <a href="https://github.com/tobi-de/falco/blob/master/docs/contributing.rst">Edit this page</a>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div>
+    </div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+    <div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-icon menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList">
+      
+      
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="index.html"><span itemprop="name">Falco</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li>
+      
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">Contributing</strong>
+        <meta itemprop="position" content="2" />
+      </li>
+      
+      
+    </ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-icon outdent"></i>
+      </button>
+    </div>
+  </div>
+</div>
+    <div class="flex flex-col break-words justify-between">
+      <div class="min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+        <article class="yue" role="main">
+          <section id="contributing">
+<h1>Contributing<a class="headerlink" href="#contributing" title="Link to this heading">¶</a></h1>
+<p>Contributions are welcome, and they are greatly appreciated! Every little bit
+helps, and credit will always be given.</p>
+<p>You can contribute in many ways:</p>
+<section id="the-guides">
+<h2>The Guides<a class="headerlink" href="#the-guides" title="Link to this heading">¶</a></h2>
+<p>Contributions to the guides should be made via <a class="reference external" href="https://github.com/Tobi-De/falco/discussions">GitHub Discussions</a>. Any
+contribution is welcome, even for typos and grammatical errors. If a contribution requires a complete rewrite of a section or
+an entire guide, or adds new insights (similar to an article review), proper credits will be given at the bottom of the relevant guide.
+I will not accept any pull request that directly changes a guide without prior discussion on the topic, except for minor typo fixes.</p>
+</section>
+<section id="the-cli">
+<h2>The CLI<a class="headerlink" href="#the-cli" title="Link to this heading">¶</a></h2>
+<p>Contributions to the CLI are more open. You can fix issues, suggest new commands, or propose improvements to existing ones.</p>
+<section id="types-of-contributions">
+<h3>Types of Contributions<a class="headerlink" href="#types-of-contributions" title="Link to this heading">¶</a></h3>
+<section id="report-bugs">
+<h4>Report Bugs<a class="headerlink" href="#report-bugs" title="Link to this heading">¶</a></h4>
+<p>Report bugs at <a class="reference external" href="https://github.com/Tobi-De/falco/issues">https://github.com/Tobi-De/falco/issues</a>.</p>
+<p>If you are reporting a bug, please include:</p>
+<ul class="simple">
+<li><p>Your operating system name and version.</p></li>
+<li><p>Any details about your local setup that might be helpful in troubleshooting.</p></li>
+<li><p>Detailed steps to reproduce the bug.</p></li>
+</ul>
+</section>
+<section id="fix-bugs">
+<h4>Fix Bugs<a class="headerlink" href="#fix-bugs" title="Link to this heading">¶</a></h4>
+<p>Look through the GitHub issues for bugs. Anything tagged with “bug” and “help
+wanted” is open to whoever wants to implement it.</p>
+</section>
+<section id="implement-features">
+<h4>Implement Features<a class="headerlink" href="#implement-features" title="Link to this heading">¶</a></h4>
+<p>Look through the GitHub issues for features. Anything tagged with “enhancement”
+and “help wanted” is open to whoever wants to implement it.</p>
+</section>
+<section id="write-documentation">
+<h4>Write Documentation<a class="headerlink" href="#write-documentation" title="Link to this heading">¶</a></h4>
+<p>falco could always use more documentation, whether as part of the
+official falco docs, in docstrings, or even on the web in blog posts,
+articles, and such.</p>
+</section>
+<section id="submit-feedback">
+<h4>Submit Feedback<a class="headerlink" href="#submit-feedback" title="Link to this heading">¶</a></h4>
+<p>The best way to send feedback is to file an issue at <a class="reference external" href="https://github.com/Tobi-De/falco/issues">https://github.com/Tobi-De/falco/issues</a>.</p>
+<p>If you are proposing a feature:</p>
+<ul class="simple">
+<li><p>Explain in detail how it would work.</p></li>
+<li><p>Keep the scope as narrow as possible, to make it easier to implement.</p></li>
+<li><p>Remember that this is a volunteer-driven project, and that contributions
+are welcome :)</p></li>
+</ul>
+</section>
+</section>
+<section id="get-started">
+<h3>Get Started!<a class="headerlink" href="#get-started" title="Link to this heading">¶</a></h3>
+<p>Ready to contribute? Here’s how to set up <cite>falco</cite> for local development.</p>
+<ol class="arabic">
+<li><p>Fork the <cite>falco</cite> repo on GitHub.</p></li>
+<li><p>Clone your fork locally:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span id="1-1">$ git clone git@github.com:your_name_here/falco.git --recurse-submodules
+</span></pre></div>
+</div>
+</li>
+<li><p>Install your local copy into a virtualenv. Assuming you have hatch installed, this is how you set up your fork for local development:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span id="1-1">$ cd falco/
+</span><span id="1-2">$ hatch env create
+</span></pre></div>
+</div>
+</li>
+<li><p>Create a branch for local development:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span id="1-1">$ git checkout -b name-of-your-bugfix-or-feature
+</span></pre></div>
+</div>
+<p>Now you can make your changes locally.</p>
+</li>
+</ol>
+<ol class="arabic" start="4">
+<li><p>Install pre-commit hooks for linting and code formatting before every commit:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span id="1-1">$ pre-commit install
+</span></pre></div>
+</div>
+</li>
+<li><p>When you’re done making changes, check that your changes pass tests including testing other Python versions:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span id="1-1">$ hatch run test
+</span></pre></div>
+</div>
+</li>
+<li><p>Commit your changes and push your branch to GitHub:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span id="1-1">$ git add .
+</span><span id="1-2">$ git commit -m &quot;Your detailed description of your changes.&quot;
+</span><span id="1-3">$ git push origin name-of-your-bugfix-or-feature
+</span></pre></div>
+</div>
+</li>
+<li><p>Submit a pull request through the GitHub website.</p></li>
+</ol>
+</section>
+<section id="pull-request-guidelines">
+<h3>Pull Request Guidelines<a class="headerlink" href="#pull-request-guidelines" title="Link to this heading">¶</a></h3>
+<p>Before you submit a pull request, check that it meets these guidelines:</p>
+<ol class="arabic simple">
+<li><p>The pull request should include tests.</p></li>
+<li><p>If the pull request adds functionality, the docs should be updated. Add the
+feature to the list in README.md.</p></li>
+<li><p>The pull request should work for Python 3.10, 3.11 and 3.12. Check
+<a class="reference external" href="https://github.com/Tobi-De/falco/pulls">https://github.com/Tobi-De/falco/pulls</a>
+and make sure that the tests pass for all supported Python versions.</p></li>
+</ol>
+</section>
+<section id="tips">
+<h3>Tips<a class="headerlink" href="#tips" title="Link to this heading">¶</a></h3>
+<p>To run a subset of tests:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span id="1-1">$ pytest tests/commands/test_htmx.py
+</span></pre></div>
+</div>
+</section>
+<section id="deploying">
+<h3>Deploying<a class="headerlink" href="#deploying" title="Link to this heading">¶</a></h3>
+<p>A reminder for the maintainers on how to deploy.
+Make sure all your changes are committed (including an entry in HISTORY.rst).
+Then run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span id="1-1">$ hatch version patch # possible: major / minor / patch
+</span><span id="1-2">$ git push
+</span><span id="1-3">$ git push --tags
+</span></pre></div>
+</div>
+</section>
+</section>
+</section>
+
+        </article>
+        
+        <div class="navigation flex print:hidden">
+  <div class="navigation-prev">
+    <a href="guides/tips_and_extra.html">
+      <i class="i-icon chevron"></i>
+      <div class="page-info">
+        <span>Previous</span>
+        
+        <div class="title">Tips and extra</div>
+        
+      </div>
+    </a>
+  </div>
+  <div class="navigation-next">
+    <a href="codeofconduct.html">
+      <div class="page-info">
+        <span>Next</span>
+        <div class="title">Code of Conduct</div>
+      </div>
+      <i class="i-icon chevron"></i>
+    </a>
+  </div>
+</div>
+        
+      </div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>Copyright &copy; 2023 - 2024, Tobi DEGNON</p>
+        
+        <p>
+          Made with
+          
+          <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+          
+          <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+        </p>
+      </div>
+      <div class="sy-foot-socials">
+          <a href="https://github.com/tobi-de/falco" aria-label="GitHub"><i class="i-icon github"></i></a>
+          <a href="https://twitter.com/tobidegnon" aria-label="X (Twitter)"><i class="i-icon x-twitter"></i></a>
+          <a href="https://fosstodon.org/@tobide" aria-label="Mastodon"><i class="i-icon mastodon"></i></a>
+      </div>
+    </div>
+  </div>
+</footer></div>
+      <script src="_static/documentation_options.js?v=c4f92b34"></script>
+      <script src="_static/doctools.js?v=888ff710"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/thebelab-helper.js"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+      <script src="_static/design-tabs.js?v=36754332"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script src="_static/shibuya.js?v=999236dc"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script data-domain="falco.oluwatobi.dev" defer="" src="https://plausible.service.dotfm.me/js/script.js"></script>
+      <script src="_static/add-og-title-to-home.js?v=825d2d7f"></script>
+    
+</body>
+</html>

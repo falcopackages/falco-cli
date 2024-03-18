@@ -1,0 +1,330 @@
+
+  <!DOCTYPE html>
+<html lang="en" data-accent-color="sky" data-content_root="./">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Installation - Falco</title>
+    <link rel="shortcut icon" href="_static/falco-logo.svg"/><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="The CLI" href="the_cli/index.html" /><link rel="prev" title="&lt;no title&gt;" href="index.html" />
+      <link rel="canonical" href="https://falco.oluwatobi.dev/install.html" />
+
+  <script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(sessionStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="_static/pygments.css?v=aecf457f" />
+    <link rel="stylesheet" type="text/css" href="_static/shibuya.css?v=d42a0c83" />
+    <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/tabs.css?v=a5c4661c" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link media="print" rel="stylesheet" type="text/css" href="_static/print.css?v=20ff2c19" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=80ff722c" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/>
+<meta property="og:url" content="https://falco.oluwatobi.dev/install.html"/>
+<meta property="og:title" content="Installation"/>
+<meta name="twitter:card" content="summary"/><meta property="og:image" content="https://raw.githubusercontent.com/Tobi-De/falco/main/assets/og-image.jpg"/>
+<meta name="description" content="Here is the guide on how to install the falco’s cli."/>
+<meta property="og:description" content="Here is the guide on how to install the falco’s cli."/>
+  </head>
+<body><div class="document"><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand mr-4" href="index.html">
+      <img class="light-logo" src="_static/logo_with_text.svg" alt="Falco" height="28" />
+      <img class="dark-logo" src="_static/logo_with_text.svg" alt="Falco" height="28" />
+      <strong>Falco</strong>
+    </a>
+    <div class="sy-head-links" id="NavLinks">
+      <nav class="sy-head-nav"></nav>
+      <div class="sy-head-extra flex items-center print:hidden">
+<form class="searchbox flex items-center" action="search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form>
+        
+        
+        <div class="sy-head-social flex items-center">
+            <a class="flex items-center" href="https://github.com/tobi-de/falco" aria-label="GitHub">
+              <i class="i-icon github"></i>
+            </a>
+        </div>
+      </div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden">
+      <button class="js-theme theme-switch flex items-center"
+        data-aria-auto="Switch to light color mode"
+        data-aria-light="Switch to dark color mode"
+        data-aria-dark="Switch to auto color mode">
+        <i class="i-icon theme-icon"></i>
+      </button>
+      <button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="NavLinks" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2 -translate-x-2"></span>
+          <span class="hamburger_3 -translate-x-1"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6"><div class="sidebar-links">
+  <ul>
+    <li>
+      <a href="https://github.com/tobi-de/falco/discussions">
+        <span class="icon">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path fill="#0099CC" fill-rule="evenodd" clip-rule="evenodd" d="M11 5a6 6 0 0 0-4.687 9.746c.215.27.315.62.231.954l-.514 2.058a1 1 0 0 0 1.485 1.1l2.848-1.71c.174-.104.374-.15.576-.148H13a6 6 0 0 0 0-12h-2Z"/>
+            <circle fill="white" cx="12" cy="11" r="1"/>
+            <circle fill="white" cx="9" cy="11" r="1"/>
+            <circle fill="white" cx="15" cy="11" r="1"/>
+          </svg>
+        </span>
+        <span class="text">Discussion</span>
+      </a>
+    </li>
+  </ul>
+</div>
+        <div class="globaltoc" data-expand-depth="1"><p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a></li>
+<li class="toctree-l1 _expand"><a class="reference internal" href="the_cli/index.html">The CLI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="the_cli/usage.html">Usage / Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the_cli/start_project/index.html">Start project</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="the_cli/start_project/structure.html">Project Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="the_cli/start_project/packages.html">Packages and Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="the_cli/start_project/dependency.html">Virtualenv and dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="the_cli/start_project/deploy.html">Deployment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="the_cli/start_project/issues.html">Known issues</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="the_cli/start_app.html">Start Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the_cli/crud.html">CRUD for your model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the_cli/htmx.html">HTMX goodies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the_cli/work.html">Work - Running multiple process in one session</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the_cli/migrations.html">Remove / Reset your migrations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the_cli/sync_dotenv.html">Sync Dotenv files</a></li>
+</ul>
+</li>
+<li class="toctree-l1 _expand"><a class="reference internal" href="guides/index.html">Guides</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="guides/interactive_user_interfaces.html">Interactive user interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/task_queues_and_schedulers.html">Task Queues and Schedulers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/writing_documentation.html">Writing documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/writing_tests.html">Writing tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/logging_and_monitoring.html">Logging and monitoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/deployment.html">The ultimate deployment guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/optimizing_database_access.html">Optimizing Database Access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/avoiding_god_models.html">Business logic in django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/dynamic_model_schema.html">Dynamic Model Schema</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/realtime.html">Realtime in Django: Websockets, SSE, Polling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/permissions_and_authorization.html">Permissions and authorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/database_tips.html">Database Tips: Backup, Scaling, Triggers, and More</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/multitenancy.html">Managing Multi-tenancy in Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/writing_async_code.html">Async Coding in Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/use_sqlite_in_production.html">Use Sqlite in production</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/running_project_in_a_container.html">Running your project in a single container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/tips_and_extra.html">Tips and extra</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1 _expand"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1 _expand"><a class="reference internal" href="codeofconduct.html">Code of Conduct</a></li>
+<li class="toctree-l1 _expand"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1 _expand"><a class="reference internal" href="changelog.html">Changelog</a></li>
+</ul>
+        </div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-icon close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4">
+  <div class="localtoc">
+    <h3>On this page</h3>
+    <ul>
+<li><a class="reference internal" href="#next-up">Next Up</a></li>
+</ul>
+
+  </div><a class="js-repo-stats repo-stats flex items-center" href="https://github.com/tobi-de/falco"
+  data-type="github" data-user="tobi-de" data-repo="falco">
+  <span class="w-8 flex items-center justify-around shrink-0 text-3xl">
+    <i class="i-icon github"></i>
+  </span>
+  <span class="flex-grow px-2">
+    <span>tobi-de/falco</span>
+    <span class="flex text-sm repo-stats-count">
+      <span class="flex items-center pr-3">
+        <i class="i-icon star"></i>
+        <strong class="js-repo-stars ml-1">0</strong>
+      </span>
+      <span class="flex items-center">
+        <i class="i-icon git-fork"></i>
+        <strong class="js-repo-forks ml-1">0</strong>
+      </span>
+    </span>
+  </span>
+</a><div class="edit-this-page">
+  <a href="https://github.com/tobi-de/falco/blob/master/docs/install.rst">Edit this page</a>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div>
+    </div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+    <div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-icon menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList">
+      
+      
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="index.html"><span itemprop="name">Falco</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li>
+      
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">Installation</strong>
+        <meta itemprop="position" content="2" />
+      </li>
+      
+      
+    </ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-icon outdent"></i>
+      </button>
+    </div>
+  </div>
+</div>
+    <div class="flex flex-col break-words justify-between">
+      <div class="min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+        <article class="yue" role="main">
+          <section id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h1>
+<p>Falco is available on PyPI and can be installed with pip or your favorite Python package manager.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span id="1-1">pip<span class="w"> </span>install<span class="w"> </span>falco-cli
+</span></pre></div>
+</div>
+<section id="next-up">
+<h2>Next Up<a class="headerlink" href="#next-up" title="Link to this heading">¶</a></h2>
+<div class="sd-container-fluid sd-sphinx-override sd-mb-4 sd-p-0 docutils">
+<div class="sd-row sd-row-cols-1 sd-row-cols-xs-1 sd-row-cols-sm-1 sd-row-cols-md-1 sd-row-cols-lg-2 sd-g-2 sd-g-xs-2 sd-g-sm-2 sd-g-md-2 sd-g-lg-2 surface docutils">
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm sd-card-hover docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+<svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-terminal" viewBox="0 0 16 16" aria-hidden="true"><path fill-rule="evenodd" d="M0 2.75C0 1.784.784 1 1.75 1h12.5c.966 0 1.75.784 1.75 1.75v10.5A1.75 1.75 0 0114.25 15H1.75A1.75 1.75 0 010 13.25V2.75zm1.75-.25a.25.25 0 00-.25.25v10.5c0 .138.112.25.25.25h12.5a.25.25 0 00.25-.25V2.75a.25.25 0 00-.25-.25H1.75zM7.25 8a.75.75 0 01-.22.53l-2.25 2.25a.75.75 0 11-1.06-1.06L5.44 8 3.72 6.28a.75.75 0 111.06-1.06l2.25 2.25c.141.14.22.331.22.53zm1.5 1.5a.75.75 0 000 1.5h3a.75.75 0 000-1.5h-3z"></path></svg> The CLI</div>
+<p class="sd-card-text">The documentation for the <code class="docutils literal notranslate"><span class="pre">falco</span></code> command line interface (CLI).</p>
+</div>
+<a class="sd-stretched-link reference external" href="/the_cli/"></a></div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm sd-card-hover docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+<svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-book" viewBox="0 0 16 16" aria-hidden="true"><path fill-rule="evenodd" d="M0 1.75A.75.75 0 01.75 1h4.253c1.227 0 2.317.59 3 1.501A3.744 3.744 0 0111.006 1h4.245a.75.75 0 01.75.75v10.5a.75.75 0 01-.75.75h-4.507a2.25 2.25 0 00-1.591.659l-.622.621a.75.75 0 01-1.06 0l-.622-.621A2.25 2.25 0 005.258 13H.75a.75.75 0 01-.75-.75V1.75zm8.755 3a2.25 2.25 0 012.25-2.25H14.5v9h-3.757c-.71 0-1.4.201-1.992.572l.004-7.322zm-1.504 7.324l.004-5.073-.002-2.253A2.25 2.25 0 005.003 2.5H1.5v9h3.757a3.75 3.75 0 011.994.574z"></path></svg> Guides</div>
+<p class="sd-card-text">A collection of guides on common web development topics and how to address them in django.</p>
+</div>
+<a class="sd-stretched-link reference external" href="/guides/"></a></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+        </article>
+        
+        <div class="navigation flex print:hidden">
+  <div class="navigation-prev">
+    <a href="index.html">
+      <i class="i-icon chevron"></i>
+      <div class="page-info">
+        <span>Previous</span>
+        
+        <div class="title">Home</div>
+        
+      </div>
+    </a>
+  </div>
+  <div class="navigation-next">
+    <a href="the_cli/index.html">
+      <div class="page-info">
+        <span>Next</span>
+        <div class="title">The CLI</div>
+      </div>
+      <i class="i-icon chevron"></i>
+    </a>
+  </div>
+</div>
+        
+      </div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>Copyright &copy; 2023 - 2024, Tobi DEGNON</p>
+        
+        <p>
+          Made with
+          
+          <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+          
+          <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+        </p>
+      </div>
+      <div class="sy-foot-socials">
+          <a href="https://github.com/tobi-de/falco" aria-label="GitHub"><i class="i-icon github"></i></a>
+          <a href="https://twitter.com/tobidegnon" aria-label="X (Twitter)"><i class="i-icon x-twitter"></i></a>
+          <a href="https://fosstodon.org/@tobide" aria-label="Mastodon"><i class="i-icon mastodon"></i></a>
+      </div>
+    </div>
+  </div>
+</footer></div>
+      <script src="_static/documentation_options.js?v=c4f92b34"></script>
+      <script src="_static/doctools.js?v=888ff710"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/thebelab-helper.js"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+      <script src="_static/design-tabs.js?v=36754332"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script src="_static/shibuya.js?v=999236dc"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script data-domain="falco.oluwatobi.dev" defer="" src="https://plausible.service.dotfm.me/js/script.js"></script>
+      <script src="_static/add-og-title-to-home.js?v=825d2d7f"></script>
+    
+</body>
+</html>

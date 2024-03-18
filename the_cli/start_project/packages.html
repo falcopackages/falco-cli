@@ -1,0 +1,525 @@
+
+  <!DOCTYPE html>
+<html lang="en" data-accent-color="sky" data-content_root="../../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Packages and Tools - Falco</title>
+    <link rel="shortcut icon" href="../../_static/falco-logo.svg"/><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="Virtualenv and dependencies" href="dependency.html" /><link rel="prev" title="Project Structure" href="structure.html" />
+      <link rel="canonical" href="https://falco.oluwatobi.dev/the_cli/start_project/packages.html" />
+
+  <script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(sessionStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=aecf457f" />
+    <link rel="stylesheet" type="text/css" href="../../_static/shibuya.css?v=d42a0c83" />
+    <link rel="stylesheet" type="text/css" href="../../_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/tabs.css?v=a5c4661c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link media="print" rel="stylesheet" type="text/css" href="../../_static/print.css?v=20ff2c19" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=80ff722c" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/>
+<meta property="og:url" content="https://falco.oluwatobi.dev/the_cli/start_project/packages.html"/>
+<meta property="og:title" content="Packages and Tools"/>
+<meta name="twitter:card" content="summary"/><meta property="og:image" content="https://raw.githubusercontent.com/Tobi-De/falco/main/assets/og-image.jpg"/>
+<meta name="description" content="The packages and tools that comes included with a project generated with falco."/>
+<meta property="og:description" content="The packages and tools that comes included with a project generated with falco."/>
+  </head>
+<body><div class="document"><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand mr-4" href="../../index.html">
+      <img class="light-logo" src="../../_static/logo_with_text.svg" alt="Falco" height="28" />
+      <img class="dark-logo" src="../../_static/logo_with_text.svg" alt="Falco" height="28" />
+      <strong>Falco</strong>
+    </a>
+    <div class="sy-head-links" id="NavLinks">
+      <nav class="sy-head-nav"></nav>
+      <div class="sy-head-extra flex items-center print:hidden">
+<form class="searchbox flex items-center" action="../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form>
+        
+        
+        <div class="sy-head-social flex items-center">
+            <a class="flex items-center" href="https://github.com/tobi-de/falco" aria-label="GitHub">
+              <i class="i-icon github"></i>
+            </a>
+        </div>
+      </div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden">
+      <button class="js-theme theme-switch flex items-center"
+        data-aria-auto="Switch to light color mode"
+        data-aria-light="Switch to dark color mode"
+        data-aria-dark="Switch to auto color mode">
+        <i class="i-icon theme-icon"></i>
+      </button>
+      <button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="NavLinks" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2 -translate-x-2"></span>
+          <span class="hamburger_3 -translate-x-1"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6"><div class="sidebar-links">
+  <ul>
+    <li>
+      <a href="https://github.com/tobi-de/falco/discussions">
+        <span class="icon">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path fill="#0099CC" fill-rule="evenodd" clip-rule="evenodd" d="M11 5a6 6 0 0 0-4.687 9.746c.215.27.315.62.231.954l-.514 2.058a1 1 0 0 0 1.485 1.1l2.848-1.71c.174-.104.374-.15.576-.148H13a6 6 0 0 0 0-12h-2Z"/>
+            <circle fill="white" cx="12" cy="11" r="1"/>
+            <circle fill="white" cx="9" cy="11" r="1"/>
+            <circle fill="white" cx="15" cy="11" r="1"/>
+          </svg>
+        </span>
+        <span class="text">Discussion</span>
+      </a>
+    </li>
+  </ul>
+</div>
+        <div class="globaltoc" data-expand-depth="1"><p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul class="current">
+<li class="toctree-l1 _expand"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">The CLI</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../usage.html">Usage / Overview</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Start project</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="structure.html">Project Structure</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Packages and Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dependency.html">Virtualenv and dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deploy.html">Deployment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="issues.html">Known issues</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../start_app.html">Start Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../crud.html">CRUD for your model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../htmx.html">HTMX goodies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../work.html">Work - Running multiple process in one session</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../migrations.html">Remove / Reset your migrations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sync_dotenv.html">Sync Dotenv files</a></li>
+</ul>
+</li>
+<li class="toctree-l1 _expand"><a class="reference internal" href="../../guides/index.html">Guides</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../guides/interactive_user_interfaces.html">Interactive user interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../guides/task_queues_and_schedulers.html">Task Queues and Schedulers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../guides/writing_documentation.html">Writing documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../guides/writing_tests.html">Writing tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../guides/logging_and_monitoring.html">Logging and monitoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../guides/deployment.html">The ultimate deployment guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../guides/optimizing_database_access.html">Optimizing Database Access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../guides/avoiding_god_models.html">Business logic in django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../guides/dynamic_model_schema.html">Dynamic Model Schema</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../guides/realtime.html">Realtime in Django: Websockets, SSE, Polling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../guides/permissions_and_authorization.html">Permissions and authorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../guides/database_tips.html">Database Tips: Backup, Scaling, Triggers, and More</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../guides/multitenancy.html">Managing Multi-tenancy in Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../guides/writing_async_code.html">Async Coding in Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../guides/use_sqlite_in_production.html">Use Sqlite in production</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../guides/running_project_in_a_container.html">Running your project in a single container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../guides/tips_and_extra.html">Tips and extra</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1 _expand"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1 _expand"><a class="reference internal" href="../../codeofconduct.html">Code of Conduct</a></li>
+<li class="toctree-l1 _expand"><a class="reference internal" href="../../license.html">License</a></li>
+<li class="toctree-l1 _expand"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+</ul>
+        </div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-icon close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4">
+  <div class="localtoc">
+    <h3>On this page</h3>
+    <ul>
+<li><a class="reference internal" href="#login-via-email-instead-of-username">Login via email instead of username</a></li>
+<li><a class="reference internal" href="#htmx-and-template-partials">HTMX and template partials</a></li>
+<li><a class="reference internal" href="#django-q2">Django-q2</a></li>
+<li><a class="reference internal" href="#djangofastdev">DjangoFastDev</a></li>
+<li><a class="reference internal" href="#dj-notebook">Dj Notebook</a></li>
+</ul>
+
+  </div><a class="js-repo-stats repo-stats flex items-center" href="https://github.com/tobi-de/falco"
+  data-type="github" data-user="tobi-de" data-repo="falco">
+  <span class="w-8 flex items-center justify-around shrink-0 text-3xl">
+    <i class="i-icon github"></i>
+  </span>
+  <span class="flex-grow px-2">
+    <span>tobi-de/falco</span>
+    <span class="flex text-sm repo-stats-count">
+      <span class="flex items-center pr-3">
+        <i class="i-icon star"></i>
+        <strong class="js-repo-stars ml-1">0</strong>
+      </span>
+      <span class="flex items-center">
+        <i class="i-icon git-fork"></i>
+        <strong class="js-repo-forks ml-1">0</strong>
+      </span>
+    </span>
+  </span>
+</a><div class="edit-this-page">
+  <a href="https://github.com/tobi-de/falco/blob/master/docs/the_cli/start_project/packages.rst">Edit this page</a>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div>
+    </div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+    <div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-icon menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList">
+      
+      
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../../index.html"><span itemprop="name">Falco</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li>
+      
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../index.html"><span itemprop="name">The CLI</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="2" />
+      </li>
+      
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="index.html"><span itemprop="name">Start project</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="3" />
+      </li>
+      
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">Packages and Tools</strong>
+        <meta itemprop="position" content="4" />
+      </li>
+      
+      
+    </ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-icon outdent"></i>
+      </button>
+    </div>
+  </div>
+</div>
+    <div class="flex flex-col break-words justify-between">
+      <div class="min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+        <article class="yue" role="main">
+          <section id="packages-and-tools">
+<h1>Packages and Tools<a class="headerlink" href="#packages-and-tools" title="Link to this heading">¶</a></h1>
+<p>This section provides an overview of the primary packages and tools, along with some of the design choices incorporated
+into a project generated with <strong>Falco</strong>.</p>
+<p>Let’s start with the straightforward components, about which there isn’t much to elaborate:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/sloria/environs">environs</a>: Used for configuring settings via environment variables.</p></li>
+<li><p><a class="reference external" href="https://github.com/pennersr/django-allauth">django-allauth</a>: Handles login and signup processes.</p></li>
+<li><p><a class="reference external" href="https://aws.amazon.com/ses/?nc1=h_ls">Amazon SES</a> and <a class="reference external" href="https://github.com/anymail/django-anymail">Anymail</a>: Amazon SES is used for production email, facilitated by Anymail.</p></li>
+<li><p><a class="reference external" href="https://www.docker.com/">Docker</a> and <a class="reference external" href="https://github.com/just-containers/s6-overlay">s6-overlay</a>: Docker is configured for production, with s6-overlay enabling concurrent operation of <code class="docutils literal notranslate"><span class="pre">django</span></code> and <code class="docutils literal notranslate"><span class="pre">django-q</span></code> within a single container.</p></li>
+<li><p><a class="reference external" href="https://sentry.io/welcome/">Sentry</a>: Utilized for performance and error monitoring.</p></li>
+<li><p><a class="reference external" href="https://whitenoise.evans.io/en/latest/">Whitenoise</a>: Used to serve static files.</p></li>
+<li><p><a class="reference external" href="https://github.com/pre-commit/pre-commit">pre-commit</a>: Integrated by default to identify simple issues before pushing code to remote.</p></li>
+<li><p><a class="reference external" href="https://github.com/adamchainz/django-browser-reload">django-browser-reload</a>: Automatically reloads your browser on code changes in development.</p></li>
+</ul>
+<section id="login-via-email-instead-of-username">
+<h2>Login via email instead of username<a class="headerlink" href="#login-via-email-instead-of-username" title="Link to this heading">¶</a></h2>
+<p>I completely removed the <code class="docutils literal notranslate"><span class="pre">username</span></code> field from the <code class="docutils literal notranslate"><span class="pre">User</span></code> model and replaced it with the <code class="docutils literal notranslate"><span class="pre">email</span></code> field as the user unique identifier.
+The <code class="docutils literal notranslate"><span class="pre">email</span></code> field is what I configured as the login field using <a class="reference external" href="https://github.com/pennersr/django-allauth">django-allauth</a>.
+More often then not when I create a new django project I need to use something other than the <code class="docutils literal notranslate"><span class="pre">username</span></code> field provided by django as the unique identifier of the user,
+and the <code class="docutils literal notranslate"><span class="pre">username</span></code> field just becomes an annoyance to deal with. It is also more common nowadays for modern web and mobile applications to rely on a unique identifier
+such as an email address or phone number instead of a username.</p>
+<p>I also removed the <code class="docutils literal notranslate"><span class="pre">first_name</span></code> and <code class="docutils literal notranslate"><span class="pre">last_name</span></code> fields that are available by default on the Django <code class="docutils literal notranslate"><span class="pre">User</span></code> model. I don’t always need them, and when I do, I generally have a separate <code class="docutils literal notranslate"><span class="pre">Profile</span></code>
+model to store users’ personal informations, keeping the <code class="docutils literal notranslate"><span class="pre">User</span></code> model focused on authentication and authorization.
+My reasoning for this is to avoid asking for unnecessary data (following the principle of <a class="reference external" href="https://en.wikipedia.org/wiki/You_aren%27t_gonna_need_it">YAGNI</a>). A positive consequence of this approach
+is that having less data on your users/customers increases the chances of being <a class="reference external" href="https://gdpr.eu/compliance/">GDPR compliant</a>. You can always add these fields later if needed.</p>
+<div class="note dropdown admonition">
+<p class="admonition-title">django-unique-user-email</p>
+<p>There is a package called <a class="reference external" href="https://github.com/carltongibson/django-unique-user-email">django-unique-user-email</a> by <a class="reference external" href="https://twitter.com/carlton_gibson">Carlton Gibson</a>, a core Django contributor, that
+allows you to use email as the primary identifier for authentication without modifying the default <code class="docutils literal notranslate"><span class="pre">User</span></code> model. This package eliminates the need to create a custom <code class="docutils literal notranslate"><span class="pre">User</span></code> model. Although I considered
+including this package by default (less code is better), it might be too radical to use at the moment.</p>
+</div>
+<p>However, if my arguments are not convincing enough or for the particular project you are working you need to have the
+username field on your <code class="docutils literal notranslate"><span class="pre">User</span></code> model for login purposes, the required changes are quite simple and can be summarized as follows:</p>
+<p>First update the <code class="docutils literal notranslate"><span class="pre">User</span></code> models to look exactly like in the code below.</p>
+<div class="literal-block-wrapper docutils container" id="id5">
+<div class="code-block-caption"><span class="caption-text">users/models.py</span><a class="headerlink" href="#id5" title="Link to this code">¶</a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span id="1-1"><span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="kn">import</span> <span class="n">AbstractUser</span>
+</span><span id="1-2">
+</span><span id="1-3"><span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="n">AbstractUser</span><span class="p">):</span>
+</span><span id="1-4">    <span class="k">pass</span>
+</span></pre></div>
+</div>
+</div>
+<p>Then delete the <code class="docutils literal notranslate"><span class="pre">forms.py</span></code>, <code class="docutils literal notranslate"><span class="pre">admin.py</span></code> and <code class="docutils literal notranslate"><span class="pre">migrations/0001_initial.py</span></code> files in the <code class="docutils literal notranslate"><span class="pre">users</span></code> app.
+With that you should be good to go, if you want something a little more complete to start with you can grab some
+code from the <a class="reference external" href="https://github.com/cookiecutter/cookiecutter-django/tree/master/%7B%7Bcookiecutter.project_slug%7D%7D/%7B%7Bcookiecutter.project_slug%7D%7D/users">cookiecutter-django users app</a>.</p>
+</section>
+<section id="htmx-and-template-partials">
+<h2>HTMX and template partials<a class="headerlink" href="#htmx-and-template-partials" title="Link to this heading">¶</a></h2>
+<p>The project comes set up with <a class="reference external" href="https://github.com/carltongibson/django-template-partials">django-template-partials</a> and <a class="reference external" href="https://htmx.org/">htmx</a> for the times when you need to add some
+interactivity to your web app. The <a class="reference external" href="/guides/interactive_user_interfaces.html">interactive user interfaces guide</a> goes into more detail on this, but for a brief overview:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/carltongibson/django-template-partials">django-template-partials</a> is used to define reusable fragments of HTML</p></li>
+<li><p><a class="reference external" href="https://htmx.org/">htmx</a>’s job is to make requests to the backend, get a piece of HTML fragment in response, and patch the <a class="reference external" href="https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction">DOM</a> using it. Basically, htmx allows you to write declarative code to make <a class="reference external" href="https://www.w3schools.com/xml/ajax_intro.asp">AJAX</a> (Asynchronous JavaScript And XML) requests.</p></li>
+</ul>
+<div class="tip dropdown admonition">
+<p class="admonition-title">jetbrains extensions</p>
+<p>If you are using a jetbrains IDE, there is an extension that add support for htmx, you can find it <a class="reference external" href="https://plugins.jetbrains.com/plugin/20588-htmx-support">here</a>.
+If you use <a class="reference external" href="https://alpinejs.dev/">alpinejs</a> there is also for it via <a class="reference external" href="https://plugins.jetbrains.com/plugin/15251-alpine-js-support">this extension</a>.</p>
+</div>
+<p>Let’s look at a quick example:</p>
+<div class="literal-block-wrapper docutils container" id="id6">
+<div class="code-block-caption"><span class="caption-text">elements.html</span><a class="headerlink" href="#id6" title="Link to this code">¶</a></div>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span id="1-1"><span class="linenos"> 1</span><span class="cp">{%</span> <span class="k">block</span> <span class="nv">main</span> <span class="cp">%}</span>
+</span><span id="1-2"><span class="linenos"> 2</span><span class="x">&lt;ul id=&quot;element-list&quot;&gt;</span>
+</span><span id="1-3"><span class="linenos"> 3</span><span class="x">   </span><span class="cp">{%</span> <span class="k">for</span> <span class="nv">el</span> <span class="k">in</span> <span class="nv">elements</span> <span class="cp">%}</span>
+</span><span id="1-4"><span class="hll"><span class="linenos"> 4</span><span class="x">      </span><span class="cp">{%</span> <span class="k">partialdef</span> <span class="nv">element-partial</span> <span class="nv">inline</span><span class="o">=</span><span class="kp">True</span> <span class="cp">%}</span>
+</span></span><span id="1-5"><span class="linenos"> 5</span><span class="x">         &lt;li&gt;</span><span class="cp">{{</span> <span class="nv">el</span> <span class="cp">}}</span><span class="x">&lt;/li&gt;</span>
+</span><span id="1-6"><span class="hll"><span class="linenos"> 6</span><span class="x">      </span><span class="cp">{%</span> <span class="k">endpartialdef</span> <span class="cp">%}</span>
+</span></span><span id="1-7"><span class="linenos"> 7</span><span class="x">   </span><span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+</span><span id="1-8"><span class="linenos"> 8</span><span class="x">&lt;/ul&gt;</span>
+</span><span id="1-9"><span class="linenos"> 9</span>
+</span><span id="1-10"><span class="linenos">10</span><span class="x">&lt;form</span>
+</span><span id="1-11"><span class="hll"><span class="linenos">11</span><span class="x">hx-post=&quot;</span><span class="cp">{%</span> <span class="k">url</span> <span class="s1">&#39;add_element&#39;</span> <span class="cp">%}</span><span class="x">&quot;</span>
+</span></span><span id="1-12"><span class="hll"><span class="linenos">12</span><span class="x">hx-target=&quot;#element-list&quot;</span>
+</span></span><span id="1-13"><span class="hll"><span class="linenos">13</span><span class="x">hx-swap=&quot;beforeend&quot;</span>
+</span></span><span id="1-14"><span class="linenos">14</span><span class="x">&gt;</span>
+</span><span id="1-15"><span class="linenos">15</span><span class="x">   &lt;!-- Let&#39;s assume some form fields are defined here --&gt;</span>
+</span><span id="1-16"><span class="linenos">16</span><span class="x">   &lt;button type=&quot;submit&quot;&gt;Submit&lt;/button&gt;</span>
+</span><span id="1-17"><span class="linenos">17</span><span class="x">&lt;/form&gt;</span>
+</span><span id="1-18"><span class="linenos">18</span>
+</span><span id="1-19"><span class="linenos">19</span><span class="cp">{%</span> <span class="k">endblock</span> <span class="nv">main</span> <span class="cp">%}</span>
+</span></pre></div>
+</div>
+</div>
+<p>The htmx attributes (prefixed with <code class="docutils literal notranslate"><span class="pre">hx-</span></code>) defined above basically say:</p>
+<blockquote>
+<div><p>when the form is submitted, make an asynchronous JavaScript request to the URL <code class="docutils literal notranslate"><span class="pre">{%</span> <span class="pre">url</span> <span class="pre">'add_element'</span> <span class="pre">%}</span></code> and add the content of the response before the end (before the last child) element of the element with the ID <code class="docutils literal notranslate"><span class="pre">element-list</span></code> .</p>
+</div></blockquote>
+<p>The complementary Django code on the backend would look something like this:</p>
+<div class="literal-block-wrapper docutils container" id="id7">
+<div class="code-block-caption"><span class="caption-text">views.py</span><a class="headerlink" href="#id7" title="Link to this code">¶</a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span id="1-1"><span class="linenos">1</span><span class="k">def</span> <span class="nf">add_element</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+</span><span id="1-2"><span class="linenos">2</span>   <span class="n">new_element</span> <span class="o">=</span> <span class="n">add_new_element</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+</span><span id="1-3"><span class="linenos">3</span>   <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">htmx</span><span class="p">:</span>
+</span><span id="1-4"><span class="linenos">4</span>      <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;myapp/elements.html#element-partial&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="n">new_element</span><span class="p">})</span>
+</span><span id="1-5"><span class="linenos">5</span>   <span class="k">else</span><span class="p">:</span>
+</span><span id="1-6"><span class="hll"><span class="linenos">6</span>      <span class="n">redirect</span><span class="p">(</span><span class="s2">&quot;elements_list&quot;</span><span class="p">)</span>
+</span></span></pre></div>
+</div>
+</div>
+<p>The highlighted line showcases a syntax feature provided by <a class="reference external" href="https://github.com/carltongibson/django-template-partials">django-template-partials</a>. It enables you to selectively
+choose the specific HTML fragment from the <code class="docutils literal notranslate"><span class="pre">elements.html</span></code> file that is enclosed within the <code class="docutils literal notranslate"><span class="pre">partialdef</span></code> tag with the name <code class="docutils literal notranslate"><span class="pre">element-partial</span></code>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">htmx</span></code> attribute on the <code class="docutils literal notranslate"><span class="pre">request</span></code> element is provided by <a class="reference external" href="https://github.com/adamchainz/django-htmx">django-htmx</a>, which is already configured in the project.</p>
+<p>This example illustrates how you can create a button that adds a new element to a list of elements on a page without reloading the entire page.
+Although this might not seem particularly exciting, the <a class="reference external" href="/guides/interactive_user_interfaces.html">interactive user interfaces guide</a> provides more
+practical examples that demonstrate the extensive possibilities offered by this approach.</p>
+</section>
+<section id="django-q2">
+<h2>Django-q2<a class="headerlink" href="#django-q2" title="Link to this heading">¶</a></h2>
+<p><a class="reference external" href="https://github.com/django-q2/django-q2">django-q2</a> is my preferred background task queue system for Django. In most projects, I always utilize either the task queue processing,
+scheduling, or sometimes both. Regarding scheduling, there is also <a class="reference external" href="https://github.com/westerveltco/django-q-registry">django-q-registry</a> included, which is a <code class="docutils literal notranslate"><span class="pre">django-q2</span></code> extension
+that helps with easily registering scheduling jobs.</p>
+<p>Here is an example of how using both looks:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">tasks.py</button><button aria-controls="panel-0-0-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-1" name="0-1" role="tab" tabindex="-1">views.py</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><div class="literal-block-wrapper docutils container" id="id8">
+<div class="code-block-caption"><span class="caption-text">tasks.py</span><a class="headerlink" href="#id8" title="Link to this code">¶</a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span id="1-1"><span class="kn">from</span> <span class="nn">django.core.mail</span> <span class="kn">import</span> <span class="n">send_mail</span>
+</span><span id="1-2"><span class="kn">from</span> <span class="nn">django_q.models</span> <span class="kn">import</span> <span class="n">Schedule</span>
+</span><span id="1-3"><span class="kn">from</span> <span class="nn">django_q_registry</span> <span class="kn">import</span> <span class="n">register_task</span>
+</span><span id="1-4">
+</span><span id="1-5"><span class="nd">@register_task</span><span class="p">(</span>
+</span><span id="1-6">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Send periodic test email&quot;</span><span class="p">,</span>
+</span><span id="1-7">    <span class="n">schedule_type</span><span class="o">=</span><span class="n">Schedule</span><span class="o">.</span><span class="n">MONTHLY</span><span class="p">,</span>
+</span><span id="1-8"><span class="p">)</span>
+</span><span id="1-9"><span class="k">def</span> <span class="nf">send_test_email</span><span class="p">():</span>
+</span><span id="1-10">    <span class="n">send_mail</span><span class="p">(</span>
+</span><span id="1-11">        <span class="n">subject</span><span class="o">=</span><span class="s2">&quot;Test email&quot;</span><span class="p">,</span>
+</span><span id="1-12">        <span class="n">message</span><span class="o">=</span><span class="s2">&quot;This is a test email.&quot;</span><span class="p">,</span>
+</span><span id="1-13">        <span class="n">from_email</span><span class="o">=</span><span class="s2">&quot;noreply@example.com&quot;</span><span class="p">,</span>
+</span><span id="1-14">        <span class="n">recipient_list</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;johndoe@example.com&quot;</span><span class="p">],</span>
+</span><span id="1-15">    <span class="p">)</span>
+</span><span id="1-16">
+</span><span id="1-17">
+</span><span id="1-18"><span class="k">def</span> <span class="nf">long_running_task</span><span class="p">(</span><span class="n">user_id</span><span class="p">):</span>
+</span><span id="1-19">    <span class="c1"># a simple task meant to be run in background</span>
+</span><span id="1-20">    <span class="o">...</span>
+</span></pre></div>
+</div>
+</div>
+</div><div aria-labelledby="tab-0-0-1" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-1" name="0-1" role="tabpanel" tabindex="0"><div class="literal-block-wrapper docutils container" id="id9">
+<div class="code-block-caption"><span class="caption-text">views.py</span><a class="headerlink" href="#id9" title="Link to this code">¶</a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span id="1-1"><span class="kn">from</span> <span class="nn">django_q.tasks</span> <span class="kn">import</span> <span class="n">async_task</span>
+</span><span id="1-2"><span class="kn">from</span> <span class="nn">.tasks</span> <span class="kn">import</span> <span class="n">long_running_task</span>
+</span><span id="1-3">
+</span><span id="1-4"><span class="k">def</span> <span class="nf">my_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+</span><span id="1-5">    <span class="n">task_id</span> <span class="o">=</span> <span class="n">async_task</span><span class="p">(</span><span class="n">long_running_task</span><span class="p">,</span> <span class="n">user_id</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</span><span id="1-6">    <span class="o">...</span>
+</span></pre></div>
+</div>
+</div>
+</div></div>
+<p>It is a good idea to organize any task or scheduling job function in a <code class="docutils literal notranslate"><span class="pre">tasks.py</span></code> file in the relevant Django application.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>For more details on task queues and scheduling, check out <a class="reference external" href="/guides/task_queues_and_schedulers">my guide on the topic</a>.</p>
+</div>
+</section>
+<section id="djangofastdev">
+<h2>DjangoFastDev<a class="headerlink" href="#djangofastdev" title="Link to this heading">¶</a></h2>
+<p>The DjangoFastDev package helps catch small mistakes early in your project. When installed you may
+occasionally encounter a <code class="docutils literal notranslate"><span class="pre">FastDevVariableDoesNotExist</span></code> error, this exception is thrown during template rendering
+by <a class="reference external" href="https://github.com/boxed/django-fastdev">django-fastdev</a> when you try to access a variable that is not defined in the context
+of the view associated with that template. This is intended to help you avoid typos and small errors that will
+have you scratching your head for hours, read the project <a class="reference external" href="https://github.com/boxed/django-fastdev#django-fastdev">readme</a> to see
+all the features it provides.
+If you find the package’s errors to be too frequent or annoying, you can disable it by removing the <code class="docutils literal notranslate"><span class="pre">django-fastdev</span></code> application
+entirely or by commenting it out in the <code class="docutils literal notranslate"><span class="pre">settings.py</span></code> file.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span id="1-1"><span class="n">THIRD_PARTY_APPS</span> <span class="o">=</span> <span class="p">[</span>
+</span><span id="1-2">    <span class="o">...</span>
+</span><span id="1-3">    <span class="c1"># &#39;django_fastdev&#39;,</span>
+</span><span id="1-4"><span class="p">]</span>
+</span></pre></div>
+</div>
+</section>
+<section id="dj-notebook">
+<h2>Dj Notebook<a class="headerlink" href="#dj-notebook" title="Link to this heading">¶</a></h2>
+<p>This is a recent addition to the project. It allows you to use your <a class="reference external" href="https://django-extensions.readthedocs.io/en/latest/shell_plus.html">shell_plus</a> in a Jupyter notebook.
+In the root of the generated project, you will find a file named <code class="docutils literal notranslate"><span class="pre">playground.ipynb</span></code> which is configured with <a class="reference external" href="https://github.com/pydanny/dj-notebook">dj-notebook</a>.
+As the name suggests, I use this as a playground to play with the Django ORM. Having it saved in a file is particularly useful for storing frequently used queries in text format,
+eliminating the need to retype them or search through command line history. Before running any additional cells you add, make sure to run the first cell in the notebook to set up Django. It’s
+important to note that <a class="reference external" href="https://github.com/pydanny/dj-notebook">dj-notebook</a> does not automatically detect file changes, so you will need to restart the kernel after making any code modifications.
+If you need a refresher on Jupyter notebooks, you can refer to this <a class="reference external" href="https://www.dataquest.io/blog/jupyter-notebook-tutorial/">primer</a>.</p>
+<p><strong>Marimo</strong></p>
+<p>There is a new alternative to Jupyter notebooks, namely, <a class="reference external" href="https://marimo.io/">marimo</a>. The main features that I appreciate are:</p>
+<ul class="simple">
+<li><p>Notebooks are straightforward Python scripts.</p></li>
+<li><p>It has a beautiful UI.</p></li>
+<li><p>It provides a really nice tutorial: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">marimo</span> <span class="pre">&amp;&amp;</span> <span class="pre">marimo</span> <span class="pre">tutorial</span> <span class="pre">intro</span></code>.</p></li>
+</ul>
+<p>Its main advertised feature is having reactive notebooks, but for my use case in my Django project, I don’t really care about that.</p>
+<p>If you want to test <code class="docutils literal notranslate"><span class="pre">marimo</span></code> with your Django project, it’s quite simple. Install it in your project environment and run:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span id="1-1">marimo<span class="w"> </span>edit<span class="w"> </span>notebook.py
+</span></pre></div>
+</div>
+<p>Or using hatch:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span id="1-1">hatch<span class="w"> </span>run<span class="w"> </span>marimo<span class="w"> </span>edit<span class="w"> </span>notebook.py
+</span></pre></div>
+</div>
+<p>As with <code class="docutils literal notranslate"><span class="pre">dj-notebook</span></code>, for your Django code to work, you need some kind of activation mechanism. With <code class="docutils literal notranslate"><span class="pre">dj-notebook</span></code>, the first cell needs to run the code <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">dj_notebook</span> <span class="pre">import</span> <span class="pre">activate;</span> <span class="pre">plus</span> <span class="pre">=</span> <span class="pre">activate()</span></code>. With <code class="docutils literal notranslate"><span class="pre">marimo</span></code>, the cell below should do the trick.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span id="1-1"><span class="kn">import</span> <span class="nn">django</span>
+</span><span id="1-2"><span class="kn">import</span> <span class="nn">os</span>
+</span><span id="1-3">
+</span><span id="1-4"><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;DJANGO_SETTINGS_MODULE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&lt;your_project&gt;.settings&quot;</span>
+</span><span id="1-5"><span class="n">django</span><span class="o">.</span><span class="n">setup</span><span class="p">()</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+
+        </article>
+        
+        <div class="navigation flex print:hidden">
+  <div class="navigation-prev">
+    <a href="structure.html">
+      <i class="i-icon chevron"></i>
+      <div class="page-info">
+        <span>Previous</span>
+        
+        <div class="title">Project Structure</div>
+        
+      </div>
+    </a>
+  </div>
+  <div class="navigation-next">
+    <a href="dependency.html">
+      <div class="page-info">
+        <span>Next</span>
+        <div class="title">Virtualenv and dependencies</div>
+      </div>
+      <i class="i-icon chevron"></i>
+    </a>
+  </div>
+</div>
+        
+      </div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>Copyright &copy; 2023 - 2024, Tobi DEGNON</p>
+        
+        <p>
+          Made with
+          
+          <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+          
+          <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+        </p>
+      </div>
+      <div class="sy-foot-socials">
+          <a href="https://github.com/tobi-de/falco" aria-label="GitHub"><i class="i-icon github"></i></a>
+          <a href="https://twitter.com/tobidegnon" aria-label="X (Twitter)"><i class="i-icon x-twitter"></i></a>
+          <a href="https://fosstodon.org/@tobide" aria-label="Mastodon"><i class="i-icon mastodon"></i></a>
+      </div>
+    </div>
+  </div>
+</footer></div>
+      <script src="../../_static/documentation_options.js?v=c4f92b34"></script>
+      <script src="../../_static/doctools.js?v=888ff710"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/thebelab-helper.js"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+      <script src="../../_static/tabs.js?v=3030b3cb"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script src="../../_static/design-tabs.js?v=36754332"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script src="../../_static/shibuya.js?v=999236dc"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script data-domain="falco.oluwatobi.dev" defer="" src="https://plausible.service.dotfm.me/js/script.js"></script>
+      <script src="../../_static/add-og-title-to-home.js?v=825d2d7f"></script>
+    
+</body>
+</html>

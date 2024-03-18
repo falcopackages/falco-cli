@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en" data-accent-color="sky" data-content_root="./">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Falco</title>
+    <link rel="shortcut icon" href="_static/falco-logo.svg"/><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Installation" href="install.html" />
+      <link rel="canonical" href="https://falco.oluwatobi.dev/" />
+
+  <script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(sessionStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="_static/pygments.css?v=aecf457f" />
+    <link rel="stylesheet" type="text/css" href="_static/shibuya.css?v=d42a0c83" />
+    <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/tabs.css?v=a5c4661c" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link media="print" rel="stylesheet" type="text/css" href="_static/print.css?v=20ff2c19" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=80ff722c" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    
+<style>
+  .yue {
+    padding-bottom: 2rem;
+  }
+  .yue section:first-of-type h1 {
+    font-size: 4.2rem;
+    margin-top: 3.4rem;
+    margin-bottom: 1rem;
+  }
+
+  .yue a.headerlink {
+    display: none;
+  }
+</style>
+
+  <meta property="og:type" content="website"/>
+<meta property="og:url" content="https://falco.oluwatobi.dev/"/>
+<meta property="og:title" content="&lt;no title&gt;"/>
+<meta name="twitter:card" content="summary"/><meta property="og:image" content="https://raw.githubusercontent.com/Tobi-De/falco/main/assets/og-image.jpg"/>
+<meta name="description" content="Falco is an opinionated toolkit for a modern Django development experience."/>
+<meta property="og:description" content="Falco is an opinionated toolkit for a modern Django development experience."/></head>
+<body><div class="document"><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand mr-4" href="#">
+      <img class="light-logo" src="_static/logo_with_text.svg" alt="Falco" height="28" />
+      <img class="dark-logo" src="_static/logo_with_text.svg" alt="Falco" height="28" />
+      <strong>Falco</strong>
+    </a>
+    <div class="sy-head-links" id="NavLinks">
+      <nav class="sy-head-nav"></nav>
+      <div class="sy-head-extra flex items-center print:hidden">
+<form class="searchbox flex items-center" action="search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form>
+        
+        
+        <div class="sy-head-social flex items-center">
+            <a class="flex items-center" href="https://github.com/tobi-de/falco" aria-label="GitHub">
+              <i class="i-icon github"></i>
+            </a>
+        </div>
+      </div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden">
+      <button class="js-theme theme-switch flex items-center"
+        data-aria-auto="Switch to light color mode"
+        data-aria-light="Switch to dark color mode"
+        data-aria-dark="Switch to auto color mode">
+        <i class="i-icon theme-icon"></i>
+      </button>
+      <button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="NavLinks" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2 -translate-x-2"></span>
+          <span class="hamburger_3 -translate-x-1"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div><div class="sy-container mx-auto body">
+    <main class="sy-content mx-auto pt-12 px-6 xl:px-12 break-words">
+      <article class="yue" role="main">
+        <div class="docutils container" id="home-head">
+<a class="reference internal image-reference" href="https://raw.githubusercontent.com/Tobi-De/falco/main/assets/falco-logo.svg"><img alt="Falco" height="400" src="https://raw.githubusercontent.com/Tobi-De/falco/main/assets/falco-logo.svg" width="400" /></a>
+<div class="docutils container">
+<h1>Falco</h1><div class="badges docutils container" id="badges">
+<img alt="https://github.com/Tobi-De/falco/actions/workflows/documentation.yml/badge.svg" src="https://github.com/Tobi-De/falco/actions/workflows/documentation.yml/badge.svg" /><img alt="https://github.com/Tobi-De/falco/actions/workflows/publish.yml/badge.svg" src="https://github.com/Tobi-De/falco/actions/workflows/publish.yml/badge.svg" /><img alt="https://badge.fury.io/py/falco-cli.svg" src="https://badge.fury.io/py/falco-cli.svg" /><img alt="https://img.shields.io/badge/%F0%9F%A5%9A-Hatch-4051b5.svg" src="https://img.shields.io/badge/%F0%9F%A5%9A-Hatch-4051b5.svg" /><img alt="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json" src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json" />
+<img alt="https://img.shields.io/badge/license-MIT-blue.svg" src="https://img.shields.io/badge/license-MIT-blue.svg" /><img alt="https://img.shields.io/pypi/pyversions/falco-cli" src="https://img.shields.io/pypi/pyversions/falco-cli" />
+<img alt="https://img.shields.io/pypi/frameworkversions/django/falco-cli" src="https://img.shields.io/pypi/frameworkversions/django/falco-cli" />
+<img alt="https://img.shields.io/pypi/dm/falco-cli" src="https://img.shields.io/pypi/dm/falco-cli" />
+</div>
+</div>
+</div>
+<p class="lead">Falco is a Django toolkit that improves development with commands for project initiation, CRUD view generation, and
+guides addressing common web development issues tailored to Django.</p>
+<div class="buttons docutils container">
+<p><a class="reference external" href="/install.html">Docs</a>
+<a class="reference external" href="https://github.com/tobi-de/falco">GitHub</a></p>
+</div>
+<div class="sd-container-fluid sd-sphinx-override sd-mb-4 sd-p-0 docutils">
+<div class="sd-row sd-row-cols-1 sd-row-cols-xs-1 sd-row-cols-sm-1 sd-row-cols-md-2 sd-row-cols-lg-3 sd-g-2 sd-g-xs-2 sd-g-sm-2 sd-g-md-2 sd-g-lg-2 surface docutils">
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm sd-card-hover docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+<svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-terminal" viewBox="0 0 16 16" aria-hidden="true"><path fill-rule="evenodd" d="M0 2.75C0 1.784.784 1 1.75 1h12.5c.966 0 1.75.784 1.75 1.75v10.5A1.75 1.75 0 0114.25 15H1.75A1.75 1.75 0 010 13.25V2.75zm1.75-.25a.25.25 0 00-.25.25v10.5c0 .138.112.25.25.25h12.5a.25.25 0 00.25-.25V2.75a.25.25 0 00-.25-.25H1.75zM7.25 8a.75.75 0 01-.22.53l-2.25 2.25a.75.75 0 11-1.06-1.06L5.44 8 3.72 6.28a.75.75 0 111.06-1.06l2.25 2.25c.141.14.22.331.22.53zm1.5 1.5a.75.75 0 000 1.5h3a.75.75 0 000-1.5h-3z"></path></svg> The CLI</div>
+<p class="sd-card-text">The documentation for the falco command line interface (CLI).</p>
+</div>
+<a class="sd-stretched-link reference external" href="/the_cli/"></a></div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm sd-card-hover docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+<svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-book" viewBox="0 0 16 16" aria-hidden="true"><path fill-rule="evenodd" d="M0 1.75A.75.75 0 01.75 1h4.253c1.227 0 2.317.59 3 1.501A3.744 3.744 0 0111.006 1h4.245a.75.75 0 01.75.75v10.5a.75.75 0 01-.75.75h-4.507a2.25 2.25 0 00-1.591.659l-.622.621a.75.75 0 01-1.06 0l-.622-.621A2.25 2.25 0 005.258 13H.75a.75.75 0 01-.75-.75V1.75zm8.755 3a2.25 2.25 0 012.25-2.25H14.5v9h-3.757c-.71 0-1.4.201-1.992.572l.004-7.322zm-1.504 7.324l.004-5.073-.002-2.253A2.25 2.25 0 005.003 2.5H1.5v9h3.757a3.75 3.75 0 011.994.574z"></path></svg> Guides</div>
+<p class="sd-card-text">A collection of guides on common web development topics and how to address them in django.</p>
+</div>
+<a class="sd-stretched-link reference external" href="/guides/"></a></div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm sd-card-hover docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+<svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-history" viewBox="0 0 16 16" aria-hidden="true"><path fill-rule="evenodd" d="M1.643 3.143L.427 1.927A.25.25 0 000 2.104V5.75c0 .138.112.25.25.25h3.646a.25.25 0 00.177-.427L2.715 4.215a6.5 6.5 0 11-1.18 4.458.75.75 0 10-1.493.154 8.001 8.001 0 101.6-5.684zM7.75 4a.75.75 0 01.75.75v2.992l2.028.812a.75.75 0 01-.557 1.392l-2.5-1A.75.75 0 017 8.25v-3.5A.75.75 0 017.75 4z"></path></svg> Changelog</div>
+<p class="sd-card-text">Explore the latest updates and the change history of the Falco project.</p>
+</div>
+<a class="sd-stretched-link reference external" href="/changelog.html"></a></div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm sd-card-hover docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+<svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment-discussion" viewBox="0 0 16 16" aria-hidden="true"><path fill-rule="evenodd" d="M1.5 2.75a.25.25 0 01.25-.25h8.5a.25.25 0 01.25.25v5.5a.25.25 0 01-.25.25h-3.5a.75.75 0 00-.53.22L3.5 11.44V9.25a.75.75 0 00-.75-.75h-1a.25.25 0 01-.25-.25v-5.5zM1.75 1A1.75 1.75 0 000 2.75v5.5C0 9.216.784 10 1.75 10H2v1.543a1.457 1.457 0 002.487 1.03L7.061 10h3.189A1.75 1.75 0 0012 8.25v-5.5A1.75 1.75 0 0010.25 1h-8.5zM14.5 4.75a.25.25 0 00-.25-.25h-.5a.75.75 0 110-1.5h.5c.966 0 1.75.784 1.75 1.75v5.5A1.75 1.75 0 0114.25 12H14v1.543a1.457 1.457 0 01-2.487 1.03L9.22 12.28a.75.75 0 111.06-1.06l2.22 2.22v-2.19a.75.75 0 01.75-.75h1a.25.25 0 00.25-.25v-5.5z"></path></svg> Discussion</div>
+<p class="sd-card-text">Provide suggestions for improving the guides and share new ideas.</p>
+</div>
+<a class="sd-stretched-link reference external" href="https://github.com/tobi-de/falco/discussions"></a></div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm sd-card-hover docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+<svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-alert-fill" viewBox="0 0 12 12" aria-hidden="true"><path fill-rule="evenodd" d="M4.855.708c.5-.896 1.79-.896 2.29 0l4.675 8.351a1.312 1.312 0 01-1.146 1.954H1.33A1.312 1.312 0 01.183 9.058L4.855.708zM7 7V3H5v4h2zm-1 3a1 1 0 100-2 1 1 0 000 2z"></path></svg> Issue</div>
+<p class="sd-card-text">Use this section to report bugs and request new features for the CLI.</p>
+</div>
+<a class="sd-stretched-link reference external" href="https://github.com/tobi-de/falco/issues"></a></div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm sd-card-hover docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+<svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-people" viewBox="0 0 16 16" aria-hidden="true"><path fill-rule="evenodd" d="M5.5 3.5a2 2 0 100 4 2 2 0 000-4zM2 5.5a3.5 3.5 0 115.898 2.549 5.507 5.507 0 013.034 4.084.75.75 0 11-1.482.235 4.001 4.001 0 00-7.9 0 .75.75 0 01-1.482-.236A5.507 5.507 0 013.102 8.05 3.49 3.49 0 012 5.5zM11 4a.75.75 0 100 1.5 1.5 1.5 0 01.666 2.844.75.75 0 00-.416.672v.352a.75.75 0 00.574.73c1.2.289 2.162 1.2 2.522 2.372a.75.75 0 101.434-.44 5.01 5.01 0 00-2.56-3.012A3 3 0 0011 4z"></path></svg> Contributing</div>
+<p class="sd-card-text">Learn how to contribute to the Falco project.</p>
+</div>
+<a class="sd-stretched-link reference external" href="/contributing.html"></a></div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+<h2>Contributors</h2><p>Thanks to the following wonderful people <a class="reference external" href="https://allcontributors.org/docs/en/emoji-key">emoji key</a> who have helped build <code class="docutils literal notranslate"><span class="pre">falco</span></code>.</p>
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+<p><a class="reference internal" href="#contributors-"><span class="xref myst"><img alt="All Contributors" src="https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square" /></span></a></p>
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="http://oluwatobi.dev"><img src="https://avatars.githubusercontent.com/u/40334729?v=4?s=100" width="100px;" alt="Tobi DEGNON"/><br /><sub><b>Tobi DEGNON</b></sub></a><br /><a href="https://github.com/Tobi-De/falco/commits?author=Tobi-De" title="Code">💻</a> <a href="https://github.com/Tobi-De/falco/commits?author=Tobi-De" title="Documentation">📖</a> <a href="https://github.com/Tobi-De/falco/commits?author=Tobi-De" title="Tests">⚠️</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/hammadarshad1"><img src="https://avatars.githubusercontent.com/u/45298916?v=4?s=100" width="100px;" alt="Muhammad Hammad"/><br /><sub><b>Muhammad Hammad</b></sub></a><br /><a href="#ideas-hammadarshad1" title="Ideas, Planning, & Feedback">🤔</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/mathiasag7"><img src="https://avatars.githubusercontent.com/u/50689712?v=4?s=100" width="100px;" alt="mathiasag7"/><br /><sub><b>mathiasag7</b></sub></a><br /><a href="https://github.com/Tobi-De/falco/commits?author=mathiasag7" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://mainlydata.kubadev.com"><img src="https://avatars.githubusercontent.com/u/403435?v=4?s=100" width="100px;" alt="Richard Shea"/><br /><sub><b>Richard Shea</b></sub></a><br /><a href="https://github.com/Tobi-De/falco/commits?author=shearichard" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://lexumsoft.com/"><img src="https://avatars.githubusercontent.com/u/96701299?v=4?s=100" width="100px;" alt="Waqar Khan"/><br /><sub><b>Waqar Khan</b></sub></a><br /><a href="https://github.com/Tobi-De/falco/commits?author=786raees" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/tissieres"><img src="https://avatars.githubusercontent.com/u/2410978?v=4?s=100" width="100px;" alt="tissieres"/><br /><sub><b>tissieres</b></sub></a><br /><a href="#financial-tissieres" title="Financial">💵</a></td>
+    </tr>
+  </tbody>
+</table>
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+<!-- ALL-CONTRIBUTORS-LIST:END --><div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+
+      </article>
+      
+
+
+    </main>
+  </div><footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>Copyright &copy; 2023 - 2024, Tobi DEGNON</p>
+        
+        <p>
+          Made with
+          
+          <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+          
+          <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+        </p>
+      </div>
+      <div class="sy-foot-socials">
+          <a href="https://github.com/tobi-de/falco" aria-label="GitHub"><i class="i-icon github"></i></a>
+          <a href="https://twitter.com/tobidegnon" aria-label="X (Twitter)"><i class="i-icon x-twitter"></i></a>
+          <a href="https://fosstodon.org/@tobide" aria-label="Mastodon"><i class="i-icon mastodon"></i></a>
+      </div>
+    </div>
+  </div>
+</footer></div>
+      <script src="_static/documentation_options.js?v=c4f92b34"></script>
+      <script src="_static/doctools.js?v=888ff710"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/thebelab-helper.js"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+      <script src="_static/design-tabs.js?v=36754332"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script src="_static/shibuya.js?v=999236dc"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script data-domain="falco.oluwatobi.dev" defer="" src="https://plausible.service.dotfm.me/js/script.js"></script>
+      <script src="_static/add-og-title-to-home.js?v=825d2d7f"></script>
+    
+</body>
+</html>

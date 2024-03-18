@@ -1,0 +1,417 @@
+
+  <!DOCTYPE html>
+<html lang="en" data-accent-color="sky" data-content_root="../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Writing documentation - Falco</title>
+    <link rel="shortcut icon" href="../_static/falco-logo.svg"/><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Writing tests" href="writing_tests.html" /><link rel="prev" title="Task Queues and Schedulers" href="task_queues_and_schedulers.html" />
+      <link rel="canonical" href="https://falco.oluwatobi.dev/guides/writing_documentation.html" />
+
+  <script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(sessionStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=aecf457f" />
+    <link rel="stylesheet" type="text/css" href="../_static/shibuya.css?v=d42a0c83" />
+    <link rel="stylesheet" type="text/css" href="../_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=a5c4661c" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link media="print" rel="stylesheet" type="text/css" href="../_static/print.css?v=20ff2c19" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=80ff722c" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/>
+<meta property="og:url" content="https://falco.oluwatobi.dev/guides/writing_documentation.html"/>
+<meta property="og:title" content="Writing documentation"/>
+<meta name="twitter:card" content="summary"/><meta property="og:image" content="https://raw.githubusercontent.com/Tobi-De/falco/main/assets/og-image.jpg"/>
+<meta name="description" content="A guide on how to write documentation for python/django software projects."/>
+<meta property="og:description" content="A guide on how to write documentation for python/django software projects."/>
+  </head>
+<body><div class="document"><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand mr-4" href="../index.html">
+      <img class="light-logo" src="../_static/logo_with_text.svg" alt="Falco" height="28" />
+      <img class="dark-logo" src="../_static/logo_with_text.svg" alt="Falco" height="28" />
+      <strong>Falco</strong>
+    </a>
+    <div class="sy-head-links" id="NavLinks">
+      <nav class="sy-head-nav"></nav>
+      <div class="sy-head-extra flex items-center print:hidden">
+<form class="searchbox flex items-center" action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form>
+        
+        
+        <div class="sy-head-social flex items-center">
+            <a class="flex items-center" href="https://github.com/tobi-de/falco" aria-label="GitHub">
+              <i class="i-icon github"></i>
+            </a>
+        </div>
+      </div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden">
+      <button class="js-theme theme-switch flex items-center"
+        data-aria-auto="Switch to light color mode"
+        data-aria-light="Switch to dark color mode"
+        data-aria-dark="Switch to auto color mode">
+        <i class="i-icon theme-icon"></i>
+      </button>
+      <button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="NavLinks" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2 -translate-x-2"></span>
+          <span class="hamburger_3 -translate-x-1"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6"><div class="sidebar-links">
+  <ul>
+    <li>
+      <a href="https://github.com/tobi-de/falco/discussions">
+        <span class="icon">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path fill="#0099CC" fill-rule="evenodd" clip-rule="evenodd" d="M11 5a6 6 0 0 0-4.687 9.746c.215.27.315.62.231.954l-.514 2.058a1 1 0 0 0 1.485 1.1l2.848-1.71c.174-.104.374-.15.576-.148H13a6 6 0 0 0 0-12h-2Z"/>
+            <circle fill="white" cx="12" cy="11" r="1"/>
+            <circle fill="white" cx="9" cy="11" r="1"/>
+            <circle fill="white" cx="15" cy="11" r="1"/>
+          </svg>
+        </span>
+        <span class="text">Discussion</span>
+      </a>
+    </li>
+  </ul>
+</div>
+        <div class="globaltoc" data-expand-depth="1"><p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul class="current">
+<li class="toctree-l1 _expand"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1 _expand"><a class="reference internal" href="../the_cli/index.html">The CLI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../the_cli/usage.html">Usage / Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../the_cli/start_project/index.html">Start project</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../the_cli/start_project/structure.html">Project Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../the_cli/start_project/packages.html">Packages and Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../the_cli/start_project/dependency.html">Virtualenv and dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../the_cli/start_project/deploy.html">Deployment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../the_cli/start_project/issues.html">Known issues</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../the_cli/start_app.html">Start Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../the_cli/crud.html">CRUD for your model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../the_cli/htmx.html">HTMX goodies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../the_cli/work.html">Work - Running multiple process in one session</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../the_cli/migrations.html">Remove / Reset your migrations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../the_cli/sync_dotenv.html">Sync Dotenv files</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Guides</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="interactive_user_interfaces.html">Interactive user interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="task_queues_and_schedulers.html">Task Queues and Schedulers</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Writing documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing_tests.html">Writing tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logging_and_monitoring.html">Logging and monitoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deployment.html">The ultimate deployment guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optimizing_database_access.html">Optimizing Database Access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="avoiding_god_models.html">Business logic in django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dynamic_model_schema.html">Dynamic Model Schema</a></li>
+<li class="toctree-l2"><a class="reference internal" href="realtime.html">Realtime in Django: Websockets, SSE, Polling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="permissions_and_authorization.html">Permissions and authorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="database_tips.html">Database Tips: Backup, Scaling, Triggers, and More</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multitenancy.html">Managing Multi-tenancy in Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing_async_code.html">Async Coding in Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="use_sqlite_in_production.html">Use Sqlite in production</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running_project_in_a_container.html">Running your project in a single container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tips_and_extra.html">Tips and extra</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1 _expand"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1 _expand"><a class="reference internal" href="../codeofconduct.html">Code of Conduct</a></li>
+<li class="toctree-l1 _expand"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1 _expand"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+</ul>
+        </div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-icon close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4">
+  <div class="localtoc">
+    <h3>On this page</h3>
+    <ul>
+<li><a class="reference internal" href="#documentation-frameworks">Documentation Frameworks</a></li>
+<li><a class="reference internal" href="#markdown-and-restructuredtext">Markdown and reStructuredText</a></li>
+<li><a class="reference internal" href="#python-documentation-tools">Python documentation tools</a><ul>
+<li><a class="reference internal" href="#sphinx">Sphinx</a><ul>
+<li><a class="reference internal" href="#installation-and-configuration">Installation and configuration</a></li>
+<li><a class="reference internal" href="#deploy-your-documentation">Deploy your documentation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mkdocs">MkDocs</a><ul>
+<li><a class="reference internal" href="#installation-and-configurations">Installation and configurations</a></li>
+<li><a class="reference internal" href="#id1">Deploy your documentation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div><a class="js-repo-stats repo-stats flex items-center" href="https://github.com/tobi-de/falco"
+  data-type="github" data-user="tobi-de" data-repo="falco">
+  <span class="w-8 flex items-center justify-around shrink-0 text-3xl">
+    <i class="i-icon github"></i>
+  </span>
+  <span class="flex-grow px-2">
+    <span>tobi-de/falco</span>
+    <span class="flex text-sm repo-stats-count">
+      <span class="flex items-center pr-3">
+        <i class="i-icon star"></i>
+        <strong class="js-repo-stars ml-1">0</strong>
+      </span>
+      <span class="flex items-center">
+        <i class="i-icon git-fork"></i>
+        <strong class="js-repo-forks ml-1">0</strong>
+      </span>
+    </span>
+  </span>
+</a><div class="edit-this-page">
+  <a href="https://github.com/tobi-de/falco/blob/master/docs/guides/writing_documentation.rst">Edit this page</a>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div>
+    </div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+    <div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-icon menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList">
+      
+      
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../index.html"><span itemprop="name">Falco</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li>
+      
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="index.html"><span itemprop="name">Guides</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="2" />
+      </li>
+      
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">Writing documentation</strong>
+        <meta itemprop="position" content="3" />
+      </li>
+      
+      
+    </ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-icon outdent"></i>
+      </button>
+    </div>
+  </div>
+</div>
+    <div class="flex flex-col break-words justify-between">
+      <div class="min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+        <article class="yue" role="main">
+          <section id="writing-documentation">
+<h1>Writing documentation<a class="headerlink" href="#writing-documentation" title="Link to this heading">¶</a></h1>
+<p><a class="reference external" href="https://github.com/testthedocs/awesome-docs">https://github.com/testthedocs/awesome-docs</a></p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Work in progress. To receive updates <a class="reference external" href="https://github.com/Tobi-De/falco/discussions/39">subscribe to this discussion</a> or
+follow me on <a class="reference external" href="https://twitter.com/tobidegnon">x</a> or <a class="reference external" href="https://fosstodon.org/&#64;tobide">mastodon</a>.</p>
+</div>
+<p>Intro</p>
+<section id="documentation-frameworks">
+<h2>Documentation Frameworks<a class="headerlink" href="#documentation-frameworks" title="Link to this heading">¶</a></h2>
+</section>
+<section id="markdown-and-restructuredtext">
+<h2>Markdown and reStructuredText<a class="headerlink" href="#markdown-and-restructuredtext" title="Link to this heading">¶</a></h2>
+<p><a class="reference external" href="https://github.github.com/gfm/">https://github.github.com/gfm/</a></p>
+<p><a class="reference external" href="https://myst-parser.readthedocs.io/en/latest/">https://myst-parser.readthedocs.io/en/latest/</a></p>
+<p><a class="reference external" href="https://sphinx-intro-tutorial.readthedocs.io/en/latest/">https://sphinx-intro-tutorial.readthedocs.io/en/latest/</a></p>
+</section>
+<section id="python-documentation-tools">
+<h2>Python documentation tools<a class="headerlink" href="#python-documentation-tools" title="Link to this heading">¶</a></h2>
+<p>This template does not include a documentation setup, but it is very important for most projects (at least it should be)
+to have a documentation site, especially if you are not working alone. Here are the options I would suggest for setting
+up a documentation, recently I tend to favor the first one.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.mkdocs.org/">Mkdocs</a> with the <a class="reference external" href="https://squidfunk.github.io/mkdocs-material/getting-started/">Material theme</a></p></li>
+<li><p><a class="reference external" href="https://www.sphinx-doc.org/en/master/">Sphinx</a> with the <a class="reference external" href="https://github.com/pradyunsg/furo">Furo theme</a></p></li>
+</ul>
+<p>There is a chance that in the future I will include the docs directly in the template but for now here is a quick guide to
+configure mkdocs with the material theme:</p>
+<section id="sphinx">
+<h3>Sphinx<a class="headerlink" href="#sphinx" title="Link to this heading">¶</a></h3>
+<section id="installation-and-configuration">
+<h4>Installation and configuration<a class="headerlink" href="#installation-and-configuration" title="Link to this heading">¶</a></h4>
+</section>
+<section id="deploy-your-documentation">
+<h4>Deploy your documentation<a class="headerlink" href="#deploy-your-documentation" title="Link to this heading">¶</a></h4>
+</section>
+</section>
+<section id="mkdocs">
+<h3>MkDocs<a class="headerlink" href="#mkdocs" title="Link to this heading">¶</a></h3>
+<section id="installation-and-configurations">
+<h4>Installation and configurations<a class="headerlink" href="#installation-and-configurations" title="Link to this heading">¶</a></h4>
+<p>Copy the configuration below into your <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> file under the <code class="docutils literal notranslate"><span class="pre">[tool.poetry.dependencies]</span></code> section.</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span id="1-1"><span class="k">[tool.poetry.group.docs]</span>
+</span><span id="1-2"><span class="n">optional</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+</span><span id="1-3">
+</span><span id="1-4"><span class="k">[tool.poetry.group.docs.dependencies]</span>
+</span><span id="1-5"><span class="n">mkdocs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;^1.4.2&quot;</span>
+</span><span id="1-6"><span class="n">mkdocs-material</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;^8.5.10&quot;</span>
+</span><span id="1-7"><span class="n">mkdocs-material-extensions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;^1.1.1&quot;</span>
+</span><span id="1-8"><span class="n">mkdocs-include-markdown-plugin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;3.9.1&quot;</span>
+</span></pre></div>
+</div>
+<p>Install the new dependencies.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span id="1-1">poetry<span class="w"> </span>install<span class="w"> </span>--with<span class="w"> </span>docs
+</span></pre></div>
+</div>
+<p>Create your new <strong>mkdocs</strong> site.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span id="1-1">mkdocs<span class="w"> </span>new<span class="w"> </span>.
+</span></pre></div>
+</div>
+<p>Update the <code class="docutils literal notranslate"><span class="pre">mkdocs.yml</span></code> file to specify the <strong>material</strong> theme, your configuration should look like this:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span id="1-1"><span class="nt">site_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">My Docs</span><span class="w"> </span><span class="c1"># change this to the name of your project</span>
+</span><span id="1-2"><span class="nt">theme</span><span class="p">:</span>
+</span><span id="1-3"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">material</span>
+</span></pre></div>
+</div>
+<p>Run the documentation site locally</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span id="1-1">mkdocs<span class="w"> </span>serve
+</span></pre></div>
+</div>
+<p>If you noticed, the dependencies added above via the section <code class="docutils literal notranslate"><span class="pre">[tool.poetry.group.docs.dependencies]</span></code> include more than just
+mkdocs and the material theme, specifically :</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/facelessuser/mkdocs-material-extensions">mkdocs-material-extensions</a>: Markdown extension resources for MkDocs for Material</p></li>
+<li><p><a class="reference external" href="https://github.com/mondeja/mkdocs-include-markdown-plugin">mkdocs-include-markdown-plugin</a>: Include other markdown files in your mkdocs site</p></li>
+</ul>
+<p>For a complete example of how I configure them in projects, see this <a class="reference external" href="https://github.com/Tobi-De/dj-shop-cart/blob/master/mkdocs.yml">configuration file</a>.</p>
+</section>
+<section id="id1">
+<h4>Deploy your documentation<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h4>
+<p><strong>Mkdocs</strong> can turn your documentation into a static site that you can host anywhere, <a class="reference external" href="https://www.netlify.com/">netlify</a>, <a class="reference external" href="https://pages.github.com/">github pages</a>, etc.
+To build your site, run the command below and you will have a new <code class="docutils literal notranslate"><span class="pre">site</span></code> directory at the root of your project:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span id="1-1">mkdocs<span class="w"> </span>build
+</span></pre></div>
+</div>
+<p>This folder contains everything that is necessary to deploy your static site.</p>
+<p>If you choose the <strong>github pages</strong> route, you can automate the process with <a class="reference external" href="https://github.com/features/actions">github actions</a>,
+the official <strong>mkdocs-material</strong> documentation explains <a class="reference external" href="https://squidfunk.github.io/mkdocs-material/publishing-your-site/">how to do it</a>.
+To use github actions, you will probably need a <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> file, you can generate one with only what is needed
+to build the docs with the command below.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span id="1-1">poetry<span class="w"> </span><span class="nb">export</span><span class="w"> </span>-f<span class="w"> </span>requirements.txt<span class="w"> </span>--output<span class="w"> </span>docs/requirements.txt<span class="w"> </span>--without-hashes<span class="w"> </span>--only<span class="w"> </span>docs
+</span></pre></div>
+</div>
+<p>Read the <a class="reference external" href="https://www.mkdocs.org/">mkdocs</a> and <a class="reference external" href="https://squidfunk.github.io/mkdocs-material/getting-started/">mkdocs-material</a> docs for more advanced configurations and details on what is possible.</p>
+</section>
+</section>
+</section>
+</section>
+
+        </article>
+        
+        <div class="navigation flex print:hidden">
+  <div class="navigation-prev">
+    <a href="task_queues_and_schedulers.html">
+      <i class="i-icon chevron"></i>
+      <div class="page-info">
+        <span>Previous</span>
+        
+        <div class="title">Task Queues and Schedulers</div>
+        
+      </div>
+    </a>
+  </div>
+  <div class="navigation-next">
+    <a href="writing_tests.html">
+      <div class="page-info">
+        <span>Next</span>
+        <div class="title">Writing tests</div>
+      </div>
+      <i class="i-icon chevron"></i>
+    </a>
+  </div>
+</div>
+        
+      </div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>Copyright &copy; 2023 - 2024, Tobi DEGNON</p>
+        
+        <p>
+          Made with
+          
+          <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+          
+          <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+        </p>
+      </div>
+      <div class="sy-foot-socials">
+          <a href="https://github.com/tobi-de/falco" aria-label="GitHub"><i class="i-icon github"></i></a>
+          <a href="https://twitter.com/tobidegnon" aria-label="X (Twitter)"><i class="i-icon x-twitter"></i></a>
+          <a href="https://fosstodon.org/@tobide" aria-label="Mastodon"><i class="i-icon mastodon"></i></a>
+      </div>
+    </div>
+  </div>
+</footer></div>
+      <script src="../_static/documentation_options.js?v=c4f92b34"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/thebelab-helper.js"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script src="../_static/design-tabs.js?v=36754332"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script src="../_static/shibuya.js?v=999236dc"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script data-domain="falco.oluwatobi.dev" defer="" src="https://plausible.service.dotfm.me/js/script.js"></script>
+      <script src="../_static/add-og-title-to-home.js?v=825d2d7f"></script>
+    
+</body>
+</html>

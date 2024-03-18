@@ -1,0 +1,865 @@
+
+  <!DOCTYPE html>
+<html lang="en" data-accent-color="sky" data-content_root="../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>The ultimate deployment guide - Falco</title>
+    <link rel="shortcut icon" href="../_static/falco-logo.svg"/><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Optimizing Database Access" href="optimizing_database_access.html" /><link rel="prev" title="Logging and monitoring" href="logging_and_monitoring.html" />
+      <link rel="canonical" href="https://falco.oluwatobi.dev/guides/deployment.html" />
+
+  <script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(sessionStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=aecf457f" />
+    <link rel="stylesheet" type="text/css" href="../_static/shibuya.css?v=d42a0c83" />
+    <link rel="stylesheet" type="text/css" href="../_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=a5c4661c" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link media="print" rel="stylesheet" type="text/css" href="../_static/print.css?v=20ff2c19" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=80ff722c" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/>
+<meta property="og:url" content="https://falco.oluwatobi.dev/guides/deployment.html"/>
+<meta property="og:title" content="The ultimate deployment guide"/>
+<meta name="twitter:card" content="summary"/><meta property="og:image" content="https://raw.githubusercontent.com/Tobi-De/falco/main/assets/og-image.jpg"/>
+<meta name="description" content="Deployment concepts, plateforms and strategies for django projects."/>
+<meta property="og:description" content="Deployment concepts, plateforms and strategies for django projects."/>
+  </head>
+<body><div class="document"><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand mr-4" href="../index.html">
+      <img class="light-logo" src="../_static/logo_with_text.svg" alt="Falco" height="28" />
+      <img class="dark-logo" src="../_static/logo_with_text.svg" alt="Falco" height="28" />
+      <strong>Falco</strong>
+    </a>
+    <div class="sy-head-links" id="NavLinks">
+      <nav class="sy-head-nav"></nav>
+      <div class="sy-head-extra flex items-center print:hidden">
+<form class="searchbox flex items-center" action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form>
+        
+        
+        <div class="sy-head-social flex items-center">
+            <a class="flex items-center" href="https://github.com/tobi-de/falco" aria-label="GitHub">
+              <i class="i-icon github"></i>
+            </a>
+        </div>
+      </div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden">
+      <button class="js-theme theme-switch flex items-center"
+        data-aria-auto="Switch to light color mode"
+        data-aria-light="Switch to dark color mode"
+        data-aria-dark="Switch to auto color mode">
+        <i class="i-icon theme-icon"></i>
+      </button>
+      <button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="NavLinks" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2 -translate-x-2"></span>
+          <span class="hamburger_3 -translate-x-1"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6"><div class="sidebar-links">
+  <ul>
+    <li>
+      <a href="https://github.com/tobi-de/falco/discussions">
+        <span class="icon">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path fill="#0099CC" fill-rule="evenodd" clip-rule="evenodd" d="M11 5a6 6 0 0 0-4.687 9.746c.215.27.315.62.231.954l-.514 2.058a1 1 0 0 0 1.485 1.1l2.848-1.71c.174-.104.374-.15.576-.148H13a6 6 0 0 0 0-12h-2Z"/>
+            <circle fill="white" cx="12" cy="11" r="1"/>
+            <circle fill="white" cx="9" cy="11" r="1"/>
+            <circle fill="white" cx="15" cy="11" r="1"/>
+          </svg>
+        </span>
+        <span class="text">Discussion</span>
+      </a>
+    </li>
+  </ul>
+</div>
+        <div class="globaltoc" data-expand-depth="1"><p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul class="current">
+<li class="toctree-l1 _expand"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1 _expand"><a class="reference internal" href="../the_cli/index.html">The CLI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../the_cli/usage.html">Usage / Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../the_cli/start_project/index.html">Start project</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../the_cli/start_project/structure.html">Project Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../the_cli/start_project/packages.html">Packages and Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../the_cli/start_project/dependency.html">Virtualenv and dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../the_cli/start_project/deploy.html">Deployment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../the_cli/start_project/issues.html">Known issues</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../the_cli/start_app.html">Start Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../the_cli/crud.html">CRUD for your model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../the_cli/htmx.html">HTMX goodies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../the_cli/work.html">Work - Running multiple process in one session</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../the_cli/migrations.html">Remove / Reset your migrations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../the_cli/sync_dotenv.html">Sync Dotenv files</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Guides</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="interactive_user_interfaces.html">Interactive user interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="task_queues_and_schedulers.html">Task Queues and Schedulers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing_documentation.html">Writing documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing_tests.html">Writing tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logging_and_monitoring.html">Logging and monitoring</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">The ultimate deployment guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optimizing_database_access.html">Optimizing Database Access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="avoiding_god_models.html">Business logic in django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dynamic_model_schema.html">Dynamic Model Schema</a></li>
+<li class="toctree-l2"><a class="reference internal" href="realtime.html">Realtime in Django: Websockets, SSE, Polling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="permissions_and_authorization.html">Permissions and authorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="database_tips.html">Database Tips: Backup, Scaling, Triggers, and More</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multitenancy.html">Managing Multi-tenancy in Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing_async_code.html">Async Coding in Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="use_sqlite_in_production.html">Use Sqlite in production</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running_project_in_a_container.html">Running your project in a single container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tips_and_extra.html">Tips and extra</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1 _expand"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1 _expand"><a class="reference internal" href="../codeofconduct.html">Code of Conduct</a></li>
+<li class="toctree-l1 _expand"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1 _expand"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+</ul>
+        </div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-icon close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4">
+  <div class="localtoc">
+    <h3>On this page</h3>
+    <ul>
+<li><a class="reference internal" href="#web-server">Web server</a></li>
+<li><a class="reference internal" href="#wsgi-server">WSGI server</a></li>
+<li><a class="reference internal" href="#static-files">Static Files</a></li>
+<li><a class="reference internal" href="#media-files">Media files</a></li>
+<li><a class="reference internal" href="#database">Database</a></li>
+<li><a class="reference internal" href="#summary">Summary</a></li>
+<li><a class="reference internal" href="#platforms">Platforms</a><ul>
+<li><a class="reference internal" href="#managed-solutions">Managed solutions</a></li>
+<li><a class="reference internal" href="#self-managed-solutions">Self-Managed solutions</a><ul>
+<li><a class="reference internal" href="#self-hostable-p-a-a-s">Self-hostable P.A.A.S</a></li>
+<li><a class="reference internal" href="#bare-bone-vps">Bare-bone VPS</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#personal-recommendations">Personal Recommendations</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#resources">Resources</a></li>
+<li><a class="reference internal" href="#alternative-strategies">Alternative strategies</a><ul>
+<li><a class="reference internal" href="#serverless">Serverless</a></li>
+<li><a class="reference internal" href="#desktop-mobile-app">Desktop / Mobile app</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#the-end">The End</a></li>
+</ul>
+
+  </div><a class="js-repo-stats repo-stats flex items-center" href="https://github.com/tobi-de/falco"
+  data-type="github" data-user="tobi-de" data-repo="falco">
+  <span class="w-8 flex items-center justify-around shrink-0 text-3xl">
+    <i class="i-icon github"></i>
+  </span>
+  <span class="flex-grow px-2">
+    <span>tobi-de/falco</span>
+    <span class="flex text-sm repo-stats-count">
+      <span class="flex items-center pr-3">
+        <i class="i-icon star"></i>
+        <strong class="js-repo-stars ml-1">0</strong>
+      </span>
+      <span class="flex items-center">
+        <i class="i-icon git-fork"></i>
+        <strong class="js-repo-forks ml-1">0</strong>
+      </span>
+    </span>
+  </span>
+</a><div class="edit-this-page">
+  <a href="https://github.com/tobi-de/falco/blob/master/docs/guides/deployment.rst">Edit this page</a>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div>
+    </div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+    <div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-icon menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList">
+      
+      
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../index.html"><span itemprop="name">Falco</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li>
+      
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="index.html"><span itemprop="name">Guides</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="2" />
+      </li>
+      
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">The ultimate deployment guide</strong>
+        <meta itemprop="position" content="3" />
+      </li>
+      
+      
+    </ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-icon outdent"></i>
+      </button>
+    </div>
+  </div>
+</div>
+    <div class="flex flex-col break-words justify-between">
+      <div class="min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+        <article class="yue" role="main">
+          <section id="the-ultimate-deployment-guide">
+<h1>The ultimate deployment guide<a class="headerlink" href="#the-ultimate-deployment-guide" title="Link to this heading">¶</a></h1>
+<p>This guide dives into the fundamentals of deployment, covering concepts that are common to all deployment processes. Regardless of the process or strategies you choose, this knowledge will be beneficial.
+Alongside this, the guide also provides a list of various deployment platforms and strategies, coupled with some personal recommendations. The <a class="reference external" href="https://tobi-de.github.io/fuzzy-couscous/deployment/">original version</a> of this guide
+was merely a list of platforms. However, after watching the DjangoCon 2023 talk, <a class="reference external" href="https://www.youtube.com/watch?v=t-wsiW5mkgA">What Django Deployment is really About by James Walters</a>, I felt inspired
+to write something more useful.</p>
+<p>Since concrete examples often speak louder than words, each section (where applicable) includes a set of instructions on how to deploy a Django-based personal journal app named <strong>myjourney</strong> on a virtual
+private server running Ubuntu 22.04. My go-to for this setup is this <a class="reference external" href="https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-22-04">DigitalOcean guide</a>.
+It’s an excellent resource that I find myself returning to whenever my memory fails to cooperate!</p>
+<p>These notes, which are hidden by default (you’ll find one right below), can serve either as a step-by-step guide or a handy reference for future use.</p>
+<div class="note dropdown admonition">
+<p class="admonition-title">deploying myjourney - prerequisites</p>
+<ul class="simple">
+<li><p>A budget-friendly virtual private server (VPS), keep reading for some suggestions.</p></li>
+<li><p>An affordable domain name, consider some inexpensive top-level domains (TLD) like .xyz, .online, .site, etc.</p></li>
+</ul>
+<p>If you are a student, you can also get a plethora of free resources with the <a class="reference external" href="https://education.github.com/pack">github student pack</a>.</p>
+<ol class="arabic">
+<li><p>Clone the repository on the server</p>
+<div class="literal-block-wrapper docutils container" id="id4">
+<div class="code-block-caption"><span class="caption-text">Clone the repository</span><a class="headerlink" href="#id4" title="Link to this code">¶</a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span id="1-1">git<span class="w"> </span>clone<span class="w"> </span>https://github.com/tobi-de/myjourney.git
+</span></pre></div>
+</div>
+</div>
+</li>
+<li><p>Install dependencies</p>
+<div class="literal-block-wrapper docutils container" id="id5">
+<div class="code-block-caption"><span class="caption-text">Install python dependencies</span><a class="headerlink" href="#id5" title="Link to this code">¶</a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span id="1-1">sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>python3-pip<span class="w"> </span>python3-venv<span class="w"> </span>python3-dev<span class="w"> </span>python-is-python3<span class="w"> </span>libpq-dev
+</span></pre></div>
+</div>
+</div>
+</li>
+<li><p>Create a virtualenv and install requirements</p>
+<div class="literal-block-wrapper docutils container" id="id6">
+<div class="code-block-caption"><span class="caption-text">Create a virtual environment</span><a class="headerlink" href="#id6" title="Link to this code">¶</a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span id="1-1"><span class="nb">cd</span><span class="w"> </span>myjourney
+</span><span id="1-2">python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>venv
+</span><span id="1-3"><span class="nb">source</span><span class="w"> </span>venv/bin/activate
+</span><span id="1-4">python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+</span></pre></div>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<section id="web-server">
+<h2>Web server<a class="headerlink" href="#web-server" title="Link to this heading">¶</a></h2>
+<p>The primary roles of a web server are to deliver static files and function as a <a class="reference external" href="https://en.wikipedia.org/wiki/Reverse_proxy">reverse proxy</a> for the application server, also known as the WSGI server.
+When a user sends a request to your website, the web server is the initial component to process it. The web server receives the request, forwards it to the WSGI server (which operates your Django application),
+collects the response from the application, and then delivers it back to the client (the user’s web browser).
+Moreover, the web server, when properly configured, can intercept requests for static files (HTML, CSS, JavaScript, images, etc.) and serve them before they reach the application server. This is because many
+application servers are either not designed to handle such requests or do so inefficiently.
+In a production environment, your Django application will likely operate behind a web server, serving as its translator or guide to the broader world of the internet.</p>
+<p>The most popular web servers are <a class="reference external" href="https://www.nginx.com/">nginx</a> and <a class="reference external" href="https://httpd.apache.org/">apache</a>, with <strong>nginx</strong> being the one you’ll encounter most frequently these days.</p>
+<p>Nginx is a reliable and well-established solution that has powered and still powers countless websites. It should serve your needs adequately. However, if you’re interested in exploring new alternatives, here are two projects that are worth checking out:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.nginx.com/products/nginx-unit/">nginx-unit</a>: A universal web app server that combines several layers of the typical application stack into a single component.</p></li>
+<li><p><a class="reference external" href="https://caddyserver.com/">caddy</a>: Caddy offers automatic TLS certificate obtainment and renewal, HTTP/2, flexible configuration, better security defaults, observability, and more.</p></li>
+</ul>
+<div class="note dropdown admonition">
+<p class="admonition-title">deploying myjourney - nginx</p>
+<ol class="arabic simple">
+<li><p>Install nginx</p></li>
+</ol>
+<div class="literal-block-wrapper docutils container" id="id7">
+<div class="code-block-caption"><span class="caption-text">Install nginx</span><a class="headerlink" href="#id7" title="Link to this code">¶</a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span id="1-1">sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>nginx
+</span></pre></div>
+</div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Create an nginx configuration file for your project</p></li>
+</ol>
+<div class="literal-block-wrapper docutils container" id="id8">
+<div class="code-block-caption"><span class="caption-text">Configure nginx</span><a class="headerlink" href="#id8" title="Link to this code">¶</a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span id="1-1">sudo<span class="w"> </span>touch<span class="w"> </span>/etc/nginx/sites-available/myjourney
+</span></pre></div>
+</div>
+</div>
+<ol class="arabic simple">
+<li><p>Update the file with the following content</p></li>
+</ol>
+<div class="literal-block-wrapper docutils container" id="id9">
+<div class="code-block-caption"><span class="caption-text">/etc/nginx/sites-available/myjourney</span><a class="headerlink" href="#id9" title="Link to this code">¶</a></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span id="1-1">server {
+</span><span id="1-2">   listen 80;
+</span><span id="1-3">   server_name myjourney.com YOUR.SERVER.IP.ADDRESS;
+</span><span id="1-4">
+</span><span id="1-5">   location / {
+</span><span id="1-6">      proxy_pass http://unix:/run/gunicorn.sock;
+</span><span id="1-7">      proxy_set_header Host $host;
+</span><span id="1-8">      proxy_set_header X-Real-IP $remote_addr;
+</span><span id="1-9">      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+</span><span id="1-10">      proxy_set_header X-Forwarded-Proto $scheme;
+</span><span id="1-11">   }
+</span><span id="1-12">}
+</span></pre></div>
+</div>
+</div>
+</div>
+<p><strong>Reverse proxies</strong></p>
+<p>If you don’t require the static file serving capabilities of web servers and are interested in a more modern approach, you might consider using specialized reverse proxies.
+Reverse proxies primarily handle the routing of requests to the WSGI server. While Nginix has this capability and is often used as a reverse proxy, pure reverse proxy solutions
+may offer features that Nginix does not. One such popular solution is <a class="reference external" href="https://traefik.io/traefik/">traefik</a>, known for features like automatic SSL certificate generation,
+automatic routing, blue-green deployment, etc. It is also considered simpler to set up.</p>
+<div class="admonition-todo admonition" id="id1">
+<p class="admonition-title">Todo</p>
+<p>Add an example of traefik config</p>
+</div>
+</section>
+<section id="wsgi-server">
+<h2>WSGI server<a class="headerlink" href="#wsgi-server" title="Link to this heading">¶</a></h2>
+<p>The WSGI server, also known as the <strong>application server</strong>, is responsible for running your Django application. This server is needed because some web servers, like nginx, are not capable of
+executing Python code directly. <a class="reference external" href="https://gunicorn.org/">Gunicorn</a>, a popular WSGI server for Django, fulfills this role.</p>
+<p>Gunicorn can be configured using a Python file, such as <a class="reference external" href="https://github.com/Tobi-De/falco_blueprint_basic/blob/main/%7B%7B%20cookiecutter.project_name%20%7D%7D/deploy/gunicorn.conf.py">this one</a> provided with a generated Falco project.
+However, its most basic usage is:</p>
+<div class="literal-block-wrapper docutils container" id="id10">
+<div class="code-block-caption"><span class="caption-text">Run gunicorn</span><a class="headerlink" href="#id10" title="Link to this code">¶</a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span id="1-1">gunicorn<span class="w"> </span>myproject.wsgi:application
+</span></pre></div>
+</div>
+</div>
+<p>In this command, Gunicorn needs your Django application as its first argument. For most Django projects, this is specified in the <code class="docutils literal notranslate"><span class="pre">wsgi.py</span></code> file which contains a variable named <code class="docutils literal notranslate"><span class="pre">application</span></code>. <code class="docutils literal notranslate"><span class="pre">myproject</span></code> refers to the
+directory where the <code class="docutils literal notranslate"><span class="pre">wsgi.py</span></code> file is located.</p>
+<p>So, what is this <strong>WSGI</strong> we’ve been talking about?</p>
+<blockquote>
+<div><p>“WSGI, or Web Server Gateway Interface, is a specification that describes how a web server communicates with web applications, and how web applications can be chained together to process one request.”</p>
+<p class="attribution">—<a class="reference external" href="https://wsgi.readthedocs.io/en/latest/what.html">WSGI official docs</a></p>
+</div></blockquote>
+<p>Gunicorn is just one of many available application servers. Other servers like <a class="reference external" href="https://pgjones.gitlab.io/hypercorn/">hypercorn</a> and <a class="reference external" href="https://github.com/emmett-framework/granian">granian</a> offer similar functionality, each with
+their own unique features. Regardless of the server used, they all require a way to know how to run your Django application. That’s where <code class="docutils literal notranslate"><span class="pre">WSGI</span></code> comes in. WSGI provides a universal specification for writing Python web applications
+that can be run by any server adhering to the standard, independent of specific web server implementation details.</p>
+<blockquote>
+<div><p><strong>WSGI</strong> serves as a common language that Python web servers (such as Gunicorn) use to communicate with Python web applications (like Django).</p>
+</div></blockquote>
+<div class="note dropdown admonition">
+<p class="admonition-title">What about ASGI?</p>
+<p>WSGI is not the only standard for Python web servers. <a class="reference external" href="https://asgi.readthedocs.io/en/latest/">ASGI</a>, designed for async-capable servers, is another option. However, when it comes to Django, I don’t really care about ASGI (at least for now), but that’s just me :)</p>
+</div>
+<p><strong>Process Managers</strong></p>
+<p>Hosting a project on your own server requires more than just an application server. You also need a <strong>process manager</strong>. This manager starts and stops your application server and restarts it if it crashes. For instance, if you SSH into your server and run the <strong>gunicorn</strong> command, your app
+will work and, assuming nginx is configured correctly, you’ll even be able to access it via your IP address or domain name. However, if you close your SSH session, your app will stop functioning. This is where the process manager comes in. It runs your app in the background, ensuring
+it is always running, even if your server restarts.</p>
+<p>The two most widely used process managers are <a class="reference external" href="http://supervisord.org/">supervisor</a> and <a class="reference external" href="https://systemd.io/">systemd</a>. Systemd is typically built-in to most Linux distributions, while Supervisor requires manual installation. Despite this, both process managers serve the same purpose effectively.
+From my experience, there’s no significant difference in their user experience.</p>
+<div class="note dropdown admonition">
+<p class="admonition-title">deploying myjourney - gunicorn with systemd</p>
+<ol class="arabic simple">
+<li><p>Create a systemd service file for your project</p></li>
+</ol>
+<div class="literal-block-wrapper docutils container" id="id11">
+<div class="code-block-caption"><span class="caption-text">Configure systemd</span><a class="headerlink" href="#id11" title="Link to this code">¶</a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span id="1-1">sudo<span class="w"> </span>touch<span class="w"> </span>/etc/systemd/system/gunicorn.service
+</span></pre></div>
+</div>
+</div>
+<ol class="arabic simple">
+<li><p>Replace the file’s content with the following code, sourced from <a class="reference external" href="https://docs.gunicorn.org/en/stable/deploy.html#systemd">https://docs.gunicorn.org/en/stable/deploy.html#systemd</a></p></li>
+</ol>
+<div class="literal-block-wrapper docutils container" id="id12">
+<div class="code-block-caption"><span class="caption-text">/etc/systemd/system/gunicorn.service</span><a class="headerlink" href="#id12" title="Link to this code">¶</a></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span id="1-1">[Unit]
+</span><span id="1-2">Description=gunicorn daemon
+</span><span id="1-3">Requires=gunicorn.socket
+</span><span id="1-4">After=network.target
+</span><span id="1-5">
+</span><span id="1-6">[Service]
+</span><span id="1-7">User=user
+</span><span id="1-8">Group=www-data
+</span><span id="1-9">WorkingDirectory=/home/user/myjourney
+</span><span id="1-10">EnvironmentFile=/home/user/myjourney/.env
+</span><span id="1-11">ExecStart=/home/user/myjourney/venv/bin/gunicorn --access-logfile - --workers 3 --bind unix:/run/gunicorn.sock config.wsgi:application
+</span><span id="1-12">ExecReload=/bin/kill -s HUP $MAINPID
+</span><span id="1-13">KillMode=mixed
+</span><span id="1-14">TimeoutStopSec=5
+</span><span id="1-15">PrivateTmp=true
+</span><span id="1-16">
+</span><span id="1-17">[Install]
+</span><span id="1-18">WantedBy=multi-user.target
+</span></pre></div>
+</div>
+</div>
+<p>A comprehensive explanation of all gunicorn options can be found <a class="reference external" href="https://docs.gunicorn.org/en/stable/run.html#commonly-used-arguments">here</a>.
+Remember, the value assigned to the <code class="docutils literal notranslate"><span class="pre">--bind</span></code> option should match the one specified in the nginx config file, specifically on the <code class="docutils literal notranslate"><span class="pre">proxy_pass</span></code> line.
+Nginx and gunicorn communicate with each other using this <a class="reference external" href="https://fileinfo.com/extension/sock">sock file</a>. Though it’s possible to replace it with an IP address and port number (e.g., 127.0.0.1:8000),
+using the sock file is generally more efficient as it is a more direct connection.</p>
+<ol class="arabic simple">
+<li><p>Start the gunicorn service</p></li>
+</ol>
+<div class="literal-block-wrapper docutils container" id="id13">
+<div class="code-block-caption"><span class="caption-text">Start gunicorn</span><a class="headerlink" href="#id13" title="Link to this code">¶</a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span id="1-1">sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>gunicorn
+</span></pre></div>
+</div>
+</div>
+<p>To access the log of your application you can use the command below:</p>
+<div class="literal-block-wrapper docutils container" id="id14">
+<div class="code-block-caption"><span class="caption-text">Access gunicorn logs</span><a class="headerlink" href="#id14" title="Link to this code">¶</a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span id="1-1">sudo<span class="w"> </span>journalctl<span class="w"> </span>-e<span class="w"> </span>-u<span class="w"> </span>gunicorn.service
+</span></pre></div>
+</div>
+</div>
+<p>To check the status of your application you can use the command below:</p>
+<div class="literal-block-wrapper docutils container" id="id15">
+<div class="code-block-caption"><span class="caption-text">Check gunicorn status</span><a class="headerlink" href="#id15" title="Link to this code">¶</a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span id="1-1">sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>gunicorn
+</span></pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="static-files">
+<h2>Static Files<a class="headerlink" href="#static-files" title="Link to this heading">¶</a></h2>
+<p>Static files are your HTML, CSS, JS, images, and so forth. As the name suggests, these <strong>static</strong> files come bundled with your application.</p>
+<p>Below are the main Django settings related to static file management for deployment:</p>
+<div class="literal-block-wrapper docutils container" id="id16">
+<div class="code-block-caption"><span class="caption-text">settings.py</span><a class="headerlink" href="#id16" title="Link to this code">¶</a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span id="1-1"><span class="n">STATIC_URL</span> <span class="o">=</span> <span class="s1">&#39;/static/&#39;</span>
+</span><span id="1-2"><span class="n">STATIC_ROOT</span> <span class="o">=</span> <span class="n">BASE_DIR</span> <span class="o">/</span> <span class="s1">&#39;staticfiles&#39;</span>
+</span></pre></div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">STATIC_URL</span></code> is the URL to use when referring to static files located in <code class="docutils literal notranslate"><span class="pre">STATIC_ROOT</span></code>. Given the settings above, if a file named <code class="docutils literal notranslate"><span class="pre">style.css</span></code>
+is located in <code class="docutils literal notranslate"><span class="pre">BASE_DIR</span> <span class="pre">/</span> <span class="pre">'staticfiles'</span></code>, you can access it at <code class="docutils literal notranslate"><span class="pre">/static/style.css</span></code>.</p>
+<p>During development, serving static files is handled by the development server. However, in a production environment, this is typically the role of a web server.
+For example, you might configure Nginx to serve all requests coming to <code class="docutils literal notranslate"><span class="pre">/static/</span></code> from the <code class="docutils literal notranslate"><span class="pre">staticfiles</span></code> directory.</p>
+<p>For more sophisticated options to manage your static files, consider the following:</p>
+<ul class="simple">
+<li><p>Serving your static files using <a class="reference external" href="https://whitenoise.readthedocs.io/en/latest/">whitenoise</a></p></li>
+<li><p>Using <a class="reference external" href="https://whitenoise.readthedocs.io/en/latest/django.html#use-a-content-delivery-network">whitenoise behind a CDN</a> for your static files</p></li>
+<li><p>Storing and serving the files on <a class="reference external" href="https://testdriven.io/blog/storing-django-static-and-media-files-on-amazon-s3/">AWS S3 with django-storages</a></p></li>
+</ul>
+<div class="note dropdown admonition">
+<p class="admonition-title">deploying myjourney - static files</p>
+<ol class="arabic simple">
+<li><p>Run the collectstatic command to put your static files in the <code class="docutils literal notranslate"><span class="pre">STATIC_ROOT</span></code> directory</p></li>
+</ol>
+<div class="literal-block-wrapper docutils container" id="id17">
+<div class="code-block-caption"><span class="caption-text">Collect static files</span><a class="headerlink" href="#id17" title="Link to this code">¶</a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span id="1-1"><span class="nb">cd</span><span class="w"> </span>myjourney
+</span><span id="1-2">python<span class="w"> </span>manage.py<span class="w"> </span>collectstatic
+</span></pre></div>
+</div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Update the nginx config file with the following content</p></li>
+</ol>
+<div class="literal-block-wrapper docutils container" id="id18">
+<div class="code-block-caption"><span class="caption-text">/etc/nginx/sites-available/myjourney</span><a class="headerlink" href="#id18" title="Link to this code">¶</a></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span id="1-1"><span class="linenos"> 1</span>server {
+</span><span id="1-2"><span class="linenos"> 2</span>   listen 80;
+</span><span id="1-3"><span class="linenos"> 3</span>   server_name myjourney.com YOUR.SERVER.IP.ADDRESS;
+</span><span id="1-4"><span class="linenos"> 4</span>
+</span><span id="1-5"><span class="hll"><span class="linenos"> 5</span>   location /static/ {
+</span></span><span id="1-6"><span class="hll"><span class="linenos"> 6</span>      alias /home/user/myjourney/staticfiles/;
+</span></span><span id="1-7"><span class="hll"><span class="linenos"> 7</span>   }
+</span></span><span id="1-8"><span class="linenos"> 8</span>
+</span><span id="1-9"><span class="linenos"> 9</span>   location / {
+</span><span id="1-10"><span class="linenos">10</span>      proxy_pass http://unix:/run/gunicorn.sock;
+</span><span id="1-11"><span class="linenos">11</span>      proxy_set_header Host $host;
+</span><span id="1-12"><span class="linenos">12</span>      proxy_set_header X-Real-IP $remote_addr;
+</span><span id="1-13"><span class="linenos">13</span>      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+</span><span id="1-14"><span class="linenos">14</span>      proxy_set_header X-Forwarded-Proto $scheme;
+</span><span id="1-15"><span class="linenos">15</span>   }
+</span><span id="1-16"><span class="linenos">16</span>}
+</span></pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="media-files">
+<h2>Media files<a class="headerlink" href="#media-files" title="Link to this heading">¶</a></h2>
+<p>Django’s media files usually refer to user-uploaded files, such as profile pictures, product images, and so forth. While serving these files with Django is not ideal, it differs from static
+files as there are no well-maintained projects (like Whitenoise) available to serve media files. Therefore, this task is typically handled by an external service.</p>
+<p>There are various ways to serve media files. The simplest method is to let Nginx (or your chosen web server) serve them. However, safer and often better solutions include using <a class="reference external" href="https://aws.amazon.com/what-is/object-storage/">object storage solutions</a>
+such as <a class="reference external" href="https://aws.amazon.com/s3/">AWS S3</a>, <a class="reference external" href="https://www.digitalocean.com/products/spaces/">DigitalOcean Spaces</a>, and <a class="reference external" href="https://cloud.google.com/storage">Google Cloud Storage</a>, among others.
+You can use a package like <a class="reference external" href="https://django-storages.readthedocs.io/en/latest/">django-storages</a> to help you upload your media files to these services.
+The advantage of using an <strong>object storage solution</strong> is the ability to have fine-grained access control over your media files.</p>
+<p>The following django settings deal with media file management:</p>
+<div class="literal-block-wrapper docutils container" id="id19">
+<div class="code-block-caption"><span class="caption-text">settings.py</span><a class="headerlink" href="#id19" title="Link to this code">¶</a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span id="1-1"><span class="n">MEDIA_URL</span> <span class="o">=</span> <span class="s1">&#39;/media/&#39;</span>
+</span><span id="1-2"><span class="n">MEDIA_ROOT</span> <span class="o">=</span> <span class="n">BASE_DIR</span> <span class="o">/</span> <span class="s1">&#39;media&#39;</span>
+</span></pre></div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">MEDIA_URL</span></code> is the URL used to serve media from <code class="docutils literal notranslate"><span class="pre">MEDIA_ROOT</span></code>. This follows the same logic as with static files. For instance, if a file named <code class="docutils literal notranslate"><span class="pre">profile.jpg</span></code> is located in <code class="docutils literal notranslate"><span class="pre">BASE_DIR</span> <span class="pre">/</span> <span class="pre">'media'</span></code>, you can access it at <code class="docutils literal notranslate"><span class="pre">/media/profile.jpg</span></code>.</p>
+<p>Here’s an insightful video on <a class="reference external" href="https://youtu.be/RsiXzwesNLQ?si=jBpVvIcYjhopTVt7">serving media files from S3 + Cloudfront</a> if you want to try the object-storage approach.</p>
+<div class="note dropdown admonition">
+<p class="admonition-title">deploying myjourney - media files</p>
+<p>Update the nginx config file with the following content</p>
+<div class="literal-block-wrapper docutils container" id="id20">
+<div class="code-block-caption"><span class="caption-text">/etc/nginx/sites-available/myjourney</span><a class="headerlink" href="#id20" title="Link to this code">¶</a></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span id="1-1"><span class="linenos"> 1</span>server {
+</span><span id="1-2"><span class="linenos"> 2</span>   listen 80;
+</span><span id="1-3"><span class="linenos"> 3</span>   server_name myjourney.com YOUR.SERVER.IP.ADDRESS;
+</span><span id="1-4"><span class="linenos"> 4</span>
+</span><span id="1-5"><span class="linenos"> 5</span>   location /static/ {
+</span><span id="1-6"><span class="linenos"> 6</span>      alias /home/user/myjourney/staticfiles/;
+</span><span id="1-7"><span class="linenos"> 7</span>   }
+</span><span id="1-8"><span class="linenos"> 8</span>
+</span><span id="1-9"><span class="hll"><span class="linenos"> 9</span>   location /media/ {
+</span></span><span id="1-10"><span class="hll"><span class="linenos">10</span>      alias /home/user/myjourney/media/;
+</span></span><span id="1-11"><span class="hll"><span class="linenos">11</span>   }
+</span></span><span id="1-12"><span class="linenos">12</span>
+</span><span id="1-13"><span class="linenos">13</span>   location / {
+</span><span id="1-14"><span class="linenos">14</span>      proxy_pass http://unix:/run/gunicorn.sock;
+</span><span id="1-15"><span class="linenos">15</span>      proxy_set_header Host $host;
+</span><span id="1-16"><span class="linenos">16</span>      proxy_set_header X-Real-IP $remote_addr;
+</span><span id="1-17"><span class="linenos">17</span>      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+</span><span id="1-18"><span class="linenos">18</span>      proxy_set_header X-Forwarded-Proto $scheme;
+</span><span id="1-19"><span class="linenos">19</span>   }
+</span><span id="1-20"><span class="linenos">20</span>}
+</span></pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="database">
+<h2>Database<a class="headerlink" href="#database" title="Link to this heading">¶</a></h2>
+<p>The database is where your data resides. Django offers support for a wide range of databases, both through <a class="reference external" href="https://docs.djangoproject.com/en/5.0/ref/databases/">official</a> and <a class="reference external" href="https://djangopackages.org/grids/g/database-backends/">third party</a> backends.
+A Django database backend serves as a bridge that allows Django to access the unique features of a specific database through a consistent interface. It takes care of the intricate details specific to the implementation of its targeted database.</p>
+<blockquote>
+<div><p>The most popular database choice for Django is <a class="reference external" href="https://www.postgresql.org/">Postgres</a>.</p>
+</div></blockquote>
+<p>Setting up a proper database infrastructure involves many aspects such as automatic backup, maintenance, security, and more, which can be quite challenging to get right.
+If, like me, you’re not an expert on the subject, I would suggest using a Database as a Service (DBaaS) for any serious production project.
+These are managed database services that delegate the complex task of managing and maintaining your database to experts.</p>
+<p>The official PostgreSQL site has a section on <a class="reference external" href="https://www.postgresql.org/support/professional_hosting/">DBaaS providers for PostgreSQL</a>, which could be a good starting point.</p>
+<p>The configuration on Django’s end is relatively simple, the example below showcase the settings for a PostgreSQL database.</p>
+<div class="literal-block-wrapper docutils container" id="id21">
+<div class="code-block-caption"><span class="caption-text">settings.py</span><a class="headerlink" href="#id21" title="Link to this code">¶</a></div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span id="1-1"><span class="n">DATABASES</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="1-2">   <span class="s2">&quot;ENGINE: &quot;</span><span class="n">django</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">postgresql</span><span class="s2">&quot;,</span>
+</span><span id="1-3">   <span class="s2">&quot;NAME&quot;</span><span class="p">:</span> <span class="n">env</span><span class="p">(</span><span class="s2">&quot;DATABASE_NAME&quot;</span><span class="p">),</span>
+</span><span id="1-4">   <span class="s2">&quot;USER&quot;</span><span class="p">:</span> <span class="n">env</span><span class="p">(</span><span class="s2">&quot;DATABASE_USER&quot;</span><span class="p">),</span>
+</span><span id="1-5">   <span class="s2">&quot;PASSWORD&quot;</span><span class="p">:</span> <span class="n">env</span><span class="p">(</span><span class="s2">&quot;DATABASE_PASSWORD&quot;</span><span class="p">),</span>
+</span><span id="1-6">   <span class="s2">&quot;HOST&quot;</span><span class="p">:</span> <span class="n">env</span><span class="p">(</span><span class="s2">&quot;DATABASE_HOST&quot;</span><span class="p">),</span>
+</span><span id="1-7">   <span class="s2">&quot;PORT&quot;</span><span class="p">:</span> <span class="n">env</span><span class="p">(</span><span class="s2">&quot;DATABASE_PORT&quot;</span><span class="p">),</span>
+</span><span id="1-8"><span class="p">}</span>
+</span></pre></div>
+</div>
+</div>
+<p>You could use packages such as <a class="reference external" href="https://django-environ.readthedocs.io/en/latest/api.html#environ.Env.db">django-environ</a> or <a class="reference external" href="https://github.com/jazzband/dj-database-url/">dj-database-url</a> to simplify the settings configuration into a single line, which would then be dependent on a single environment variable (e.g. <code class="docutils literal notranslate"><span class="pre">DATABASE_URL</span></code>).</p>
+<div class="note dropdown admonition">
+<p class="admonition-title">deploying myjourney - postgres setup</p>
+<ol class="arabic simple">
+<li><p>Install postgres</p></li>
+</ol>
+<div class="literal-block-wrapper docutils container" id="id22">
+<div class="code-block-caption"><span class="caption-text">Install postgres</span><a class="headerlink" href="#id22" title="Link to this code">¶</a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span id="1-1">sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>postgresql<span class="w"> </span>postgresql-contrib
+</span></pre></div>
+</div>
+</div>
+<ol class="arabic simple">
+<li><p>Create a database for your project</p></li>
+</ol>
+<div class="literal-block-wrapper docutils container" id="id23">
+<div class="code-block-caption"><span class="caption-text">Create database</span><a class="headerlink" href="#id23" title="Link to this code">¶</a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span id="1-1">sudo<span class="w"> </span>-u<span class="w"> </span>postgres<span class="w"> </span>createdb<span class="w"> </span>myjourney
+</span></pre></div>
+</div>
+</div>
+<ol class="arabic simple">
+<li><p>Create a user for your project</p></li>
+</ol>
+<div class="literal-block-wrapper docutils container" id="id24">
+<div class="code-block-caption"><span class="caption-text">Create user</span><a class="headerlink" href="#id24" title="Link to this code">¶</a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span id="1-1">sudo<span class="w"> </span>-u<span class="w"> </span>postgres<span class="w"> </span>psql
+</span><span id="1-2"><span class="nv">postgres</span><span class="o">=</span><span class="c1"># CREATE USER myjourneyuser WITH PASSWORD &#39;password&#39;;</span>
+</span><span id="1-3"><span class="nv">postgres</span><span class="o">=</span><span class="c1"># ALTER ROLE myjourneyuser SET client_encoding TO &#39;utf8&#39;;</span>
+</span><span id="1-4"><span class="nv">postgres</span><span class="o">=</span><span class="c1"># ALTER ROLE myjourneyuser SET default_transaction_isolation TO &#39;read committed&#39;;</span>
+</span><span id="1-5"><span class="nv">postgres</span><span class="o">=</span><span class="c1"># ALTER ROLE myjourneyuser SET timezone TO &#39;UTC&#39;;</span>
+</span><span id="1-6"><span class="nv">postgres</span><span class="o">=</span><span class="c1"># GRANT ALL PRIVILEGES ON DATABASE myjourney TO myjourneyuser;</span>
+</span></pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">¶</a></h2>
+<div class="image-2 docutils container">
+<img alt="../_images/deployment.png" src="../_images/deployment.png" />
+</div>
+<p>If there is one key takeaway from this guide, it’s the diagram above. It illustrates the essential components of any deployment process:</p>
+<ol class="arabic simple">
+<li><p>The client makes a request to the web server.</p></li>
+<li><p>The web server passes the request to the WSGI server.</p></li>
+<li><p>The WSGI server runs your Django application and builds a response using the database.</p></li>
+<li><p>The WSGI server sends the response back to the web server.</p></li>
+<li><p>The web server sends the response back to the client.</p></li>
+</ol>
+<p>This process is universal and remains essentially unchanged across various implementations. Even though the components may vary, or some platforms may obscure certain elements, or
+even if components are duplicated (perhaps to handle more load) or new components are introduced, the basics are almost always present in some form.</p>
+</section>
+<section id="platforms">
+<h2>Platforms<a class="headerlink" href="#platforms" title="Link to this heading">¶</a></h2>
+<p>Now, let’s discuss deployment platforms, which are where you actually host your application. Despite everything mentioned above, you are likely to run into some minor issues.
+The essential concepts remain the same, but not all platforms are built equally. Some might make the work easier for you than others.</p>
+<p>If you can afford it, I recommend a managed solution (the cloud). The next best alternative is a self-hostable P.A.A.S (Platform as a Service) solution on your own server to ease your burden,
+or at the very least, Docker as a bare minimum. The goal is to find a workflow that minimizes manual configuration and works best for you.</p>
+<p>There are solutions like <a class="reference external" href="https://www.ansible.com">Ansible</a> that can help automate the deployment process, but Docker seems to be the most popular and one of the simplest solutions these days.
+With that said, the less work you have to do on your own, the more it usually costs. Below, I’ll go over some solutions
+I can recommend, some of which even offer some kind of free usage to reduce your costs as much as possible.</p>
+<div class="important admonition">
+<p class="admonition-title">Disclaimer</p>
+<p>These are personal recommendations. There are no affiliated links or sponsorships unless explicitly stated otherwise :)</p>
+</div>
+<section id="managed-solutions">
+<h3>Managed solutions<a class="headerlink" href="#managed-solutions" title="Link to this heading">¶</a></h3>
+<p>These are the platforms that handle much of the infrastructure for you, in exchange for a higher cost. Typically, these require the least amount of work once you become familiar with how they work.
+Even though my experience with these platforms is limited, they are generally similarly priced and quite user-friendly. The descriptions provided below are directly sourced from their respective websites.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.digitalocean.com/products/app-platform">DigitalOcean App Platform</a> : Build, deploy, and scale apps quickly using a simple, fully-managed infrastructure solution.</p></li>
+<li><p><a class="reference external" href="https://fly.io/">Fly</a> : Fly.io transforms containers into micro-VMs that run on our hardware in 30+ regions on six continents.</p></li>
+<li><p><a class="reference external" href="https://render.com/">Render</a> : Build, deploy, and scale your apps with unparalleled ease – from your first user to your billionth.</p></li>
+<li><p><a class="reference external" href="https://aws.amazon.com/elasticbeanstalk/">AWS Elastic Beanstalk</a> : Deploy and scale web applications</p></li>
+<li><p><a class="reference external" href="https://www.heroku.com/">Heroku</a> : Build data-driven apps with fully managed data services.</p></li>
+<li><p><a class="reference external" href="https://railway.app/">Railway</a> : Railway is the cloud for building, shipping, and monitoring applications. No Platform Engineer required.</p></li>
+</ul>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>A special mention goes to <a class="reference external" href="https://appliku.com">Appliku</a>. While it does not provide direct hosting services,
+it offers an intuitive interface that simplifies deployment on various platforms such as AWS, Digital Ocean, and more.</p>
+</div>
+</section>
+<section id="self-managed-solutions">
+<h3>Self-Managed solutions<a class="headerlink" href="#self-managed-solutions" title="Link to this heading">¶</a></h3>
+<p>If you’re new to the concept, the term <strong>self-hosting</strong> might be misleading. Typically, <strong>self-hosting</strong> is used to refer to the practice of renting a Virtual Private Server (VPS)
+and handling all the work yourself, rather than paying someone else to do it for you. While this method might be cheaper, true <strong>self-hosting</strong> technically requires owning your
+own hardware. From my experience, self-hosted solutions are generally less expensive than managed/hosted solutions. However, my experience with managed solutions is limited, so I
+encourage you to do your own research. If your budget allows, consider trying both managed and self-managed solutions to see what works best for you.</p>
+<section id="self-hostable-p-a-a-s">
+<h4>Self-hostable P.A.A.S<a class="headerlink" href="#self-hostable-p-a-a-s" title="Link to this heading">¶</a></h4>
+<p>These P.A.A.S solutions necessitate the purchase of your own server (unless you utilize their offerings), but they simplify your tasks by providing an experience akin to that of a managed solution.</p>
+<p><strong>CapRover</strong> - The choosen one :)</p>
+<blockquote>
+<div><p>“CapRover is an extremely easy to use app/database deployment &amp; web server manager for your NodeJS, Python, PHP, ASP.NET, Ruby, MySQL, MongoDB, Postgres, WordPress (and etc…) applications!”</p>
+<p class="attribution">—<a class="reference external" href="https://caprover.com/">CapRover Official Site</a></p>
+</div></blockquote>
+<p>In case it wasn’t clear, caprover is my PaaS of choice.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://dokku.com/">Dokku</a> : An open source PAAS alternative to Heroku.</p></li>
+<li><p><a class="reference external" href="https://github.com/coollabsio/coolify">Coolify</a> : An open-source &amp; self-hostable Heroku / Netlify / Vercel alternative.</p></li>
+</ul>
+</section>
+<section id="bare-bone-vps">
+<h4>Bare-bone VPS<a class="headerlink" href="#bare-bone-vps" title="Link to this heading">¶</a></h4>
+<p>This section introduces bare-metal solutions: a list of Virtual Private Servers (VPS) providers. This is likely the most affordable option, but it also requires the most effort on your part.
+The offerings in this category are diverse in range and price, so you have plenty of choices. However, be prepared to invest more time unless you opt to automate some processes,
+for instance, by using a tool like <a class="reference external" href="https://www.ansible.com">ansible</a>.</p>
+<div class="note dropdown admonition">
+<p class="admonition-title">deploying myjourney - vps</p>
+<p>This is the option assumed in the guide for deploying myjourney.</p>
+</div>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.linode.com/lp/refer/?r=c12ad16f52b3939fe11e3cee8e1ecaf2947125ab">Linode</a> (referral link with 60 days of $100 credits)</p></li>
+<li><p><a class="reference external" href="https://m.do.co/c/507efee95715">DigitalOcean</a> (referral link with 60 days of $200 credits)</p></li>
+<li><p><a class="reference external" href="https://www.vultr.com/">Vultr</a></p></li>
+<li><p><a class="reference external" href="https://www.pythonanywhere.com/">PythonAnywhere</a></p></li>
+<li><p><a class="reference external" href="https://contabo.com/">Contabo</a></p></li>
+</ul>
+</section>
+</section>
+<section id="personal-recommendations">
+<h3>Personal Recommendations<a class="headerlink" href="#personal-recommendations" title="Link to this heading">¶</a></h3>
+<p>If you’re feeling a bit overwhelmed by the options provided above, here are my personal recommendations:</p>
+<p>If you’re trying to learn and have never deployed a Django app before, try the full manual process a few times (2-3 times should do it).
+Once you get the hang of the process, buy a cheap VPS and install <a class="reference external" href="https://caprover.com">caprover</a>. Try to stick with this setup for as
+long as you can, or as long as it is <strong>enough</strong>.</p>
+<p>The day may come when this setup is no longer sufficient. You’ll know it when it happens - you’ll have thousands of users, tens of thousands of concurrent requests,
+and you’ll want to offload most of the infrastructure management and maintenance to a managed service so you can focus on improving the core business logic.
+When that day comes, you can opt for one of the managed solutions mentioned above (e.g., AWS, or AppLiku on top of AWS to ease the burden).
+Personally, I’ve never reached that level of traffic, so I’m still managing all of my projects on a cheap <a class="reference external" href="https://contabo.com">contabo VPS</a> with <a class="reference external" href="https://caprover.com">caprover</a>.</p>
+</section>
+</section>
+<section id="resources">
+<h2>Resources<a class="headerlink" href="#resources" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/Tobi-De/myjourney">myjourney github repository</a>: The source code for myjourney + some more deployment ressources.</p></li>
+<li><p><a class="reference external" href="https://docs.djangoproject.com/en/dev/howto/deployment/checklist/">Django Deployment Checklist</a> : The official django deployment checklist.</p></li>
+<li><p><a class="reference external" href="https://github.com/ehmatthes/django-simple-deploy">django-simple-deploy</a> : A reusable Django app that configures your project for deployment</p></li>
+<li><p><a class="reference external" href="https://github.com/sesh/django-up">django-up</a> : django-up is a tool to quickly deploy your Django application to a Ubuntu 22.04 server with almost zero configuration.</p></li>
+<li><p><a class="reference external" href="https://github.com/lincolnloop/django-production">django-production</a> : Opinionated one-size-fits-most defaults for running Django to production (or any other deployed environment).</p></li>
+<li><p><a class="reference external" href="https://github.com/jcalazan/ansible-django-stack">ansible-django-stack</a>: Ansible Playbook for setting up a Django production server with Nginx, Gunicorn, PostgreSQL, Celery, RabbitMQ, Supervisor, Virtualenv, and Memcached.</p></li>
+<li><p><a class="reference external" href="https://github.com/avencera/rustywind?tab=readme-ov-file">django-flyio</a>: A set of simple utilities for Django apps running on Fly.io.</p></li>
+</ul>
+</section>
+<section id="alternative-strategies">
+<h2>Alternative strategies<a class="headerlink" href="#alternative-strategies" title="Link to this heading">¶</a></h2>
+<p>The web is not the only medium to distribute your app. It’s the most popular one, but certainly not the sole option.</p>
+<section id="serverless">
+<h3>Serverless<a class="headerlink" href="#serverless" title="Link to this heading">¶</a></h3>
+<p>The serverless trend appears to have slowed down lately, but there are still use cases. I have almost no experience with this approach, but it promises to run
+your app without constantly active servers at the lowest possible cost.</p>
+<p>Here’s my understanding of the concept: most of the time, there is no server running your app. However, when a request comes in, a server is started, your app is run,
+and then the server is stopped. A server is still involved, but it is not running all the time.</p>
+<p>The most popular solution in the Python ecosystem seems to be <a class="reference external" href="https://github.com/zappa/Zappa">zappa</a>.</p>
+</section>
+<section id="desktop-mobile-app">
+<h3>Desktop / Mobile app<a class="headerlink" href="#desktop-mobile-app" title="Link to this heading">¶</a></h3>
+<p>Packaging your apps as mobile or desktop applications remains an option, though the use cases for this are quite niche. If your project was better suited as a desktop app from the outset,
+perhaps Django wasn’t the appropriate tool to begin with.</p>
+<p>This is my perspective:</p>
+<ul class="simple">
+<li><p>You want to build a desktop app, not as an add-on or bonus feature for your existing web app.</p></li>
+<li><p>You are familiar with Django and do not wish to learn a new tool.</p></li>
+</ul>
+<p>If these two conditions ring true, then this option makes sense — especially if you want to provide your users the flexibility to run your project on their computers with their data, without reliance on a server.</p>
+<p>I’ve emphasized on desktop applications, and for good reason — the mobile aspect might not be worth the effort. How often do you install apps from unfamiliar sources on your phone these days? Exactly.</p>
+<p>There are numerous options for creating desktop apps, but I recommend <a class="reference external" href="https://docs.beeware.org/en/latest/">beeware</a>. According to their official documentation:</p>
+<blockquote>
+<div><p>“BeeWare is not a single product, or tool, or library - it’s a collection of tools and libraries, each of which works together to help you write cross-platform Python applications with a native GUI.”</p>
+<p class="attribution">—<a class="reference external" href="https://docs.beeware.org/en/latest/">BeeWare Official docs</a></p>
+</div></blockquote>
+<p>For an example on how to use BeeWare, you can check out this talk: <a class="reference external" href="https://www.youtube.com/watch?v=wAExEfkcY1U">Let’s build a BeeWare app that uses Django with Cheuk Ting Ho</a>.</p>
+<p>Some alternatives to BeeWare are:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/linkedin/shiv">shiv</a> (For an introduction, consider reading <a class="reference external" href="https://www.mattlayman.com/blog/2019/python-alternative-docker/">this insightful article</a>)</p></li>
+<li><p><a class="reference external" href="https://www.pyinstaller.org/">pyinstaller</a></p></li>
+<li><p><a class="reference external" href="https://github.com/ofek/pyapp">pyapp</a></p></li>
+<li><p><a class="reference external" href="https://nuitka.net/">nuitka</a></p></li>
+</ul>
+</section>
+</section>
+<section id="the-end">
+<h2>The End<a class="headerlink" href="#the-end" title="Link to this heading">¶</a></h2>
+<p>Feeling overwhelmed? That’s okay. If you’re confused, then perhaps I didn’t explain things as well as I could have. Your <a class="reference external" href="https://github.com/tobi-de/falco/discussions">feedback</a> is greatly appreciated.
+The main goal of this guide was not to showcase specific deployment strategies, but to explain the key concepts of deployment. Regardless of the strategy you choose, there will almost always be a web server,
+an application server, and a database. Some components may be hidden or abstracted away, but they are typically present in some form. Understanding these key concepts will help you navigate the landscape of deployment more easily.</p>
+<div class="hint dropdown admonition">
+<p class="admonition-title">What should I do now?</p>
+<p>If you’re a beginner and unsure of what to do next, head over to <a class="reference external" href="https://github.com/Tobi-De/myjourney">myjourney</a> and try to deploy it :)</p>
+</div>
+</section>
+</section>
+
+        </article>
+        
+        <div class="navigation flex print:hidden">
+  <div class="navigation-prev">
+    <a href="logging_and_monitoring.html">
+      <i class="i-icon chevron"></i>
+      <div class="page-info">
+        <span>Previous</span>
+        
+        <div class="title">Logging and monitoring</div>
+        
+      </div>
+    </a>
+  </div>
+  <div class="navigation-next">
+    <a href="optimizing_database_access.html">
+      <div class="page-info">
+        <span>Next</span>
+        <div class="title">Optimizing Database Access</div>
+      </div>
+      <i class="i-icon chevron"></i>
+    </a>
+  </div>
+</div>
+        
+      </div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>Copyright &copy; 2023 - 2024, Tobi DEGNON</p>
+        
+        <p>
+          Made with
+          
+          <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+          
+          <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+        </p>
+      </div>
+      <div class="sy-foot-socials">
+          <a href="https://github.com/tobi-de/falco" aria-label="GitHub"><i class="i-icon github"></i></a>
+          <a href="https://twitter.com/tobidegnon" aria-label="X (Twitter)"><i class="i-icon x-twitter"></i></a>
+          <a href="https://fosstodon.org/@tobide" aria-label="Mastodon"><i class="i-icon mastodon"></i></a>
+      </div>
+    </div>
+  </div>
+</footer></div>
+      <script src="../_static/documentation_options.js?v=c4f92b34"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/thebelab-helper.js"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script src="../_static/design-tabs.js?v=36754332"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script src="../_static/shibuya.js?v=999236dc"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script data-domain="falco.oluwatobi.dev" defer="" src="https://plausible.service.dotfm.me/js/script.js"></script>
+      <script src="../_static/add-og-title-to-home.js?v=825d2d7f"></script>
+    
+</body>
+</html>

@@ -1,0 +1,873 @@
+
+  <!DOCTYPE html>
+<html lang="en" data-accent-color="sky" data-content_root="./">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Changelog - Falco</title>
+    <link rel="shortcut icon" href="_static/falco-logo.svg"/><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="prev" title="License" href="license.html" />
+      <link rel="canonical" href="https://falco.oluwatobi.dev/changelog.html" />
+
+  <script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(sessionStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="_static/pygments.css?v=aecf457f" />
+    <link rel="stylesheet" type="text/css" href="_static/shibuya.css?v=d42a0c83" />
+    <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/tabs.css?v=a5c4661c" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link media="print" rel="stylesheet" type="text/css" href="_static/print.css?v=20ff2c19" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=80ff722c" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/>
+<meta property="og:url" content="https://falco.oluwatobi.dev/changelog.html"/>
+<meta property="og:title" content="Changelog"/>
+<meta name="twitter:card" content="summary"/>
+<meta name="description" content="falco release history"/>
+<meta property="og:description" content="falco release history"/>
+  </head>
+<body><div class="document"><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand mr-4" href="index.html">
+      <img class="light-logo" src="_static/logo_with_text.svg" alt="Falco" height="28" />
+      <img class="dark-logo" src="_static/logo_with_text.svg" alt="Falco" height="28" />
+      <strong>Falco</strong>
+    </a>
+    <div class="sy-head-links" id="NavLinks">
+      <nav class="sy-head-nav"></nav>
+      <div class="sy-head-extra flex items-center print:hidden">
+<form class="searchbox flex items-center" action="search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form>
+        
+        
+        <div class="sy-head-social flex items-center">
+            <a class="flex items-center" href="https://github.com/tobi-de/falco" aria-label="GitHub">
+              <i class="i-icon github"></i>
+            </a>
+        </div>
+      </div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden">
+      <button class="js-theme theme-switch flex items-center"
+        data-aria-auto="Switch to light color mode"
+        data-aria-light="Switch to dark color mode"
+        data-aria-dark="Switch to auto color mode">
+        <i class="i-icon theme-icon"></i>
+      </button>
+      <button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="NavLinks" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2 -translate-x-2"></span>
+          <span class="hamburger_3 -translate-x-1"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6"><div class="sidebar-links">
+  <ul>
+    <li>
+      <a href="https://github.com/tobi-de/falco/discussions">
+        <span class="icon">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path fill="#0099CC" fill-rule="evenodd" clip-rule="evenodd" d="M11 5a6 6 0 0 0-4.687 9.746c.215.27.315.62.231.954l-.514 2.058a1 1 0 0 0 1.485 1.1l2.848-1.71c.174-.104.374-.15.576-.148H13a6 6 0 0 0 0-12h-2Z"/>
+            <circle fill="white" cx="12" cy="11" r="1"/>
+            <circle fill="white" cx="9" cy="11" r="1"/>
+            <circle fill="white" cx="15" cy="11" r="1"/>
+          </svg>
+        </span>
+        <span class="text">Discussion</span>
+      </a>
+    </li>
+  </ul>
+</div>
+        <div class="globaltoc" data-expand-depth="1"><p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1 _expand"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1 _expand"><a class="reference internal" href="the_cli/index.html">The CLI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="the_cli/usage.html">Usage / Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the_cli/start_project/index.html">Start project</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="the_cli/start_project/structure.html">Project Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="the_cli/start_project/packages.html">Packages and Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="the_cli/start_project/dependency.html">Virtualenv and dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="the_cli/start_project/deploy.html">Deployment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="the_cli/start_project/issues.html">Known issues</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="the_cli/start_app.html">Start Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the_cli/crud.html">CRUD for your model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the_cli/htmx.html">HTMX goodies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the_cli/work.html">Work - Running multiple process in one session</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the_cli/migrations.html">Remove / Reset your migrations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the_cli/sync_dotenv.html">Sync Dotenv files</a></li>
+</ul>
+</li>
+<li class="toctree-l1 _expand"><a class="reference internal" href="guides/index.html">Guides</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="guides/interactive_user_interfaces.html">Interactive user interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/task_queues_and_schedulers.html">Task Queues and Schedulers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/writing_documentation.html">Writing documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/writing_tests.html">Writing tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/logging_and_monitoring.html">Logging and monitoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/deployment.html">The ultimate deployment guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/optimizing_database_access.html">Optimizing Database Access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/avoiding_god_models.html">Business logic in django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/dynamic_model_schema.html">Dynamic Model Schema</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/realtime.html">Realtime in Django: Websockets, SSE, Polling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/permissions_and_authorization.html">Permissions and authorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/database_tips.html">Database Tips: Backup, Scaling, Triggers, and More</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/multitenancy.html">Managing Multi-tenancy in Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/writing_async_code.html">Async Coding in Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/use_sqlite_in_production.html">Use Sqlite in production</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/running_project_in_a_container.html">Running your project in a single container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/tips_and_extra.html">Tips and extra</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul class="current">
+<li class="toctree-l1 _expand"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1 _expand"><a class="reference internal" href="codeofconduct.html">Code of Conduct</a></li>
+<li class="toctree-l1 _expand"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a></li>
+</ul>
+        </div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-icon close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4">
+  <div class="localtoc">
+    <h3>On this page</h3>
+    <ul>
+<li><a class="reference internal" href="#release-v0-21-0">v0.21.0</a></li>
+<li><a class="reference internal" href="#release-v0-20-0">v0.20.0</a></li>
+<li><a class="reference internal" href="#release-v0-19-0">v0.19.0</a></li>
+<li><a class="reference internal" href="#release-v0-18-6">v0.18.6</a></li>
+<li><a class="reference internal" href="#release-v0-18-4">v0.18.4</a></li>
+<li><a class="reference internal" href="#release-v0-18-0">v0.18.0</a></li>
+<li><a class="reference internal" href="#release-v0-17-0">v0.17.0</a></li>
+<li><a class="reference internal" href="#release-v0-16-1">v0.16.1</a></li>
+<li><a class="reference internal" href="#release-v0-16-0">v0.16.0</a></li>
+<li><a class="reference internal" href="#release-v0-15-0">v0.15.0</a></li>
+<li><a class="reference internal" href="#release-v0-14-0">v0.14.0</a></li>
+<li><a class="reference internal" href="#release-v0-13-0">v0.13.0</a></li>
+<li><a class="reference internal" href="#release-v0-12-0">v0.12.0</a></li>
+<li><a class="reference internal" href="#release-v0-11-0">v0.11.0</a></li>
+<li><a class="reference internal" href="#release-v0-10-1">v0.10.1</a></li>
+<li><a class="reference internal" href="#release-v0-10-0">v0.10.0</a></li>
+<li><a class="reference internal" href="#release-v0-9-0">v0.9.0</a></li>
+<li><a class="reference internal" href="#release-v0-8-0">v0.8.0</a></li>
+<li><a class="reference internal" href="#release-v0-7-2">v0.7.2</a></li>
+<li><a class="reference internal" href="#release-v0-7-1">v0.7.1</a></li>
+<li><a class="reference internal" href="#release-v0-7-0">v0.7.0</a></li>
+<li><a class="reference internal" href="#release-v0-6-0">v0.6.0</a></li>
+<li><a class="reference internal" href="#release-v0-5-0">v0.5.0</a></li>
+<li><a class="reference internal" href="#release-v0-4-1">v0.4.1</a></li>
+<li><a class="reference internal" href="#release-v0-4-0">v0.4.0</a></li>
+<li><a class="reference internal" href="#release-v0-3-2">v0.3.2</a></li>
+<li><a class="reference internal" href="#release-v0-3-1">v0.3.1</a></li>
+<li><a class="reference internal" href="#release-v0-3-0">v0.3.0</a></li>
+<li><a class="reference internal" href="#release-v0-2-9">v0.2.9</a></li>
+<li><a class="reference internal" href="#release-v0-2-8">v0.2.8</a></li>
+<li><a class="reference internal" href="#release-v0-2-7">v0.2.7</a></li>
+<li><a class="reference internal" href="#release-v0-2-5">v0.2.5</a></li>
+<li><a class="reference internal" href="#release-v0-2-4">v0.2.4</a></li>
+<li><a class="reference internal" href="#release-v0-2-3">v0.2.3</a></li>
+<li><a class="reference internal" href="#release-v0-2-2">v0.2.2</a></li>
+<li><a class="reference internal" href="#release-v0-2-1">v0.2.1</a></li>
+<li><a class="reference internal" href="#release-v0-2-0">v0.2.0</a></li>
+<li><a class="reference internal" href="#release-v0-1-0">v0.1.0: Initial release</a></li>
+</ul>
+
+  </div><a class="js-repo-stats repo-stats flex items-center" href="https://github.com/tobi-de/falco"
+  data-type="github" data-user="tobi-de" data-repo="falco">
+  <span class="w-8 flex items-center justify-around shrink-0 text-3xl">
+    <i class="i-icon github"></i>
+  </span>
+  <span class="flex-grow px-2">
+    <span>tobi-de/falco</span>
+    <span class="flex text-sm repo-stats-count">
+      <span class="flex items-center pr-3">
+        <i class="i-icon star"></i>
+        <strong class="js-repo-stars ml-1">0</strong>
+      </span>
+      <span class="flex items-center">
+        <i class="i-icon git-fork"></i>
+        <strong class="js-repo-forks ml-1">0</strong>
+      </span>
+    </span>
+  </span>
+</a><div class="edit-this-page">
+  <a href="https://github.com/tobi-de/falco/blob/master/docs/changelog.rst">Edit this page</a>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div>
+    </div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+    <div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-icon menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList">
+      
+      
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="index.html"><span itemprop="name">Falco</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li>
+      
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">Changelog</strong>
+        <meta itemprop="position" content="2" />
+      </li>
+      
+      
+    </ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-icon outdent"></i>
+      </button>
+    </div>
+  </div>
+</div>
+    <div class="flex flex-col break-words justify-between">
+      <div class="min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+        <article class="yue" role="main">
+          <section id="changelog">
+<h1>Changelog<a class="headerlink" href="#changelog" title="Link to this heading">¶</a></h1>
+<section id="release-v0-21-0">
+<h2>v0.21.0<a class="headerlink" href="#release-v0-21-0" title="Link to this heading">¶</a></h2>
+<p><em>Released on 2024-03-18 - <a class="reference external" href="https://github.com/Tobi-De/falco/releases/tag/v0.21.0">GitHub</a> - <a class="reference external" href="https://pypi.org/project/falco-cli/v0.21.0/">PyPI</a></em></p>
+<h2>What's changed</h2>
+<ul>
+<li><strong>feat</strong>: Added a <code>for_htmx</code> decorator utils for simpler usage for htmx with template partials, the code was copied and adapted from <a href="https://github.com/spookylukey/django-htmx-patterns/blob/master/code/htmx_patterns/utils.py">https://github.com/spookylukey/django-htmx-patterns/blob/master/code/htmx_patterns/utils.py</a></li>
+</ul>
+<p><strong>Full Changelog</strong>: <a class="commit-link" href="https://github.com/Tobi-De/falco/compare/v0.20.0...v0.21.0"><tt>v0.20.0...v0.21.0</tt></a></p></section>
+<section id="release-v0-20-0">
+<h2>v0.20.0<a class="headerlink" href="#release-v0-20-0" title="Link to this heading">¶</a></h2>
+<p><em>Released on 2024-03-18 - <a class="reference external" href="https://github.com/Tobi-De/falco/releases/tag/v0.20.0">GitHub</a> - <a class="reference external" href="https://pypi.org/project/falco-cli/v0.20.0/">PyPI</a></em></p>
+<h2>What's Changed</h2>
+<ul>
+<li><strong>stlyle</strong>: Improve the crud table style, using icons for the actions tab</li>
+<li><strong>refactor</strong>: The default pagge size for pagination is now <code>10</code> instead of <code>20</code></li>
+</ul>
+<p><strong>Full Changelog</strong>: <a class="commit-link" href="https://github.com/Tobi-De/falco/compare/v0.19.0...v0.20.0"><tt>v0.19.0...v0.20.0</tt></a></p></section>
+<section id="release-v0-19-0">
+<h2>v0.19.0<a class="headerlink" href="#release-v0-19-0" title="Link to this heading">¶</a></h2>
+<p><em>Released on 2024-03-18 - <a class="reference external" href="https://github.com/Tobi-De/falco/releases/tag/v0.19.0">GitHub</a> - <a class="reference external" href="https://pypi.org/project/falco-cli/v0.19.0/">PyPI</a></em></p>
+<h2>What's Changed</h2>
+<ul>
+<li>Better object list variable name for crud generated index views</li>
+<li>Added the model <code>verbose_name</code> to the html blueprints context</li>
+<li>restructure start-project docs by <a class="user-mention notranslate" data-hovercard-type="user" data-hovercard-url="/users/Tobi-De/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/Tobi-De">@Tobi-De</a> in <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="2164059058" data-permission-text="Title is private" data-url="https://github.com/Tobi-De/falco/issues/71" data-hovercard-type="pull_request" data-hovercard-url="/Tobi-De/falco/pull/71/hovercard" href="https://github.com/Tobi-De/falco/pull/71">#71</a></li>
+<li>Auto-update pre-commit hooks by @github-actions in <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="2185254218" data-permission-text="Title is private" data-url="https://github.com/Tobi-De/falco/issues/73" data-hovercard-type="pull_request" data-hovercard-url="/Tobi-De/falco/pull/73/hovercard" href="https://github.com/Tobi-De/falco/pull/73">#73</a></li>
+</ul>
+<p><strong>Full Changelog</strong>: <a class="commit-link" href="https://github.com/Tobi-De/falco/compare/v0.18.6...v0.19.0"><tt>v0.18.6...v0.19.0</tt></a></p></section>
+<section id="release-v0-18-6">
+<h2>v0.18.6<a class="headerlink" href="#release-v0-18-6" title="Link to this heading">¶</a></h2>
+<p><em>Released on 2024-03-08 - <a class="reference external" href="https://github.com/Tobi-De/falco/releases/tag/v0.18.6">GitHub</a> - <a class="reference external" href="https://pypi.org/project/falco-cli/v0.18.6/">PyPI</a></em></p>
+<h2>Wha's changed</h2>
+<ul>
+<li><strong>fix</strong>: <code>work</code> command fails with a custom user command using the <code>address</code> option</li>
+</ul>
+<p><strong>Full Changelog</strong>: <a class="commit-link" href="https://github.com/Tobi-De/falco/compare/v0.18.5...v0.18.6"><tt>v0.18.5...v0.18.6</tt></a></p></section>
+<section id="release-v0-18-4">
+<h2>v0.18.4<a class="headerlink" href="#release-v0-18-4" title="Link to this heading">¶</a></h2>
+<p><em>Released on 2024-03-05 - <a class="reference external" href="https://github.com/Tobi-De/falco/releases/tag/v0.18.4">GitHub</a> - <a class="reference external" href="https://pypi.org/project/falco-cli/v0.18.4/">PyPI</a></em></p>
+<p><strong>Full Changelog</strong>: <a class="commit-link" href="https://github.com/Tobi-De/falco/compare/0.18.3...v0.18.4"><tt>0.18.3...v0.18.4</tt></a></p></section>
+<section id="release-v0-18-0">
+<h2>v0.18.0<a class="headerlink" href="#release-v0-18-0" title="Link to this heading">¶</a></h2>
+<p><em>Released on 2024-03-03 - <a class="reference external" href="https://github.com/Tobi-De/falco/releases/tag/v0.18.0">GitHub</a> - <a class="reference external" href="https://pypi.org/project/falco-cli/v0.18.0/">PyPI</a></em></p>
+<h2>What's changed</h2>
+<ul>
+<li><strong>feat</strong>: The <code>crud</code> command now adds date types on widgets for form fields of type <code>DateTimeField</code>, <code>DateField</code>, and <code>TimeField</code>.</li>
+<li><strong>feat</strong>: The <code>start-project</code> command can now work offline if a blueprint has already been downloaded once.</li>
+<li><strong>fix</strong>: The generated table on list pages was missing a column header.</li>
+</ul>
+<p><strong>Full Changelog</strong>: <a class="commit-link" href="https://github.com/Tobi-De/falco/compare/v0.17.0...v0.18.0"><tt>v0.17.0...v0.18.0</tt></a></p></section>
+<section id="release-v0-17-0">
+<h2>v0.17.0<a class="headerlink" href="#release-v0-17-0" title="Link to this heading">¶</a></h2>
+<p><em>Released on 2024-03-03 - <a class="reference external" href="https://github.com/Tobi-De/falco/releases/tag/v0.17.0">GitHub</a> - <a class="reference external" href="https://pypi.org/project/falco-cli/v0.17.0/">PyPI</a></em></p>
+<h2>What's changed</h2>
+<ul>
+<li><strong>refactor</strong>: blueprints html files now end with the extension <code>.jinja</code>.</li>
+</ul>
+<p><strong>Full Changelog</strong>: <a class="commit-link" href="https://github.com/Tobi-De/falco/compare/v0.16.1...v0.17.0"><tt>v0.16.1...v0.17.0</tt></a></p></section>
+<section id="release-v0-16-1">
+<h2>v0.16.1<a class="headerlink" href="#release-v0-16-1" title="Link to this heading">¶</a></h2>
+<p><em>Released on 2024-03-03 - <a class="reference external" href="https://github.com/Tobi-De/falco/releases/tag/v0.16.1">GitHub</a> - <a class="reference external" href="https://pypi.org/project/falco-cli/v0.16.1/">PyPI</a></em></p>
+<h2>What's changed</h2>
+<p>Mainly internal changes, <code>cruft</code> is no longer a project dependency. <code>pico</code> can now be specified as a blueprint.</p>
+<p><strong>Full Changelog</strong>: <a class="commit-link" href="https://github.com/Tobi-De/falco/compare/v0.16.0...v0.16.1"><tt>v0.16.0...v0.16.1</tt></a></p></section>
+<section id="release-v0-16-0">
+<h2>v0.16.0<a class="headerlink" href="#release-v0-16-0" title="Link to this heading">¶</a></h2>
+<p><em>Released on 2024-03-01 - <a class="reference external" href="https://github.com/Tobi-De/falco/releases/tag/v0.16.0">GitHub</a> - <a class="reference external" href="https://pypi.org/project/falco-cli/v0.16.0/">PyPI</a></em></p>
+<h2>What's changed</h2>
+<ul>
+<li><strong>feat</strong>: The <code>settings.py</code> file was greatly improved; the project environment is now simpler. <code>DEBUG=False</code> denotes the production environment.</li>
+<li><strong>feat</strong>: The <code>sync-dotenv</code> command generates better defaults with <code>DEBUG=False</code> (production mode).</li>
+</ul>
+<p><strong>Full Changelog</strong>: <a class="commit-link" href="https://github.com/Tobi-De/falco/compare/v0.15.0...v0.16.0"><tt>v0.15.0...v0.16.0</tt></a></p></section>
+<section id="release-v0-15-0">
+<h2>v0.15.0<a class="headerlink" href="#release-v0-15-0" title="Link to this heading">¶</a></h2>
+<p><em>Released on 2024-02-26 - <a class="reference external" href="https://github.com/Tobi-De/falco/releases/tag/v0.15.0">GitHub</a> - <a class="reference external" href="https://pypi.org/project/falco-cli/v0.15.0/">PyPI</a></em></p>
+<h2>What's Changed</h2>
+<ul>
+<li>The <code>setup-admin</code> command was remove, the django <code>createsuperuser</code> command can do <a href="https://falco.oluwatobi.dev/guides/tips_and_extra.html#create-superuser-from-environment-variables" rel="nofollow">the exact same thing</a></li>
+</ul>
+<p><strong>Full Changelog</strong>: <a class="commit-link" href="https://github.com/Tobi-De/falco/compare/v0.14.0...v0.15.0"><tt>v0.14.0...v0.15.0</tt></a></p></section>
+<section id="release-v0-14-0">
+<h2>v0.14.0<a class="headerlink" href="#release-v0-14-0" title="Link to this heading">¶</a></h2>
+<p><em>Released on 2024-02-21 - <a class="reference external" href="https://github.com/Tobi-De/falco/releases/tag/v0.14.0">GitHub</a> - <a class="reference external" href="https://pypi.org/project/falco-cli/v0.14.0/">PyPI</a></em></p>
+<h1>What's changed</h1>
+<ul>
+<li><strong>feat</strong>: A <code>.env</code> file is now generated during project creation.</li>
+</ul>
+<p><strong>Full Changelog</strong>: <a class="commit-link" href="https://github.com/Tobi-De/falco/compare/v0.13.0...v0.14.0"><tt>v0.13.0...v0.14.0</tt></a></p></section>
+<section id="release-v0-13-0">
+<h2>v0.13.0<a class="headerlink" href="#release-v0-13-0" title="Link to this heading">¶</a></h2>
+<p><em>Released on 2024-02-21 - <a class="reference external" href="https://github.com/Tobi-De/falco/releases/tag/v0.13.0">GitHub</a> - <a class="reference external" href="https://pypi.org/project/falco-cli/v0.13.0/">PyPI</a></em></p>
+<h2>What's Changed</h2>
+<ul>
+<li>Auto-update pre-commit hooks by @github-actions in <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="2143411198" data-permission-text="Title is private" data-url="https://github.com/Tobi-De/falco/issues/68" data-hovercard-type="pull_request" data-hovercard-url="/Tobi-De/falco/pull/68/hovercard" href="https://github.com/Tobi-De/falco/pull/68">#68</a></li>
+<li><strong>feat</strong>: The <code>sync-dotenv</code> command can now print the <code>.env</code> content to the console by <a class="user-mention notranslate" data-hovercard-type="user" data-hovercard-url="/users/Tobi-De/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/Tobi-De">@Tobi-De</a> in <a href="https://github.com/Tobi-De/falco/pull/67" data-hovercard-type="pull_request" data-hovercard-url="/Tobi-De/falco/pull/67/hovercard">this pull request</a>.</li>
+<li><strong>feat</strong>: Added an option to customize the Django server address for the <code>work</code> command by <a class="user-mention notranslate" data-hovercard-type="user" data-hovercard-url="/users/Tobi-De/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/Tobi-De">@Tobi-De</a> in <a href="https://github.com/Tobi-De/falco/pull/66" data-hovercard-type="pull_request" data-hovercard-url="/Tobi-De/falco/pull/66/hovercard">this pull request</a>.</li>
+</ul>
+<h2>New Contributors</h2>
+<ul>
+<li>@github-actions made their first contribution in <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="2143411198" data-permission-text="Title is private" data-url="https://github.com/Tobi-De/falco/issues/68" data-hovercard-type="pull_request" data-hovercard-url="/Tobi-De/falco/pull/68/hovercard" href="https://github.com/Tobi-De/falco/pull/68">#68</a></li>
+</ul>
+<p><strong>Full Changelog</strong>: <a class="commit-link" href="https://github.com/Tobi-De/falco/compare/v0.12.0...v0.13.0"><tt>v0.12.0...v0.13.0</tt></a></p></section>
+<section id="release-v0-12-0">
+<h2>v0.12.0<a class="headerlink" href="#release-v0-12-0" title="Link to this heading">¶</a></h2>
+<p><em>Released on 2024-02-15 - <a class="reference external" href="https://github.com/Tobi-De/falco/releases/tag/v0.12.0">GitHub</a> - <a class="reference external" href="https://pypi.org/project/falco-cli/v0.12.0/">PyPI</a></em></p>
+<h2>What's Changed</h2>
+<ul>
+<li><strong>Feat</strong>: The Docker setup now uses <code>s6-overlay</code> to run both Django and Django-Q in a single container.</li>
+<li><strong>Refactor</strong>: The HTML files generated by the <code>crud</code> commands now use the <code>content</code> block name instead of <code>main_content</code> (sorry in advance if this breaks your workflow).</li>
+<li><strong>Refactor</strong>: The default templates were improved; there is now a block for the <code>header</code> and another one for the <code>footer</code>.</li>
+<li><strong>Feat</strong>: There are now views for the <code>favicon.ico</code>, <code>.well-known/security.txt</code>, and <code>robots.txt</code> files.</li>
+<li><strong>Feat</strong>: The generated projects now use <a href="https://github.com/revsys/django-health-check">django-health-check</a>.</li>
+<li><strong>Feat</strong>: The generated projects now use <a href="https://github.com/westerveltco/django-q-registry">django-q-registry</a>.</li>
+<li><strong>Feat</strong>: The generated projects now use <a href="https://github.com/adamchainz/heroicons">heroicons</a>.</li>
+<li><strong>Fix</strong>: Added missing boto3 dependency for Amazon SES.</li>
+<li><strong>Chore:</strong> The Falco license was updated to comply with the MIT license.</li>
+<li><strong>Docs</strong>: Added tissieres as a contributor for financial support in <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="2135756825" data-permission-text="Title is private" data-url="https://github.com/Tobi-De/falco/issues/63" data-hovercard-type="pull_request" data-hovercard-url="/Tobi-De/falco/pull/63/hovercard" href="https://github.com/Tobi-De/falco/pull/63">#63</a> (this gentleman provided me with a free VPS to experiment with; thanks a lot to him).</li>
+</ul>
+<p>Many of the updates were inspired by <a href="https://github.com/westerveltco/django-twc-project">django-twc-project</a>.</p>
+<p><strong>Full Changelog</strong>: <a class="commit-link" href="https://github.com/Tobi-De/falco/compare/v0.11.0...v0.12.0"><tt>v0.11.0...v0.12.0</tt></a></p></section>
+<section id="release-v0-11-0">
+<h2>v0.11.0<a class="headerlink" href="#release-v0-11-0" title="Link to this heading">¶</a></h2>
+<p><em>Released on 2024-02-11 - <a class="reference external" href="https://github.com/Tobi-De/falco/releases/tag/v0.11.0">GitHub</a> - <a class="reference external" href="https://pypi.org/project/falco-cli/v0.11.0/">PyPI</a></em></p>
+<h2>What's changed</h2>
+<ul>
+<li><strong>fix</strong>: falco can now be used with a host without git installed</li>
+</ul>
+<p><strong>Full Changelog</strong>: <a class="commit-link" href="https://github.com/Tobi-De/falco/compare/v0.10.1...v0.11.0"><tt>v0.10.1...v0.11.0</tt></a></p></section>
+<section id="release-v0-10-1">
+<h2>v0.10.1<a class="headerlink" href="#release-v0-10-1" title="Link to this heading">¶</a></h2>
+<p><em>Released on 2024-02-08 - <a class="reference external" href="https://github.com/Tobi-De/falco/releases/tag/v0.10.1">GitHub</a> - <a class="reference external" href="https://pypi.org/project/falco-cli/v0.10.1/">PyPI</a></em></p>
+<h2>What's changed</h2>
+<ul>
+<li><strong>fix</strong>: Generated projects are created with the old crud-utils configuration key.</li>
+</ul>
+<p><strong>Full Changelog</strong>: <a class="commit-link" href="https://github.com/Tobi-De/falco/compare/v0.10.0...v0.10.1"><tt>v0.10.0...v0.10.1</tt></a></p></section>
+<section id="release-v0-10-0">
+<h2>v0.10.0<a class="headerlink" href="#release-v0-10-0" title="Link to this heading">¶</a></h2>
+<p><em>Released on 2024-02-02 - <a class="reference external" href="https://github.com/Tobi-De/falco/releases/tag/v0.10.0">GitHub</a> - <a class="reference external" href="https://pypi.org/project/falco-cli/v0.10.0/">PyPI</a></em></p>
+<h1>What's changed</h1>
+<ul>
+<li><strong>docs</strong>: Added note about <a href="https://github.com/linkedin/shiv">shiv</a> into the <a href="https://falco.oluwatobi.dev/guides/deployment.html#desktop-mobile-app" rel="nofollow">deployment guide</a>.</li>
+<li><strong>feat</strong>: Restored the original functionality of the <code>--exclude</code> option of the <code>crud</code> command. It now functions as it did initially, concealing fields from users in both forms and templates. A recent change was made to use it to exlcude non-editable fields from forms, but now all non-editable fields are automatically left out from forms.</li>
+</ul>
+<p><strong>Full Changelog</strong>: <a class="commit-link" href="https://github.com/Tobi-De/falco/compare/v0.9.0...v0.10.0"><tt>v0.9.0...v0.10.0</tt></a></p></section>
+<section id="release-v0-9-0">
+<h2>v0.9.0<a class="headerlink" href="#release-v0-9-0" title="Link to this heading">¶</a></h2>
+<p><em>Released on 2024-01-31 - <a class="reference external" href="https://github.com/Tobi-De/falco/releases/tag/v0.9.0">GitHub</a> - <a class="reference external" href="https://pypi.org/project/falco-cli/v0.9.0/">PyPI</a></em></p>
+<h2>What's changed</h2>
+<ul>
+<li><strong>feat:</strong> There is a new <code>[tool.falco.crud]</code> section to configure the <code>crud</code> command. Check it out <a href="https://falco.oluwatobi.dev/the_cli/crud.html#configuration" rel="nofollow">here</a>.</li>
+<li><strong>refactor:</strong> The <code>crud_utils</code> path has been moved to <code>[tool.falco.crud.utils_path]</code>.<br>
+<strong>Full Changelog</strong>: <a class="commit-link" href="https://github.com/Tobi-De/falco/compare/v0.7.2...v0.9.0"><tt>v0.7.2...v0.9.0</tt></a></li>
+</ul></section>
+<section id="release-v0-8-0">
+<h2>v0.8.0<a class="headerlink" href="#release-v0-8-0" title="Link to this heading">¶</a></h2>
+<p><em>Released on 2024-01-31 - <a class="reference external" href="https://github.com/Tobi-De/falco/releases/tag/v0.8.0">GitHub</a> - <a class="reference external" href="https://pypi.org/project/falco-cli/v0.8.0/">PyPI</a></em></p>
+<h2>What's changed</h2>
+<div class="markdown-alert markdown-alert-note"><p class="markdown-alert-title"><svg class="octicon octicon-info mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p><p><strong>TL;DR</strong> : The <code>crud</code> command now generates HTML templates with a <code>main_content</code> block instead of a <code>content</code> block.</p>
+</div>
+<p>This release primarily prepares for future updates. I'm developing a more appealing default set of HTML templates, similar to what <a href="https://github.com/wsvincent/djangox">djangox</a> and <a href="https://github.com/cookiecutter/cookiecutter-django">cookiecutter-django</a> offer.</p>
+<p>First, I've renamed the <code>--repo-url</code> option from the <code>start-project</code> command to <code>--blueprint (-b)</code>, which is more consistent with the rest of Falco.</p>
+<p>Secondly, and this change might disrupt the current workflow of anyone using Falco right now (for which I sincerely apologize), I've revised the layout of the <code>base.html</code> template and the <code>crud</code> generated templates. The main difference is a change in block name.</p>
+<details>
+<summary>Here's an example of what previous templates looked like:</summary>
+<div class="highlight highlight-text-html-basic notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="{% load static %}
+{% load django_htmx %}
+{% load tailwind_cli %}
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta content=&quot;width=device-width, initial-scale=1&quot; name=&quot;viewport&quot;&gt;
+    &lt;meta name=&quot;description&quot; content=&quot;&quot;&gt;
+    &lt;meta name=&quot;keywords&quot; content=&quot;&quot;&gt;
+    {% tailwind_css %}
+    &lt;title&gt;books&lt;/title&gt;
+    &lt;script defer src=&quot;{% static &quot;vendors/htmx/htmx.min.js&quot; %}&quot;&gt;&lt;/script&gt;
+    {% django_htmx_script %}
+    {% block extra_head %}{% endblock extra_head %}
+&lt;/head&gt;
+&lt;body hx-headers='{&quot;X-CSRFToken&quot;: &quot;{{ csrf_token }}&quot;}' class=&quot;bg-gray-100&quot;&gt;
+&lt;main class=&quot;container mx-auto py-5&quot;&gt;
+    {% block content %}
+    {% endblock content %}
+    {% block extra_body %}{% endblock extra_body %}
+&lt;/main&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"><pre>{% load static %}
+{% load django_htmx %}
+{% load tailwind_cli %}
+<span class="pl-c1">&lt;!DOCTYPE html<span class="pl-kos">&gt;</span></span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">html</span> <span class="pl-c1">lang</span>="<span class="pl-s">en</span>"<span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">head</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">meta</span> <span class="pl-c1">charset</span>="<span class="pl-s">UTF-8</span>"<span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">meta</span> <span class="pl-c1">content</span>="<span class="pl-s">width=device-width, initial-scale=1</span>" <span class="pl-c1">name</span>="<span class="pl-s">viewport</span>"<span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">meta</span> <span class="pl-c1">name</span>="<span class="pl-s">description</span>" <span class="pl-c1">content</span>=""<span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">meta</span> <span class="pl-c1">name</span>="<span class="pl-s">keywords</span>" <span class="pl-c1">content</span>=""<span class="pl-kos">&gt;</span>
+    {% tailwind_css %}
+    <span class="pl-kos">&lt;</span><span class="pl-ent">title</span><span class="pl-kos">&gt;</span>books<span class="pl-kos">&lt;/</span><span class="pl-ent">title</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">script</span> <span class="pl-c1">defer</span> <span class="pl-c1">src</span>="<span class="pl-s">{% static </span>"<span class="pl-c1">vendors</span>/htmx/htmx.min.js" %}"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
+    {% django_htmx_script %}
+    {% block extra_head %}{% endblock extra_head %}
+<span class="pl-kos">&lt;/</span><span class="pl-ent">head</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">body</span> <span class="pl-c1">hx-headers</span>='<span class="pl-s">{"X-CSRFToken": "{{ csrf_token }}"}</span>' <span class="pl-c1">class</span>="<span class="pl-s">bg-gray-100</span>"<span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">main</span> <span class="pl-c1">class</span>="<span class="pl-s">container mx-auto py-5</span>"<span class="pl-kos">&gt;</span>
+    {% block content %}
+    {% endblock content %}
+    {% block extra_body %}{% endblock extra_body %}
+<span class="pl-kos">&lt;/</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span></pre></div>
+</details>
+<details>
+<summary>and this is the updated layout structure:</summary>
+<div class="highlight highlight-text-html-basic notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="{% load static %}
+{% load django_htmx %}
+{% load tailwind_cli %}
+
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot; /&gt;
+    &lt;meta content=&quot;width=device-width, initial-scale=1&quot; name=&quot;viewport&quot; /&gt;
+    &lt;meta name=&quot;description&quot; content=&quot;&quot; /&gt;
+    &lt;meta name=&quot;keywords&quot; content=&quot;&quot; /&gt;
+    &lt;title&gt;books&lt;/title&gt;
+    {% tailwind_css %}
+    {% block css %}
+    {% endblock css %}
+    &lt;script defer src=&quot;{% static &quot;vendors/htmx/htmx.min.js&quot; %}&quot;&gt;&lt;/script&gt;
+    {% django_htmx_script %}
+    {% block javascript %}
+    {% endblock javascript %}
+  &lt;/head&gt;
+  &lt;body hx-headers='{&quot;X-CSRFToken&quot;: &quot;{{ csrf_token }}&quot;}'&gt;
+    {% block content %}
+      &lt;main class=&quot;container mx-auto&quot;&gt;
+        {% block main_content %}
+        {% endblock main_content %}
+      &lt;/main&gt;
+    {% endblock content %}
+    {% block modal %}
+    {% endblock modal %}
+    {% block inline_javascript %}
+    {% endblock inline_javascript %}
+  &lt;/body&gt;
+&lt;/html&gt;
+"><pre>{% load static %}
+{% load django_htmx %}
+{% load tailwind_cli %}
+
+<span class="pl-c1">&lt;!DOCTYPE html<span class="pl-kos">&gt;</span></span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">html</span> <span class="pl-c1">lang</span>="<span class="pl-s">en</span>"<span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">head</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">meta</span> <span class="pl-c1">charset</span>="<span class="pl-s">UTF-8</span>" /&gt;
+    <span class="pl-kos">&lt;</span><span class="pl-ent">meta</span> <span class="pl-c1">content</span>="<span class="pl-s">width=device-width, initial-scale=1</span>" <span class="pl-c1">name</span>="<span class="pl-s">viewport</span>" /&gt;
+    <span class="pl-kos">&lt;</span><span class="pl-ent">meta</span> <span class="pl-c1">name</span>="<span class="pl-s">description</span>" <span class="pl-c1">content</span>="" /&gt;
+    <span class="pl-kos">&lt;</span><span class="pl-ent">meta</span> <span class="pl-c1">name</span>="<span class="pl-s">keywords</span>" <span class="pl-c1">content</span>="" /&gt;
+    <span class="pl-kos">&lt;</span><span class="pl-ent">title</span><span class="pl-kos">&gt;</span>books<span class="pl-kos">&lt;/</span><span class="pl-ent">title</span><span class="pl-kos">&gt;</span>
+    {% tailwind_css %}
+    {% block css %}
+    {% endblock css %}
+    <span class="pl-kos">&lt;</span><span class="pl-ent">script</span> <span class="pl-c1">defer</span> <span class="pl-c1">src</span>="<span class="pl-s">{% static </span>"<span class="pl-c1">vendors</span>/htmx/htmx.min.js" %}"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
+    {% django_htmx_script %}
+    {% block javascript %}
+    {% endblock javascript %}
+  <span class="pl-kos">&lt;/</span><span class="pl-ent">head</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">body</span> <span class="pl-c1">hx-headers</span>='<span class="pl-s">{"X-CSRFToken": "{{ csrf_token }}"}</span>'<span class="pl-kos">&gt;</span>
+    {% block content %}
+      <span class="pl-kos">&lt;</span><span class="pl-ent">main</span> <span class="pl-c1">class</span>="<span class="pl-s">container mx-auto</span>"<span class="pl-kos">&gt;</span>
+        {% block main_content %}
+        {% endblock main_content %}
+      <span class="pl-kos">&lt;/</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span>
+    {% endblock content %}
+    {% block modal %}
+    {% endblock modal %}
+    {% block inline_javascript %}
+    {% endblock inline_javascript %}
+  <span class="pl-kos">&lt;/</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span></pre></div>
+</details>
+<p>The changes that might impact you involve the introduction of a <code>main_content</code> block. This block is now used by the <code>crud</code> command for generating HTML templates, instead of the previously used <code>content</code> block. The intention is to allow pages that form parts of the landing section of your site (such as about, home, contact, etc...) to completely override the content of the HTML body. However, most of your other pages, which are part of the application (for example a profile page for logged-in users), will share some components like a navigation bar or a footer. These can be written directly in the <code>base.html</code> file. You can also add <code>footer</code> and <code>header</code> blocks inside the content block if you wish.</p>
+<p>If you want to retain the previous behavior, you can have a custom <code>blueprints</code> folder for the <code>crud</code> command to use, you can acquire the previous version of the crud templates by following the process detailed below.</p>
+<ol>
+<li>Clone the falco repository</li>
+</ol>
+<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="git clone https://github.com/Tobi-De/falco.git"><pre>git clone https://github.com/Tobi-De/falco.git</pre></div>
+<ol start="2">
+<li>Revert the repository to a version containing the earlier <code>crud</code> templates</li>
+</ol>
+<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="git reset --hard d2d7ed5fd9f09dc794942af7aa44d8458426b649"><pre>git reset --hard d2d7ed5fd9f09dc794942af7aa44d8458426b649</pre></div>
+<ol start="3">
+<li>Copy the contents of <code>src/falco/crud/html</code> into a <code>blueprints</code> folder in your project.</li>
+</ol>
+<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="cp -r src/falco/crud/html &lt;your_project&gt;/blueprints"><pre>cp -r src/falco/crud/html <span class="pl-k">&lt;</span>your_project<span class="pl-k">&gt;</span>/blueprints</pre></div>
+<ol start="4">
+<li>Now, execute the <code>crud</code> command with the <code>--blueprints</code> option. This will generate html files utilizing the <code>content</code> block.</li>
+</ol>
+<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="# from the root of your project
+falco crud --blueprints blueprints"><pre><span class="pl-c"><span class="pl-c">#</span> from the root of your project</span>
+falco crud --blueprints blueprints</pre></div>
+<div class="markdown-alert markdown-alert-note"><p class="markdown-alert-title"><svg class="octicon octicon-info mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p><p>In the upcoming release, you'll have the option to configure the blueprints folder via the <code>pyproject.toml</code> file.<br>
+This will save you from typing it each time.</p>
+</div>
+<p>Alternatively, you could simply update your <code>base.html</code> template to match the new layout.<br>
+I hope this change doesn't bother too many people :)</p>
+<p><strong>Full Changelog</strong>: <a class="commit-link" href="https://github.com/Tobi-De/falco/compare/v0.7.2...v0.8.0"><tt>v0.7.2...v0.8.0</tt></a></p></section>
+<section id="release-v0-7-2">
+<h2>v0.7.2<a class="headerlink" href="#release-v0-7-2" title="Link to this heading">¶</a></h2>
+<p><em>Released on 2024-01-30 - <a class="reference external" href="https://github.com/Tobi-De/falco/releases/tag/v0.7.2">GitHub</a> - <a class="reference external" href="https://pypi.org/project/falco-cli/v0.7.2/">PyPI</a></em></p>
+<h2>What's changed</h2>
+<ul>
+<li><strong>Refactor</strong>: Rename the <code>--login</code> option of the <code>crud</code> command to <code>--login-required</code>.</li>
+<li><strong>Docs</strong>: Provide a more illustrative example for the <a href="https://falco.oluwatobi.dev/the_cli/crud.html#custom-templates" rel="nofollow">HTML context</a> of custom templates in the CRUD section.</li>
+</ul>
+<p><strong>Full Changelog</strong>: <a class="commit-link" href="https://github.com/Tobi-De/falco/compare/v0.7.1...v0.7.2"><tt>v0.7.1...v0.7.2</tt></a></p></section>
+<section id="release-v0-7-1">
+<h2>v0.7.1<a class="headerlink" href="#release-v0-7-1" title="Link to this heading">¶</a></h2>
+<p><em>Released on 2024-01-28 - <a class="reference external" href="https://github.com/Tobi-De/falco/releases/tag/v0.7.1">GitHub</a> - <a class="reference external" href="https://pypi.org/project/falco-cli/v0.7.1/">PyPI</a></em></p>
+<h2>What's changed</h2>
+<ul>
+<li><strong>Fix:</strong> Remove extra space in the generated CRUD list html around a <code>for</code> tag, causing Djlint to trigger errors.</li>
+<li><strong>Docs:</strong> Add a note on mypy to the usage page.</li>
+<li><strong>Fix:</strong> Remove extra <code>HttpRequest</code> in the generated CRUD <code>views.py</code> file that was causing mypy checks to fail.</li>
+</ul>
+<p><strong>Full Changelog</strong>: <a class="commit-link" href="https://github.com/Tobi-De/falco/compare/v0.7.0...v0.7.1"><tt>v0.7.0...v0.7.1</tt></a></p></section>
+<section id="release-v0-7-0">
+<h2>v0.7.0<a class="headerlink" href="#release-v0-7-0" title="Link to this heading">¶</a></h2>
+<p><em>Released on 2024-01-28 - <a class="reference external" href="https://github.com/Tobi-De/falco/releases/tag/v0.7.0">GitHub</a> - <a class="reference external" href="https://pypi.org/project/falco-cli/v0.7.0/">PyPI</a></em></p>
+<h2>What's changed</h2>
+<ul>
+<li>feat: Added the <code>--blueprint</code> option to the <code>crud</code> command, allowing users to specify custom HTML files.</li>
+<li>feat: CRUD utils are now installed during project creation, eliminating the need for users to run it manually.</li>
+<li>feat: The installation path of CRUD utils is recorded in the <code>[too.falco]</code> section, enabling reuse whenever the command is rerun, possibly for updates.</li>
+<li>feat: The CRUD utils config is now used by the CRUD command to write imports in Python files, allows users to easily adjust imports for all generated code.</li>
+<li>feat: HTML files are formatted after project generation.</li>
+<li>docs: Added a typing section in the <a href="https://falco.oluwatobi.dev/guides/tips_and_extra.html#type-hinting" rel="nofollow">Tips and Extra</a> page.</li>
+<li>fix: Improved the error message displayed when <code>setup-admin</code> is run multiple times.</li>
+<li>And various other minor fixes.</li>
+</ul>
+<p><strong>Full Changelog</strong>: <a class="commit-link" href="https://github.com/Tobi-De/falco/compare/v0.6.0...v0.7.0"><tt>v0.6.0...v0.7.0</tt></a></p></section>
+<section id="release-v0-6-0">
+<h2>v0.6.0<a class="headerlink" href="#release-v0-6-0" title="Link to this heading">¶</a></h2>
+<p><em>Released on 2024-01-26 - <a class="reference external" href="https://github.com/Tobi-De/falco/releases/tag/v0.6.0">GitHub</a> - <a class="reference external" href="https://pypi.org/project/falco-cli/v0.6.0/">PyPI</a></em></p>
+<h2>What's changed</h2>
+<ul>
+<li>
+<p>feat: Introduce a new <code>--repo-url</code> option to the start-project command, allowing users to specify the blueprints to use, such as <a href="https://github.com/falco-blueprints/falco_blueprint_basic_bootstrap.git">a Bootstrap blueprint</a> (work in progress).</p>
+</li>
+<li>
+<p>feat: Enhance the <code>htmx</code> command by saving the installed path. This enables updating the file without requiring the user to specify the path.</p>
+</li>
+<li>
+<p>fix: Address an issue in the <code>start-app</code> command where installed apps were missing a comma, causing a configuration error in the installed apps list.</p>
+</li>
+</ul>
+<p><strong>Full Changelog</strong>: <a class="commit-link" href="https://github.com/Tobi-De/falco/compare/v0.5.0...v0.6.0"><tt>v0.5.0...v0.6.0</tt></a></p></section>
+<section id="release-v0-5-0">
+<h2>v0.5.0<a class="headerlink" href="#release-v0-5-0" title="Link to this heading">¶</a></h2>
+<p><em>Released on 2024-01-24 - <a class="reference external" href="https://github.com/Tobi-De/falco/releases/tag/v0.5.0">GitHub</a> - <a class="reference external" href="https://pypi.org/project/falco-cli/v0.5.0/">PyPI</a></em></p>
+<p>What's changed</p>
+<ul>
+<li>feat: Added a new <a href="https://falco.oluwatobi.dev/the_cli/start_app.html" rel="nofollow">start-app</a> command</li>
+<li>feat: The <a href="https://falco.oluwatobi.dev/the_cli/crud.html" rel="nofollow">crud</a> command now generate <code>admin</code> code</li>
+<li>feat: The <a href="https://falco.oluwatobi.dev/the_cli/crud.html" rel="nofollow">crud</a> command now register the urls of the app to the project root urls config</li>
+</ul>
+<p><strong>Full Changelog</strong>: <a class="commit-link" href="https://github.com/Tobi-De/falco/compare/v0.4.1...v0.5.0"><tt>v0.4.1...v0.5.0</tt></a></p></section>
+<section id="release-v0-4-1">
+<h2>v0.4.1<a class="headerlink" href="#release-v0-4-1" title="Link to this heading">¶</a></h2>
+<p><em>Released on 2024-01-23 - <a class="reference external" href="https://github.com/Tobi-De/falco/releases/tag/v0.4.1">GitHub</a> - <a class="reference external" href="https://pypi.org/project/falco-cli/v0.4.1/">PyPI</a></em></p>
+<h2>What's Changed</h2>
+<p>Mainly internal updates:</p>
+<ul>
+<li>CRUD blueprints are now written in Jinja.</li>
+<li>Added <code>order_by</code> to the queryset on list pages (CRUD) to prevent warnings from the paginator.</li>
+</ul>
+<p><strong>Full Changelog</strong>: <a class="commit-link" href="https://github.com/Tobi-De/falco/compare/v0.4.0...v0.4.1"><tt>v0.4.0...v0.4.1</tt></a></p></section>
+<section id="release-v0-4-0">
+<h2>v0.4.0<a class="headerlink" href="#release-v0-4-0" title="Link to this heading">¶</a></h2>
+<p><em>Released on 2024-01-22 - <a class="reference external" href="https://github.com/Tobi-De/falco/releases/tag/v0.4.0">GitHub</a> - <a class="reference external" href="https://pypi.org/project/falco-cli/v0.4.0/">PyPI</a></em></p>
+<h2>What's changed</h2>
+<ul>
+<li>The <code>install-crud-utils</code> command now includes a <code>types</code> module for htmx and authenticated user <code>HttpRequest</code>.</li>
+<li>The <code>install-crud-utils</code> command now accepts only one <code>output_dir</code> argument, so it's easier to reason about where utilities are installed.</li>
+<li>The <code>crud</code> command now accepts a <code>--login</code> option to decorate views with <code>login_required</code>.</li>
+</ul>
+<p><strong>Full Changelog</strong>: <a class="commit-link" href="https://github.com/Tobi-De/falco/compare/v0.3.2...v0.4.0"><tt>v0.3.2...v0.4.0</tt></a></p></section>
+<section id="release-v0-3-2">
+<h2>v0.3.2<a class="headerlink" href="#release-v0-3-2" title="Link to this heading">¶</a></h2>
+<p><em>Released on 2024-01-21 - <a class="reference external" href="https://github.com/Tobi-De/falco/releases/tag/v0.3.2">GitHub</a> - <a class="reference external" href="https://pypi.org/project/falco-cli/v0.3.2/">PyPI</a></em></p>
+<h2>What's changed</h2>
+<p>The blueprint/cookiecutter is now maintained in its own <a href="https://github.com/Tobi-De/falco_blueprint_basic">repository</a>. This change will simplify the implementation of the <a href="https://github.com/Tobi-De/falco/issues/45" data-hovercard-type="issue" data-hovercard-url="/Tobi-De/falco/issues/45/hovercard">update</a> feature.</p>
+<blockquote>
+<p>With this change, the <code>start-project</code> now requires an internet connection to work, if I get enough complaints about this, I'll change that.</p>
+</blockquote>
+<p><strong>Full Changelog</strong>: <a class="commit-link" href="https://github.com/Tobi-De/falco/compare/v0.3.1...v0.3.2"><tt>v0.3.1...v0.3.2</tt></a></p></section>
+<section id="release-v0-3-1">
+<h2>v0.3.1<a class="headerlink" href="#release-v0-3-1" title="Link to this heading">¶</a></h2>
+<p><em>Released on 2024-01-20 - <a class="reference external" href="https://github.com/Tobi-De/falco/releases/tag/v0.3.1">GitHub</a> - <a class="reference external" href="https://pypi.org/project/falco-cli/v0.3.1/">PyPI</a></em></p>
+<h2>What's Changed</h2>
+<ul>
+<li><strong>Refactor</strong>: Switched from <code>django-admin</code> to <a href="https://github.com/cookiecutter/cookiecutter">cookiecutter</a> for project generation.</li>
+<li><strong>Feat</strong>: Added a new option, <code>--root</code>, to the <code>start-project</code> command.</li>
+</ul>
+<p>The <code>directory</code> argument of the <code>start-project</code> command now functions as described in the documentation. By default, the project is generated inside the specified directory. Previously, specifying a directory considered it the project root, resulting in the <code>manage.py</code> file being placed there. To replicate this behavior, you now need to use the <code>--root</code> option.</p>
+<p>For example, running the command <code>falco start-project journal /home/Builds</code> generates a <code>journal</code> project inside the <code>/home/Builds</code> directory. The <code>manage.py</code> file will be located at <code>/home/Builds/journal/manage.py</code>. However, using the <code>--root</code> option considers <code>/home/Builds</code> as the root of your project, and the <code>manage.py</code> file will be located at <code>/home/Builds/manage.py</code>.</p>
+<p><strong>Full Changelog</strong>: <a class="commit-link" href="https://github.com/Tobi-De/falco/compare/v0.3.0...v0.3.1"><tt>v0.3.0...v0.3.1</tt></a></p></section>
+<section id="release-v0-3-0">
+<h2>v0.3.0<a class="headerlink" href="#release-v0-3-0" title="Link to this heading">¶</a></h2>
+<p><em>Released on 2024-01-19 - <a class="reference external" href="https://github.com/Tobi-De/falco/releases/tag/v0.3.0">GitHub</a> - <a class="reference external" href="https://pypi.org/project/falco-cli/v0.3.0/">PyPI</a></em></p>
+<h2>What's Changed</h2>
+<ul>
+<li>docs: complete the <a href="https://falco.oluwatobi.dev/guides/deployment.html" rel="nofollow">deployment guide</a></li>
+<li>refactor: rename <code>make-superuser</code> to <code>setup-admin</code></li>
+<li>docs: update diagram on the the <a href="https://falco.oluwatobi.dev/guides/task_queues_and_schedulers.html" rel="nofollow">task queues and schedulers guide</a></li>
+<li>fix: Remove non-existent makesuperuser command from entrypoint.sh</li>
+</ul>
+<p><strong>Full Changelog</strong>: <a class="commit-link" href="https://github.com/Tobi-De/falco/compare/v0.2.9...v0.3.0"><tt>v0.2.9...v0.3.0</tt></a></p></section>
+<section id="release-v0-2-9">
+<h2>v0.2.9<a class="headerlink" href="#release-v0-2-9" title="Link to this heading">¶</a></h2>
+<p><em>Released on 2024-01-16 - <a class="reference external" href="https://github.com/Tobi-De/falco/releases/tag/v0.2.9">GitHub</a> - <a class="reference external" href="https://pypi.org/project/falco-cli/v0.2.9/">PyPI</a></em></p>
+<h2>What's Changed</h2>
+<ul>
+<li>docs: Update Python version in pre-commit configuration</li>
+<li>build: use rich to generate project-tree</li>
+<li>build: use hatch-pip-compile to generate requirements file</li>
+<li>ci: do not need to update dependencies for generated code</li>
+<li>ci: most of the current pre-commit (falco ones) are broken</li>
+<li>docs: emphasize the start-app script</li>
+<li>ci: fix generated project ci workflow</li>
+</ul>
+<p><strong>Full Changelog</strong>: <a class="commit-link" href="https://github.com/Tobi-De/falco/compare/v0.2.8...v0.2.9"><tt>v0.2.8...v0.2.9</tt></a></p></section>
+<section id="release-v0-2-8">
+<h2>v0.2.8<a class="headerlink" href="#release-v0-2-8" title="Link to this heading">¶</a></h2>
+<p><em>Released on 2024-01-15 - <a class="reference external" href="https://github.com/Tobi-De/falco/releases/tag/v0.2.8">GitHub</a> - <a class="reference external" href="https://pypi.org/project/falco-cli/v0.2.8/">PyPI</a></em></p>
+<ul>
+<li>The code generated by the <code>CRUD</code> command should now pass the pre-commit hooks</li>
+</ul>
+<p><strong>Full Changelog</strong>: <a class="commit-link" href="https://github.com/Tobi-De/falco/compare/v0.2.7...v0.2.8"><tt>v0.2.7...v0.2.8</tt></a></p></section>
+<section id="release-v0-2-7">
+<h2>v0.2.7<a class="headerlink" href="#release-v0-2-7" title="Link to this heading">¶</a></h2>
+<p><em>Released on 2024-01-15 - <a class="reference external" href="https://github.com/Tobi-De/falco/releases/tag/v0.2.7">GitHub</a> - <a class="reference external" href="https://pypi.org/project/falco-cli/v0.2.7/">PyPI</a></em></p>
+<ul>
+<li>Add a section on <a href="https://marimo.io/" rel="nofollow">marimo</a> on the <a href="https://falco.oluwatobi.dev/the_cli/start_project.html#dj-notebook" rel="nofollow">start-project</a> docs as an alternative to <code>dj-notebook</code></li>
+<li>Project pre-commit hooks is back to using<code>ruff</code> with a better setup</li>
+<li>The <code>sync-dotenv</code> command now generate an sqlite db with the name <code>db.sqlite3</code> instead of <code>db.sqlite</code>, same as the default django starter project</li>
+<li>The <a href="https://falco.oluwatobi.dev/guides/tips_and_extra.html" rel="nofollow">tip_and_extra</a> section is in a cleaner state</li>
+<li>The <a href="https://falco.oluwatobi.dev/guides/task_queues_and_schedulers.html" rel="nofollow">Task queues and schedulers</a> is now completed</li>
+</ul>
+<p><strong>Full Changelog</strong>: <a class="commit-link" href="https://github.com/Tobi-De/falco/compare/v0.2.5...v0.2.7"><tt>v0.2.5...v0.2.7</tt></a></p></section>
+<section id="release-v0-2-5">
+<h2>v0.2.5<a class="headerlink" href="#release-v0-2-5" title="Link to this heading">¶</a></h2>
+<p><em>Released on 2024-01-13 - <a class="reference external" href="https://github.com/Tobi-De/falco/releases/tag/v0.2.5">GitHub</a> - <a class="reference external" href="https://pypi.org/project/falco-cli/v0.2.5/">PyPI</a></em></p>
+<ul>
+<li>The <a href="https://falco.oluwatobi.dev/the_cli/start_project.html" rel="nofollow">start-project</a> command now accept an option for specifying the project creation directory. This functionality mirrors the corresponding option in the Django <code>startproject</code> command.</li>
+<li>Add privacy friendly analytics using <a href="https://plausible.io/" rel="nofollow">plausible</a></li>
+</ul>
+<p><strong>Full Changelog</strong>: <a class="commit-link" href="https://github.com/Tobi-De/falco/compare/v0.2.4...v0.2.5"><tt>v0.2.4...v0.2.5</tt></a></p></section>
+<section id="release-v0-2-4">
+<h2>v0.2.4<a class="headerlink" href="#release-v0-2-4" title="Link to this heading">¶</a></h2>
+<p><em>Released on 2024-01-12 - <a class="reference external" href="https://github.com/Tobi-De/falco/releases/tag/v0.2.4">GitHub</a> - <a class="reference external" href="https://pypi.org/project/falco-cli/v0.2.4/">PyPI</a></em></p>
+<ul>
+<li>Small corrections of typos</li>
+</ul>
+<p><strong>Full Changelog</strong>: <a class="commit-link" href="https://github.com/Tobi-De/falco/compare/v0.2.3...v0.2.4"><tt>v0.2.3...v0.2.4</tt></a></p></section>
+<section id="release-v0-2-3">
+<h2>v0.2.3<a class="headerlink" href="#release-v0-2-3" title="Link to this heading">¶</a></h2>
+<p><em>Released on 2024-01-12 - <a class="reference external" href="https://github.com/Tobi-De/falco/releases/tag/v0.2.3">GitHub</a> - <a class="reference external" href="https://pypi.org/project/falco-cli/v0.2.3/">PyPI</a></em></p>
+<h2>What's Changed</h2>
+<ul>
+<li>Update crud.rst by <a class="user-mention notranslate" data-hovercard-type="user" data-hovercard-url="/users/shearichard/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/shearichard">@shearichard</a> in <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="2069562146" data-permission-text="Title is private" data-url="https://github.com/Tobi-De/falco/issues/31" data-hovercard-type="pull_request" data-hovercard-url="/Tobi-De/falco/pull/31/hovercard" href="https://github.com/Tobi-De/falco/pull/31">#31</a></li>
+<li>docs: add shearichard as a contributor for doc by <a class="user-mention notranslate" data-hovercard-type="user" data-hovercard-url="/users/allcontributors/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/allcontributors">@allcontributors</a> in <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="2069658661" data-permission-text="Title is private" data-url="https://github.com/Tobi-De/falco/issues/32" data-hovercard-type="pull_request" data-hovercard-url="/Tobi-De/falco/pull/32/hovercard" href="https://github.com/Tobi-De/falco/pull/32">#32</a></li>
+<li>docs: add 786raees as a contributor for code by <a class="user-mention notranslate" data-hovercard-type="user" data-hovercard-url="/users/allcontributors/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/allcontributors">@allcontributors</a> in <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="2069891647" data-permission-text="Title is private" data-url="https://github.com/Tobi-De/falco/issues/33" data-hovercard-type="pull_request" data-hovercard-url="/Tobi-De/falco/pull/33/hovercard" href="https://github.com/Tobi-De/falco/pull/33">#33</a></li>
+<li>Add htmx latest version support to start-project command <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="2055065253" data-permission-text="Title is private" data-url="https://github.com/Tobi-De/falco/issues/22" data-hovercard-type="issue" data-hovercard-url="/Tobi-De/falco/issues/22/hovercard" href="https://github.com/Tobi-De/falco/issues/22">#22</a> by <a class="user-mention notranslate" data-hovercard-type="user" data-hovercard-url="/users/786raees/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/786raees">@786raees</a>  in <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="2069977548" data-permission-text="Title is private" data-url="https://github.com/Tobi-De/falco/issues/34" data-hovercard-type="pull_request" data-hovercard-url="/Tobi-De/falco/pull/34/hovercard" href="https://github.com/Tobi-De/falco/pull/34">#34</a></li>
+<li>docs: Explain how to use the <a href="https://falco.oluwatobi.dev/the_cli/start_project.html#working-without-hatch" rel="nofollow">starter-project without hatch</a></li>
+<li>docs: Add a <a href="https://falco.oluwatobi.dev/the_cli/start_project.html#known-issues" rel="nofollow">known issues</a> section to the <code>start-project</code> docs</li>
+<li>Rewrite the <code>pre-commit hooks</code> for the project starter, the previous one was completely broken, now a little less broken</li>
+<li>Additionals small changes and bug fixes</li>
+</ul>
+<h2>New Contributors</h2>
+<ul>
+<li><a class="user-mention notranslate" data-hovercard-type="user" data-hovercard-url="/users/shearichard/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/shearichard">@shearichard</a> made their first contribution in <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="2069562146" data-permission-text="Title is private" data-url="https://github.com/Tobi-De/falco/issues/31" data-hovercard-type="pull_request" data-hovercard-url="/Tobi-De/falco/pull/31/hovercard" href="https://github.com/Tobi-De/falco/pull/31">#31</a></li>
+<li><a class="user-mention notranslate" data-hovercard-type="user" data-hovercard-url="/users/786raees/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/786raees">@786raees</a>  made their first contribution in <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="2069977548" data-permission-text="Title is private" data-url="https://github.com/Tobi-De/falco/issues/34" data-hovercard-type="pull_request" data-hovercard-url="/Tobi-De/falco/pull/34/hovercard" href="https://github.com/Tobi-De/falco/pull/34">#34</a></li>
+</ul>
+<p><strong>Full Changelog</strong>: <a class="commit-link" href="https://github.com/Tobi-De/falco/compare/v0.2.2...v0.2.3"><tt>v0.2.2...v0.2.3</tt></a></p></section>
+<section id="release-v0-2-2">
+<h2>v0.2.2<a class="headerlink" href="#release-v0-2-2" title="Link to this heading">¶</a></h2>
+<p><em>Released on 2023-12-31 - <a class="reference external" href="https://github.com/Tobi-De/falco/releases/tag/v0.2.2">GitHub</a> - <a class="reference external" href="https://pypi.org/project/falco-cli/v0.2.2/">PyPI</a></em></p>
+<p><strong>Changes to Starter Blueprint:</strong></p>
+<ul>
+<li>Add an extra blocks <code>head</code> and <code>body</code> for more flexibility.</li>
+</ul>
+<p><strong>Changes to CRUD Generator:</strong></p>
+<ul>
+<li>Fix <code>detail.html</code> and <code>update.html</code> templates where an incorrect variable name <code>product</code> was left in.</li>
+</ul>
+<p><strong>Full Changelog</strong>: <a class="commit-link" href="https://github.com/Tobi-De/falco/compare/v0.2.1...v0.2.2"><tt>v0.2.1...v0.2.2</tt></a></p></section>
+<section id="release-v0-2-1">
+<h2>v0.2.1<a class="headerlink" href="#release-v0-2-1" title="Link to this heading">¶</a></h2>
+<p><em>Released on 2023-12-31 - <a class="reference external" href="https://github.com/Tobi-De/falco/releases/tag/v0.2.1">GitHub</a> - <a class="reference external" href="https://pypi.org/project/falco-cli/v0.2.1/">PyPI</a></em></p>
+<p><strong>Changes to the Starter Blueprint</strong></p>
+<ul>
+<li>Fix email configuration for development setup.</li>
+<li>Resolve an issue where <code>django-fastdev</code> would raise an error while accessing the signup page because the <code>clean_username</code> form validator does not match any field on the <code>User</code> model.</li>
+</ul>
+<p><strong>Full Changelog</strong>: <a class="commit-link" href="https://github.com/Tobi-De/falco/compare/v0.2.0...v0.2.1"><tt>v0.2.0...v0.2.1</tt></a></p></section>
+<section id="release-v0-2-0">
+<h2>v0.2.0<a class="headerlink" href="#release-v0-2-0" title="Link to this heading">¶</a></h2>
+<p><em>Released on 2023-12-30 - <a class="reference external" href="https://github.com/Tobi-De/falco/releases/tag/v0.2.0">GitHub</a> - <a class="reference external" href="https://pypi.org/project/falco-cli/v0.2.0/">PyPI</a></em></p>
+<ul>
+<li>
+<p><strong>Folder Renaming:</strong> Renamed the <code>docker</code> folder to <code>deploy</code> to enhance clarity; the folder  contains more than just Docker-related files.</p>
+</li>
+<li>
+<p><strong>Default Starter Integration:</strong> Included the default starter project with the <code>core</code> app, streamlining the experience when using the <code>install-crud-utils</code> command.</p>
+</li>
+<li>
+<p><strong>Convenient App Creation:</strong> Added a hatch <code>start-app</code> script for creating an app and moving it into the project's <code>apps_dir</code>.</p>
+</li>
+<li>
+<p><strong>Type Checking Enhancement:</strong> Replaced Pyright with Mypy for  type checking; Mypy is less aggressive.</p>
+</li>
+<li>
+<p><strong>Improved README.md Setup Instructions:</strong> Enhanced setup instructions in the project's <code>README.md</code> for better clarity.</p>
+</li>
+<li>
+<p><strong>Starter Project Layout Adjustment:</strong> Modified the <code>utils</code> import generated by <code>crud</code> to align with the starter project layout, ensuring a more consistent structure.</p>
+</li>
+<li>
+<p><strong>Documentation Update:</strong> Revised the documentation for <code>work</code> commands, noting that the default starter does not come with a default config.</p>
+</li>
+<li>
+<p><strong>Miscellaneous Fixes:</strong> Addressed various small issues throughout the codebase.</p>
+</li>
+</ul>
+<p><strong>Full Changelog</strong>: <a class="commit-link" href="https://github.com/Tobi-De/falco/compare/v0.1.1...v0.2.0"><tt>v0.1.1...v0.2.0</tt></a></p></section>
+<section id="release-v0-1-0">
+<h2>v0.1.0: Initial release<a class="headerlink" href="#release-v0-1-0" title="Link to this heading">¶</a></h2>
+<p><em>Released on 2023-12-28 - <a class="reference external" href="https://github.com/Tobi-De/falco/releases/tag/v0.1.0">GitHub</a> - <a class="reference external" href="https://pypi.org/project/falco-cli/v0.1.0/">PyPI</a></em></p>
+</section>
+</section>
+
+        </article>
+        
+        <div class="navigation flex print:hidden">
+  <div class="navigation-prev">
+    <a href="license.html">
+      <i class="i-icon chevron"></i>
+      <div class="page-info">
+        <span>Previous</span>
+        
+        <div class="title">License</div>
+        
+      </div>
+    </a>
+  </div>
+  
+</div>
+        
+      </div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>Copyright &copy; 2023 - 2024, Tobi DEGNON</p>
+        
+        <p>
+          Made with
+          
+          <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+          
+          <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+        </p>
+      </div>
+      <div class="sy-foot-socials">
+          <a href="https://github.com/tobi-de/falco" aria-label="GitHub"><i class="i-icon github"></i></a>
+          <a href="https://twitter.com/tobidegnon" aria-label="X (Twitter)"><i class="i-icon x-twitter"></i></a>
+          <a href="https://fosstodon.org/@tobide" aria-label="Mastodon"><i class="i-icon mastodon"></i></a>
+      </div>
+    </div>
+  </div>
+</footer></div>
+      <script src="_static/documentation_options.js?v=c4f92b34"></script>
+      <script src="_static/doctools.js?v=888ff710"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/thebelab-helper.js"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+      <script src="_static/design-tabs.js?v=36754332"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script src="_static/shibuya.js?v=999236dc"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script data-domain="falco.oluwatobi.dev" defer="" src="https://plausible.service.dotfm.me/js/script.js"></script>
+      <script src="_static/add-og-title-to-home.js?v=825d2d7f"></script>
+    
+</body>
+</html>

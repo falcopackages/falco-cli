@@ -1,0 +1,46 @@
+html.light {
+    --yue-c-code-text: var(--yue-c-text);
+}
+
+html.dark {
+    --yue-c-code-text: var(--yue-c-text);
+}
+
+#badges img {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+#home-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    column-gap: 20px;
+}
+
+@media (max-width: 600px) {
+    #home-head {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    #home-head a img {
+        width: 250px;
+        height: 250px;
+    }
+}
+
+#home-head h1 {
+    font-size: 4.2rem;
+    margin-top: 3.4rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+#badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 3em;
+}

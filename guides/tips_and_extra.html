@@ -1,0 +1,439 @@
+
+  <!DOCTYPE html>
+<html lang="en" data-accent-color="sky" data-content_root="../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Tips and extra - Falco</title>
+    <link rel="shortcut icon" href="../_static/falco-logo.svg"/><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Contributing" href="../contributing.html" /><link rel="prev" title="Running your project in a single container" href="running_project_in_a_container.html" />
+      <link rel="canonical" href="https://falco.oluwatobi.dev/guides/tips_and_extra.html" />
+
+  <script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(sessionStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=aecf457f" />
+    <link rel="stylesheet" type="text/css" href="../_static/shibuya.css?v=d42a0c83" />
+    <link rel="stylesheet" type="text/css" href="../_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=a5c4661c" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link media="print" rel="stylesheet" type="text/css" href="../_static/print.css?v=20ff2c19" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=80ff722c" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/>
+<meta property="og:url" content="https://falco.oluwatobi.dev/guides/tips_and_extra.html"/>
+<meta property="og:title" content="Tips and extra"/>
+<meta name="twitter:card" content="summary"/><meta property="og:image" content="https://raw.githubusercontent.com/Tobi-De/falco/main/assets/og-image.jpg"/>
+<meta name="description" content="Things that does not deserve a full guide or I don’t know where to put them."/>
+<meta property="og:description" content="Things that does not deserve a full guide or I don’t know where to put them."/>
+  </head>
+<body><div class="document"><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand mr-4" href="../index.html">
+      <img class="light-logo" src="../_static/logo_with_text.svg" alt="Falco" height="28" />
+      <img class="dark-logo" src="../_static/logo_with_text.svg" alt="Falco" height="28" />
+      <strong>Falco</strong>
+    </a>
+    <div class="sy-head-links" id="NavLinks">
+      <nav class="sy-head-nav"></nav>
+      <div class="sy-head-extra flex items-center print:hidden">
+<form class="searchbox flex items-center" action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form>
+        
+        
+        <div class="sy-head-social flex items-center">
+            <a class="flex items-center" href="https://github.com/tobi-de/falco" aria-label="GitHub">
+              <i class="i-icon github"></i>
+            </a>
+        </div>
+      </div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden">
+      <button class="js-theme theme-switch flex items-center"
+        data-aria-auto="Switch to light color mode"
+        data-aria-light="Switch to dark color mode"
+        data-aria-dark="Switch to auto color mode">
+        <i class="i-icon theme-icon"></i>
+      </button>
+      <button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="NavLinks" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2 -translate-x-2"></span>
+          <span class="hamburger_3 -translate-x-1"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6"><div class="sidebar-links">
+  <ul>
+    <li>
+      <a href="https://github.com/tobi-de/falco/discussions">
+        <span class="icon">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path fill="#0099CC" fill-rule="evenodd" clip-rule="evenodd" d="M11 5a6 6 0 0 0-4.687 9.746c.215.27.315.62.231.954l-.514 2.058a1 1 0 0 0 1.485 1.1l2.848-1.71c.174-.104.374-.15.576-.148H13a6 6 0 0 0 0-12h-2Z"/>
+            <circle fill="white" cx="12" cy="11" r="1"/>
+            <circle fill="white" cx="9" cy="11" r="1"/>
+            <circle fill="white" cx="15" cy="11" r="1"/>
+          </svg>
+        </span>
+        <span class="text">Discussion</span>
+      </a>
+    </li>
+  </ul>
+</div>
+        <div class="globaltoc" data-expand-depth="1"><p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul class="current">
+<li class="toctree-l1 _expand"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1 _expand"><a class="reference internal" href="../the_cli/index.html">The CLI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../the_cli/usage.html">Usage / Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../the_cli/start_project/index.html">Start project</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../the_cli/start_project/structure.html">Project Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../the_cli/start_project/packages.html">Packages and Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../the_cli/start_project/dependency.html">Virtualenv and dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../the_cli/start_project/deploy.html">Deployment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../the_cli/start_project/issues.html">Known issues</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../the_cli/start_app.html">Start Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../the_cli/crud.html">CRUD for your model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../the_cli/htmx.html">HTMX goodies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../the_cli/work.html">Work - Running multiple process in one session</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../the_cli/migrations.html">Remove / Reset your migrations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../the_cli/sync_dotenv.html">Sync Dotenv files</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Guides</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="interactive_user_interfaces.html">Interactive user interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="task_queues_and_schedulers.html">Task Queues and Schedulers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing_documentation.html">Writing documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing_tests.html">Writing tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logging_and_monitoring.html">Logging and monitoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deployment.html">The ultimate deployment guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optimizing_database_access.html">Optimizing Database Access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="avoiding_god_models.html">Business logic in django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dynamic_model_schema.html">Dynamic Model Schema</a></li>
+<li class="toctree-l2"><a class="reference internal" href="realtime.html">Realtime in Django: Websockets, SSE, Polling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="permissions_and_authorization.html">Permissions and authorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="database_tips.html">Database Tips: Backup, Scaling, Triggers, and More</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multitenancy.html">Managing Multi-tenancy in Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing_async_code.html">Async Coding in Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="use_sqlite_in_production.html">Use Sqlite in production</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running_project_in_a_container.html">Running your project in a single container</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Tips and extra</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1 _expand"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1 _expand"><a class="reference internal" href="../codeofconduct.html">Code of Conduct</a></li>
+<li class="toctree-l1 _expand"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1 _expand"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+</ul>
+        </div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-icon close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4">
+  <div class="localtoc">
+    <h3>On this page</h3>
+    <ul>
+<li><a class="reference internal" href="#understanding-django-settings">Understanding django Settings</a></li>
+<li><a class="reference internal" href="#create-superuser-from-environment-variables">Create superuser from environment variables</a></li>
+<li><a class="reference internal" href="#local-email-testing">Local email testing</a></li>
+<li><a class="reference internal" href="#lifecycle-not-signals">Lifecycle not signals</a></li>
+<li><a class="reference internal" href="#better-user-personal-info-fields">Better user personal info fields</a></li>
+<li><a class="reference internal" href="#type-hinting">Type Hinting</a></li>
+<li><a class="reference internal" href="#generate-admin">Generate admin</a></li>
+<li><a class="reference internal" href="#auto-fill-forms">Auto Fill forms</a></li>
+<li><a class="reference internal" href="#find-path-declaration-for-a-view">Find Path Declaration for a View</a></li>
+<li><a class="reference internal" href="#navigating-project-urls-with-django-extensions">Navigating Project URLs with Django-Extensions</a></li>
+</ul>
+
+  </div><a class="js-repo-stats repo-stats flex items-center" href="https://github.com/tobi-de/falco"
+  data-type="github" data-user="tobi-de" data-repo="falco">
+  <span class="w-8 flex items-center justify-around shrink-0 text-3xl">
+    <i class="i-icon github"></i>
+  </span>
+  <span class="flex-grow px-2">
+    <span>tobi-de/falco</span>
+    <span class="flex text-sm repo-stats-count">
+      <span class="flex items-center pr-3">
+        <i class="i-icon star"></i>
+        <strong class="js-repo-stars ml-1">0</strong>
+      </span>
+      <span class="flex items-center">
+        <i class="i-icon git-fork"></i>
+        <strong class="js-repo-forks ml-1">0</strong>
+      </span>
+    </span>
+  </span>
+</a><div class="edit-this-page">
+  <a href="https://github.com/tobi-de/falco/blob/master/docs/guides/tips_and_extra.rst">Edit this page</a>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div>
+    </div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+    <div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-icon menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList">
+      
+      
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../index.html"><span itemprop="name">Falco</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li>
+      
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="index.html"><span itemprop="name">Guides</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="2" />
+      </li>
+      
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">Tips and extra</strong>
+        <meta itemprop="position" content="3" />
+      </li>
+      
+      
+    </ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-icon outdent"></i>
+      </button>
+    </div>
+  </div>
+</div>
+    <div class="flex flex-col break-words justify-between">
+      <div class="min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+        <article class="yue" role="main">
+          <section id="tips-and-extra">
+<h1>Tips and extra<a class="headerlink" href="#tips-and-extra" title="Link to this heading">¶</a></h1>
+<p>This section contains miscellaneous tips and extras that don’t warrant a full guide or don’t fit elsewhere.</p>
+<section id="understanding-django-settings">
+<h2>Understanding django Settings<a class="headerlink" href="#understanding-django-settings" title="Link to this heading">¶</a></h2>
+<p>If there is a setting in <code class="docutils literal notranslate"><span class="pre">settings.py</span></code> or elsewhere that you don’t understand, go to the <a class="reference external" href="https://docs.djangoproject.com/en/dev/ref/settings/">official django settings reference page</a>
+and press Ctrl + F to search for it. I find this faster than using the search box on the Django documentation site.</p>
+</section>
+<section id="create-superuser-from-environment-variables">
+<h2>Create superuser from environment variables<a class="headerlink" href="#create-superuser-from-environment-variables" title="Link to this heading">¶</a></h2>
+<p>You can easily create a Django superuser using environment variables. This is a convenient option of the <code class="docutils literal notranslate"><span class="pre">createsuperuser</span></code>
+command, and works with the <code class="docutils literal notranslate"><span class="pre">--no-input</span></code> flag. This is especially useful for creating a superuser without being prompted,
+for example as part of your production server setup process. For more details on this, read the <code class="docutils literal notranslate"><span class="pre">createsuperuser</span></code> <a class="reference external" href="https://docs.djangoproject.com/en/dev/ref/django-admin/#django-admin-createsuperuser">command documentation</a>.</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">In your OS environment variables or a .env file</span><a class="headerlink" href="#id1" title="Link to this code">¶</a></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span id="1-1">DJANGO_SUPERUSER_EMAIL=your_email@example.com
+</span><span id="1-2">DJANGO_SUPERUSER_PASSWORD=a_secure_password
+</span></pre></div>
+</div>
+</div>
+<p>You can set these environment variables on your local computer to easily create the same superuser with the same credentials for all your projects for your development needs.</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">Create a superuser</span><a class="headerlink" href="#id2" title="Link to this code">¶</a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span id="1-1">python<span class="w"> </span>manage.py<span class="w"> </span>createsuperuser<span class="w"> </span>--no-input
+</span></pre></div>
+</div>
+</div>
+</section>
+<section id="local-email-testing">
+<h2>Local email testing<a class="headerlink" href="#local-email-testing" title="Link to this heading">¶</a></h2>
+<p>If you’re seeking a local SMTP client with a nice user interface for email testing, I suggest using <a class="reference external" href="https://github.com/axllent/mailpit">mailpit</a>.
+To integrate it into your project, you’ll need to modify your <code class="docutils literal notranslate"><span class="pre">settings.py</span></code> as follows:</p>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">settings.py</span><a class="headerlink" href="#id3" title="Link to this code">¶</a></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span id="1-1"><span class="n">EMAIL_BACKEND</span> <span class="o">=</span> <span class="s2">&quot;django.core.mail.backends.smtp.EmailBackend&quot;</span><span class="p">,</span>
+</span><span id="1-2"><span class="n">EMAIL_HOST</span> <span class="o">=</span> <span class="s2">&quot;localhost&quot;</span>
+</span><span id="1-3"><span class="n">EMAIL_PORT</span> <span class="o">=</span> <span class="mi">1025</span>
+</span></pre></div>
+</div>
+</div>
+</section>
+<section id="lifecycle-not-signals">
+<h2>Lifecycle not signals<a class="headerlink" href="#lifecycle-not-signals" title="Link to this heading">¶</a></h2>
+<p>I’ve come to fall in love with <a class="reference external" href="https://github.com/rsinger86/django-lifecycle">django-lifecycle</a> and their approach to hooking into
+your Django objects’ lifecycle. Traditionally, the way of dealing with this in Django is using <a class="reference external" href="https://docs.djangoproject.com/en/dev/topics/signals/">signals</a>. Even
+though there is a lot of criticism on using signals in the community, I think they can be particularly useful in certain scenarios (e.g: implementing a plugin system). However, one scenario where they are not beneficial in my humble opinion is in
+organizing business logic. In such cases, I personally favor <code class="docutils literal notranslate"><span class="pre">django-lifecycle</span></code> because it follows the django <code class="docutils literal notranslate"><span class="pre">fat</span> <span class="pre">models</span></code> approach (essentially business logic in models).</p>
+<p>Here is an example of using <code class="docutils literal notranslate"><span class="pre">django-lifecycle</span></code> straight from their README:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span id="1-1"><span class="kn">from</span> <span class="nn">django_lifecycle</span> <span class="kn">import</span> <span class="n">LifecycleModel</span><span class="p">,</span> <span class="n">hook</span><span class="p">,</span> <span class="n">BEFORE_UPDATE</span><span class="p">,</span> <span class="n">AFTER_UPDATE</span>
+</span><span id="1-2">
+</span><span id="1-3">
+</span><span id="1-4"><span class="k">class</span> <span class="nc">Article</span><span class="p">(</span><span class="n">LifecycleModel</span><span class="p">):</span>
+</span><span id="1-5">    <span class="n">contents</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
+</span><span id="1-6">    <span class="n">updated_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="1-7">    <span class="n">status</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ChoiceField</span><span class="p">(</span><span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;draft&#39;</span><span class="p">,</span> <span class="s1">&#39;published&#39;</span><span class="p">])</span>
+</span><span id="1-8">    <span class="n">editor</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">AuthUser</span><span class="p">)</span>
+</span><span id="1-9">
+</span><span id="1-10">    <span class="nd">@hook</span><span class="p">(</span><span class="n">BEFORE_UPDATE</span><span class="p">,</span> <span class="n">when</span><span class="o">=</span><span class="s1">&#39;contents&#39;</span><span class="p">,</span> <span class="n">has_changed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="1-11">    <span class="k">def</span> <span class="nf">on_content_change</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="1-12">        <span class="bp">self</span><span class="o">.</span><span class="n">updated_at</span> <span class="o">=</span> <span class="n">timezone</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+</span><span id="1-13">
+</span><span id="1-14">    <span class="nd">@hook</span><span class="p">(</span><span class="n">AFTER_UPDATE</span><span class="p">,</span> <span class="n">when</span><span class="o">=</span><span class="s2">&quot;status&quot;</span><span class="p">,</span> <span class="n">was</span><span class="o">=</span><span class="s2">&quot;draft&quot;</span><span class="p">,</span> <span class="n">is_now</span><span class="o">=</span><span class="s2">&quot;published&quot;</span><span class="p">)</span>
+</span><span id="1-15">    <span class="k">def</span> <span class="nf">on_publish</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="1-16">        <span class="n">send_email</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">editor</span><span class="o">.</span><span class="n">email</span><span class="p">,</span> <span class="s2">&quot;An article has published!&quot;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="better-user-personal-info-fields">
+<h2>Better user personal info fields<a class="headerlink" href="#better-user-personal-info-fields" title="Link to this heading">¶</a></h2>
+<p>Instead of using <code class="docutils literal notranslate"><span class="pre">first_name</span></code> and <code class="docutils literal notranslate"><span class="pre">last_name</span></code> when requesting personal information from your users, consider using <code class="docutils literal notranslate"><span class="pre">full_name</span></code> and <code class="docutils literal notranslate"><span class="pre">short_name</span></code>.
+These two fields can accommodate almost all naming patterns in the world, unlike the first two. If you want more details on why,
+<a class="reference external" href="https://youtu.be/458KmAKq0bQ?si=OgGblV_p2R3zdnoW">watch this</a>. One thing I would add is that if your target audience is very narrow, geographically based,
+and unlikely to change or expand, then use whatever makes sense for them, even <code class="docutils literal notranslate"><span class="pre">first_name</span></code> and <code class="docutils literal notranslate"><span class="pre">last_name</span></code>.</p>
+</section>
+<section id="type-hinting">
+<h2>Type Hinting<a class="headerlink" href="#type-hinting" title="Link to this heading">¶</a></h2>
+<p>These days, I hardly write Django projects without implementing some level of type hinting. However, resources on this topic specific to Django are quite rare.
+A good starting point is the <a class="reference external" href="https://github.com/typeddjango/django-stubs#faq">FAQ section</a> of the django-stubs README. It provides sufficient information to
+navigate through most common use cases. Since I don’t overuse type hinting, I find it more than enough.</p>
+</section>
+<section id="generate-admin">
+<h2>Generate admin<a class="headerlink" href="#generate-admin" title="Link to this heading">¶</a></h2>
+<p><a class="reference external" href="https://django-extensions.readthedocs.io/en/latest/admin_generator.html">django-extensions</a> has become a must-have in all of my projects, and one of my
+favorite features is the <code class="docutils literal notranslate"><span class="pre">admin-generator</span></code> command. It generates code for your <code class="docutils literal notranslate"><span class="pre">admin.py</span></code> file based on your models. Here’s how to use it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span id="1-1">python<span class="w"> </span>manage.py<span class="w"> </span>admin_generator<span class="w"> </span>your_app<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span>+2<span class="w"> </span>&gt;<span class="w"> </span>your_project/your_app/admin.py
+</span></pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">tail</span> <span class="pre">-n</span> <span class="pre">+2</span></code> part is used to remove the first line of the generated file. This line, <code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">-*-</span> <span class="pre">coding:</span> <span class="pre">utf-8</span> <span class="pre">-*-</span></code>, sets the file encoding.
+However, it’s largely unnecessary these days, unless you’re coding in Python 2, which I sincerely hope is not the case.</p>
+</div>
+<p>As a hatch script</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span id="1-1"><span class="k">[tool.hatch.envs.default.scripts]</span>
+</span><span id="1-2"><span class="n">admin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;python manage.py admin_generator {args} | tail -n +2 &gt; your_project/{args}/admin.py&quot;</span>
+</span></pre></div>
+</div>
+</section>
+<section id="auto-fill-forms">
+<h2>Auto Fill forms<a class="headerlink" href="#auto-fill-forms" title="Link to this heading">¶</a></h2>
+<p>Manually filling out forms during development can become annoying quickly, checkout <a class="reference external" href="https://fakefiller.com/">fakefiller</a>.</p>
+</section>
+<section id="find-path-declaration-for-a-view">
+<h2>Find Path Declaration for a View<a class="headerlink" href="#find-path-declaration-for-a-view" title="Link to this heading">¶</a></h2>
+<p>Sometimes, you might need to find the path associated with a specific view. Instead of navigating to your <code class="docutils literal notranslate"><span class="pre">urls.py</span></code> file and searching for the
+view (for example, using <code class="docutils literal notranslate"><span class="pre">CTRL</span> <span class="pre">+</span> <span class="pre">F</span></code>), there’s a simpler and faster method. You can use the common <cite>jump to usage/jump to declaration</cite> feature available in most IDEs.
+In PyCharm, for instance, it’s <code class="docutils literal notranslate"><span class="pre">CTRL</span> <span class="pre">+</span> <span class="pre">B</span></code>.</p>
+<p>This technique enables you to jump directly to the usage of the view. Since you typically use the function only once and that’s usually in your <code class="docutils literal notranslate"><span class="pre">urls.py</span></code>, it will lead
+you directly to the associated path. This tip might seem obvious to some, but it took me a while to figure it out. So, I’m sharing it for those who might not be aware of this.</p>
+</section>
+<section id="navigating-project-urls-with-django-extensions">
+<h2>Navigating Project URLs with Django-Extensions<a class="headerlink" href="#navigating-project-urls-with-django-extensions" title="Link to this heading">¶</a></h2>
+<blockquote>
+<div><p>“✨ If you use #django and don’t know about django-extensions’ <cite>show_url</cite> management command, it’s the cheatsheet you didn’t know you needed… or you knew you needed but didn’t know what/where to look for it at.
+It saves me tons of time and frustration when figuring out what a view is named from a third party app.”</p>
+<p class="attribution">—<a class="reference external" href="https://mastodon.social/&#64;webology/110271223054909764">Jeff Triplett</a></p>
+</div></blockquote>
+<div class="literal-block-wrapper docutils container" id="id4">
+<div class="code-block-caption"><span class="caption-text">usage example</span><a class="headerlink" href="#id4" title="Link to this code">¶</a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span id="1-1">python<span class="w"> </span>manage.py<span class="w"> </span>show_urls<span class="w"> </span><span class="c1"># show all urls in the project</span>
+</span><span id="1-2">python<span class="w"> </span>manage.py<span class="w"> </span>show_urls<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>allauth<span class="w"> </span><span class="c1"># show all urls for allauth</span>
+</span></pre></div>
+</div>
+</div>
+</section>
+</section>
+
+        </article>
+        
+        <div class="navigation flex print:hidden">
+  <div class="navigation-prev">
+    <a href="running_project_in_a_container.html">
+      <i class="i-icon chevron"></i>
+      <div class="page-info">
+        <span>Previous</span>
+        
+        <div class="title">Running your project in a single container</div>
+        
+      </div>
+    </a>
+  </div>
+  <div class="navigation-next">
+    <a href="../contributing.html">
+      <div class="page-info">
+        <span>Next</span>
+        <div class="title">Contributing</div>
+      </div>
+      <i class="i-icon chevron"></i>
+    </a>
+  </div>
+</div>
+        
+      </div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>Copyright &copy; 2023 - 2024, Tobi DEGNON</p>
+        
+        <p>
+          Made with
+          
+          <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+          
+          <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+        </p>
+      </div>
+      <div class="sy-foot-socials">
+          <a href="https://github.com/tobi-de/falco" aria-label="GitHub"><i class="i-icon github"></i></a>
+          <a href="https://twitter.com/tobidegnon" aria-label="X (Twitter)"><i class="i-icon x-twitter"></i></a>
+          <a href="https://fosstodon.org/@tobide" aria-label="Mastodon"><i class="i-icon mastodon"></i></a>
+      </div>
+    </div>
+  </div>
+</footer></div>
+      <script src="../_static/documentation_options.js?v=c4f92b34"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/thebelab-helper.js"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script src="../_static/design-tabs.js?v=36754332"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script src="../_static/shibuya.js?v=999236dc"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script data-domain="falco.oluwatobi.dev" defer="" src="https://plausible.service.dotfm.me/js/script.js"></script>
+      <script src="../_static/add-og-title-to-home.js?v=825d2d7f"></script>
+    
+</body>
+</html>

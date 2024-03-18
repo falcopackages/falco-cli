@@ -1,0 +1,471 @@
+
+  <!DOCTYPE html>
+<html lang="en" data-accent-color="sky" data-content_root="../../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Virtualenv and dependencies - Falco</title>
+    <link rel="shortcut icon" href="../../_static/falco-logo.svg"/><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="Deployment" href="deploy.html" /><link rel="prev" title="Packages and Tools" href="packages.html" />
+      <link rel="canonical" href="https://falco.oluwatobi.dev/the_cli/start_project/dependency.html" />
+
+  <script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(sessionStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=aecf457f" />
+    <link rel="stylesheet" type="text/css" href="../../_static/shibuya.css?v=d42a0c83" />
+    <link rel="stylesheet" type="text/css" href="../../_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/tabs.css?v=a5c4661c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link media="print" rel="stylesheet" type="text/css" href="../../_static/print.css?v=20ff2c19" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=80ff722c" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/>
+<meta property="og:url" content="https://falco.oluwatobi.dev/the_cli/start_project/dependency.html"/>
+<meta property="og:title" content="Virtualenv and dependencies"/>
+<meta name="twitter:card" content="summary"/><meta property="og:image" content="https://raw.githubusercontent.com/Tobi-De/falco/main/assets/og-image.jpg"/>
+<meta name="description" content="Virtualenv and dependencies management with a project generated with falco."/>
+<meta property="og:description" content="Virtualenv and dependencies management with a project generated with falco."/>
+  </head>
+<body><div class="document"><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand mr-4" href="../../index.html">
+      <img class="light-logo" src="../../_static/logo_with_text.svg" alt="Falco" height="28" />
+      <img class="dark-logo" src="../../_static/logo_with_text.svg" alt="Falco" height="28" />
+      <strong>Falco</strong>
+    </a>
+    <div class="sy-head-links" id="NavLinks">
+      <nav class="sy-head-nav"></nav>
+      <div class="sy-head-extra flex items-center print:hidden">
+<form class="searchbox flex items-center" action="../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form>
+        
+        
+        <div class="sy-head-social flex items-center">
+            <a class="flex items-center" href="https://github.com/tobi-de/falco" aria-label="GitHub">
+              <i class="i-icon github"></i>
+            </a>
+        </div>
+      </div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden">
+      <button class="js-theme theme-switch flex items-center"
+        data-aria-auto="Switch to light color mode"
+        data-aria-light="Switch to dark color mode"
+        data-aria-dark="Switch to auto color mode">
+        <i class="i-icon theme-icon"></i>
+      </button>
+      <button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="NavLinks" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2 -translate-x-2"></span>
+          <span class="hamburger_3 -translate-x-1"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6"><div class="sidebar-links">
+  <ul>
+    <li>
+      <a href="https://github.com/tobi-de/falco/discussions">
+        <span class="icon">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path fill="#0099CC" fill-rule="evenodd" clip-rule="evenodd" d="M11 5a6 6 0 0 0-4.687 9.746c.215.27.315.62.231.954l-.514 2.058a1 1 0 0 0 1.485 1.1l2.848-1.71c.174-.104.374-.15.576-.148H13a6 6 0 0 0 0-12h-2Z"/>
+            <circle fill="white" cx="12" cy="11" r="1"/>
+            <circle fill="white" cx="9" cy="11" r="1"/>
+            <circle fill="white" cx="15" cy="11" r="1"/>
+          </svg>
+        </span>
+        <span class="text">Discussion</span>
+      </a>
+    </li>
+  </ul>
+</div>
+        <div class="globaltoc" data-expand-depth="1"><p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul class="current">
+<li class="toctree-l1 _expand"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">The CLI</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../usage.html">Usage / Overview</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Start project</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="structure.html">Project Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="packages.html">Packages and Tools</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Virtualenv and dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deploy.html">Deployment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="issues.html">Known issues</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../start_app.html">Start Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../crud.html">CRUD for your model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../htmx.html">HTMX goodies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../work.html">Work - Running multiple process in one session</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../migrations.html">Remove / Reset your migrations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sync_dotenv.html">Sync Dotenv files</a></li>
+</ul>
+</li>
+<li class="toctree-l1 _expand"><a class="reference internal" href="../../guides/index.html">Guides</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../guides/interactive_user_interfaces.html">Interactive user interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../guides/task_queues_and_schedulers.html">Task Queues and Schedulers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../guides/writing_documentation.html">Writing documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../guides/writing_tests.html">Writing tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../guides/logging_and_monitoring.html">Logging and monitoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../guides/deployment.html">The ultimate deployment guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../guides/optimizing_database_access.html">Optimizing Database Access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../guides/avoiding_god_models.html">Business logic in django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../guides/dynamic_model_schema.html">Dynamic Model Schema</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../guides/realtime.html">Realtime in Django: Websockets, SSE, Polling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../guides/permissions_and_authorization.html">Permissions and authorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../guides/database_tips.html">Database Tips: Backup, Scaling, Triggers, and More</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../guides/multitenancy.html">Managing Multi-tenancy in Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../guides/writing_async_code.html">Async Coding in Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../guides/use_sqlite_in_production.html">Use Sqlite in production</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../guides/running_project_in_a_container.html">Running your project in a single container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../guides/tips_and_extra.html">Tips and extra</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1 _expand"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1 _expand"><a class="reference internal" href="../../codeofconduct.html">Code of Conduct</a></li>
+<li class="toctree-l1 _expand"><a class="reference internal" href="../../license.html">License</a></li>
+<li class="toctree-l1 _expand"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+</ul>
+        </div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-icon close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4">
+  <div class="localtoc">
+    <h3>On this page</h3>
+    <ul>
+<li><a class="reference internal" href="#the-pyproject-toml-file">The pyproject.toml File</a></li>
+<li><a class="reference internal" href="#hatch">Hatch</a><ul>
+<li><a class="reference internal" href="#environments">Environments</a></li>
+<li><a class="reference internal" href="#activate-the-virtual-environment">Activate the virtual environment</a></li>
+<li><a class="reference internal" href="#add-remove-a-new-dependency">Add / remove a new dependency</a></li>
+<li><a class="reference internal" href="#scripts">Scripts</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id1">hatch-pip-compile</a></li>
+<li><a class="reference internal" href="#working-without-hatch">Working without hatch</a></li>
+</ul>
+
+  </div><a class="js-repo-stats repo-stats flex items-center" href="https://github.com/tobi-de/falco"
+  data-type="github" data-user="tobi-de" data-repo="falco">
+  <span class="w-8 flex items-center justify-around shrink-0 text-3xl">
+    <i class="i-icon github"></i>
+  </span>
+  <span class="flex-grow px-2">
+    <span>tobi-de/falco</span>
+    <span class="flex text-sm repo-stats-count">
+      <span class="flex items-center pr-3">
+        <i class="i-icon star"></i>
+        <strong class="js-repo-stars ml-1">0</strong>
+      </span>
+      <span class="flex items-center">
+        <i class="i-icon git-fork"></i>
+        <strong class="js-repo-forks ml-1">0</strong>
+      </span>
+    </span>
+  </span>
+</a><div class="edit-this-page">
+  <a href="https://github.com/tobi-de/falco/blob/master/docs/the_cli/start_project/dependency.rst">Edit this page</a>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div>
+    </div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+    <div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-icon menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList">
+      
+      
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../../index.html"><span itemprop="name">Falco</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li>
+      
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../index.html"><span itemprop="name">The CLI</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="2" />
+      </li>
+      
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="index.html"><span itemprop="name">Start project</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="3" />
+      </li>
+      
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">Virtualenv and dependencies</strong>
+        <meta itemprop="position" content="4" />
+      </li>
+      
+      
+    </ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-icon outdent"></i>
+      </button>
+    </div>
+  </div>
+</div>
+    <div class="flex flex-col break-words justify-between">
+      <div class="min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+        <article class="yue" role="main">
+          <section id="virtualenv-and-dependencies">
+<h1>Virtualenv and dependencies<a class="headerlink" href="#virtualenv-and-dependencies" title="Link to this heading">¶</a></h1>
+<p>This is mainly handled using <code class="docutils literal notranslate"><span class="pre">hatch</span></code>, <code class="docutils literal notranslate"><span class="pre">hatch-pip-compile</span></code>, and the <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> file.</p>
+<section id="the-pyproject-toml-file">
+<h2>The pyproject.toml File<a class="headerlink" href="#the-pyproject-toml-file" title="Link to this heading">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> file is a Python standard introduced to unify and simplify Python project packaging and configurations. It was introduced by <a class="reference external" href="https://www.python.org/dev/peps/pep-0518/">PEP 518</a> and <a class="reference external" href="https://www.python.org/dev/peps/pep-0621/">PEP 621</a>.
+For more details, check out the <a class="reference external" href="https://packaging.python.org/en/latest/specifications/pyproject-toml/#pyproject-toml-spec">complete specifications</a>.
+Many tools in the Python ecosystem, including hatch, support it, and it seems that this is what the Python ecosystem has settled on for the future.</p>
+</section>
+<section id="hatch">
+<h2>Hatch<a class="headerlink" href="#hatch" title="Link to this heading">¶</a></h2>
+<p>The project is set up to use <a class="reference external" href="https://hatch.pypa.io/latest/">hatch</a> for virtual environment management and dependencies management.</p>
+<blockquote>
+<div><p>“Hatch is a modern, extensible Python project manager.”</p>
+<p class="attribution">—Official hatch documentation</p>
+</div></blockquote>
+<p>Read the hatch documentation on <a class="reference external" href="https://hatch.pypa.io/latest/environment/">environment</a> for more information on how to manage virtual environments.
+Hatch can do a lot, including <a class="reference external" href="https://hatch.pypa.io/latest/cli/reference/#hatch-python">managing Python installations</a>, but for the context of the project, these are the things you need to know.</p>
+<div class="dropdown note admonition">
+<p class="admonition-title">Specify a Python Version</p>
+<p>If you have multiple Python interpreter versions installed on your computer, you can specify the specific version you want to use for a project
+by setting the <code class="docutils literal notranslate"><span class="pre">python</span></code> option in your default environment. Every other environment inherits from the default, so they will use the same version.</p>
+<div class="literal-block-wrapper docutils container" id="id6">
+<div class="code-block-caption"><span class="caption-text">pyproject.toml</span><a class="headerlink" href="#id6" title="Link to this code">¶</a></div>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span id="1-1"><span class="k">[tool.hatch.envs.default]</span>
+</span><span id="1-2"><span class="n">python</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;3.12&quot;</span>
+</span><span id="1-3"><span class="p">...</span>
+</span></pre></div>
+</div>
+</div>
+<p>More information on this can be found <a class="reference external" href="https://hatch.pypa.io/latest/plugins/environment/virtual/#pyprojecttoml">here</a>.</p>
+</div>
+<section id="environments">
+<h3>Environments<a class="headerlink" href="#environments" title="Link to this heading">¶</a></h3>
+<p>The project comes with three environment configurations: <code class="docutils literal notranslate"><span class="pre">default</span></code>, <code class="docutils literal notranslate"><span class="pre">test</span></code>, and <code class="docutils literal notranslate"><span class="pre">docs</span></code>.</p>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">default</span></code> environment is activated when you run <code class="docutils literal notranslate"><span class="pre">hatch</span> <span class="pre">shell</span></code>. It contains all the necessary requirements and some development tools.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">test</span></code> environment contains packages used for testing, such as <code class="docutils literal notranslate"><span class="pre">pytest</span></code>, <code class="docutils literal notranslate"><span class="pre">django-pytest</span></code>, etc.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">docs</span></code> environment is for documentation. It contains tools such as <code class="docutils literal notranslate"><span class="pre">sphinx</span></code>, <code class="docutils literal notranslate"><span class="pre">furo</span></code>, etc.</p></li>
+</ul>
+<p>Each environment defines a scripts section with some scripts. To run a script, use the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span id="1-1">hatch<span class="w"> </span>run<span class="w"> </span>&lt;env&gt;:&lt;script&gt;
+</span></pre></div>
+</div>
+<p>The first time you run the script, Hatch automatically sets up and installs dependencies for the specified environment.
+You don’t need to manage it manually. If the dependencies list has changed, Hatch will automatically install them the next
+time a command from that environment is run.</p>
+<p>A requirements file for the environment is also created using <a class="reference external" href="https://github.com/juftin/hatch-pip-compile">hatch-pip.compile</a>. For
+the default environment, the file will be located at the root of your project and named <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code>. This is the file
+you would use to install the requirements in production. For other environments, the file is created in a
+<code class="docutils literal notranslate"><span class="pre">requirements</span></code> folder with the name <code class="docutils literal notranslate"><span class="pre">requirements-&lt;env&gt;.txt</span></code>.</p>
+</section>
+<section id="activate-the-virtual-environment">
+<h3>Activate the virtual environment<a class="headerlink" href="#activate-the-virtual-environment" title="Link to this heading">¶</a></h3>
+<p>To activate the default virtual environment, run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span id="1-1">$<span class="w"> </span>hatch<span class="w"> </span>shell
+</span></pre></div>
+</div>
+<p>You don’t need to activate your shell to run commands. When using <code class="docutils literal notranslate"><span class="pre">hatch</span> <span class="pre">run</span></code>, dependencies will be automatically synced (installed or removed if necessary) and the command will be
+executed in the appropriate virtual environment.</p>
+<p>For instance, to run the Django development server, you can use the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span id="1-1">$<span class="w"> </span>hatch<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>manage.py<span class="w"> </span>runserver
+</span></pre></div>
+</div>
+<p>This will run your project in the default virtual environment.</p>
+</section>
+<section id="add-remove-a-new-dependency">
+<h3>Add / remove a new dependency<a class="headerlink" href="#add-remove-a-new-dependency" title="Link to this heading">¶</a></h3>
+<p>The default virtual environment includes all the dependencies specified in the <code class="docutils literal notranslate"><span class="pre">[project.dependencies]</span></code> section of the <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> file.
+To add a new dependency to your project, simply edit the <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> file and add it to the <code class="docutils literal notranslate"><span class="pre">[project.dependencies]</span></code> section.
+The next time you run a command using hatch, such as <code class="docutils literal notranslate"><span class="pre">hatch</span> <span class="pre">run</span> <span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">runserver</span></code>, hatch will automatically install the new dependency.
+The process is the same for removing a dependency.</p>
+</section>
+<section id="scripts">
+<h3>Scripts<a class="headerlink" href="#scripts" title="Link to this heading">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> file in the project defines some convenient scripts for common commands in a Django project. The section looks something like this:</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span id="1-1"><span class="k">[tool.hatch.envs.default.scripts]</span>
+</span><span id="1-2"><span class="n">runserver</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;migrate&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;python manage.py tailwind runserver {args}&quot;</span><span class="p">]</span>
+</span><span id="1-3"><span class="n">migrate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;python manage.py migrate {args}&quot;</span>
+</span><span id="1-4"><span class="n">makemigrations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;python manage.py makemigrations {args}&quot;</span>
+</span><span id="1-5"><span class="p">...</span>
+</span></pre></div>
+</div>
+<p>To start the Django development server for example, you can use the command <code class="docutils literal notranslate"><span class="pre">hatch</span> <span class="pre">run</span> <span class="pre">runserver</span></code>.</p>
+<div class="tip admonition">
+<p class="admonition-title">Alias Hatch run</p>
+<p>To make typing hatch commands faster, you can create an alias for <code class="docutils literal notranslate"><span class="pre">hatch</span> <span class="pre">run</span></code>. For example, you can alias it as <code class="docutils literal notranslate"><span class="pre">hr</span></code>. So,
+Instead of typing <code class="docutils literal notranslate"><span class="pre">hatch</span> <span class="pre">run</span> <span class="pre">runserver</span></code>, you can simply use the alias <code class="docutils literal notranslate"><span class="pre">hr</span> <span class="pre">runserver</span></code>. However, please note that if your system takes time to resolve the alias,
+it may impact your overall experience.</p>
+</div>
+<p>For development, I think this workflow should work quite well. Now, what happens when you need to deploy your app? You could install hatch on
+the deploy target machine, but I prefer having a <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> file that I can use to install dependencies on the deployment machine.
+That’s where <code class="docutils literal notranslate"><span class="pre">hatch-pip-compile</span></code> comes in.</p>
+<div class="dropdown note admonition">
+<p class="admonition-title">why hatch?</p>
+<p>Using hatch is a recent switch for me. Previously, I used <a class="reference external" href="https://python-poetry.org/">poetry</a> as my preferred tool. While poetry is still a great tool, I have chosen hatch for the following reasons:</p>
+<ol class="arabic simple">
+<li><p>Backed by the <strong>pypa</strong> (Python Packaging Authority), hatch aligns with the efforts to solve packaging and tooling issues in the Python ecosystem. I believe that if the Python ecosystem ever manages to overcome these challenges, it will be because the pypa has reached a consensus, and I hope that hatch will be the chosen solution. We all hope to see a cargo-like tool for Python someday.</p></li>
+<li><p>Hatch now has the ability to install and manage Python versions, along with other existing features. This brings it closer to being the all-in-one tool that every Python developer needs.</p></li>
+<li><p>Hatch is PEP-friendly, making it compatible with other tools in the ecosystem. It adds minimal custom configuration to the <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> file and relies on existing standards for project information and dependencies.</p></li>
+<li><p>In terms of performance, hatch is faster compared to poetry. While poetry is generally not slow, there have been rare instances where it took 30 minutes to install requirements. I have experienced this a few times.</p></li>
+</ol>
+</div>
+</section>
+</section>
+<section id="id1">
+<h2>hatch-pip-compile<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h2>
+<p>The <a class="reference external" href="https://github.com/juftin/hatch-pip-compile">hatch-pip-compile</a> plugin is used with hatch to automatically generate a
+requirements file (lock file) using <a class="reference external" href="https://github.com/jazzband/pip-tools">pip-tools</a>. This file contains the dependencies of your hatch virtual environment with pinned versions.
+The default setup generates a <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> file that can be used for installing dependencies during deployment, as shown in the provided Dockerfile. However, you can customize the plugin to save
+locks for all your environments. Refer to the <a class="reference external" href="https://github.com/juftin/hatch-pip-compile">hatch-pip-compile documentation</a> for more details.</p>
+<p>Here is the current configuration in the <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> file relevant to hatch-pip-compile:</p>
+<div class="literal-block-wrapper docutils container" id="id7">
+<div class="code-block-caption"><span class="caption-text">pyproject.toml</span><a class="headerlink" href="#id7" title="Link to this code">¶</a></div>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span id="1-1"><span class="k">[tool.hatch.env]</span>
+</span><span id="1-2"><span class="n">requires</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+</span><span id="1-3"><span class="s2">&quot;hatch-pip-compile&quot;</span>
+</span><span id="1-4"><span class="p">]</span>
+</span><span id="1-5">
+</span><span id="1-6"><span class="k">[tool.hatch.envs.default]</span>
+</span><span id="1-7"><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;pip-compile&quot;</span>
+</span><span id="1-8"><span class="c1"># pip-compile-installer = &quot;pip-sync&quot;</span>
+</span><span id="1-9"><span class="n">pip-compile-installer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;uv&quot;</span>
+</span><span id="1-10"><span class="n">pip-compile-resolver</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;uv&quot;</span>
+</span><span id="1-11"><span class="p">...</span>
+</span></pre></div>
+</div>
+</div>
+<p>Thanks to <a class="reference external" href="https://juftin.com/hatch-pip-compile/">hatch-pip-compile</a>, we can try <a class="reference external" href="https://github.com/astral-sh/uv">uv</a>, which is, and I quote:</p>
+<blockquote>
+<div><p>An extremely fast Python package installer and resolver, written in Rust. Designed as a drop-in replacement for pip and pip-compile</p>
+<p class="attribution">—Official github</p>
+</div></blockquote>
+<p>Needless to say, it does make a noticeable difference in speed. If you encounter any issues with <code class="docutils literal notranslate"><span class="pre">uv</span></code>, comment out the two lines referencing it in the above
+config, and uncomment the currently commented one.</p>
+</section>
+<section id="working-without-hatch">
+<h2>Working without hatch<a class="headerlink" href="#working-without-hatch" title="Link to this heading">¶</a></h2>
+<p>You don’t have to use Hatch if you don’t want to. Thanks to Hatch being very PEP-friendly, you can use the <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> file with recent versions of
+pip to install the main dependencies of the project. You won’t be able to use the scripts (for that, you can use <a class="reference external" href="https://github.com/nat-n/poethepoet">peothepoet</a>) or any other Hatch features,
+but you may not need them.</p>
+<p>Let’s assume you want to use the classic <code class="docutils literal notranslate"><span class="pre">venv</span></code>. Here’s what the workflow would look like:</p>
+<ol class="arabic simple">
+<li><p>Remove any Hatch-related configuration from the pyproject.toml file, including anything starting with <code class="docutils literal notranslate"><span class="pre">[tool.hatch]</span></code>. This step is optional and up to your choice.</p></li>
+<li><p>Create a virtual environment using <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">venv</span> <span class="pre">venv</span></code>.</p></li>
+<li><p>Activate the virtual environment using <code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">venv/bin/activate</span></code>.</p></li>
+<li><p>Install the dependencies using <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">.</span></code>. This command will install your project and its dependencies using the <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> file.</p></li>
+</ol>
+<p>To add or remove dependencies, the process is the same. You edit the <code class="docutils literal notranslate"><span class="pre">[project.dependencies]</span></code> section of the pyproject.toml file and run <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">.</span></code>. You can complement
+this workflow with <a class="reference external" href="https://github.com/jazzband/pip-tools">pip-tools</a> to generate a requirements file.</p>
+</section>
+</section>
+
+        </article>
+        
+        <div class="navigation flex print:hidden">
+  <div class="navigation-prev">
+    <a href="packages.html">
+      <i class="i-icon chevron"></i>
+      <div class="page-info">
+        <span>Previous</span>
+        
+        <div class="title">Packages and Tools</div>
+        
+      </div>
+    </a>
+  </div>
+  <div class="navigation-next">
+    <a href="deploy.html">
+      <div class="page-info">
+        <span>Next</span>
+        <div class="title">Deployment</div>
+      </div>
+      <i class="i-icon chevron"></i>
+    </a>
+  </div>
+</div>
+        
+      </div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>Copyright &copy; 2023 - 2024, Tobi DEGNON</p>
+        
+        <p>
+          Made with
+          
+          <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+          
+          <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+        </p>
+      </div>
+      <div class="sy-foot-socials">
+          <a href="https://github.com/tobi-de/falco" aria-label="GitHub"><i class="i-icon github"></i></a>
+          <a href="https://twitter.com/tobidegnon" aria-label="X (Twitter)"><i class="i-icon x-twitter"></i></a>
+          <a href="https://fosstodon.org/@tobide" aria-label="Mastodon"><i class="i-icon mastodon"></i></a>
+      </div>
+    </div>
+  </div>
+</footer></div>
+      <script src="../../_static/documentation_options.js?v=c4f92b34"></script>
+      <script src="../../_static/doctools.js?v=888ff710"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/thebelab-helper.js"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script src="../../_static/design-tabs.js?v=36754332"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script src="../../_static/shibuya.js?v=999236dc"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script data-domain="falco.oluwatobi.dev" defer="" src="https://plausible.service.dotfm.me/js/script.js"></script>
+      <script src="../../_static/add-og-title-to-home.js?v=825d2d7f"></script>
+    
+</body>
+</html>
