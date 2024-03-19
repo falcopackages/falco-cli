@@ -36,7 +36,7 @@ Configuration
 ^^^^^^^^^^^^^
 
 There are some options that you may want to set each time you generate ``CRUD`` views for a model. For instance, most of your views might require user
-login, or you might have a specific set of HTML templates that you use every time you run the command. Typing the same options repeatedly can be tedious. 
+login, or you might have a specific set of HTML templates that you use every time you run the command. Typing the same options repeatedly can be tedious.
 For such scenarios, some of the CLI options can be configured via the ``pyproject.toml`` file.
 
 Here is an example illustrating all available configurations:
@@ -71,7 +71,7 @@ Here is an example illustrating all available configurations:
 
             **skip-git-check**: (Not recommended) This option is for those who like to live dangerously. It will always skip the git check.
 
-            **always-migrate**: This option can only be set in the ``pyproject.toml`` file. My current workflow is to create a new app, add fields to a model and then run ``crud``. 
+            **always-migrate**: This option can only be set in the ``pyproject.toml`` file. My current workflow is to create a new app, add fields to a model and then run ``crud``.
             I often forget to ``makemigrations`` and ``migrate``. This can cause the ``admin`` generation code to fail. With this option set, the ``crud`` command will first try to
             run ``makemigrations`` and ``migrate``. If either of these operations fails, the command will stop and print the error.
 
@@ -174,9 +174,9 @@ of what the templates look like, check out the `demo project <https://github.com
 Custom Templates
 ****************
 
-The ``crud`` command supports the ability to specify your own HTML templates using the ``--blueprints`` option. 
-This option only takes into account HTML files and will completely override the default templates. The HTML templates 
-use the `jinja2 <https://jinja.palletsprojects.com/en/3.1.x/>`_ syntax. To see examples of what the templates look like, 
+The ``crud`` command supports the ability to specify your own HTML templates using the ``--blueprints`` option.
+This option only takes into account HTML files and will completely override the default templates. The HTML templates
+use the `jinja2 <https://jinja.palletsprojects.com/en/3.1.x/>`_ syntax. To see examples of what the templates look like,
 check out the base templates `here <https://github.com/Tobi-De/falco/tree/main/src/falco/crud/html>`_.
 
 Below is an example of the context each template will receive.
@@ -198,8 +198,8 @@ Below is an example of the context each template will receive.
         has_file_field = False,
         has_editable_date_field = False,
         fields = {
-            "name": {"verbose_name": "Name", "editable": True},
-            "price": {"verbose_name": "Price", "editable": True},
+            "name": {"verbose_name": "Name", "editable": True, "class_name": "CharField", "accessor": "{{product.name}}"},
+            "price": {"verbose_name": "Price", "editable": True, "class_name": "DecimalField", "accessor": "{{product.price}}"},
         }
     )
 
