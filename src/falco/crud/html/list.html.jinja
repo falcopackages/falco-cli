@@ -40,7 +40,7 @@
                             {% with td_class="px-6 py-4 whitespace-nowrap text-sm font-medium border-r text-gray-900" %}
                                 {% for {% endraw %}{{ model_name|lower }} in {{model_name_plural|lower}}_page {% raw %} %}
                                   {% endraw %}
-                                    <tr class="border">
+                                    <tr class="border hover:bg-neutral-100">
                                         {% for field_name, field_data in model_fields.items() %}
                                         {% if field_data["class_name"] == "BooleanField" %}
                                         {% raw %}<td class="{{ td_class }}">
