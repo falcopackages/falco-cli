@@ -195,6 +195,8 @@ Below is an example of the context each template will receive.
         name_plural = "Products",
         verbose_name = "Product",
         verbose_name_plural = "Products",
+        has_file_field = False,
+        has_editable_date_field = False,
         fields = {
             "name": {"verbose_name": "Name", "editable": True},
             "price": {"verbose_name": "Price", "editable": True},
