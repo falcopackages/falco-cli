@@ -29,11 +29,11 @@ from .models import {{model_name}}
 def {{model_name|lower}}_list(request: AuthenticatedHttpRequest):{% else %}
 @for_htmx(use_partial="table")
 def {{model_name|lower}}_list(request: HttpRequest):{% endif %}
-    {{object_list_variable_name}} = {{model_name}}.objects.order_by("id")
+    {{model_name_plural|lower}} = {{model_name}}.objects.order_by("id")
     return TemplateResponse(
         request,
         "{{app_label}}/{{model_name|lower}}_list.html",
-        context={"{{object_list_variable_name}}_page": paginate_queryset(request, {{object_list_variable_name}})},
+        context={"{{model_name_plural|lower}}_page": paginate_queryset(request, {{model_name_plural|lower}})},
     )
 
 {% if login_required %}

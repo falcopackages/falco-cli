@@ -38,11 +38,21 @@
                         </thead>
                         <tbody>
                             {% with td_class="px-6 py-4 whitespace-nowrap text-sm font-medium border-r text-gray-900" %}
-                                {% for {% endraw %}{{ model_name|lower }} in {{model_name|lower}}s_page {% raw %} %}
+                                {% for {% endraw %}{{ model_name|lower }} in {{model_name_plural|lower}}_page {% raw %} %}
                                   {% endraw %}
                                     <tr class="border">
-                                        {% for _, field_accessor in fields_verbose_name_with_accessor.items() %}
-                                        <td class="{% raw -%} {{ td_class }} {%- endraw %}">{{field_accessor}}</td>
+                                        {% for field_name, field_data in model_fields.items() %}
+                                        {% if field_data["class_name"] == "BooleanField" %}
+                                        {% raw %}<td class="{{ td_class }}">
+                                            {% if {% endraw -%} {{ model_name|lower }}.{{ field_name }} {%- raw %} %}
+                                              {% heroicon_solid "check-circle" size="19" class="text-green-500 mx-auto" %}
+                                            {% else %}
+                                              {% heroicon_solid "x-circle" size="19" class="text-red-500 mx-auto" %}
+                                            {% endif %}
+                                          </td>{% endraw %}
+                                        {% else %}
+                                        <td class="{% raw -%} {{ td_class }} {%- endraw %}">{{field_data["accessor"]}}</td>
+                                        {% endif %}
                                        {% endfor %}
                                         <td class="{% raw -%} {{ td_class }} {%- endraw %} flex gap-8">
                                                 <a class="text-blue-600 hover:text-blue-600"

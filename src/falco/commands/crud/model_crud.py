@@ -24,6 +24,51 @@ from .utils import run_html_formatters
 from .utils import run_python_formatters
 
 
+class PythonBlueprintContext(TypedDict):
+    project_name: str
+    login_required: bool
+    app_label: str
+    model_name: str
+    model_name_plural: str
+    model_verbose_name_plural: str
+    model_fields: dict[str, "DjangoField"]
+    crud_utils_import: str
+    has_editable_date_fields: bool
+    entry_point: bool
+
+
+class UrlsForContext(TypedDict):
+    list_view_url: str
+    create_view_url: str
+    detail_view_url: str
+    update_view_url: str
+    delete_view_url: str
+
+
+class HtmlBlueprintContext(UrlsForContext):
+    app_label: str
+    model_name: str
+    model_name_plural: str
+    model_verbose_name: str
+    model_verbose_name_plural: str
+    model_fields: dict[str, "DjangoField"]
+
+
+class DjangoField(TypedDict):
+    verbose_name: str
+    editable: bool
+    class_name: str
+    accessor: str  # e.g: {{product.name}}
+
+
+class DjangoModel(TypedDict):
+    name: str
+    name_plural: str
+    verbose_name: str
+    verbose_name_plural: str
+    fields: dict[str, DjangoField]
+
+
 @cappa.command(help="Generate CRUD (Create, Read, Update, Delete) views for a model.", name="crud")
 class ModelCRUD:
     model_path: Annotated[
@@ -124,6 +169,7 @@ class ModelCRUD:
                 get_models_data,
                 app_label=app_label,
                 excluded_fields=self.excluded_fields,
+                entry_point=self.entry_point,
             )
 
             app_folder_path_str, app_name, templates_dir_str = run_in_shell(
@@ -327,57 +373,19 @@ class ModelCRUD:
         return updated_files
 
 
-class PythonBlueprintContext(TypedDict):
-    project_name: str
-    login_required: bool
-    app_label: str
-    model_name: str
-    object_list_variable_name: str
-    model_verbose_name_plural: str
-    model_fields: dict[str, "DjangoField"]
-    crud_utils_import: str
-    has_editable_date_fields: bool
-    entry_point: bool
-
-
-class UrlsForContext(TypedDict):
-    list_view_url: str
-    create_view_url: str
-    detail_view_url: str
-    update_view_url: str
-    delete_view_url: str
-
-
-class HtmlBlueprintContext(UrlsForContext):
-    app_label: str
-    model_name: str
-    model_verbose_name: str
-    model_verbose_name_plural: str
-    model_fields: dict[str, str]
-    # a example of the dict: {"Name": "{{product.name}}", "Price": "{{product.price}}"}
-    fields_verbose_name_with_accessor: dict[str, str]
-
-
-class DjangoField(TypedDict):
-    verbose_name: str
-    editable: bool
-    class_name: str
-
-
-class DjangoModel(TypedDict):
-    name: str
-    verbose_name: str
-    verbose_name_plural: str
-    fields: dict[str, DjangoField]
-
-
-def get_models_data(app_label: str, excluded_fields: list[str]) -> "list[DjangoModel]":
+def get_models_data(app_label: str, excluded_fields: list[str], *, entry_point: bool) -> "list[DjangoModel]":
     from django.apps import apps
 
     models = apps.get_app_config(app_label).get_models()
 
     def get_model_dict(model) -> "DjangoModel":
         name = model.__name__
+        name_lower = name.lower()
+        if entry_point:
+            name_plural = app_label.lower()
+        else:
+            name_plural = f"{name.replace('y', 'ies')}" if name.endswith("y") else f"{name}s"
+
         verbose_name = model._meta.verbose_name
         verbose_name_plural = model._meta.verbose_name_plural
         fields: dict[str, "DjangoField"] = {
@@ -385,12 +393,14 @@ def get_models_data(app_label: str, excluded_fields: list[str]) -> "list[DjangoM
                 "verbose_name": field.verbose_name,
                 "editable": field.editable,
                 "class_name": field.__class__.__name__,
+                "accessor": "{{" + f"{name_lower}.{field.name}" + "}}",
             }
             for field in model._meta.fields
             if field.name not in excluded_fields
         }
         return {
             "name": name,
+            "name_plural": name_plural,
             "fields": fields,
             "verbose_name": verbose_name,
             "verbose_name_plural": verbose_name_plural,
@@ -529,22 +539,14 @@ def get_python_blueprint_context(
 ) -> PythonBlueprintContext:
     dates_classes = ["DateField", "DateTimeField", "TimeField"]
     model_fields = django_model["fields"]
-
     has_editable_date_fields = any(f["class_name"] in dates_classes and f["editable"] for f in model_fields.values())
     model_name = django_model["name"]
-    if entry_point:
-        object_list_variable_name = app_label.lower()
-    else:
-        object_list_variable_name = (
-            f"{model_name.replace('y', 'ies')}" if model_name.endswith("y") else f"{model_name}s"
-        )
-        object_list_variable_name = object_list_variable_name.lower()
     return {
         "project_name": project_name,
         "app_label": app_label,
         "login_required": login_required,
         "model_name": model_name,
-        "object_list_variable_name": object_list_variable_name,
+        "model_name_plural": django_model["name_plural"],
         "model_verbose_name_plural": django_model["verbose_name_plural"],
         "model_fields": model_fields,
         "crud_utils_import": crud_utils_import,
@@ -554,17 +556,13 @@ def get_python_blueprint_context(
 
 
 def get_html_blueprint_context(app_label: str, django_model: DjangoModel) -> HtmlBlueprintContext:
-    model_name_lower = django_model["name"].lower()
     return {
         "app_label": app_label,
         "model_name": django_model["name"],
+        "model_name_plural": django_model["name_plural"],
         "model_verbose_name": django_model["verbose_name"],
         "model_verbose_name_plural": django_model["verbose_name_plural"],
         "model_fields": django_model["fields"],
-        "fields_verbose_name_with_accessor": {
-            field_data["verbose_name"]: "{{" + f"{model_name_lower}.{field_name}" + "}}"
-            for field_name, field_data in django_model["fields"].items()
-        },
         **get_urls_template_string(
             app_label=app_label,
             model_name_lower=django_model["name"].lower(),

@@ -13,9 +13,9 @@
     </section>
 
     <ul class="py-5">
-        {% for field_verbose_name, field_accessor in fields_verbose_name_with_accessor.items() %}
+        {% for field_data in model_fields.values() %}
             <li>
-                <span class="font-bold">{{ field_verbose_name }}:</span> {{ field_accessor }}
+                <span class="font-bold">{{ field_data["verbose_name"] }}:</span> {{ field_data["accessor"] }}
             </li>
         {% endfor %}
     </ul>
