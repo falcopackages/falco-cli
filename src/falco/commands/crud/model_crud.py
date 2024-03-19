@@ -24,6 +24,23 @@ from .utils import run_html_formatters
 from .utils import run_python_formatters
 
 
+class DjangoField(TypedDict):
+    verbose_name: str
+    editable: bool
+    class_name: str
+    accessor: str  # e.g: {{product.name}}
+
+
+class DjangoModel(TypedDict):
+    name: str
+    name_plural: str
+    verbose_name: str
+    verbose_name_plural: str
+    fields: dict[str, DjangoField]
+    has_file_field: bool
+    has_editable_date_field: bool
+
+
 class PythonBlueprintContext(TypedDict):
     project_name: str
     login_required: bool
@@ -31,9 +48,10 @@ class PythonBlueprintContext(TypedDict):
     model_name: str
     model_name_plural: str
     model_verbose_name_plural: str
-    model_fields: dict[str, "DjangoField"]
+    model_has_file_fields: bool
+    model_has_editable_date_fields: bool
+    model_fields: dict[str, DjangoField]
     crud_utils_import: str
-    has_editable_date_fields: bool
     entry_point: bool
 
 
@@ -51,22 +69,8 @@ class HtmlBlueprintContext(UrlsForContext):
     model_name_plural: str
     model_verbose_name: str
     model_verbose_name_plural: str
-    model_fields: dict[str, "DjangoField"]
-
-
-class DjangoField(TypedDict):
-    verbose_name: str
-    editable: bool
-    class_name: str
-    accessor: str  # e.g: {{product.name}}
-
-
-class DjangoModel(TypedDict):
-    name: str
-    name_plural: str
-    verbose_name: str
-    verbose_name_plural: str
-    fields: dict[str, DjangoField]
+    model_has_file_fields: bool
+    model_fields: dict[str, DjangoField]
 
 
 @cappa.command(help="Generate CRUD (Create, Read, Update, Delete) views for a model.", name="crud")
@@ -373,62 +377,6 @@ class ModelCRUD:
         return updated_files
 
 
-def get_models_data(app_label: str, excluded_fields: list[str], *, entry_point: bool) -> "list[DjangoModel]":
-    from django.apps import apps
-
-    models = apps.get_app_config(app_label).get_models()
-
-    def get_model_dict(model) -> "DjangoModel":
-        name = model.__name__
-        name_lower = name.lower()
-        if entry_point:
-            name_plural = app_label.lower()
-        else:
-            name_plural = f"{name.replace('y', 'ies')}" if name.endswith("y") else f"{name}s"
-
-        verbose_name = model._meta.verbose_name
-        verbose_name_plural = model._meta.verbose_name_plural
-        file_fields = ("ImageField", "FileField")
-        fields: dict[str, "DjangoField"] = {
-            field.name: {
-                "verbose_name": field.verbose_name,
-                "editable": field.editable,
-                "class_name": field.__class__.__name__,
-                "accessor": "{{"
-                f"{name_lower}.{field.name}" + (".url }}" if field.__class__.__name__ in file_fields else "}}"),
-            }
-            for field in model._meta.fields
-            if field.name not in excluded_fields
-        }
-        return {
-            "name": name,
-            "name_plural": name_plural,
-            "fields": fields,
-            "verbose_name": verbose_name,
-            "verbose_name_plural": verbose_name_plural,
-        }
-
-    return [get_model_dict(model) for model in models]
-
-
-def get_app_path_name_and_templates_dir(app_label: str) -> tuple[str, str, str]:
-    from django.apps import apps
-    from django.conf import settings
-    from pathlib import Path
-
-    app = apps.get_app_config(app_label)
-    dirs = settings.TEMPLATES[0].get("DIRS", [])
-    templates_dir = Path(dirs[0]) if dirs else Path(app.path) / "templates"
-    app_templates_dir = templates_dir / app_label
-    return str(app.path), str(app.name), str(app_templates_dir)
-
-
-def get_root_url_config_path() -> str:
-    from django.conf import settings
-
-    return settings.ROOT_URLCONF
-
-
 def get_urls(model_name_lower: str, urlsafe_model_verbose_name_plural: str) -> str:
     prefix = urlsafe_model_verbose_name_plural
     return f"""
@@ -539,9 +487,7 @@ def get_python_blueprint_context(
     login_required: bool,
     entry_point: bool,
 ) -> PythonBlueprintContext:
-    dates_classes = ["DateField", "DateTimeField", "TimeField"]
     model_fields = django_model["fields"]
-    has_editable_date_fields = any(f["class_name"] in dates_classes and f["editable"] for f in model_fields.values())
     model_name = django_model["name"]
     return {
         "project_name": project_name,
@@ -552,7 +498,8 @@ def get_python_blueprint_context(
         "model_verbose_name_plural": django_model["verbose_name_plural"],
         "model_fields": model_fields,
         "crud_utils_import": crud_utils_import,
-        "has_editable_date_fields": has_editable_date_fields,
+        "model_has_editable_date_fields": django_model["has_editable_date_field"],
+        "model_has_file_fields": django_model["has_file_field"],
         "entry_point": entry_point,
     }
 
@@ -564,9 +511,73 @@ def get_html_blueprint_context(app_label: str, django_model: DjangoModel) -> Htm
         "model_name_plural": django_model["name_plural"],
         "model_verbose_name": django_model["verbose_name"],
         "model_verbose_name_plural": django_model["verbose_name_plural"],
+        "model_has_file_fields": django_model["has_file_field"],
         "model_fields": django_model["fields"],
         **get_urls_template_string(
             app_label=app_label,
             model_name_lower=django_model["name"].lower(),
         ),
     }
+
+
+# The functions below will be run in the django shell
+# -----------------------------------------------------------------------------------------------------------
+
+
+def get_models_data(app_label: str, excluded_fields: list[str], *, entry_point: bool) -> "list[DjangoModel]":
+    from django.apps import apps
+
+    models = apps.get_app_config(app_label).get_models()
+    file_fields = ("ImageField", "FileField")
+    dates_fields = ("DateField", "DateTimeField", "TimeField")
+
+    def get_model_dict(model) -> "DjangoModel":
+        name = model.__name__
+        name_lower = name.lower()
+        if entry_point:
+            name_plural = app_label.lower()
+        else:
+            name_plural = f"{name.replace('y', 'ies')}" if name.endswith("y") else f"{name}s"
+
+        verbose_name = model._meta.verbose_name
+        verbose_name_plural = model._meta.verbose_name_plural
+        fields: dict[str, "DjangoField"] = {
+            field.name: {
+                "verbose_name": field.verbose_name,
+                "editable": field.editable,
+                "class_name": field.__class__.__name__,
+                "accessor": "{{"
+                f"{name_lower}.{field.name}" + (".url }}" if field.__class__.__name__ in file_fields else "}}"),
+            }
+            for field in model._meta.fields
+            if field.name not in excluded_fields
+        }
+        return {
+            "name": name,
+            "name_plural": name_plural,
+            "fields": fields,
+            "verbose_name": verbose_name,
+            "verbose_name_plural": verbose_name_plural,
+            "has_file_field": any(f["class_name"] in file_fields for f in fields.values()),
+            "has_editable_date_field": any(f["class_name"] in dates_fields and f["editable"] for f in fields.values()),
+        }
+
+    return [get_model_dict(model) for model in models]
+
+
+def get_app_path_name_and_templates_dir(app_label: str) -> tuple[str, str, str]:
+    from django.apps import apps
+    from django.conf import settings
+    from pathlib import Path
+
+    app = apps.get_app_config(app_label)
+    dirs = settings.TEMPLATES[0].get("DIRS", [])
+    templates_dir = Path(dirs[0]) if dirs else Path(app.path) / "templates"
+    app_templates_dir = templates_dir / app_label
+    return str(app.path), str(app.name), str(app_templates_dir)
+
+
+def get_root_url_config_path() -> str:
+    from django.conf import settings
+
+    return settings.ROOT_URLCONF

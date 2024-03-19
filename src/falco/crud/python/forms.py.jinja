@@ -14,7 +14,7 @@ class {{model_name}}Form(forms.ModelForm):
         {% for field_name, field_data in model_fields.items() if field_data["editable"] %}
             {% if not loop.first %}, {% endif %}"{{ field_name }}"
         {% endfor %}
-        ){% if has_editable_date_fields %}
+        ){% if model_has_editable_date_fields %}
         widgets = {
             {% for field_name, field_data in model_fields.items() if field_data["editable"] %}
                 {% if field_data["class_name"] == "DateField" %}

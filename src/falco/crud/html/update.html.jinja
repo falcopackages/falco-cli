@@ -3,7 +3,6 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-
     <section class="flex justify-between">
         {% endraw %}
         <h1 class="text-lg font-bold py-4"> {{ model_verbose_name|capitalize }} Update - {% raw %}{{{% endraw %} {{ model_name|lower }} {% raw %}}}{% endraw %}</h1>
@@ -12,9 +11,8 @@
             All {{model_verbose_name_plural|capitalize}}
         </a>
     </section>
-
-{% raw %}
-    <form method="post">
+    <form method="post" {% if model_has_file_fields %} enctype="multipart/form-data" {% endif %}>
+        {% raw %}
         {% csrf_token %}
         {{form|crispy}}
 

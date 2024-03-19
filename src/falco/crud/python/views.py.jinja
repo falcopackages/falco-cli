@@ -51,7 +51,11 @@ def {{model_name|lower}}_detail(request: HttpRequest, pk: int):{% endif %}
 @login_required
 def {{model_name|lower}}_create(request: AuthenticatedHttpRequest):{% else %}
 def {{model_name|lower}}_create(request: HttpRequest):{% endif %}
+    {%- if model_has_file_fields %}
+    form = {{model_name}}Form(request.POST or None, request.FILES or None)
+    {%- else %}
     form = {{model_name}}Form(request.POST or None)
+    {%- endif %}
     if request.method == "POST" and form.is_valid():
         form.save()
         return redirect("{{app_label}}:{{model_name|lower}}_list")
@@ -66,7 +70,11 @@ def {{model_name|lower}}_create(request: HttpRequest):{% endif %}
 def {{model_name|lower}}_update(request: AuthenticatedHttpRequest, pk: int):{% else %}
 def {{model_name|lower}}_update(request: HttpRequest, pk: int):{% endif %}
     {{model_name|lower}} = get_object_or_404({{model_name}}.objects, pk=pk)
+    {%- if model_has_file_fields %}
+    form = {{model_name}}Form(request.POST or None, request.FILES or None, instance={{model_name|lower}})
+    {%- else %}
     form = {{model_name}}Form(request.POST or None, instance={{model_name|lower}})
+    {%- endif %}
     if request.method == "POST" and form.is_valid():
         form.save()
         return redirect("{{app_label}}:{{model_name|lower}}_detail", pk=pk)
