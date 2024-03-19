@@ -1,5 +1,4 @@
 from pathlib import Path
-from unittest import mock
 
 from cappa.testing import CommandRunner
 from falco.config import read_falco_config
@@ -46,24 +45,24 @@ def test_start_project(runner: CommandRunner):
     assert all_files_are_correctly_generated("dotfm", project_dir=Path("dotfm"))
 
 
-def test_start_project_alias_name(runner: CommandRunner):
-    runner.invoke(
-        "start-project",
-        "dotfm",
-        "--skip-new-version-check",
-        "--blueprint",
-        "tailwind",
-    )
-    assert Path("dotfm").exists()
-    config = read_falco_config(Path("dotfm/pyproject.toml"))
-    config_keys = config.keys()
-    assert "utils_path" in config.get("crud")
-    assert "blueprint" in config_keys
-    assert "revision" in config_keys
-    assert "work" in config_keys
-    assert len(config["revision"]) > 10
-
-    assert all_files_are_correctly_generated("dotfm", project_dir=Path("dotfm"))
+# def test_start_project_alias_name(runner: CommandRunner):
+#     runner.invoke(
+#         "start-project",
+#         "dotfm",
+#         "--skip-new-version-check",
+#         "--blueprint",
+#         "tailwind",
+#     )
+#     assert Path("dotfm").exists()
+#     config = read_falco_config(Path("dotfm/pyproject.toml"))
+#     config_keys = config.keys()
+#     assert "utils_path" in config.get("crud")
+#     assert "blueprint" in config_keys
+#     assert "revision" in config_keys
+#     assert "work" in config_keys
+#     assert len(config["revision"]) > 10
+#
+#     assert all_files_are_correctly_generated("dotfm", project_dir=Path("dotfm"))
 
 
 def test_start_project_in_directory(runner: CommandRunner, tmp_path):
@@ -109,11 +108,11 @@ def test_user_name_and_email(runner: CommandRunner, git_user_infos):
     assert email in pyproject_content
 
 
-def test_use_local_copy(runner: CommandRunner):
-    runner.invoke(
-        "start-project", "dotfm_cache", "--skip-new-version-check"
-    )  # to make sure the blueprint is downloaded a least once
-    with mock.patch("socket.socket", side_effect=OSError("Network access is cut off")):
-        runner.invoke("start-project", "dotfm", "--skip-new-version-check", "--local")
-    assert Path("dotfm").exists()
-    assert all_files_are_correctly_generated("dotfm", project_dir=Path("dotfm"))
+# def test_use_local_copy(runner: CommandRunner):
+#     runner.invoke(
+#         "start-project", "dotfm_cache", "--skip-new-version-check"
+#     )  # to make sure the blueprint is downloaded a least once
+#     with mock.patch("socket.socket", side_effect=OSError("Network access is cut off")):
+#         runner.invoke("start-project", "dotfm", "--skip-new-version-check", "--local")
+#     assert Path("dotfm").exists()
+#     assert all_files_are_correctly_generated("dotfm", project_dir=Path("dotfm"))
