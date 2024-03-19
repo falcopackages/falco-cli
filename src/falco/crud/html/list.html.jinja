@@ -24,7 +24,7 @@
             <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
                 <div class="overflow-x-auto">
                     <table class="min-w-full">
-                        <thead class="border text-gray-700 uppercase bg-gray-50 text-sm">
+                        <thead class="border text-gray-700 uppercase bg-gray-100 text-sm">
                             {% with th_class="text-sm font-medium text-gray-900 border-r px-6 py-4 text-left" %}
                             {% endraw %}
                                 <tr>
@@ -42,7 +42,11 @@
                                   {% endraw %}
                                     <tr class="border hover:bg-neutral-100">
                                         {% for field_name, field_data in model_fields.items() %}
-                                        {% if field_data["class_name"] == "BooleanField" %}
+                                        {% if loop.first %}
+                                        <td class="{% raw -%} {{ td_class }} {%- endraw %}">
+                                            <a class="font-bold hover:underline" href="{{ detail_view_url|safe }}">{{field_data["accessor"]}}</a>
+                                        </td>
+                                        {% elif field_data["class_name"] == "BooleanField" %}
                                         {% raw %}<td class="{{ td_class }}">
                                             {% if {% endraw -%} {{ model_name|lower }}.{{ field_name }} {%- raw %} %}
                                               {% heroicon_solid "check-circle" size="19" class="text-green-500 mx-auto" %}
@@ -55,11 +59,11 @@
                                         {% endif %}
                                        {% endfor %}
                                         <td class="{% raw -%} {{ td_class }} {%- endraw %} flex gap-8">
-                                                <a class="text-blue-600 hover:text-blue-600"
+                                                <a class="hover:text-blue-500"
                                                    href="{{ detail_view_url|safe }}">
                                                    {% raw %}{% heroicon_outline "eye" size="18" %}{% endraw %}
                                                 </a>
-                                                <a class="text-blue-600 hover:text-blue-500"
+                                                <a class="hover:text-blue-500"
                                                    href="{{ update_view_url|safe }}">
                                                    {% raw %}{% heroicon_outline "pencil-square" size="18" %}{% endraw %}
                                                 </a>

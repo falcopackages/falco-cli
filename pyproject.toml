@@ -168,7 +168,7 @@ extend-ignore = ["I001", "I002", "TID252", "EM101", "TCH001", "TRY003", "S607", 
 
 [tool.ruff.lint.extend-per-file-ignores]
 "demo/config/settings.py" = ["S105"]
-"demo/demo/orders/migrations/0002_order_created.py" = ["RUF012"]
+"demo/demo/orders/migrations/*.py" = ["RUF012"]
 "docs/conf.py" = ["A001", "INP001"]
 "src/falco/commands/crud/model_crud.py" = ["SLF001"]
 "src/falco/commands/setup_admin.py" = ["N806"]

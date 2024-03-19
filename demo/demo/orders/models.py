@@ -9,3 +9,6 @@ class Order(models.Model):
     city = models.CharField(max_length=100)
     products = models.ManyToManyField("products.Product")
     created = models.DateTimeField(auto_now_add=True)
+    completed = models.BooleanField(default=False)
+    receipt = models.FileField(null=True, blank=True)
+    image = models.ImageField(null=True, blank=True)
