@@ -388,12 +388,14 @@ def get_models_data(app_label: str, excluded_fields: list[str], *, entry_point: 
 
         verbose_name = model._meta.verbose_name
         verbose_name_plural = model._meta.verbose_name_plural
+        file_fields = ("ImageField", "FileField")
         fields: dict[str, "DjangoField"] = {
             field.name: {
                 "verbose_name": field.verbose_name,
                 "editable": field.editable,
                 "class_name": field.__class__.__name__,
-                "accessor": "{{" + f"{name_lower}.{field.name}" + "}}",
+                "accessor": "{{"
+                f"{name_lower}.{field.name}" + (".url }}" if field.__class__.__name__ in file_fields else "}}"),
             }
             for field in model._meta.fields
             if field.name not in excluded_fields

@@ -46,6 +46,10 @@
                                         <td class="{% raw -%} {{ td_class }} {%- endraw %}">
                                             <a class="font-bold hover:underline" href="{{ detail_view_url|safe }}">{{field_data["accessor"]}}</a>
                                         </td>
+                                        {% elif field_data["class_name"] == "ImageField" or field_data["class_name"] == "FileField" %}
+                                        <td class="{% raw -%} {{ td_class }} {%- endraw %}">
+                                            <a class="hover:underline" href="{{ field_data["accessor"]|safe }}">{{field_data["verbose_name"]}}</a>
+                                        </td>
                                         {% elif field_data["class_name"] == "BooleanField" %}
                                         {% raw %}<td class="{{ td_class }}">
                                             {% if {% endraw -%} {{ model_name|lower }}.{{ field_name }} {%- raw %} %}
