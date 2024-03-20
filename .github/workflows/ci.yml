@@ -1,0 +1,30 @@
+name: CI
+
+on: [ push, pull_request, workflow_dispatch ]
+
+permissions:
+  contents: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ "3.10", "3.11", "3.12" ]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: '**/pyproject.toml'
+      - name: Install hatch
+        run: |
+          pip install hatch
+      - name: Run tests
+        run: |
+          hatch run pytest
+ 

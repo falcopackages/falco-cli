@@ -19,7 +19,7 @@
         .. container:: badges
            :name: badges
 
-           .. image:: https://github.com/Tobi-De/falco/actions/workflows/documentation.yml/badge.svg
+           .. image:: https://github.com/Tobi-De/falco/actions/workflows/ci.yml/badge.svg
 
            .. image:: https://github.com/Tobi-De/falco/actions/workflows/publish.yml/badge.svg
 
