@@ -35,9 +35,6 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Install mermaid cli
-        run: |
-          npm install -g @mermaid-js/mermaid-cli
       - name: Install hatch
         run: |
           pip install hatch
