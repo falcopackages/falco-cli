@@ -130,6 +130,7 @@ dependencies = [
     "ipykernel",
     "sphinx-github-changelog"
 ]
+lock-filename = "docs/requirements.txt"
 
 [tool.hatch.envs.docs.scripts]
 prepare-deploy = ["update-readme-guides", "project-tree"]
