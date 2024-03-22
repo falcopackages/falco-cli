@@ -47,7 +47,7 @@
 
 .. container:: buttons
 
-    `Docs </install.html>`_
+    :doc:`Docs <install>`
     `GitHub <https://github.com/tobi-de/falco>`_
 
 
@@ -57,17 +57,20 @@
     :gutter: 2
 
     .. grid-item-card:: :octicon:`terminal` The CLI
-      :link: /the_cli/
-
+      :link: the_cli/index
+      :link-type: doc
+ 
       The documentation for the falco command line interface (CLI).
 
     .. grid-item-card:: :octicon:`book` Guides
-      :link: /guides/
+      :link: guides/index
+      :link-type: doc
 
       A collection of guides on common web development topics and how to address them in django.
 
     .. grid-item-card:: :octicon:`history` Changelog
-      :link: /changelog.html
+      :link: changelog
+      :link-type: doc
 
       Explore the latest updates and the change history of the Falco project.
 
@@ -82,7 +85,8 @@
       Use this section to report bugs and request new features for the CLI.
 
     .. grid-item-card:: :octicon:`people` Contributing
-      :link: /contributing.html
+      :link: contributing
+      :link-type: doc
 
       Learn how to contribute to the Falco project.
 

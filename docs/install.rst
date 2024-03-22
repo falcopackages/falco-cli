@@ -20,11 +20,13 @@ Next Up
     :padding: 0
 
     .. grid-item-card:: :octicon:`terminal` The CLI
-      :link: /the_cli/
+      :link: the_cli/index
+      :link-type: doc
 
       The documentation for the ``falco`` command line interface (CLI).
 
     .. grid-item-card:: :octicon:`book` Guides
-      :link: /guides/
+      :link: guides/index
+      :link-type: doc
 
       A collection of guides on common web development topics and how to address them in django.

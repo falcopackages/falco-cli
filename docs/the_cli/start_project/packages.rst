@@ -180,7 +180,7 @@ It is a good idea to organize any task or scheduling job function in a ``tasks.p
 
 .. hint::
 
-    For more details on task queues and scheduling, check out `my guide on the topic </guides/task_queues_and_schedulers>`_.
+    For more details on task queues and scheduling, check out `my guide on the topic </guides/task_queues_and_schedulers.html/>`_.
 
 DjangoFastDev
 -------------

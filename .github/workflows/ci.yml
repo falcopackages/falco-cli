@@ -1,4 +1,4 @@
-name: Documentation
+name: CI
 
 on: [ push, pull_request, workflow_dispatch ]
 
