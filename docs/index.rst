@@ -23,6 +23,8 @@
 
            .. image:: https://github.com/Tobi-De/falco/actions/workflows/publish.yml/badge.svg
 
+           .. image:: https://readthedocs.org/projects/falco-cli/badge/?version=latest&style=flat
+
            .. image:: https://badge.fury.io/py/falco-cli.svg
 
            .. image:: https://img.shields.io/badge/%F0%9F%A5%9A-Hatch-4051b5.svg
