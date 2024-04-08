@@ -59,6 +59,7 @@ html_theme_options = {
     "mastodon_url": "https://fosstodon.org/@tobide",
     "github_url": "https://github.com/tobi-de/falco",
     "twitter_url": "https://twitter.com/tobidegnon",
+    "discussion_url": "https://github.com/tobi-de/falco/discussions",
     "accent_color": "sky",
     "globaltoc_expand_depth": 1,
 }

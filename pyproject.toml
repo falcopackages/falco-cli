@@ -128,7 +128,8 @@ dependencies = [
     "sphinxcontrib-mermaid",
     "jupyter-sphinx",
     "ipykernel",
-    "sphinx-github-changelog"
+    "sphinx-github-changelog",
+    "sphinx-docsearch"
 ]
 lock-filename = "docs/requirements.txt"
 
