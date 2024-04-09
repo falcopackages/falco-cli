@@ -9,7 +9,7 @@ import falco
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = "Falco"
-copyright = "Copyright &copy; 2023 - 2024, Tobi DEGNON"
+copyright = "Copyright &copy; 2023, Tobi DEGNON"
 author = "Tobi DEGNON"
 version = falco.falco_version
 release = version
