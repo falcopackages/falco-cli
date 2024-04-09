@@ -30,6 +30,7 @@ extensions = [
     "cappa.ext.docutils",
     "sphinx_github_changelog",
     "sphinxcontrib.mermaid",
+    "sphinx_docsearch",
 ]
 todo_include_todos = True
 extlinks = {
@@ -77,6 +78,7 @@ html_js_files = [
     "add-og-title-to-home.js",
 ]
 
-# -- Mermaid configuration -----------------------------------------------------
-mermaid_version = "10.6.1"
-mermaid_output_format = "svg"
+# -- DocSearch configs -----------------------------------------------------
+docsearch_app_id = "CJEHOB5X2Y"
+docsearch_api_key = "e467f62765922e10749dec55f81a0a76"
+docsearch_index_name = "falco"
