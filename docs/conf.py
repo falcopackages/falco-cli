@@ -78,6 +78,12 @@ html_js_files = [
     "add-og-title-to-home.js",
 ]
 
+# Jupyter sphinx configs
+jupyter_sphinx_thebelab_config = {
+    'requestKernel': True,
+}
+jupyter_sphinx_require_url = ''
+
 # -- DocSearch configs -----------------------------------------------------
 docsearch_app_id = "CJEHOB5X2Y"
 docsearch_api_key = "e467f62765922e10749dec55f81a0a76"
