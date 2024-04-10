@@ -34,6 +34,8 @@ class ResetMigrations:
     ]
 
     def __call__(self, project_name: Annotated[str, cappa.Dep(get_project_name)]):
+        # TODO: this is useless, every commands runs the check beforehand, it this check do not pass
+        #   the command will fail anyway
         with simple_progress("Running django check..."):
             result = subprocess.run(
                 ["python", "manage.py", "check"],

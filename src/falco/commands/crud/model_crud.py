@@ -524,6 +524,8 @@ def get_html_blueprint_context(app_label: str, django_model: DjangoModel) -> Htm
 # -----------------------------------------------------------------------------------------------------------
 
 
+# TODO: the django checks could be disabled with the --skip-checks commands, may be run them once, and then disabled
+# to avoid them be run each time the shell command is called
 def get_models_data(app_label: str, excluded_fields: list[str], *, entry_point: bool) -> "list[DjangoModel]":
     from django.apps import apps
 
