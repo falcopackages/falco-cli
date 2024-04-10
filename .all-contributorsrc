@@ -62,6 +62,15 @@
       "contributions": [
         "financial"
       ]
+    },
+    {
+      "login": "lepture",
+      "name": "Hsiaoming Yang",
+      "avatar_url": "https://avatars.githubusercontent.com/u/290496?v=4",
+      "profile": "https://lepture.com",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
