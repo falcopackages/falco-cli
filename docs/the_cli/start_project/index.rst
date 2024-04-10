@@ -43,7 +43,6 @@ Here are some alternative project starters that you can consider if the falco st
 .. toctree::
    :hidden:
 
-   index
    structure
    packages
    dependency

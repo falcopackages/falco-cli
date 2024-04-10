@@ -101,12 +101,12 @@ Falco is inspired by (and borrows elements from) some excellent open source proj
 - [django-twc-project](https://github.com/westerveltco/django-twc-project)
 
 ## Contributors
-<!-- contributors:start -->
-Thanks to the following wonderful people [emoji key](https://allcontributors.org/docs/en/emoji-key) who have helped build `falco`.
-
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
+
+<!-- contributors:start -->
+Thanks to the following wonderful people [emoji key](https://allcontributors.org/docs/en/emoji-key) who have helped build `falco`.
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
