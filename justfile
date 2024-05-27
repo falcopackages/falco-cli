@@ -12,6 +12,7 @@ pull:
     #!/usr/bin/env sh
     for dir in blueprints/*; do
       if [ -d "$dir" ]; then
+        echo "$(basename $dir)"
         cd "$dir"
         git fetch --all
         git pull
@@ -27,6 +28,7 @@ set-remote:
         if [ "$dir" = "{{ default }}" ]; then
           continue
         fi
+        echo "$(basename $dir)"
         cd "$dir"
         git remote add upstream "git@github.com:Tobi-De/falco_blueprint_basic.git"
         cd -
@@ -41,6 +43,7 @@ merge:
         if [ "$dir" = "{{ default }}" ]; then
           continue
         fi
+        echo "$(basename $dir)"
         cd "$dir"
         git merge upstream/main
         cd -
