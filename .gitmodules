@@ -7,3 +7,6 @@
 [submodule "blueprints/falco_blueprint_basic_pico"]
 	path = blueprints/falco_blueprint_basic_pico
 	url = git@github.com:Tobi-De/falco_blueprint_basic_pico.git
+[submodule "blueprints/falco_twind"]
+    path = blueprints/falco_twind
+    url = git@github.com:Tobi-De/falco_twind.git
