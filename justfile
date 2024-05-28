@@ -109,6 +109,7 @@ push:
     git push
     git push --tags
 
+# Publish falco to pypi
 @publish:
     hatch build
     hatch publish
