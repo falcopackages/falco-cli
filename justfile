@@ -105,7 +105,7 @@ push:
 
 # Bump project version and update changelog
 @bumpver version:
-    just cmd bump-my-version bump {{ version }}
+    hatch run bump-my-version bump {{ version }}
     git push
     git push --tags
 
