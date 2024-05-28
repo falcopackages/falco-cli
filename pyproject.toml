@@ -52,6 +52,31 @@ Homepage = "https://falco.oluwatobi.dev/"
 Issues = "https://github.com/tobi-de/falco/issues"
 Source = "https://github.com/tobi-de/falco"
 
+[tool.bumpversion]
+allow_dirty = false
+commit = true
+commit_args = "--no-verify"
+current_version = "0.22.1"
+ignore_missing_files = false
+ignore_missing_version = false
+message = "Bump version: {current_version} → {new_version}"
+parse = "(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)"
+regex = false
+replace = "{new_version}"
+search = "{current_version}"
+serialize = [
+    "{major}.{minor}.{patch}"
+]
+sign_tags = false
+tag = true
+tag_message = "Bump version: {current_version} → {new_version}"
+tag_name = "v{new_version}"
+
+[[tool.bumpversion.files]]
+filename = "src/falco/__about__.py"
+replace = '__version__ = "{new_version}"'
+search = '__version__ = "{current_version}"'
+
 [tool.coverage.paths]
 falco = ["src/falco", "*/falco/src/falco"]
 tests = ["tests", "*/falco/tests"]
@@ -93,7 +118,7 @@ dependencies = [
     "django_htmx",
     "django_extensions",
     "django-model-utils",
-    "bumpver",
+    "bump-my-version",
     "pytest-xdist"
 ]
 pip-compile-constraint = "default"

@@ -4,10 +4,15 @@ default := "blueprints/falco_blueprint_basic"
 _default:
     @just --list
 
-just default:
-    cd {{ default }}
+# ----------------------------------------------------------------------
+# Blueprints
+# ----------------------------------------------------------------------
 
-# Run git pull in every blueprints
+# Initialze / update submodules
+init:
+    git submodule update --init --recursive
+
+# Run git pull in all blueprints
 pull:
     #!/usr/bin/env sh
     for dir in blueprints/*; do
@@ -20,7 +25,7 @@ pull:
       fi
     done
 
-# Set the upstream remote
+# Set the upstream remote for alternative blueprints
 set-remote:
     #!/usr/bin/env sh
     for dir in blueprints/*; do
@@ -35,7 +40,7 @@ set-remote:
       fi
     done
 
-
+# Merge change from the upstream in all blueprints
 merge:
     #!/usr/bin/env sh
     for dir in blueprints/*; do
@@ -50,7 +55,7 @@ merge:
       fi
     done
 
-
+# Push all changes in all blueprints
 push:
     #!/usr/bin/env sh
     for dir in blueprints/*; do
@@ -62,3 +67,25 @@ push:
         cd -
       fi
     done
+
+# ----------------------------------------------------------------------
+# UTILS
+# ----------------------------------------------------------------------
+
+# CD into the default blueprint folder
+@just default:
+    cd {{ default }}
+
+# Run all formatters
+@fmt:
+    just --fmt --unstable
+
+# Bump project version and update changelog
+@bumpver version:
+    just cmd bump-my-version bump {{ version }}
+    git push
+    git push --tags
+
+@publish:
+    hatch build
+    hatch publish
