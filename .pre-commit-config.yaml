@@ -28,8 +28,15 @@ repos:
         args:
           - "--application-directories=falco"
 
-  - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
-    rev: v2.13.0
-    hooks:
-      - id: pretty-format-toml
-        args: [ --autofix , --indent, '4' ]
+  # - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
+  #   rev: v2.13.0
+  #   hooks:
+  #     - id: pretty-format-toml
+  #       args: [ --autofix , --indent, '4' ]
+
+  # - repo: https://github.com/tox-dev/pyproject-fmt
+  #   rev: "2.1.3"
+  #   hooks:
+  #     - id: pyproject-fmt
+  #       args: ["pyproject.toml"]
+  #       exclude: ^(blueprints/|demo/)

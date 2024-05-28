@@ -12,6 +12,18 @@ _default:
 init:
     git submodule update --init --recursive
 
+# Checkout all blueprints on main
+checkout:
+    #!/usr/bin/env sh
+    for dir in blueprints/*; do
+      if [ -d "$dir" ]; then
+        echo "$(basename $dir)"
+        cd "$dir"
+        git checkout main
+        cd -
+      fi
+    done
+
 # Run git pull in all blueprints
 pull:
     #!/usr/bin/env sh
@@ -72,6 +84,14 @@ push:
 # UTILS
 # ----------------------------------------------------------------------
 
+# Run sphinx autobuild
+@docs-serve:
+    hatch run docs:sphinx-autobuild docs docs/_build/html --port 8002
+
+# ----------------------------------------------------------------------
+# UTILS
+# ----------------------------------------------------------------------
+
 # CD into the default blueprint folder
 @just default:
     cd {{ default }}
@@ -79,6 +99,9 @@ push:
 # Run all formatters
 @fmt:
     just --fmt --unstable
+    hatch fmt --formatter
+    hatch run pyproject-fmt pyproject.toml
+    hatch run pre-commit run reorder-python-imports -a
 
 # Bump project version and update changelog
 @bumpver version:

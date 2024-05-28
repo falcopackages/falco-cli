@@ -10,8 +10,9 @@
 # - django_htmx
 # - django_extensions
 # - django-model-utils
-# - bumpver
+# - bump-my-version
 # - pytest-xdist
+# - pyproject-fmt
 # - autoflake
 # - black
 # - cappa
@@ -25,6 +26,8 @@
 # - tomlkit
 #
 
+annotated-types==0.7.0
+    # via pydantic
 anyio==4.3.0
     # via httpx
 arrow==1.3.0
@@ -36,11 +39,17 @@ asgiref==3.7.2
 asttokens==2.4.1
     # via stack-data
 autoflake==2.3.0
+    # via hatch.envs.default
 binaryornot==0.4.4
     # via cookiecutter
 black==24.2.0
-bumpver==2023.1129
+    # via hatch.envs.default
+bracex==2.4
+    # via wcmatch
+bump-my-version==0.21.1
+    # via hatch.envs.default
 cappa==0.17.0
+    # via hatch.envs.default
 certifi==2024.2.2
     # via
     #   httpcore
@@ -55,16 +64,18 @@ charset-normalizer==3.3.2
 click==8.1.7
     # via
     #   black
-    #   bumpver
+    #   bump-my-version
     #   cookiecutter
     #   djlint
+    #   rich-click
 colorama==0.4.6
-    # via
-    #   bumpver
-    #   djlint
+    # via djlint
 cookiecutter==2.6.0
-    # via pytest-cookies
+    # via
+    #   hatch.envs.default
+    #   pytest-cookies
 coverage==7.4.3
+    # via hatch.envs.default
 cssbeautifier==1.15.1
     # via djlint
 decorator==5.1.1
@@ -73,13 +84,18 @@ distlib==0.3.8
     # via virtualenv
 django==5.0.3
     # via
+    #   hatch.envs.default
     #   django-extensions
     #   django-htmx
     #   django-model-utils
 django-extensions==3.2.3
+    # via hatch.envs.default
 django-htmx==1.17.3
+    # via hatch.envs.default
 django-model-utils==4.4.0
+    # via hatch.envs.default
 djlint==1.34.1
+    # via hatch.envs.default
 editorconfig==0.12.4
     # via
     #   cssbeautifier
@@ -93,6 +109,7 @@ filelock==3.13.1
 h11==0.14.0
     # via httpcore
 honcho==1.1.0
+    # via hatch.envs.default
 html-tag-names==0.1.2
     # via djlint
 html-void-elements==0.1.0
@@ -100,6 +117,7 @@ html-void-elements==0.1.0
 httpcore==1.0.4
     # via httpx
 httpx==0.27.0
+    # via hatch.envs.default
 identify==2.5.35
     # via pre-commit
 idna==3.6
@@ -110,7 +128,9 @@ idna==3.6
 iniconfig==2.0.0
     # via pytest
 ipython==8.22.2
+    # via hatch.envs.default
 isort==5.13.2
+    # via hatch.envs.default
 jedi==0.19.1
     # via ipython
 jinja2==3.1.3
@@ -121,10 +141,6 @@ jsbeautifier==1.15.1
     #   djlint
 json5==0.9.20
     # via djlint
-lexid==2021.1006
-    # via bumpver
-looseversion==1.3.0
-    # via bumpver
 markdown-it-py==3.0.0
     # via rich
 markupsafe==2.1.5
@@ -144,7 +160,9 @@ packaging==23.2
     #   black
     #   pytest
 parso==0.8.3
-    # via jedi
+    # via
+    #   hatch.envs.default
+    #   jedi
 pathspec==0.12.1
     # via
     #   black
@@ -158,26 +176,46 @@ platformdirs==4.2.0
 pluggy==1.4.0
     # via pytest
 pre-commit==3.6.2
+    # via hatch.envs.default
 prompt-toolkit==3.0.43
-    # via ipython
+    # via
+    #   ipython
+    #   questionary
 ptyprocess==0.7.0
     # via pexpect
 pure-eval==0.2.2
     # via stack-data
+pydantic==2.7.1
+    # via
+    #   bump-my-version
+    #   pydantic-settings
+pydantic-core==2.18.2
+    # via pydantic
+pydantic-settings==2.2.1
+    # via bump-my-version
 pyflakes==3.2.0
     # via autoflake
 pygments==2.17.2
     # via
     #   ipython
     #   rich
+pyproject-fmt==2.1.3
+    # via hatch.envs.default
+pyproject-fmt-rust==1.1.3
+    # via pyproject-fmt
 pytest==8.0.2
     # via
+    #   hatch.envs.default
     #   pytest-cookies
     #   pytest-xdist
 pytest-cookies==0.7.0
+    # via hatch.envs.default
 pytest-xdist==3.5.0
+    # via hatch.envs.default
 python-dateutil==2.9.0.post0
     # via arrow
+python-dotenv==1.0.1
+    # via pydantic-settings
 python-slugify==8.0.4
     # via cookiecutter
 pyyaml==6.0.1
@@ -185,14 +223,21 @@ pyyaml==6.0.1
     #   cookiecutter
     #   djlint
     #   pre-commit
+questionary==1.10.0
+    # via bump-my-version
 regex==2023.12.25
     # via djlint
 requests==2.31.0
     # via cookiecutter
 rich==13.7.1
     # via
+    #   hatch.envs.default
+    #   bump-my-version
     #   cappa
     #   cookiecutter
+    #   rich-click
+rich-click==1.8.2
+    # via bump-my-version
 setuptools==69.1.1
     # via nodeenv
 six==1.16.0
@@ -211,9 +256,10 @@ stack-data==0.6.3
     # via ipython
 text-unidecode==1.3
     # via python-slugify
-toml==0.10.2
-    # via bumpver
 tomlkit==0.12.4
+    # via
+    #   hatch.envs.default
+    #   bump-my-version
 tqdm==4.66.2
     # via djlint
 traitlets==5.14.1
@@ -225,6 +271,9 @@ types-python-dateutil==2.8.19.20240106
 typing-extensions==4.10.0
     # via
     #   cappa
+    #   pydantic
+    #   pydantic-core
+    #   rich-click
     #   typing-inspect
 typing-inspect==0.9.0
     # via cappa
@@ -232,5 +281,7 @@ urllib3==2.2.1
     # via requests
 virtualenv==20.25.1
     # via pre-commit
+wcmatch==8.5.2
+    # via bump-my-version
 wcwidth==0.2.13
     # via prompt-toolkit

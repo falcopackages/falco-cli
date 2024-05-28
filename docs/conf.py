@@ -80,9 +80,9 @@ html_js_files = [
 
 # Jupyter sphinx configs
 jupyter_sphinx_thebelab_config = {
-    'requestKernel': True,
+    "requestKernel": True,
 }
-jupyter_sphinx_require_url = ''
+jupyter_sphinx_require_url = ""
 
 # -- DocSearch configs -----------------------------------------------------
 docsearch_app_id = "CJEHOB5X2Y"
