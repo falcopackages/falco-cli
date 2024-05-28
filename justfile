@@ -92,10 +92,6 @@ push:
 # UTILS
 # ----------------------------------------------------------------------
 
-# CD into the default blueprint folder
-@just default:
-    cd {{ default }}
-
 # Run all formatters
 @fmt:
     just --fmt --unstable

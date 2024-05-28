@@ -25,6 +25,16 @@ Falco is a Django-centric toolkit designed to enhance the development experience
 
 <!-- [![Read the full documentation](https://img.shields.io/badge/Read%20The%20full%20Documentation-blue?style=for-the-badge&logo=ReadTheDocs)](https://falco.oluwatobi.dev) -->
 
+## Templates
+
+- [tailwind](https://github.com/Tobi-De/falco_blueprint_basic) (default)
+- [bootstrap](https://github.com/Tobi-De/falco_blueprint_basic_bootstrap)
+- [pico](https://github.com/Tobi-De/falco_blueprint_basic_pico)
+
+
+### Features
+
+
 
 ## The CLI
 
@@ -48,12 +58,6 @@ pip install falco-cli
 - [sync-dotenv](https://falco.oluwatobi.dev/the_cli/sync_dotenv.html): Synchronize the `.env` file with the `.env.template` file.
 - [rm-migrations](https://falco.oluwatobi.dev/the_cli/migrations.html): Remove all migrations for the specified applications directory. (development only)
 - [reset-migrations](https://falco.oluwatobi.dev/the_cli/migrations.html#reset-migrations): Delete and recreate all migrations. (development only)
-
-**Templates**
-
-- [tailwind](https://github.com/Tobi-De/falco_blueprint_basic) (default)
-- [bootstrap](https://github.com/Tobi-De/falco_blueprint_basic_bootstrap)
-- [pico](https://github.com/Tobi-De/falco_blueprint_basic_pico)
 
 ## The guides
 
