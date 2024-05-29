@@ -27,6 +27,7 @@ checkout:
 # Run git pull in all blueprints
 pull:
     #!/usr/bin/env sh
+    git pull
     for dir in blueprints/*; do
       if [ -d "$dir" ]; then
         echo "$(basename $dir)"
