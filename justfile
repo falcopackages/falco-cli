@@ -32,7 +32,6 @@ pull:
       if [ -d "$dir" ]; then
         echo "$(basename $dir)"
         cd "$dir"
-        git fetch --all
         git pull
         cd -
       fi
