@@ -22,7 +22,7 @@ repos:
           - --remove-unused-variables
 
   - repo: https://github.com/asottile/reorder_python_imports
-    rev: v3.12.0
+    rev: v3.13.0
     hooks:
       - id: reorder-python-imports
         args:
