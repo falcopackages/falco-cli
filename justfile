@@ -37,6 +37,18 @@ pull:
       fi
     done
 
+# Run git fetch in all blueprints
+fetch:
+    #!/usr/bin/env sh
+    for dir in blueprints/*; do
+      if [ -d "$dir" ]; then
+        echo "$(basename $dir)"
+        cd "$dir"
+        git fetch --all
+        cd -
+      fi
+    done
+
 # Set the upstream remote for alternative blueprints
 set-remote:
     #!/usr/bin/env sh
