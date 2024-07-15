@@ -9,6 +9,15 @@ initializing a Django application, adding a model, and generating CRUD views for
 This workflow represents the expected experience for a new Falco CLI user. If you encounter any issues reproducing this workflow,
 please create a `new issue <https://github.com/Tobi-De/falco/issues/new>`_.
 
+
+.. admonition:: Pre-requisites
+    :class: note
+
+    This tutorial assumes that you have installed:
+
+    - hatch: https://hatch.pypa.io/latest/install/
+    - just: https://just.systems/man/en/chapter_5.html
+
 Let's create a new project called **myjourney**. This will be a journaling app and its main app will be **entries**.
 Each **entry** represents a journal entry within the **myjourney** app.
 
@@ -18,33 +27,32 @@ Each **entry** represents a journal entry within the **myjourney** app.
 
     falco start-project myjourney && cd myjourney
 
-**2. Create a new virtual environment for the project and install dependencies**
+**2. Initialize a new git repository and add all the new files**
 
 .. code-block:: bash
 
-    hatch shell
+    git init && git add -A
 
-**3. Initialize git and install pre-commit hooks (Optional)**
+**3. Project setup**
 
-.. code-block:: bash
-
-    git init && pre-commit install
-
-If necessary, adjust the python_version value in the ``.pre-commit-config.yaml`` file.
-
-**4. Migrate the database**
+Refer to the ``justfile`` in the root of the project to understand the available commands. The command below sets up your 
+virtual environment using ``hatch`` (default, dev, and docs), runs the project migrations, creates a superuser
+with ``admin@localhost`` as the email and ``admin`` as the password, and runs project linting with ``pre-commit``.
 
 .. code-block:: bash
 
-    hatch run migrate
+    just setup
 
-**5. Create the new app, entries**
+At this point, you can run ``just server`` to start the project. While the UI may be basic (which I hope to improve in the future), 
+you have a fully functional ready to deploy django project. If you update the content of the home page, your browser will automatically reload.
+
+**4. Create the new app, entries**
 
 .. code-block:: bash
 
-    falco start-app entries
+    just falco start-app entries
 
-**6. Add some fields to your Entry model**
+**5. Add some fields to your Entry model**
 
 .. code-block:: python
 
@@ -54,16 +62,18 @@ If necessary, adjust the python_version value in the ``.pre-commit-config.yaml``
         content = models.TextField()
         created_by = models.ForeignKey("users.User", on_delete=models.CASCADE, related_name="entries")
 
-**7.  Make migrations for the new model and run them**
+**6.  Make migrations for the new model and run them**
 
 .. code-block:: bash
 
-    hatch run makemigrations && hatch run migrate
+    just mm && just migrate
+
+``mm`` is an alias for ``makemigrations``
 
 .. admonition:: Auto migrations
     :class: tip dropdown
 
-    It is highly probable that you will need to run these commands after adding a new model, or just before
+    It is highly probable that you will always need to run these commands after adding a new model, or just before
     executing ``crud`` (the next step). For this reason, there is an option to instruct the ``crud`` command to always
     perform this step first:
 
@@ -72,33 +82,20 @@ If necessary, adjust the python_version value in the ``.pre-commit-config.yaml``
         [tool.falco.crud]
         always-migrate = true
 
-**8. Generate CRUD views for the Entry model**
+**7. Generate CRUD views for the Entry model**
 
 .. code-block:: bash
 
-    falco crud entries.entry --entry-point --skip-git-check
+    just falco crud entries.entry --entry-point --skip-git-check
 
-**9. Run the project**
+**8. Run the project**
 
 .. code-block:: bash
 
-    falco work
+    just server
 
 Now, check out http://127.0.0.1:8000/entries to see your running app.
 
-.. admonition:: Create superuser
-    :class: dropdown tip
-
-    Follow the tip described `here </guides/tips_and_extra.html#create-superuser-from-environment-variables>`_ and
-    execute the command below to create a superuser.
-
-    .. code-block:: shell
-
-        python manage.py createsuperuser --no-input
-
-
-This process currently requires 9 commands. Considering the outcome, it's not too shabby! However, I'm confident there's still plenty of room for improvement.
-If you have any suggestions on how to improve this workflow, feel free to open a discussion at https://github.com/Tobi-De/falco/discussions.
 
 .. todo::
 
