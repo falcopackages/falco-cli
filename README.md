@@ -38,7 +38,7 @@ For a brief introduction to the user experience of the CLI, visit this [page](ht
 pip install falco-cli
 ```
 
-- [start-project](https://falco.oluwatobi.dev/the_cli/start_project.html): Initialize a new django project the falco way.
+- [start-project](https://falco.oluwatobi.dev/the_cli/start_project/index.html): Initialize a new django project the falco way.
 - [start-app](https://falco.oluwatobi.dev/the_cli/start_app.html): Initialize a new django app the falco way.
 - [crud](https://falco.oluwatobi.dev/the_cli/crud.html): Generate CRUD (Create, Read, Update, Delete) views for a model.
 - [install-crud-utils](https://falco.oluwatobi.dev/the_cli/crud.html#install-crud-utils): Install utils necessary for CRUD views.
