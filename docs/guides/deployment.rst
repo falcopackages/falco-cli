@@ -142,9 +142,9 @@ that can be run by any server adhering to the standard, independent of specific 
    **WSGI** serves as a common language that Python web servers (such as Gunicorn) use to communicate with Python web applications (like Django).
 
 .. admonition:: What about ASGI?
-   :class: note dropdown
+  :class: note dropdown
 
-   WSGI is not the only standard for Python web servers. `ASGI <https://asgi.readthedocs.io/en/latest/>`_, designed for async-capable servers, is another option. However, when it comes to Django, I don't really care about ASGI (at least for now), but that's just me :)
+  WSGI is not the only standard for Python web servers. `ASGI <https://asgi.readthedocs.io/en/latest/>`_, designed for async-capable servers, is another option. However, when it comes to Django, I don't really care about ASGI (at least for now), but that's just me :)
 
 **Process Managers**
 
@@ -156,18 +156,11 @@ The two most widely used process managers are `supervisor <http://supervisord.or
 From my experience, there's no significant difference in their user experience.
 
 .. admonition:: deploying myjourney - gunicorn with systemd
-   :class: note dropdown
+  :class: note dropdown
 
-   1. Create a systemd service file for your project
+  1. Create a service file for gunicorn and add the content below
 
-   .. code-block:: bash
-      :caption: Configure systemd
-
-      sudo touch /etc/systemd/system/gunicorn.service
-
-   1. Replace the file's content with the following code, sourced from https://docs.gunicorn.org/en/stable/deploy.html#systemd
-
-   .. code-block:: text
+  .. code-block:: text
       :caption: /etc/systemd/system/gunicorn.service
 
       [Unit]
@@ -189,19 +182,35 @@ From my experience, there's no significant difference in their user experience.
       [Install]
       WantedBy=multi-user.target
 
-   A comprehensive explanation of all gunicorn options can be found `here <https://docs.gunicorn.org/en/stable/run.html#commonly-used-arguments>`_.
-   Remember, the value assigned to the ``--bind`` option should match the one specified in the nginx config file, specifically on the ``proxy_pass`` line.
-   Nginx and gunicorn communicate with each other using this `sock file <https://fileinfo.com/extension/sock>`_. Though it's possible to replace it with an IP address and port number (e.g., 127.0.0.1:8000),
-   using the sock file is generally more efficient as it is a more direct connection.
+  All the options of the service file and socket files are explained `here <https://www.freedesktop.org/software/systemd/man/latest/systemd.exec.html>`_.
+  A comprehensive explanation of all gunicorn options can be found `here <https://docs.gunicorn.org/en/stable/run.html#commonly-used-arguments>`_.
+  Remember, the value assigned to the ``--bind`` option should match the one specified in the nginx config file, specifically on the ``proxy_pass`` line.
+  Nginx and gunicorn communicate with each other using this `sock file <https://fileinfo.com/extension/sock>`_. Though it's possible to replace it with an IP address and port number (e.g., 127.0.0.1:8000),
+  using the sock file is generally more efficient as it is a more direct connection.
 
-   1. Start the gunicorn service
+  2. Create a socket file for gunicorn and add the content below
 
-   .. code-block:: bash
+  .. code-block:: text
+      :caption: /etc/systemd/system/gunicorn.socket
+
+      [Unit]
+      Description=gunicorn socket
+
+      [Socket]
+      ListenStream=/run/gunicorn.sock
+      SocketUser=www-data
+
+      [Install]
+      WantedBy=sockets.target
+
+  3. Enable and start the socket
+
+  .. code-block:: bash
       :caption: Start gunicorn
 
-      sudo systemctl start gunicorn
+      sudo systemctl enable --now gunicorn.socket
 
-   To access the log of your application you can use the command below:
+  To access the log of your application you can use the command below:
 
    .. code-block:: bash
       :caption: Access gunicorn logs
@@ -506,11 +515,11 @@ Personal Recommendations
 
 If you're feeling a bit overwhelmed by the options provided above, here are my personal recommendations:
 
-If you're trying to learn and have never deployed a Django app before, try the full manual process a few times (2-3 times should do it). 
-Once you get the hang of the process, buy a cheap VPS and install `caprover <https://caprover.com>`_. Try to stick with this setup for as 
+If you're trying to learn and have never deployed a Django app before, try the full manual process a few times (2-3 times should do it).
+Once you get the hang of the process, buy a cheap VPS and install `caprover <https://caprover.com>`_. Try to stick with this setup for as
 long as you can, or as long as it is **enough**.
 
-The day may come when this setup is no longer sufficient. You'll know it when it happens - you'll have thousands of users, tens of thousands of concurrent requests, 
+The day may come when this setup is no longer sufficient. You'll know it when it happens - you'll have thousands of users, tens of thousands of concurrent requests,
 and you'll want to offload most of the infrastructure management and maintenance to a managed service so you can focus on improving the core business logic.
 When that day comes, you can opt for one of the managed solutions mentioned above (e.g., AWS, or AppLiku on top of AWS to ease the burden).
 Personally, I've never reached that level of traffic, so I'm still managing all of my projects on a cheap `contabo VPS <https://contabo.com>`_ with `caprover <https://caprover.com>`_.

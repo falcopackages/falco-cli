@@ -59,6 +59,8 @@ urls.Source = "https://github.com/tobi-de/falco"
 
 scripts.falco = "falco.__main__:main"
 
+optional-dependencies = { just = ["just-bin"] }
+
 [tool.hatch.build.targets.wheel]
 packages = [
   "src/falco",

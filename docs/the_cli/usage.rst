@@ -18,6 +18,20 @@ please create a `new issue <https://github.com/Tobi-De/falco/issues/new>`_.
     - hatch: https://hatch.pypa.io/latest/install/
     - just: https://just.systems/man/en/chapter_5.html
 
+    If you haven't installed these tools, you can do so by running:
+
+    .. code-block:: bash
+
+        pip install falco-cli[just]
+
+    And after you've generated a new project, inside the project directory you can run:
+
+    .. code-block:: bash
+
+        just install-hatch
+
+    This will install hatch globally on your system, you won't need to run this for every new project.
+
 Let's create a new project called **myjourney**. This will be a journaling app and its main app will be **entries**.
 Each **entry** represents a journal entry within the **myjourney** app.
 
@@ -35,7 +49,7 @@ Each **entry** represents a journal entry within the **myjourney** app.
 
 **3. Project setup**
 
-Refer to the ``justfile`` in the root of the project to understand the available commands. The command below sets up your 
+Refer to the ``justfile`` in the root of the project to understand the available commands. The command below sets up your
 virtual environment using ``hatch`` (default, dev, and docs), runs the project migrations, creates a superuser
 with ``admin@localhost`` as the email and ``admin`` as the password, and runs project linting with ``pre-commit``.
 
@@ -43,7 +57,7 @@ with ``admin@localhost`` as the email and ``admin`` as the password, and runs pr
 
     just setup
 
-At this point, you can run ``just server`` to start the project. While the UI may be basic (which I hope to improve in the future), 
+At this point, you can run ``just server`` to start the project. While the UI may be basic (which I hope to improve in the future),
 you have a fully functional ready to deploy django project. If you update the content of the home page, your browser will automatically reload.
 
 **4. Create the new app, entries**

@@ -32,68 +32,42 @@
 alabaster==0.7.16
     # via sphinx
 anyio==4.3.0
-    # via
-    #   -c requirements.txt
-    #   httpx
-appnope==0.1.4
-    # via ipykernel
+    # via httpx
 arrow==1.3.0
-    # via
-    #   -c requirements.txt
-    #   cookiecutter
+    # via cookiecutter
 asttokens==2.4.1
-    # via
-    #   -c requirements.txt
-    #   stack-data
+    # via stack-data
 attrs==23.2.0
     # via
     #   jsonschema
     #   referencing
 autoflake==2.3.0
-    # via
-    #   -c requirements.txt
-    #   hatch.envs.docs
 babel==2.14.0
     # via sphinx
 beautifulsoup4==4.12.3
     # via nbconvert
 binaryornot==0.4.4
-    # via
-    #   -c requirements.txt
-    #   cookiecutter
+    # via cookiecutter
 black==24.2.0
-    # via
-    #   -c requirements.txt
-    #   hatch.envs.docs
 bleach==6.1.0
     # via nbconvert
 cappa==0.17.0
-    # via
-    #   -c requirements.txt
-    #   hatch.envs.docs
 certifi==2024.2.2
     # via
-    #   -c requirements.txt
     #   httpcore
     #   httpx
     #   requests
 chardet==5.2.0
-    # via
-    #   -c requirements.txt
-    #   binaryornot
+    # via binaryornot
 charset-normalizer==3.3.2
-    # via
-    #   -c requirements.txt
-    #   requests
+    # via requests
 click==8.1.7
     # via
-    #   -c requirements.txt
     #   black
     #   cookiecutter
     #   djlint
 colorama==0.4.6
     # via
-    #   -c requirements.txt
     #   djlint
     #   sphinx-autobuild
 comm==0.2.2
@@ -101,25 +75,15 @@ comm==0.2.2
     #   ipykernel
     #   ipywidgets
 cookiecutter==2.6.0
-    # via
-    #   -c requirements.txt
-    #   hatch.envs.docs
 cssbeautifier==1.15.1
-    # via
-    #   -c requirements.txt
-    #   djlint
+    # via djlint
 debugpy==1.8.1
     # via ipykernel
 decorator==5.1.1
-    # via
-    #   -c requirements.txt
-    #   ipython
+    # via ipython
 defusedxml==0.7.1
     # via nbconvert
 djlint==1.34.1
-    # via
-    #   -c requirements.txt
-    #   hatch.envs.docs
 docutils==0.20.1
     # via
     #   myst-parser
@@ -129,83 +93,53 @@ docutils==0.20.1
     #   sphinx-togglebutton
 editorconfig==0.12.4
     # via
-    #   -c requirements.txt
     #   cssbeautifier
     #   jsbeautifier
 executing==2.0.1
-    # via
-    #   -c requirements.txt
-    #   stack-data
+    # via stack-data
 fastjsonschema==2.19.1
     # via nbformat
 h11==0.14.0
-    # via
-    #   -c requirements.txt
-    #   httpcore
+    # via httpcore
 honcho==1.1.0
-    # via
-    #   -c requirements.txt
-    #   hatch.envs.docs
 html-tag-names==0.1.2
-    # via
-    #   -c requirements.txt
-    #   djlint
+    # via djlint
 html-void-elements==0.1.0
-    # via
-    #   -c requirements.txt
-    #   djlint
+    # via djlint
 httpcore==1.0.4
-    # via
-    #   -c requirements.txt
-    #   httpx
+    # via httpx
 httpx==0.27.0
-    # via
-    #   -c requirements.txt
-    #   hatch.envs.docs
 idna==3.6
     # via
-    #   -c requirements.txt
     #   anyio
     #   httpx
     #   requests
 imagesize==1.4.1
     # via sphinx
 ipykernel==6.29.4
-    # via
-    #   hatch.envs.docs
-    #   jupyter-sphinx
+    # via jupyter-sphinx
 ipython==8.22.2
     # via
-    #   -c requirements.txt
     #   ipykernel
     #   ipywidgets
     #   jupyter-sphinx
 ipywidgets==8.1.2
     # via jupyter-sphinx
 isort==5.13.2
-    # via
-    #   -c requirements.txt
-    #   hatch.envs.docs
 jedi==0.19.1
-    # via
-    #   -c requirements.txt
-    #   ipython
+    # via ipython
 jinja2==3.1.3
     # via
-    #   -c requirements.txt
     #   cookiecutter
     #   myst-parser
     #   nbconvert
     #   sphinx
 jsbeautifier==1.15.1
     # via
-    #   -c requirements.txt
     #   cssbeautifier
     #   djlint
 json5==0.9.20
-    # via
-    #   -c requirements.txt
-    #   djlint
+    # via djlint
 jsonschema==4.21.1
     # via nbformat
 jsonschema-specifications==2023.12.1
@@ -222,7 +156,6 @@ jupyter-core==5.7.2
     #   nbconvert
     #   nbformat
 jupyter-sphinx==0.5.3
-    # via hatch.envs.docs
 jupyterlab-pygments==0.3.0
     # via nbconvert
 jupyterlab-widgets==3.0.10
@@ -231,35 +164,28 @@ livereload==2.6.3
     # via sphinx-autobuild
 markdown-it-py==3.0.0
     # via
-    #   -c requirements.txt
     #   mdit-py-plugins
     #   myst-parser
     #   rich
 markupsafe==2.1.5
     # via
-    #   -c requirements.txt
     #   jinja2
     #   nbconvert
 matplotlib-inline==0.1.6
     # via
-    #   -c requirements.txt
     #   ipykernel
     #   ipython
 mdit-py-plugins==0.4.0
     # via myst-parser
 mdurl==0.1.2
-    # via
-    #   -c requirements.txt
-    #   markdown-it-py
+    # via markdown-it-py
 mistune==3.0.2
     # via nbconvert
 mypy-extensions==1.0.0
     # via
-    #   -c requirements.txt
     #   black
     #   typing-inspect
 myst-parser==2.0.0
-    # via hatch.envs.docs
 nbclient==0.10.0
     # via nbconvert
 nbconvert==7.16.3
@@ -273,7 +199,6 @@ nest-asyncio==1.6.0
     # via ipykernel
 packaging==23.2
     # via
-    #   -c requirements.txt
     #   black
     #   ipykernel
     #   nbconvert
@@ -281,45 +206,29 @@ packaging==23.2
 pandocfilters==1.5.1
     # via nbconvert
 parso==0.8.3
-    # via
-    #   -c requirements.txt
-    #   hatch.envs.docs
-    #   jedi
+    # via jedi
 pathspec==0.12.1
     # via
-    #   -c requirements.txt
     #   black
     #   djlint
 pexpect==4.9.0
-    # via
-    #   -c requirements.txt
-    #   ipython
+    # via ipython
 platformdirs==4.2.0
     # via
-    #   -c requirements.txt
     #   black
     #   jupyter-core
 prompt-toolkit==3.0.43
-    # via
-    #   -c requirements.txt
-    #   ipython
+    # via ipython
 psutil==5.9.8
     # via ipykernel
 ptyprocess==0.7.0
-    # via
-    #   -c requirements.txt
-    #   pexpect
+    # via pexpect
 pure-eval==0.2.2
-    # via
-    #   -c requirements.txt
-    #   stack-data
+    # via stack-data
 pyflakes==3.2.0
-    # via
-    #   -c requirements.txt
-    #   autoflake
+    # via autoflake
 pygments==2.17.2
     # via
-    #   -c requirements.txt
     #   ipython
     #   nbconvert
     #   rich
@@ -327,16 +236,12 @@ pygments==2.17.2
     #   sphinx-tabs
 python-dateutil==2.9.0.post0
     # via
-    #   -c requirements.txt
     #   arrow
     #   jupyter-client
 python-slugify==8.0.4
-    # via
-    #   -c requirements.txt
-    #   cookiecutter
+    # via cookiecutter
 pyyaml==6.0.1
     # via
-    #   -c requirements.txt
     #   cookiecutter
     #   djlint
     #   myst-parser
@@ -349,19 +254,14 @@ referencing==0.34.0
     #   jsonschema
     #   jsonschema-specifications
 regex==2023.12.25
-    # via
-    #   -c requirements.txt
-    #   djlint
+    # via djlint
 requests==2.31.0
     # via
-    #   -c requirements.txt
     #   cookiecutter
     #   sphinx
     #   sphinx-github-changelog
 rich==13.7.1
     # via
-    #   -c requirements.txt
-    #   hatch.envs.docs
     #   cappa
     #   cookiecutter
 rpds-py==0.18.0
@@ -369,14 +269,10 @@ rpds-py==0.18.0
     #   jsonschema
     #   referencing
 setuptools==69.1.1
-    # via
-    #   -c requirements.txt
-    #   sphinx-togglebutton
+    # via sphinx-togglebutton
 shibuya==2024.4.8
-    # via hatch.envs.docs
 six==1.16.0
     # via
-    #   -c requirements.txt
     #   asttokens
     #   bleach
     #   cssbeautifier
@@ -385,7 +281,6 @@ six==1.16.0
     #   python-dateutil
 sniffio==1.3.1
     # via
-    #   -c requirements.txt
     #   anyio
     #   httpx
 snowballstemmer==2.2.0
@@ -394,7 +289,6 @@ soupsieve==2.5
     # via beautifulsoup4
 sphinx==7.2.6
     # via
-    #   hatch.envs.docs
     #   jupyter-sphinx
     #   myst-parser
     #   shibuya
@@ -406,19 +300,12 @@ sphinx==7.2.6
     #   sphinx-tabs
     #   sphinx-togglebutton
 sphinx-autobuild==2024.2.4
-    # via hatch.envs.docs
 sphinx-copybutton==0.5.2
-    # via hatch.envs.docs
 sphinx-design==0.5.0
-    # via hatch.envs.docs
 sphinx-docsearch==0.0.4
-    # via hatch.envs.docs
 sphinx-github-changelog==1.3.0
-    # via hatch.envs.docs
 sphinx-tabs==3.4.5
-    # via hatch.envs.docs
 sphinx-togglebutton==0.3.2
-    # via hatch.envs.docs
 sphinxcontrib-applehelp==1.0.8
     # via sphinx
 sphinxcontrib-devhelp==1.0.6
@@ -428,37 +315,26 @@ sphinxcontrib-htmlhelp==2.0.5
 sphinxcontrib-jsmath==1.0.1
     # via sphinx
 sphinxcontrib-mermaid==0.9.2
-    # via hatch.envs.docs
 sphinxcontrib-qthelp==1.0.7
     # via sphinx
 sphinxcontrib-serializinghtml==1.1.10
     # via sphinx
 stack-data==0.6.3
-    # via
-    #   -c requirements.txt
-    #   ipython
+    # via ipython
 text-unidecode==1.3
-    # via
-    #   -c requirements.txt
-    #   python-slugify
+    # via python-slugify
 tinycss2==1.2.1
     # via nbconvert
 tomlkit==0.12.4
-    # via
-    #   -c requirements.txt
-    #   hatch.envs.docs
 tornado==6.4
     # via
     #   ipykernel
     #   jupyter-client
     #   livereload
 tqdm==4.66.2
-    # via
-    #   -c requirements.txt
-    #   djlint
+    # via djlint
 traitlets==5.14.1
     # via
-    #   -c requirements.txt
     #   comm
     #   ipykernel
     #   ipython
@@ -470,26 +346,17 @@ traitlets==5.14.1
     #   nbconvert
     #   nbformat
 types-python-dateutil==2.8.19.20240106
-    # via
-    #   -c requirements.txt
-    #   arrow
+    # via arrow
 typing-extensions==4.10.0
     # via
-    #   -c requirements.txt
     #   cappa
     #   typing-inspect
 typing-inspect==0.9.0
-    # via
-    #   -c requirements.txt
-    #   cappa
+    # via cappa
 urllib3==2.2.1
-    # via
-    #   -c requirements.txt
-    #   requests
+    # via requests
 wcwidth==0.2.13
-    # via
-    #   -c requirements.txt
-    #   prompt-toolkit
+    # via prompt-toolkit
 webencodings==0.5.1
     # via
     #   bleach
