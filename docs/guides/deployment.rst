@@ -146,7 +146,8 @@ that can be run by any server adhering to the standard, independent of specific 
 
   WSGI is not the only standard for Python web servers. `ASGI <https://asgi.readthedocs.io/en/latest/>`_, designed for async-capable servers, is another option. However, when it comes to Django, I don't really care about ASGI (at least for now), but that's just me :)
 
-**Process Managers**
+Process Managers
+****************
 
 Hosting a project on your own server requires more than just an application server. You also need a **process manager**. This manager starts and stops your application server and restarts it if it crashes. For instance, if you SSH into your server and run the **gunicorn** command, your app
 will work and, assuming nginx is configured correctly, you'll even be able to access it via your IP address or domain name. However, if you close your SSH session, your app will stop functioning. This is where the process manager comes in. It runs your app in the background, ensuring
@@ -212,14 +213,14 @@ From my experience, there's no significant difference in their user experience.
 
   To access the log of your application you can use the command below:
 
-   .. code-block:: bash
+  .. code-block:: bash
       :caption: Access gunicorn logs
 
       sudo journalctl -e -u gunicorn.service
 
    To check the status of your application you can use the command below:
 
-   .. code-block:: bash
+  .. code-block:: bash
       :caption: Check gunicorn status
 
       sudo systemctl status gunicorn
