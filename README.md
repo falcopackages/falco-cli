@@ -103,7 +103,7 @@ Falco is inspired by (and borrows elements from) some excellent open source proj
 
 ## Contributors
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 <!-- contributors:start -->
@@ -122,6 +122,9 @@ Thanks to the following wonderful people [emoji key](https://allcontributors.org
       <td align="center" valign="top" width="14.28%"><a href="https://lexumsoft.com/"><img src="https://avatars.githubusercontent.com/u/96701299?v=4?s=100" width="100px;" alt="Waqar Khan"/><br /><sub><b>Waqar Khan</b></sub></a><br /><a href="https://github.com/Tobi-De/falco/commits?author=786raees" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/tissieres"><img src="https://avatars.githubusercontent.com/u/2410978?v=4?s=100" width="100px;" alt="tissieres"/><br /><sub><b>tissieres</b></sub></a><br /><a href="#financial-tissieres" title="Financial">💵</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://lepture.com"><img src="https://avatars.githubusercontent.com/u/290496?v=4?s=100" width="100px;" alt="Hsiaoming Yang"/><br /><sub><b>Hsiaoming Yang</b></sub></a><br /><a href="https://github.com/Tobi-De/falco/issues?q=author%3Alepture" title="Bug reports">🐛</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/aimedey19"><img src="https://avatars.githubusercontent.com/u/89580257?v=4?s=100" width="100px;" alt="Aimé An-Nyong DEGBEY"/><br /><sub><b>Aimé An-Nyong DEGBEY</b></sub></a><br /><a href="#ideas-aimedey19" title="Ideas, Planning, & Feedback">🤔</a></td>
     </tr>
   </tbody>
 </table>
