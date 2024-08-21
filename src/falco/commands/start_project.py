@@ -18,7 +18,6 @@ from falco.commands import InstallCrudUtils
 from falco.commands.crud.utils import run_html_formatters
 from falco.commands.htmx import get_latest_tag as htmx_latest_tag
 from falco.commands.htmx import Htmx
-from falco.config import read_falco_config
 from falco.config import write_falco_config
 from falco.utils import clean_project_name
 from falco.utils import is_new_falco_cli_available
@@ -106,9 +105,7 @@ class StartProject:
         project_dir = self.init_project()
         with change_directory(project_dir):
             pyproject_path = Path("pyproject.toml")
-            falco_config = read_falco_config(pyproject_path)
-
-            crud_utils = InstallCrudUtils().install(project_name=self.project_name, falco_config=falco_config)
+            crud_utils = InstallCrudUtils().install(project_name=self.project_name, falco_config={})
 
             env_file = Path(".env")
             env_file.touch()
@@ -123,7 +120,7 @@ class StartProject:
             if not self.local:
                 with suppress(cappa.Exit, httpx.TimeoutException, httpx.ConnectError):
                     version = htmx_latest_tag()
-                    filepath = Htmx().download(version=htmx_latest_tag(), falco_config=falco_config)
+                    filepath = Htmx().download(version=htmx_latest_tag(), falco_config={})
                     config["htmx"] = Htmx.format_for_config(filepath, version)
 
             write_falco_config(pyproject_path=pyproject_path, **config)

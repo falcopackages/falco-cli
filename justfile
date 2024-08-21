@@ -104,6 +104,9 @@ push:
 # UTILS
 # ----------------------------------------------------------------------
 
+@test:
+    hatch run pytest
+
 # Run all formatters
 @fmt:
     just --fmt --unstable
