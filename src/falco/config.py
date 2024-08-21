@@ -35,7 +35,11 @@ def write_falco_config(pyproject_path: Path, **kwargs: Unpack[TypedDict]) -> Non
     new_falco_config = kwargs
     new_crud_config = parse_crud_config_to_pyproject(new_falco_config.pop("crud", {}))
 
-    pyproject = tomlkit.parse(pyproject_path.read_text()) if pyproject_path.exists() else {}
+    # pyproject = tomlkit.parse(pyproject_path.read_text()) if pyproject_path.exists() else {}
+    if pyproject_path.exists():  # noqa
+        pyproject = tomlkit.parse(pyproject_path.read_text(encoding="utf-8"))
+    else:
+        pyproject = {}
     existing_falco_config = pyproject.get("tool", {}).get("falco", {})
     existing_crud_config = existing_falco_config.pop("crud", {})
 
@@ -49,7 +53,7 @@ def write_falco_config(pyproject_path: Path, **kwargs: Unpack[TypedDict]) -> Non
 
 
 def read_falco_config(pyproject_path: Path) -> FalcoConfig:
-    pyproject = tomlkit.parse(pyproject_path.read_text())
+    pyproject = tomlkit.parse(pyproject_path.read_text(encoding="utf-8"))
     falco_config = pyproject.get("tool", {}).get("falco", {})
     crud_config = falco_config.pop("crud", {})
     crud_config = parse_crud_config_from_pyproject(crud_config)
