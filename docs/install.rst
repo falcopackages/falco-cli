@@ -16,6 +16,11 @@ You can also automatically install just with falco by running:
 
     pip install falco-cli[just]
 
+.. note::
+
+    The ``just`` extra does not work on Windows. If you are on Windows, you can follow the install instuctions
+    `here <https://just.systems/man/en/chapter_4.html>`_
+
 Next Up
 -------
 
