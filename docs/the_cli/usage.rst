@@ -24,14 +24,6 @@ please create a `new issue <https://github.com/Tobi-De/falco/issues/new>`_.
 
         pip install falco-cli[just]
 
-    And after you've generated a new project, inside the project directory you can run:
-
-    .. code-block:: bash
-
-        just install-hatch
-
-    This will install hatch globally on your system, you won't need to run this for every new project.
-
 Let's create a new project called **myjourney**. This will be a journaling app and its main app will be **entries**.
 Each **entry** represents a journal entry within the **myjourney** app.
 
