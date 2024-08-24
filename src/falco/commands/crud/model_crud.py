@@ -439,6 +439,12 @@ def register_app_urls(app_label: str, app_name: str) -> Path:
 
 def register_models_in_admin(app_folder_path: Path, app_label: str, model_name: str | None = None) -> Path:
     admin_file = app_folder_path / "admin.py"
+
+    # Skip further processing if model_name is not specified and file is non-empty
+    if not model_name and admin_file.exists() and admin_file.stat().st_size > 0:
+        rich_print("Skipping admin registration as the file is not empty.")
+        return admin_file
+
     admin_file.touch(exist_ok=True)
     cmd_args = [app_label]
     if model_name:
@@ -457,7 +463,15 @@ def register_models_in_admin(app_folder_path: Path, app_label: str, model_name: 
 
     # the first set the encoding, it is useless
     admin_code = result.stdout.split("\n", 1)[1]
-    admin_file.write_text(admin_file.read_text() + admin_code)
+
+    existing_code = admin_file.read_text()
+
+    # Avoid adding duplicate registrations if model is already registered
+    if model_name and model_name.title() in existing_code:
+        rich_print(f"Model {model_name} is already registered.")
+        return admin_file
+
+    admin_file.write_text(existing_code + admin_code)
 
     if not model_name:
         # we probably don't need to reorder the imports if the admin code is being generated for all models
@@ -543,7 +557,7 @@ def get_models_data(app_label: str, excluded_fields: list[str], *, entry_point: 
 
         verbose_name = model._meta.verbose_name
         verbose_name_plural = model._meta.verbose_name_plural
-        fields: dict[str, "DjangoField"] = {
+        fields: dict[str, DjangoField] = {
             field.name: {
                 "verbose_name": field.verbose_name,
                 "editable": field.editable,
