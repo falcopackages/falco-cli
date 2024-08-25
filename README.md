@@ -103,7 +103,7 @@ Falco is inspired by (and borrows elements from) some excellent open source proj
 
 ## Contributors
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-9-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 <!-- contributors:start -->
@@ -125,6 +125,7 @@ Thanks to the following wonderful people [emoji key](https://allcontributors.org
     </tr>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/aimedey19"><img src="https://avatars.githubusercontent.com/u/89580257?v=4?s=100" width="100px;" alt="Aimé An-Nyong DEGBEY"/><br /><sub><b>Aimé An-Nyong DEGBEY</b></sub></a><br /><a href="#ideas-aimedey19" title="Ideas, Planning, & Feedback">🤔</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/earthcomfy"><img src="https://avatars.githubusercontent.com/u/66206865?v=4?s=100" width="100px;" alt="Hana Belay"/><br /><sub><b>Hana Belay</b></sub></a><br /><a href="https://github.com/Tobi-De/falco/commits?author=earthcomfy" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>

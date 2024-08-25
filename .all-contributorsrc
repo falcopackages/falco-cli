@@ -80,6 +80,15 @@
       "contributions": [
         "ideas"
       ]
+    },
+    {
+      "login": "earthcomfy",
+      "name": "Hana Belay",
+      "avatar_url": "https://avatars.githubusercontent.com/u/66206865?v=4",
+      "profile": "https://github.com/earthcomfy",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
