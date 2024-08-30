@@ -12,13 +12,30 @@ Falco is available on PyPI and can be installed with pip or your favorite Python
 
 You can also automatically install just with falco by running:
 
-.. code-block:: shell
+.. tabs::
 
-    pip install falco-cli[just]
+  .. tab:: PIP
+
+    .. code-block:: shell
+
+        pip install "falco-cli[just]"
+
+  .. tab:: PIPX
+
+    .. code-block:: shell
+
+        pipx install "falco-cli[just]"
+
+  .. tab:: UV
+
+    .. code-block:: shell
+
+        uv tool install "falco-cli[just]"
+
 
 .. note::
 
-    The ``just`` extra does not work on Windows. If you are on Windows, you can follow the install instuctions
+    The ``just`` extra does not work on Windows. If you are on Windows, you can follow the installation instructions
     `here <https://just.systems/man/en/chapter_4.html>`_
 
 Next Up

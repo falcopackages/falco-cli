@@ -18,12 +18,6 @@ please create a `new issue <https://github.com/Tobi-De/falco/issues/new>`_.
     - hatch: https://hatch.pypa.io/latest/install/
     - just: https://just.systems/man/en/chapter_5.html
 
-    If you haven't installed these tools, you can do so by running:
-
-    .. code-block:: bash
-
-        pip install falco-cli[just]
-
 Let's create a new project called **myjourney**. This will be a journaling app and its main app will be **entries**.
 Each **entry** represents a journal entry within the **myjourney** app.
 
