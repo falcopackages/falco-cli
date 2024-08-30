@@ -12,7 +12,11 @@ rm-migrations
 
 .. cappa:: falco.commands.RmMigrations
 
-It is a good idea to delete all migrations and recreate them from scratch when deploying your django project for the fist time.
+.. warning::
+   This command will delete all your migrations files, be sure to commit your changes before running this command.
+
+
+It is a good idea to delete all migrations and recreate them from scratch when deploying your django project for the first time.
 This ensures a clean base without any remnants of testing or experimentation from the initial development phase. Even during development,
 when exploring new ideas, it is often necessary to delete all migrations and start over. This command is designed for these scenarios,
 as it deletes all migrations in your project.
@@ -30,10 +34,6 @@ by the `falco startproject </the_cli/start_project.html>`_ command.
    # or
    falco rm-migrations my_apps_dir
 
-.. warning::
-
-   This command will delete all your migrations files, be sure to commit your changes before running this command.
-
 After deleting all your migrations, your next step might likely be to reset your database using a command like ``reset-db``
 from `django-extensions <https://django-extensions.readthedocs.io/en/latest/>`_. However, if you want to preserve your data,
 then the following command might be a better option than running ``rm-migrations`` altogether.
@@ -43,17 +43,21 @@ reset-migrations
 
 .. cappa:: falco.commands.ResetMigrations
 
+.. note::
+    Before running this command, make sure you have applied any pending migrations, ``makemigrations && migrate``. The idea is to reset the migrations while keeping the data. If your current database does not have up to date migrations, it will fail.
+
+
 This command works exactly like the ``rm-migration`` command but goes a bit further. Here's how it works:
 
 1. First, it runs ``falco rm-migrations``.
 2. Then, it clears your django migrations table:
 
-        .. code-block:: python
+.. code-block:: python
 
-            from django.db import connection
+    from django.db import connection
 
-            with connection.cursor() as cursor:
-                cursor.execute("DELETE FROM django_migrations")
+    with connection.cursor() as cursor:
+        cursor.execute("DELETE FROM django_migrations")
 
 3. Next, it runs ``python manage.py makemigrations`` to recreate migrations.
 4. Lastly, it executes ``python manage.py migrate --fake`` add the new migrations to the migrations table so that your migrations are in sync with the current database schema state.
@@ -62,5 +66,4 @@ The `migrate fake <https://docs.djangoproject.com/en/5.0/ref/django-admin/#cmdop
 the actual SQL.
 Since the ``reset-migrations`` depends on the ``rm-migrations`` command, it performs the same checks: it checks your Django ``DEBUG`` value and your Git
 repo needs to be in a clean state unless you use the ``--skip-git-check`` option.
-
 This command allows you to restore your migrations to their initial state without losing any existing data.

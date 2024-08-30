@@ -461,7 +461,7 @@ def register_models_in_admin(app_folder_path: Path, app_label: str, model_name: 
         rich_print(f"{RICH_ERROR_MARKER}Admin failed to generate: {msg}")
         return admin_file
 
-    # the first set the encoding, it is useless
+    # the first line of the generated code set the encoding, it is useless for python 3
     admin_code = result.stdout.split("\n", 1)[1]
 
     existing_code = admin_file.read_text()

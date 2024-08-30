@@ -34,16 +34,14 @@ class ResetMigrations:
     ]
 
     def __call__(self, project_name: Annotated[str, cappa.Dep(get_project_name)]):
-        # TODO: this is useless, every commands runs the check beforehand, it this check do not pass
-        #   the command will fail anyway
         with simple_progress("Running django check..."):
+            # This is needed to avoid running this command with unapplied migrations
             result = subprocess.run(
                 ["python", "manage.py", "check"],
                 check=False,
                 capture_output=True,
                 text=True,
             )
-            # TODO: what evne happens here when checks are not printed, is something printed to the terminal ?
 
             if result.returncode != 0:
                 raise cappa.Exit(code=1)
