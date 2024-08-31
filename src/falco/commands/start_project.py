@@ -5,19 +5,15 @@ import secrets
 import shutil
 import subprocess
 from contextlib import contextmanager
-from contextlib import suppress
 from pathlib import Path
 from typing import Annotated
 
 import cappa
-import httpx
 from cookiecutter.config import get_user_config
 from cookiecutter.exceptions import CookiecutterException
 from cookiecutter.main import cookiecutter
 from falco.commands import InstallCrudUtils
 from falco.commands.crud.utils import run_html_formatters
-from falco.commands.htmx import get_latest_tag as htmx_latest_tag
-from falco.commands.htmx import Htmx
 from falco.config import write_falco_config
 from falco.utils import clean_project_name
 from falco.utils import is_new_falco_cli_available
@@ -117,11 +113,6 @@ class StartProject:
                 "skip": DEFAULT_SKIP,
                 "blueprint": self.blueprint,
             }
-            if not self.local:
-                with suppress(cappa.Exit, httpx.TimeoutException, httpx.ConnectError):
-                    version = htmx_latest_tag()
-                    filepath = Htmx().download(version=htmx_latest_tag(), falco_config={})
-                    config["htmx"] = Htmx.format_for_config(filepath, version)
 
             write_falco_config(pyproject_path=pyproject_path, **config)
 
