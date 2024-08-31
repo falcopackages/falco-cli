@@ -5,57 +5,21 @@
 Project Structure
 =================
 
-.. todo::
+Let's go through the basics of the file structure and folders, We won't cover the entire file structure, just the essentials.
 
-   I'm not satisfied with the current way this page is scructured and how things are explained.
+- ``.github``: Contains `GitHub Actions <https://docs.github.com/en/actions>`_ workflows and `Dependabot <https://docs.github.com/en/code-security/supply-chain-security/keeping-your-dependencies-updated-automatically>`_ configurations. More details on this can be found in the `packages and tools </the_cli/start_project/packages.html#continuous-integration>`_ section.
+- ``docs``: Documentation for your project generated with `Sphinx <https://www.sphinx-doc.org/en/master/>`_. More details on this can be found in the `packages and tools </the_cli/start_project/packages.html#documentation>`_ section.
+- ``project_dir``: The core of your Django project. It contains all the essentials of your Django project: ``settings``, ``root urls``, ``applications``, ``templates``, and ``static`` files. Your apps will be located here when using the `start-app </the_cli/start_app.html>`_ command that comes with Falco.
+- ``project_dir/__main__.py``: This file is the entry point of your project. It is mainly meant for production and building the binary of your project. More details on this can be found in the `deployment </the_cli/start_project/deploy.html>`_ section.
+- ``deploy``: Contains all tools and configuration files related to deployment, such as Dockerfile, s6-overlay, etc. You can also add your Nginx and systemd files here if you use those. The goal is to keep all files related to deployment in the same place and sync them with the server when needed. This way, it is easier to keep track of all configurations involved in deployment.
+- ``justfile``: A file that contains the commands you can run with the ``just`` command. It also serves as a convenient way to document frequently used commands in your project.
+- ``pyproject.toml``: A file that contains the project metadata, dependencies, and some tool configurations. More details on this can be found in the `dependency </the_cli/start_project/dependency.html>`_ section.
+- ``CHANGELOG.md``: A file that contains the project changes. This file will automatically be filled using ``git-cliff``. More details on this can be found in the `package and tools </the_cli/start_project/packages.html#project-versioning>`_ section.
+- ``playground.ipynb``: This is meant as a playground for writing ORM Django queries. More details on this can be found in the `packages and tools </the_cli/start_project/packages.html#dj-notebook>`_ section.
+- ``.pre-commit-config.yaml``: A file that contains the `pre-commit <https://pre-commit.com/>`_ configurations. When configured, the hooks defined inside will run before any commits and will perform some linting and code formatting.
 
-Let's go through the basics of file structure and folders, so that you'll get an overview of what you're dealing with and don't feel completely lost or overwhelmed.
-We won't go through the full levels of file structure, but just the essentials.
 
-.github
--------
 
-This directory is a GitHub-specific folder, meant for configurations related to GitHub like bots, GitHub Actions workflows, etc.
-At the root of the folder, you'll see a ``dependabot.yml`` file. It is a config file for `Dependabot <https://github.com/dependabot>`_ that is configured to
-check weekly for dependency upgrades in your requirements files (more on that in the virtualenv management section). 
-There is a workflow directory with a ``ci.yml`` file (CI stands for `Continuous Integration <https://en.wikipedia.org/wiki/Continuous_integration>`_). 
-This file is meant to run tests, deployment checks, and type checks every time you push a new commit to GitHub to make sure nothing has broken 
-from the previous commit (assuming you do write tests).
 
-docs
-----
 
-This folder is meant to house the documentation for your projects. The documentation uses a basic `sphinx <https://www.sphinx-doc.org/en/master/>`_ setup with the `furo <https://github.com/pradyunsg/furo>`_ theme. 
-There is a basic structure in place that encourages you to structure your documentation based on your `django applications <https://docs.djangoproject.com/en/dev/ref/applications/>`_. 
-By default, you are meant to write using `reStructuredText <https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html>`_, but the `myst-parser <https://myst-parser.readthedocs.io/en/latest/>`_ is configured so 
-that you can use `markdown <https://www.markdownguide.org/>`_. Even if you are not planning to have very detailed and highly structured documentation (for some ideas on that, check out the `documentation writing guide </guides/writing_documentation.html>`_), 
-it can be a good place to keep notes on your project architecture, setup, external services, etc. It doesn't have to be optimal to be useful.
 
- "The Palest Ink Is Better Than the Best Memory."
-
- --- Chinese proverb
-
-project_dir
------------
-
-This is the core of your project. It contains all the essentials of your Django project: ``settings``, ``root urls``, ``applications``, ``templates``, and ``static``. Every 
-piece of code meant for the main project goes in there. It is very close to the default Django layout. The main difference is that when 
-you run the Django ``startapp`` command, it puts new apps in the root directory. That's why Falco comes with its own ``start-app`` command that
-will move new apps to the ``project_dir`` and automatically register them in your settings ``INSTALLED_APPS``.
-
-deploy
-------
-
-This folder contains the essentials for your project deployment. More details can be found in the `deployment </the_cli/start_project/deploy.html>`_ section.
-
-tests
------
-
-This folder is where you write your tests. It can follow the same structure as your Django project, with a new tests folder 
-for each application, or you can have one ``tests`` folder per application directory.
-
------
-
-Here is an overview of the complete file structure of a generated project:
-
-.. figure:: ../../images/project-tree.svg

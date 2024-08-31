@@ -47,36 +47,6 @@ To integrate it into your project, you'll need to modify your ``settings.py`` as
     EMAIL_PORT = 1025
 
 
-Lifecycle not signals
----------------------
-
-I've come to fall in love with `django-lifecycle <https://github.com/rsinger86/django-lifecycle>`_ and their approach to hooking into
-your Django objects' lifecycle. Traditionally, the way of dealing with this in Django is using `signals <https://docs.djangoproject.com/en/dev/topics/signals/>`_. Even
-though there is a lot of criticism on using signals in the community, I think they can be particularly useful in certain scenarios (e.g: implementing a plugin system). However, one scenario where they are not beneficial in my humble opinion is in
-organizing business logic. In such cases, I personally favor ``django-lifecycle`` because it follows the django ``fat models`` approach (essentially business logic in models).
-
-Here is an example of using ``django-lifecycle`` straight from their README:
-
-.. code-block:: python
-
-    from django_lifecycle import LifecycleModel, hook, BEFORE_UPDATE, AFTER_UPDATE
-
-
-    class Article(LifecycleModel):
-        contents = models.TextField()
-        updated_at = models.DateTimeField(null=True)
-        status = models.ChoiceField(choices=['draft', 'published'])
-        editor = models.ForeignKey(AuthUser)
-
-        @hook(BEFORE_UPDATE, when='contents', has_changed=True)
-        def on_content_change(self):
-            self.updated_at = timezone.now()
-
-        @hook(AFTER_UPDATE, when="status", was="draft", is_now="published")
-        def on_publish(self):
-            send_email(self.editor.email, "An article has published!")
-
-
 Better user personal info fields
 --------------------------------
 

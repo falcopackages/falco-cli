@@ -5,6 +5,8 @@ Virtualenv and dependencies
 ===========================
 
 This is mainly handled using ``hatch``, ``hatch-pip-compile``, and the ``pyproject.toml`` file.
+Additionally, there is a ``.github/dependabot.yml`` file. It is a config file for `Dependabot <https://github.com/dependabot>`_ that is configured to
+check weekly for dependency upgrades in your requirements files and create pull requests for them.
 
 The pyproject.toml File
 -----------------------
@@ -70,8 +72,8 @@ The project comes with three environment configurations: ``default``, ``dev``, a
 
    Running ``just bootstrap`` will create all three environments and install the dependencies for each.
 
-Although ``hatch`` comes with an integrated script runner, the project uses `just <https://just.systems/>`_ as the script runner. The main reason is that it is a more universal solution (not limited to the Python ecosystem) and 
-I find it more flexible. Paired with the `scripts-to-rule-them-all <https://github.com/github/scripts-to-rule-them-all>`_ pattern, it's an efficient way to standardize a set of commands 
+Although ``hatch`` comes with an integrated script runner, the project uses `just <https://just.systems/>`_ as the script runner. The main reason is that it is a more universal solution (not limited to the Python ecosystem) and
+I find it more flexible. Paired with the `scripts-to-rule-them-all <https://github.com/github/scripts-to-rule-them-all>`_ pattern, it's an efficient way to standardize a set of commands
 (``setup``, ``server``, ``console``, etc.) across all your projects, whether they are Django, Python, or something else. This way, you don't need to remember a different set of commands for each project.
 
 To see all available scripts or `recipes` as ``just`` calls them, you can run:
@@ -89,7 +91,7 @@ The primary environment you'll use during development is the ``dev`` environment
    $ just run python # launch the Python shell
    $ just run python manage.py dbshell # launch the database shell
 
-There are aliases for most Django commands, such as ``just server`` to run the development server, ``just migrate`` to apply migrations, ``just createsuperuser`` to create a superuser, etc. 
+There are aliases for most Django commands, such as ``just server`` to run the development server, ``just migrate`` to apply migrations, ``just createsuperuser`` to create a superuser, etc.
 . For any other commands that aren't explicitly aliased, you can run ``just dj <command>`` to run the command in the Django context.
 
 Activate the virtual environment
@@ -100,24 +102,26 @@ To activate an environment for the current shell, run ``hatch shell <env_name>``
 .. admonition:: Get the path of the dev environment
    :class: dropdown note
 
-   You can get the full path of the dev environment with ``just env-path`` or ``hatch env-path dev``. This can be useful to specify the interpreter in VSCode or PyCharm, for example.
+   You can get the full path of the dev environment with ``just env-path`` or ``just env-path dev``. This can be useful to specify the interpreter in VSCode or PyCharm, for example.
 
-You don't need to activate your shell to run commands. When running a just script, dependencies will be automatically synced (installed or removed if necessary), since it uses Hatch underneath, and 
+You don't need to activate your shell to run commands. When running a just script, dependencies will be automatically synced (installed or removed if necessary), since it uses Hatch underneath, and
 the command will be executed in the appropriate virtual environment.
 
 
 Add / remove a new dependency
 *****************************
 
-The default virtual environment includes all the dependencies specified in the ``[project.dependencies]`` section of the ``pyproject.toml`` file. To add a new dependency to your project, simply edit the ``pyproject.toml`` file and add it to the ``[project.dependencies]`` section. 
-The next time you run a command using ``just``, such as ``just server``, Hatch (used underneath by the just script) will automatically install the new dependency. The process is the same for removing a dependency.
+To add or remove a dependency, edit the ``[project.dependencies]`` section of the ``pyproject.toml`` file for a dependency that should be included in all environments and is needed in production.
+Alternatively, edit the ``dependencies`` key of ``[tool.hatch.envs.dev]`` or the ``extra-dependencies`` key of ``[tool.hatch.envs.docs]`` to add a development or documentation-only dependency, respectively.
+The next time you run a command using ``just``, such as ``just server``, Hatch (used underneath by the just script) will automatically install the new dependency.
 
-.. admonition:: Install a specific version of a package
-   :class: dropdown note
+.. code-block:: shell
+    :caption: Immediately sync dependencies
 
-   You can also explicitly install a dependency after adding or removing it by running ``just install``.
+    just install
 
-For development, I think this workflow should work quite well. Now, what happens when you need to deploy your app? You could install Hatch on the deployment target machine, but I prefer having a ``requirements.txt`` file that I can use to install dependencies on the deployment machine. That's where ``hatch-pip-compile`` comes in.
+For development, I think this workflow should work quite well. Now, what happens when you need to deploy your app? You could install Hatch on the deployment target machine, but I
+prefer having a ``requirements.txt`` file that I can use to install dependencies on the deployment machine. That's where ``hatch-pip-compile`` comes in.
 
 
 hatch-pip-compile
@@ -125,8 +129,8 @@ hatch-pip-compile
 
 The `hatch-pip-compile <https://github.com/juftin/hatch-pip-compile>`_ plugin is used with hatch to automatically generate a
 requirements file (lock file) using `pip-tools <https://github.com/jazzband/pip-tools>`_. This file contains the dependencies of your hatch virtual environment with pinned versions.
-The default setup generates a ``requirements.txt`` file that can be used for installing dependencies during deployment, as shown in the provided Dockerfile. However, you can customize the plugin to save
-locks for all your environments. Refer to the `hatch-pip-compile documentation <https://github.com/juftin/hatch-pip-compile>`_ for more details.
+The default setup generates a ``requirements.txt`` file that can be used for installing dependencies during deployment, as shown in the provided Dockerfile, a ``requirements-dev.txt``
+file for development dependencies, and a ``docs/requirements.txt`` file for documentation dependencies.
 
 Here is the current configuration in the ``pyproject.toml`` file relevant to hatch-pip-compile:
 
@@ -146,7 +150,7 @@ Here is the current configuration in the ``pyproject.toml`` file relevant to hat
    lock-filename = "requirements.txt"
    ...
 
-Thanks to `hatch-pip-compile <https://juftin.com/hatch-pip-compile/>`_, we can try `uv <https://github.com/astral-sh/uv>`_, which is, and I quote:
+You can specify the tool for dependency installation using `hatch-pip-compile <https://juftin.com/hatch-pip-compile/>`_. By default, it is configured to use `uv <https://github.com/astral-sh/uv>`_, which is, and I quote:
 
    An extremely fast Python package installer and resolver, written in Rust. Designed as a drop-in replacement for pip and pip-compile
 

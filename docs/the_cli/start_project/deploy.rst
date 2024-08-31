@@ -15,6 +15,13 @@ Deployment
 
 
 
+.. deploying the project to caprover what is confugured by default, but you are free to change this, mode details on the `deployment guide </the_cli/start_project/deploy.html>`_.
+.. build python wheel of your project, these a
+.. create binary of your project using `pyapp <https://github.com/ofek/pyapp>`_ only for x86_64 linux, but you can easily add more platforms if needed.
+
+
+
+
 .. The ``deploy`` folder contains some files that are needed for deployment, mainly docker related. If Docker isn't part of your deployment plan, this directory can be safely removed.
 .. However, you might want to retain the ``gunicorn.conf.py`` file inside that directory, which is a basic Gunicorn configuration file that could be useful regardless of your chosen deployment strategy.
 

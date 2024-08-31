@@ -11,11 +11,20 @@ I'll list some alternatives below in case you don't agree with my choices. But e
 can still be useful to you, and the `guides </guides/index.html>`_ are not particularly tied to the generated project. So, even with another project-starter, **Falco**
 can still bring you value.
 
-.. code-block:: bash
-   :caption: Example
 
-   $ falco start-project myproject
+.. tabs::
 
+  .. tab:: Tailwind CSS
+
+    .. code-block:: shell
+
+        falco start-project myproject
+
+  .. tab:: Bootstrap CSS
+
+    .. code-block:: shell
+
+        falco start-project myproject -b boostrap
 
 
 .. note::
