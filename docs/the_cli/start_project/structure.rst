@@ -5,8 +5,7 @@
 Project Structure
 =================
 
-Let's go through the basics of the file structure and folders, so that you'll get an overview of what you're dealing with and won't feel completely lost or overwhelmed.
-We won't cover the entire file structure, but just the essentials.
+Let's go through the basics of the file structure and folders, We won't cover the entire file structure, just the essentials.
 
 - ``.github``: Contains `GitHub Actions <https://docs.github.com/en/actions>`_ workflows and `Dependabot <https://docs.github.com/en/code-security/supply-chain-security/keeping-your-dependencies-updated-automatically>`_ configurations. More details on this can be found in the `packages and tools </the_cli/start_project/packages.html#continuous-integration>`_ section.
 - ``docs``: Documentation for your project generated with `Sphinx <https://www.sphinx-doc.org/en/master/>`_. More details on this can be found in the `packages and tools </the_cli/start_project/packages.html#documentation>`_ section.

@@ -8,8 +8,8 @@ This section provides an overview of the primary packages and tools, along with 
 into a project generated with **Falco**.
 
 
-- `Hatch <https://hatch.pypa.io/latest/>`_: Used for managing the project's virtual environment and dependencies, more details can be found in the `dependency management guide </guides/dependency_management.html>`_.
-- `Just <https://just.system>`_: A script runner that simplifies the execution of common tasks, such as setting up the project, running the server, and running tests, run ``just`` to see all available commands.
+- `hatch <https://hatch.pypa.io/latest/>`_: Used for managing the project's virtual environment and dependencies, more details can be found in the `dependency management guide </guides/dependency_management.html>`_.
+- `just <https://just.system>`_: A script runner that simplifies the execution of common tasks, such as setting up the project, running the server, and running tests, run ``just`` to see all available commands.
 - `environs <https://github.com/sloria/environs>`_: Used for configuring settings via environment variables.
 - `django-allauth <https://github.com/pennersr/django-allauth>`_: Handles login and signup processes.
 - `django-debug-toolbar <https://django-debug-toolbar.readthedocs.io/en/latest/>`_: Of course, a must.
@@ -22,7 +22,7 @@ into a project generated with **Falco**.
 - `django-compressor <https://django-compressor.readthedocs.io/en/latest/>`_: Compresses CSS and JavaScript files.
 - `refreshcss <https://github.com/adamghill/refreshcss>`_: Removes unused classes, ids, and element selectors from CSS, configured as a ``django-compressor`` filter.
 - `diskcache <https://github.com/grantjenks/python-diskcache>`_: A simple and fast cache solution based on ``sqlite3``, just add a ``LOCATION`` environnment folder for the cache location and you are good to go.
-- `Docker <https://www.docker.com/>`_ and `s6-overlay <https://github.com/just-containers/s6-overlay>`_: Docker is configured for production, with s6-overlay enabling concurrent operation of ``django`` and ``django-q`` within a single container.
+- `Docker <https://www.docker.com/>`_ and `s6-overlay <https://github.com/just-containers/s6-overlay>`_: Docker is configured for production, with s6-overlay enabling running both the web server process (via ``gunicorn``) and the background worker process (via ``django-q2``) within a single container.
 - `Sentry <https://sentry.io/welcome/>`_: Utilized for performance and error monitoring.
 - `Whitenoise <https://whitenoise.evans.io/en/latest/>`_: Used to serve static files.
 - `heroicons <https://heroicons.com/>`_: Easy access to `heroicons <https://heroicons.com/>`_ in your Django templates.
@@ -147,8 +147,8 @@ This example illustrates how you can create a button that adds a new element to 
 Although this might not seem particularly exciting, the `interactive user interfaces guide </guides/interactive_user_interfaces.html>`_ provides more
 practical examples that demonstrate the extensive possibilities offered by this approach.
 
-Django-q2
----------
+Background tasks and scheduling
+-------------------------------
 
 `django-q2 <https://github.com/django-q2/django-q2>`_ is my preferred background task queue system for Django. In most projects, I always utilize either the task queue processing,
 scheduling, or sometimes both. Regarding scheduling, there is also `django-q-registry <https://github.com/westerveltco/django-q-registry>`_ included, which is a ``django-q2`` extension
@@ -203,11 +203,12 @@ It is a good idea to organize any task or scheduling job function in a ``tasks.p
     For more details on task queues and scheduling, check out `my guide on the topic </guides/task_queues_and_schedulers.html/>`_.
 
 
-Lifecycle not signals
----------------------
+Model lifecycle
+---------------
 
-`django-lifecycle <https://github.com/rsinger86/django-lifecycle>`_  offers an alternative way of hooking into your models lifecycle  instead of writing django `signals <https://docs.djangoproject.com/en/dev/topics/signals/>`_ that I find more easily to read, understand,
-follow, reason about and that is for aligned with the ``fat models`` models approach of django.
+`django-lifecycle <https://github.com/rsinger86/django-lifecycle>`_ offers an alternative to `signals <https://docs.djangoproject.com/en/dev/topics/signals/>`_ for hooking into your model's lifecycle.
+It provides a more readable and understandable way to write code that runs before or after a model instance is created or updated, based on certain conditions. This code is placed directly on
+the concerned models, which aligns well with Django's `fat models` philosophy.
 
 Here is an example of using ``django-lifecycle`` straight from their README:
 
@@ -215,7 +216,6 @@ Here is an example of using ``django-lifecycle`` straight from their README:
 
    from django_lifecycle import LifecycleModel, hook, BEFORE_UPDATE, AFTER_UPDATE
    from django_lifecycle.conditions import WhenFieldValueIs, WhenFieldValueWas, WhenFieldHasChanged
-
 
 
    class Article(LifecycleModel):
@@ -228,7 +228,7 @@ Here is an example of using ``django-lifecycle`` straight from their README:
       def on_content_change(self):
          self.updated_at = timezone.now()
 
-      @hook(AFTER_UPDATE, 
+      @hook(AFTER_UPDATE,
         condition=(
             WhenFieldValueWas("status", value="draft")
             & WhenFieldValueIs("status", value="published")
@@ -261,7 +261,7 @@ entirely or by commenting it out in the ``settings.py`` file.
 Dj Notebook
 -----------
 
-This is a recent addition to the project. It allows you to use your `shell_plus <https://django-extensions.readthedocs.io/en/latest/shell_plus.html>`_ in a Jupyter notebook.
+This package allows you to use your `shell_plus <https://django-extensions.readthedocs.io/en/latest/shell_plus.html>`_ in a Jupyter notebook.
 In the root of the generated project, you will find a file named ``playground.ipynb`` which is configured with dj-notebook_.
 As the name suggests, I use this as a playground to play with the Django ORM. Having it saved in a file is particularly useful for storing frequently used queries in text format,
 eliminating the need to retype them or search through command line history. Before running any additional cells you add, make sure to run the first cell in the notebook to set up Django. It's
@@ -307,46 +307,74 @@ As with ``dj-notebook``, for your Django code to work, you need some kind of act
 Project versioning
 ------------------
 
-It is always a good ideas to keep a versionning system in place for your project. The project comes with following tools to make the process as smooth as possible.
+It is always a good idea to keep a versioning system in place for your project. The project includes the following tools to make the process as simple and low maintenance as possible:
 
-- `git-cliff <https://git-cliff.org/>`_: Generate changelog for your project based on your commites messages, provided they follow the `conventional commits <https://www.conventionalcommits.org/en/v1.0.0/>`_ format.
-- `bump-my-version <https://github.com/callowayproject/bump-my-version>`_: Lke the name suggest it bump the version of your project following the `semver <https://semver.org/>`_ format and additionnals create new git tags.
+- `git-cliff <https://git-cliff.org/>`_: Generate changelog for your project based on your commit messages, provided they follow the `conventional commits <https://www.conventionalcommits.org/en/v1.0.0/>`_ format.
+- `bump-my-version <https://github.com/callowayproject/bump-my-version>`_: As the name suggests, it bumps the version of your project following the `semver <https://semver.org/>`_ format, creates a new git tag, and pushes it to the remote repository.
 
-Both of these tools configurations are stored in the ``pyproject.toml`` file.
+Both of these tools' configurations are stored in the ``pyproject.toml`` file under the ``[tool.git-cliff]`` and ``[tool.bumpversion]`` sections, respectively.
 
-Then there is the ``.github/workflows/cd.yml`` file that defined github actions that are run everything your push new tags to your repository. These tasks include
+Additionally, there is a ``.github/workflows/cd.yml`` file that defines GitHub Actions that run every time you push new tags to your repository. This will push your changes to the server,
+build wheels and binary for the project, and create a new GitHub release with the latest content from the ``CHANGELOG.md`` file. More details on this can be found in the `deployment guide </the_cli/start_project/deploy.html>`_.
 
+Here is an example of the workflow:
 
+Let's assume your project is at version ``0.0.1``, the initial version for new projects defined in the ``pyproject.toml`` file.
+You make a few commits following the `conventional commits <https://www.conventionalcommits.org/en/v1.0.0/>`_ format, for example:
 
-https://www.conventionalcommits.org/en/v1.0.0/
-https://semver.org/
+.. code-block:: shell
+    :caption: Just an example to show commit messages
+
+    git commit -m "feat: add new feature"
+    git commit -m "fix: fix a bug"
+    git commit -m "feat: add another feature"
+
+Then you are ready for the first minor release. Following the `semver <https://semver.org/>`_ convention, that is equivalent to moving from ``0.0.1`` to ``0.1.0``.
+You run the following command:
+
+.. code-block:: shell
+
+    just bumpver minor
+
+This will bump the version of your project to ``0.1.0``, update the ``CHANGELOG.md`` file with the latest commits, and create a new git tag with the name ``v0.1.0`` and
+push the tag to the remote repository, which will trigger the GitHub Action to create a new release with the content of the ``CHANGELOG.md`` file and deploy the project to the server.
+
 
 Continuous Integration
 ----------------------
 
-This directory is a GitHub-specific folder, meant for configurations related to GitHub like bots, GitHub Actions workflows, etc.
-At the root of the folder, you'll see a ``dependabot.yml`` file. It is a config file for `Dependabot <https://github.com/dependabot>`_ that is configured to
-check weekly for dependency upgrades in your requirements files (more on that in the virtualenv management section). 
-There is a workflow directory with a ``ci.yml`` file (CI stands for `Continuous Integration <https://en.wikipedia.org/wiki/Continuous_integration>`_). 
-This file is meant to run tests, deployment checks, and type checks every time you push a new commit to GitHub to make sure nothing has broken 
-from the previous commit (assuming you do write tests).
+The file at ``.github/workflows/ci.yml`` is responsible for `Continuous Integration <https://en.wikipedia.org/wiki/Continuous_integration>`_.
+Every time you push new changes to the main branch or create pull requests, an action is triggered to run tests, deployment checks, and type checks. This ensures nothing has broken
+from the previous commit (assuming you write tests).
+The content of the file is quite simple to read and understand. The main thing to note is that the workflow file only contains Just recipe commands. The actual commands are all defined in the justfile, so that you can easily run them locally if needed
+or migrate to another CI/CD provider if you want to.
 
+.. code-block:: shell
+    :caption: Example of commands related to CI
 
-Fo the continuous deployment (CD) checkout the `deployment </the_cli/start_project/deploy.html>`_ guide.
+    just types # run type checks with mypy
+    just test # run tests with pytest
+    just deploy-checks # run django deployment checks
 
 Documentation
 -------------
 
-The documentation uses a basic `sphinx <https://www.sphinx-doc.org/en/master/>`_ setup with the `furo <https://github.com/pradyunsg/furo>`_ theme. 
-There is a basic structure in place that encourages you to structure your documentation based on your `django applications <https://docs.djangoproject.com/en/dev/ref/applications/>`_. 
-By default, you are meant to write using `reStructuredText <https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html>`_, but the `myst-parser <https://myst-parser.readthedocs.io/en/latest/>`_ is configured so 
-that you can use `markdown <https://www.markdownguide.org/>`_. Even if you are not planning to have very detailed and highly structured documentation (for some ideas on that, check out the `documentation writing guide </guides/writing_documentation.html>`_), 
+The documentation uses a basic `sphinx <https://www.sphinx-doc.org/en/master/>`_ setup with the `furo <https://github.com/pradyunsg/furo>`_ theme.
+There is a basic structure in place that encourages you to structure your documentation based on your `django applications <https://docs.djangoproject.com/en/dev/ref/applications/>`_.
+By default, you are meant to write using `reStructuredText <https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html>`_, but the `myst-parser <https://myst-parser.readthedocs.io/en/latest/>`_ is configured so
+that you can use `markdown <https://www.markdownguide.org/>`_. Even if you are not planning to have very detailed and highly structured documentation (for some ideas on that, check out the `documentation writing guide </guides/writing_documentation.html>`_),
 it can be a good place to keep notes on your project architecture, setup, external services, etc. It doesn't have to be optimal to be useful.
 
  "The Palest Ink Is Better Than the Best Memory."
 
  --- Chinese proverb
 
+.. code-block:: shell
+    :caption: Example of commands related to documentation
+
+    just docs-build # build the documentation into a static site
+    just docs-serve # serve the documentation locally on port 8001
+    just docs-upgrade # upgrade the documentation dependencies
 
 
 .. _hatch: https://hatch.pypa.io/latest/
