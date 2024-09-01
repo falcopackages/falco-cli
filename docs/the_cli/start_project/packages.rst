@@ -42,40 +42,34 @@ If you are using the Bootstrap template, you will find:
 Login via email instead of username
 ------------------------------------
 
-I completely removed the ``username`` field from the ``User`` model and replaced it with the ``email`` field as the user unique identifier.
-The ``email`` field is what I configured as the login field using `django-allauth <https://github.com/pennersr/django-allauth>`_.
+The ``email`` field is configured as the login field using `django-allauth <https://github.com/pennersr/django-allauth>`_. The ``username`` field is still present
+but is not required for login. Allauth automatically fills it with the part of the email before the ``@`` symbol.
 More often then not when I create a new django project I need to use something other than the ``username`` field provided by django as the unique identifier of the user,
 and the ``username`` field just becomes an annoyance to deal with. It is also more common nowadays for modern web and mobile applications to rely on a unique identifier
 such as an email address or phone number instead of a username.
 
-I also removed the ``first_name`` and ``last_name`` fields that are available by default on the Django ``User`` model. I don't always need them, and when I do, I generally have a separate ``Profile``
-model to store users' personal informations, keeping the ``User`` model focused on authentication and authorization.
-My reasoning for this is to avoid asking for unnecessary data (following the principle of `YAGNI <https://en.wikipedia.org/wiki/You_aren%27t_gonna_need_it>`_). A positive consequence of this approach
-is that having less data on your users/customers increases the chances of being `GDPR compliant <https://gdpr.eu/compliance/>`_. You can always add these fields later if needed.
+.. important::
 
-.. admonition:: django-unique-user-email
-   :class: note dropdown
+    There is a small fix applied for allauth related to django-fastdev in the ``core/apps.py`` file. Make sure to read it in case you ever need to change it.
 
-   There is a package called `django-unique-user-email <https://github.com/carltongibson/django-unique-user-email>`_ by `Carlton Gibson <https://twitter.com/carlton_gibson>`_, a core Django contributor, that
-   allows you to use email as the primary identifier for authentication without modifying the default ``User`` model. This package eliminates the need to create a custom ``User`` model. Although I considered
-   including this package by default (less code is better), it might be too radical to use at the moment.
+.. admonition:: Custom user model
+    :class: note dropdown
 
-However, if my arguments are not convincing enough or for the particular project you are working you need to have the
-username field on your ``User`` model for login purposes, the required changes are quite simple and can be summarized as follows:
+     I also removed the ``first_name`` and ``last_name`` fields that are available by default on the Django ``User`` model. I don't always need them, and when I do, I generally have a separate ``Profile``
+     model to store users' personal informations, keeping the ``User`` model focused on authentication and authorization.
+     My reasoning for this is to avoid asking for unnecessary data (following the principle of `YAGNI <https://en.wikipedia.org/wiki/You_aren%27t_gonna_need_it>`_). A positive consequence of this approach
+     is that having less data on your users/customers increases the chances of being `GDPR compliant <https://gdpr.eu/compliance/>`_. You can always add these fields later if needed.
 
-First update the ``User`` models to look exactly like in the code below.
+     -- me, not so long ago
 
-.. code-block:: python
-   :caption: users/models.py
+    Previously, this section of the docs contained the message above. Now, I take a simpler approach: Falco doesn't ship with a custom user model anymore, and I don't recommend having one for most people. There are
+    now even better resources I can link to that explain why this is better than I could ever do:
 
-   from django.contrib.auth.models import AbstractUser
+    - https://noumenal.es/posts/django-unique-user-email/928/
+    - https://buttondown.com/carlton/archive/evolving-djangos-authuser/
 
-   class User(AbstractUser):
-       pass
-
-Then delete the ``forms.py``, ``admin.py`` and ``migrations/0001_initial.py`` files in the ``users`` app.
-With that you should be good to go, if you want something a little more complete to start with you can grab some
-code from the `cookiecutter-django users app <https://github.com/cookiecutter/cookiecutter-django/tree/master/%7B%7Bcookiecutter.project_slug%7D%7D/%7B%7Bcookiecutter.project_slug%7D%7D/users>`__.
+    If you need to save user data, a profile model is a better approach, and better field names are ``full_name`` and ``short_name``. For the reasoning behind this, check out
+    https://django-improved-user.readthedocs.io/en/latest/rationale.html
 
 HTMX and template partials
 --------------------------
