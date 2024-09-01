@@ -126,7 +126,6 @@ path = "src/falco_cli/__about__.py"
 exclude = [
   "blueprints/*",
   "demo/*",
-  "demo/demo/*/migrations/*",
   "docs/*",
 ]
 lint.extend-ignore = [
@@ -146,6 +145,9 @@ lint.extend-per-file-ignores."demo/demo/orders/migrations/*.py" = [
   "RUF012",
 ]
 lint.extend-per-file-ignores."docs/_static/snippets/entry_model.py" = [
+  "INP001",
+]
+lint.extend-per-file-ignores."docs/_static/snippets/settings.py" = [
   "INP001",
 ]
 lint.extend-per-file-ignores."docs/conf.py" = [

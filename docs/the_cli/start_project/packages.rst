@@ -359,7 +359,7 @@ This file can essentially replace your ``manage.py`` file, but the ``manage.py``
 
    The binary file that ``pyapp`` builds is a script that bootstraps itself the first time it is run, meaning it will create its own isolated virtual environment with **its own Python interpreter**.
    It installs the project (your falco project is setup as a python package) and its dependencies. When the binary is built, either via the provided GitHub Action or the ``just`` recipe / command,
-   you also get a wheel file (the standard format for Python packages). If you publish that wheel file on PyPI, you can use the binary's ``self update`` command to update itself.
+   you also get a wheel file (the standard format for Python packages). If you publish that wheel file on PyPI, you can use the binary's ``self update`` command to update the project.
 
 Let's assume you generated a project with the name ``myjourney``:
 

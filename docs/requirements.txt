@@ -255,7 +255,7 @@ matplotlib-inline==0.1.7
     #   -c requirements.txt
     #   ipykernel
     #   ipython
-mdit-py-plugins==0.4.1
+mdit-py-plugins==0.4.2
     # via myst-parser
 mdurl==0.1.2
     # via
@@ -303,7 +303,7 @@ pexpect==4.9.0
     # via
     #   -c requirements.txt
     #   ipython
-platformdirs==4.2.2
+platformdirs==4.3.2
     # via
     #   -c requirements.txt
     #   black
@@ -357,7 +357,7 @@ referencing==0.35.1
     # via
     #   jsonschema
     #   jsonschema-specifications
-regex==2024.7.24
+regex==2024.9.11
     # via
     #   -c requirements.txt
     #   djlint
@@ -367,7 +367,7 @@ requests==2.32.3
     #   cookiecutter
     #   sphinx
     #   sphinx-github-changelog
-rich==13.8.0
+rich==13.8.1
     # via
     #   -c requirements.txt
     #   hatch.envs.docs
@@ -378,7 +378,7 @@ rpds-py==0.20.0
     # via
     #   jsonschema
     #   referencing
-setuptools==74.1.1
+setuptools==74.1.2
     # via sphinx-togglebutton
 shellingham==1.5.4
     # via
@@ -451,7 +451,7 @@ stack-data==0.6.3
     # via
     #   -c requirements.txt
     #   ipython
-starlette==0.38.4
+starlette==0.38.5
     # via sphinx-autobuild
 text-unidecode==1.3
     # via
@@ -488,7 +488,7 @@ typer==0.12.5
     # via
     #   -c requirements.txt
     #   cruft
-types-python-dateutil==2.9.0.20240821
+types-python-dateutil==2.9.0.20240906
     # via
     #   -c requirements.txt
     #   arrow

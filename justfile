@@ -39,6 +39,8 @@ generate-demo *OVERWRITE:
 generate-docs-assets: generate-demo
     just tree
     cp demo/myjourney/myjourney/entries/urls.py docs/_static/snippets/urls.py
+    cp demo/myjourney/myjourney/settings.py docs/_static/snippets/settings.py
+    cp demo/myjourney/.github/workflows/cd.yml docs/_static/snippets/cd.yml
 
 # Generate project tree files
 tree: generate-demo
