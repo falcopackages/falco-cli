@@ -1,4 +1,4 @@
-default := "blueprints/falco_blueprint_basic"
+default := "blueprints/falco_tailwind"
 
 # List all available commands
 _default:
@@ -59,7 +59,7 @@ set-remote:
         fi
         echo "$(basename $dir)"
         cd "$dir"
-        git remote add upstream "git@github.com:Tobi-De/falco_blueprint_basic.git"
+        git remote add upstream "git@github.com:Tobi-De/falco_tailwind.git"
         cd -
       fi
     done

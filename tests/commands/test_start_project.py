@@ -1,5 +1,6 @@
 from pathlib import Path
 
+import pytest
 from cappa.testing import CommandRunner
 from falco.config import read_falco_config
 
@@ -23,10 +24,14 @@ def all_files_are_correctly_generated(project_name, project_dir: Path) -> bool:
     return all((project_dir / file).exists() for file in required_files)
 
 
-blueprint_path = Path("blueprints/falco_blueprint_basic").resolve(strict=True)
-
-
-def test_start_project(runner: CommandRunner):
+@pytest.mark.parametrize(
+    "blueprint_path",
+    [
+        Path("blueprints/tailwind").resolve(strict=True),
+        Path("blueprints/bootstrap").resolve(strict=True),
+    ],
+)
+def test_start_project(blueprint_path, runner: CommandRunner):
     runner.invoke(
         "start-project",
         "dotfm",
@@ -65,7 +70,14 @@ def test_start_project(runner: CommandRunner):
 #     assert all_files_are_correctly_generated("dotfm", project_dir=Path("dotfm"))
 
 
-def test_start_project_in_directory(runner: CommandRunner, tmp_path):
+@pytest.mark.parametrize(
+    "blueprint_path",
+    [
+        Path("blueprints/tailwind").resolve(strict=True),
+        Path("blueprints/bootstrap").resolve(strict=True),
+    ],
+)
+def test_start_project_in_directory(blueprint_path, runner: CommandRunner, tmp_path):
     runner.invoke(
         "start-project",
         "dotfm",
@@ -79,7 +91,14 @@ def test_start_project_in_directory(runner: CommandRunner, tmp_path):
     assert all_files_are_correctly_generated("dotfm", project_dir=project_dir)
 
 
-def test_start_project_in_directory_with_root(runner: CommandRunner, tmp_path):
+@pytest.mark.parametrize(
+    "blueprint_path",
+    [
+        Path("blueprints/tailwind").resolve(strict=True),
+        Path("blueprints/bootstrap").resolve(strict=True),
+    ],
+)
+def test_start_project_in_directory_with_root(blueprint_path, runner: CommandRunner, tmp_path):
     runner.invoke(
         "start-project",
         "dotfm",
@@ -94,7 +113,14 @@ def test_start_project_in_directory_with_root(runner: CommandRunner, tmp_path):
     assert all_files_are_correctly_generated("dotfm", project_dir=project_dir)
 
 
-def test_user_name_and_email(runner: CommandRunner, git_user_infos):
+@pytest.mark.parametrize(
+    "blueprint_path",
+    [
+        Path("blueprints/tailwind").resolve(strict=True),
+        Path("blueprints/bootstrap").resolve(strict=True),
+    ],
+)
+def test_user_name_and_email(blueprint_path, runner: CommandRunner, git_user_infos):
     name, email = git_user_infos
     runner.invoke(
         "start-project",

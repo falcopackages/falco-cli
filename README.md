@@ -52,8 +52,8 @@ pip install falco-cli
 
 **Templates**
 
-- [tailwind](https://github.com/Tobi-De/falco_blueprint_basic) (default)
-- [bootstrap](https://github.com/Tobi-De/falco_blueprint_basic_bootstrap)
+- [tailwind](https://github.com/Tobi-De/falco_tailwind) (default)
+- [bootstrap](https://github.com/Tobi-De/falco_bootstrap)
 
 ## The guides
 

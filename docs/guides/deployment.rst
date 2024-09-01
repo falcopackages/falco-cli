@@ -118,7 +118,7 @@ WSGI server
 The WSGI server, also known as the **application server**, is responsible for running your Django application. This server is needed because some web servers, like nginx, are not capable of
 executing Python code directly. `Gunicorn <https://gunicorn.org/>`_, a popular WSGI server for Django, fulfills this role.
 
-Gunicorn can be configured using a Python file, such as `this one <https://github.com/Tobi-De/falco_blueprint_basic/blob/main/%7B%7B%20cookiecutter.project_name%20%7D%7D/deploy/gunicorn.conf.py>`_ provided with a generated Falco project.
+Gunicorn can be configured using a Python file, such as `this one <https://github.com/Tobi-De/falco_tailwind/blob/main/%7B%7B%20cookiecutter.project_name%20%7D%7D/deploy/gunicorn.conf.py>`_ provided with a generated Falco project.
 However, its most basic usage is:
 
 .. code-block:: bash
