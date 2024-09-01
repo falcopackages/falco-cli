@@ -28,12 +28,12 @@ into a project generated with **Falco**.
 - `heroicons <https://heroicons.com/>`_: Easy access to `heroicons <https://heroicons.com/>`_ in your Django templates.
 - `pre-commit <https://github.com/pre-commit/pre-commit>`_: Integrated by default to identify simple issues before pushing code to remote.
 
-If you are using the default template, you will also find the following packages:
+If you are using the default template, the following additional packages are included:
 
 - `django-tailwind-cli <https://github.com/oliverandrich/django-tailwind-cli>`_: Integration with tailwind css using the `Tailwind CSS CLI <https://tailwindcss.com/blog/standalone-cli>`_, eliminating the need for Node.js.
 - `crispy-tailwind <https://github.com/django-crispy-forms/crispy-tailwind>`_: Tailwind CSS Template pack for ``django-crispy-forms``.
 
-If you are using the Bootstrap template, you will find:
+If you are using the Bootstrap template, the following additional packages are included:
 
 - `django-bootstrap5 <https://github.com/zostera/django-bootstrap5>`_: Integration with bootstrap 5 and provide some useful templates tags like ``bootstrap_messages`` to automatically render Django messages as bootstrap alerts.
 - `crispy-bootstrap5 <https://github.com/django-crispy-forms/crispy-bootstrap5>`_: Bootstrap 5 Template pack for ``django-crispy-forms``.
@@ -304,7 +304,7 @@ Project versioning
 It is always a good idea to keep a versioning system in place for your project. The project includes the following tools to make the process as simple and low maintenance as possible:
 
 - `git-cliff <https://git-cliff.org/>`_: Generate changelog for your project based on your commit messages, provided they follow the `conventional commits <https://www.conventionalcommits.org/en/v1.0.0/>`_ format.
-- `bump-my-version <https://github.com/callowayproject/bump-my-version>`_: As the name suggests, it bumps the version of your project following the `semver <https://semver.org/>`_ format, creates a new git tag, and pushes it to the remote repository.
+- `bump-my-version <https://github.com/callowayproject/bump-my-version>`_: As the name suggests, it bumps the version of your project following the `semver <https://semver.org/>`_ format and creates a new git tag.
 
 Both of these tools' configurations are stored in the ``pyproject.toml`` file under the ``[tool.git-cliff]`` and ``[tool.bumpversion]`` sections, respectively.
 
