@@ -2,8 +2,8 @@
 :description: Files and forlder structure of project generated with falco.
 
 
-Project Structure
-=================
+Code Structure
+==============
 
 Let's go through the basics of the file structure and folders, We won't cover the entire file structure, just the essentials.
 
@@ -19,7 +19,8 @@ Let's go through the basics of the file structure and folders, We won't cover th
 - ``.pre-commit-config.yaml``: A file that contains the `pre-commit <https://pre-commit.com/>`_ configurations. When configured, the hooks defined inside will run before any commits and will perform some linting and code formatting.
 
 
-
+.. include:: ../../images/tree.txt
+   :literal:
 
 
 

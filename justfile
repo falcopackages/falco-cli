@@ -124,3 +124,8 @@ push:
 @publish:
     hatch build
     hatch publish
+
+@tree:
+  tree "blueprints/tailwind/{{{{ cookiecutter.project_name }}" -L 2 --dirsfirst -o tree.txt --noreport -a
+  sed -i '' 's|blueprints/tailwind/||g' tree.txt
+  mv tree.txt docs/images/tree.txt
