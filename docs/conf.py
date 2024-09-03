@@ -69,6 +69,14 @@ html_favicon = "../assets/falco-logo.svg"
 html_css_files = [
     "custom.css",
 ]
+html_sidebars = {
+  "**": [
+    "sidebars/localtoc.html",
+    "sidebars/repo-stats.html",
+    "sidebars/edit-this-page.html",
+    # "sidebars/buy-me-a-coffee.html",
+  ]
+}
 
 html_js_files = [
     (
@@ -76,6 +84,21 @@ html_js_files = [
         {"defer": "", "data-domain": "falco.oluwatobi.dev"},
     ),
     "add-og-title-to-home.js",
+    (
+        "https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js",
+        {
+            "data-name": "BMC-Widget",
+            "data-cfasync": "false",
+            "data-id": "oluwa.tobi",
+            "data-description": "Support me on Buy me a coffee!",
+            "data-message": "",
+            "data-color": "#5F7FFF",
+            "data-position": "Right",
+            "data-x_margin": "18",
+            "data-y_margin": "18",
+        },
+    ),
+
 ]
 
 # Jupyter sphinx configs
