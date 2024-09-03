@@ -74,6 +74,7 @@ html_sidebars = {
     "sidebars/localtoc.html",
     "sidebars/repo-stats.html",
     "sidebars/edit-this-page.html",
+    "sidebars/consulting.html",
     # "sidebars/buy-me-a-coffee.html",
   ]
 }
