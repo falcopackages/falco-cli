@@ -298,6 +298,51 @@ As with ``dj-notebook``, for your Django code to work, you need some kind of act
 
 
 
+Entry point and Binary
+----------------------
+
+There is a `__main__.py <https://docs.python.org/3/library/__main__.html#main-py-in-python-packages>`_ file inside your project directory, next to your ``settings.py`` file. 
+This is the main entry point of your app. This is what the binary app built with `pyapp <https://github.com/ofek/pyapp>`_ effectively uses. Commands run inside the Docker container also use this file. 
+This file can essentially replace your ``manage.py`` file, but the ``manage.py`` is retained since this is what most django devs are familiar with.
+
+.. admonition:: More on this binary file thing
+   :class: note dropdown
+
+   The binary file that ``pyapp`` builds is a script that bootstraps itself the first time it is run, meaning it will create its own isolated virtual environment with **its own Python interpreter**. 
+   It installs the project (your falco project is setup as a python package) and its dependencies. When the binary is built, either via the provided GitHub Action or the ``just`` recipe / command,
+   you also get a wheel file (the standard format for Python packages). If you publish that wheel file on PyPI, you can use the binary's ``self update`` command to update itself.
+
+Let's assume you generated a project with the name ``myjourney``:
+
+.. code-block:: shell
+   :caption: Example of how to invoke the script
+
+   just run python myjourney/__main__.py
+   just run python -m myjourney
+   just run myjourney
+
+All the commands above do exactly the same thing.
+
+.. code-block:: shell
+   :caption: Usage Example
+
+   just run myjourney # Runs the production server (gunicorn)
+   just run myjourney qcluster # Runs the django-q2 worker for background tasks
+   just run myjourney setup # Runs the setup function in the __main__.py file, runs migrations, createsuperuser, etc.
+   just run myjourney manage runserver # Runs the django dev server
+   just run myjourney manage dbshell # Opens the dbshell
+
+The binary is automatically built on every new push via the GitHub Action in the ``.github/workflows/cd.yml`` file. You can also build it locally by running the following commands:
+
+.. code-block:: shell
+   :caption: Building the binary
+
+   just build-bin # Builds for the current platform and architecture (e.g., if you are on an Intel macOS, it will build for macOS x86_64)
+   just build-linux-bin # Always builds for Linux x86_64
+
+For more details on deploying the binary to a VPS, check out the `deployment guide </the_cli/start_project/deploy.html>`_.
+
+
 Project versioning
 ------------------
 
@@ -331,7 +376,8 @@ You run the following command:
     just bumpver minor
 
 This will bump the version of your project to ``0.1.0``, update the ``CHANGELOG.md`` file with the latest commits, and create a new git tag with the name ``v0.1.0`` and
-push the tag to the remote repository, which will trigger the GitHub Action to create a new release with the content of the ``CHANGELOG.md`` file and deploy the project to the server.
+push the tag to the remote repository, which will trigger the GitHub Action to create a new release with the content of the ``CHANGELOG.md`` file, build the binary and 
+deploy the project to the server.
 
 
 Continuous Integration
