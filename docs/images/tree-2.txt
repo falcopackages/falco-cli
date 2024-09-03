@@ -1,0 +1,38 @@
+demo
+├── demo
+│   ├── core
+│   ├── static
+│   ├── templates
+│   ├── asgi.py
+│   ├── __init__.py
+│   ├── __main__.py
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+├── deploy
+│   ├── etc
+│   ├── Dockerfile
+│   └── Dockerfile.binary
+├── docs
+│   ├── applications
+│   ├── changelog.rst
+│   ├── conf.py
+│   └── index.rst
+├── .github
+│   ├── workflows
+│   └── dependabot.yml
+├── tests
+│   ├── conftest.py
+│   ├── __init__.py
+│   └── test_assert_true.py
+├── CHANGELOG.md
+├── .dockerignore
+├── .editorconfig
+├── .env.template
+├── .gitignore
+├── justfile
+├── manage.py
+├── playground.ipynb
+├── .pre-commit-config.yaml
+├── pyproject.toml
+└── README.md

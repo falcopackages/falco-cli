@@ -1,0 +1,58 @@
+demo
+├── demo
+│   ├── core
+│   │   ├── apps.py
+│   │   ├── __init__.py
+│   │   ├── sentry.py
+│   │   ├── urls.py
+│   │   └── views.py
+│   ├── static
+│   │   └── vendors
+│   ├── templates
+│   │   ├── pages
+│   │   ├── .well-known
+│   │   ├── 403_csrf.html
+│   │   ├── 403.html
+│   │   ├── 404.html
+│   │   ├── 500.html
+│   │   ├── base_email.html
+│   │   ├── base.html
+│   │   └── robots.txt
+│   ├── asgi.py
+│   ├── __init__.py
+│   ├── __main__.py
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+├── deploy
+│   ├── etc
+│   │   └── s6-overlay
+│   ├── Dockerfile
+│   └── Dockerfile.binary
+├── docs
+│   ├── applications
+│   │   ├── users
+│   │   └── index.rst
+│   ├── changelog.rst
+│   ├── conf.py
+│   └── index.rst
+├── .github
+│   ├── workflows
+│   │   ├── cd.yml
+│   │   └── ci.yml
+│   └── dependabot.yml
+├── tests
+│   ├── conftest.py
+│   ├── __init__.py
+│   └── test_assert_true.py
+├── CHANGELOG.md
+├── .dockerignore
+├── .editorconfig
+├── .env.template
+├── .gitignore
+├── justfile
+├── manage.py
+├── playground.ipynb
+├── .pre-commit-config.yaml
+├── pyproject.toml
+└── README.md

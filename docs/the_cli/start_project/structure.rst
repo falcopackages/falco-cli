@@ -19,8 +19,22 @@ Let's go through the basics of the file structure and folders, We won't cover th
 - ``.pre-commit-config.yaml``: A file that contains the `pre-commit <https://pre-commit.com/>`_ configurations. When configured, the hooks defined inside will run before any commits and will perform some linting and code formatting.
 
 
-.. include:: ../../images/tree.txt
-   :literal:
+.. tabs::
+
+   .. tab:: L1
+
+      .. include:: ../../images/tree-1.txt
+         :literal:
+
+   .. tab:: L2
+
+      .. include:: ../../images/tree-2.txt
+         :literal:
+
+   .. tab:: L3
+
+    .. include:: ../../images/tree-3.txt
+       :literal:
 
 
 
