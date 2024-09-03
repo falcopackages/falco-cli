@@ -61,7 +61,7 @@ html_theme_options = {
     "github_url": "https://github.com/tobi-de/falco",
     "twitter_url": "https://twitter.com/tobidegnon",
     "discussion_url": "https://github.com/tobi-de/falco/discussions",
-    "accent_color": "sky",
+    "accent_color": "blue",
     "globaltoc_expand_depth": 1,
 }
 html_logo = "images/logo_with_text.svg"
