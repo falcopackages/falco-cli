@@ -1,11 +1,19 @@
 :description: Virtualenv and dependencies management with a project generated with falco.
 
-Virtualenv and dependencies
-===========================
+Python Environment
+==================
 
 This is mainly handled using ``hatch``, ``hatch-pip-compile``, and the ``pyproject.toml`` file.
 Additionally, there is a ``.github/dependabot.yml`` file. It is a config file for `Dependabot <https://github.com/dependabot>`_ that is configured to
 check weekly for dependency upgrades in your requirements files and create pull requests for them.
+
+.. admonition:: Replacing hatch
+    :class: tip dropdown
+
+    The project is set up in a way that the underlying environment and dependencies tool should be quite transparent to you. Most of the commands you will run
+    will happen through the ``just`` script runner, which will automatically run the command in the appropriate virtual environment. If I ever change the
+    underlying tool to use `uv` or just plain old pip, for example, it should not affect your workflow. You can even do it yourself if you feel like it; the main
+    thing you'll have to do is update the ``justfile``.
 
 The pyproject.toml File
 -----------------------
@@ -42,7 +50,7 @@ Read the hatch documentation on `environment <https://hatch.pypa.io/latest/envir
 Hatch can do a lot, including `managing Python installations <https://hatch.pypa.io/latest/cli/reference/#hatch-python>`_, but for the context of the project, these are the things you need to know.
 
 .. admonition:: Specify a Python Version
-   :class: dropdown note
+   :class: dropdown tip
 
    If you have multiple Python interpreter versions installed on your computer, you can specify the specific version you want to use for a project
    by setting the ``python`` option in your default environment. Every other environment inherits from the default, so they will use the same version.
@@ -67,7 +75,7 @@ The project comes with three environment configurations: ``default``, ``dev``, a
 - The ``docs`` environment is for documentation. It contains tools such as ``sphinx``, ``furo``, etc.
 
 .. admonition:: Install all dependencies
-   :class: dropdown note
+   :class: dropdown tip
 
    Running ``just bootstrap`` will create all three environments and install the dependencies for each.
 
@@ -99,7 +107,7 @@ Activate the virtual environment
 To activate an environment for the current shell, run ``hatch shell <env_name>``, so ``hatch shell dev`` will activate the ``dev`` environment. If no specific environment name is provided, the default environment is activated.
 
 .. admonition:: Get the path of the dev environment
-   :class: dropdown note
+   :class: dropdown tip
 
    You can get the full path of the dev environment with ``just env-path`` or ``just env-path dev``. This can be useful to specify the interpreter in VSCode or PyCharm, for example.
 
