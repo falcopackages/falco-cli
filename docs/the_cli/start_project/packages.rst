@@ -1,4 +1,4 @@
-:image: https://raw.githubusercontent.com/Tobi-De/falco/main/assets/og-image.jpg
+:image: https://raw.githubusercontent.com/Tobi-De/falco/main/docs/images/og-image.jpg
 :description: The packages and tools that comes included with a project generated with falco.
 
 Packages and Tools
@@ -301,14 +301,14 @@ As with ``dj-notebook``, for your Django code to work, you need some kind of act
 Entry point and Binary
 ----------------------
 
-There is a `__main__.py <https://docs.python.org/3/library/__main__.html#main-py-in-python-packages>`_ file inside your project directory, next to your ``settings.py`` file. 
-This is the main entry point of your app. This is what the binary app built with `pyapp <https://github.com/ofek/pyapp>`_ effectively uses. Commands run inside the Docker container also use this file. 
+There is a `__main__.py <https://docs.python.org/3/library/__main__.html#main-py-in-python-packages>`_ file inside your project directory, next to your ``settings.py`` file.
+This is the main entry point of your app. This is what the binary app built with `pyapp <https://github.com/ofek/pyapp>`_ effectively uses. Commands run inside the Docker container also use this file.
 This file can essentially replace your ``manage.py`` file, but the ``manage.py`` is retained since this is what most django devs are familiar with.
 
 .. admonition:: More on this binary file thing
    :class: note dropdown
 
-   The binary file that ``pyapp`` builds is a script that bootstraps itself the first time it is run, meaning it will create its own isolated virtual environment with **its own Python interpreter**. 
+   The binary file that ``pyapp`` builds is a script that bootstraps itself the first time it is run, meaning it will create its own isolated virtual environment with **its own Python interpreter**.
    It installs the project (your falco project is setup as a python package) and its dependencies. When the binary is built, either via the provided GitHub Action or the ``just`` recipe / command,
    you also get a wheel file (the standard format for Python packages). If you publish that wheel file on PyPI, you can use the binary's ``self update`` command to update itself.
 
@@ -376,7 +376,7 @@ You run the following command:
     just bumpver minor
 
 This will bump the version of your project to ``0.1.0``, update the ``CHANGELOG.md`` file with the latest commits, and create a new git tag with the name ``v0.1.0`` and
-push the tag to the remote repository, which will trigger the GitHub Action to create a new release with the content of the ``CHANGELOG.md`` file, build the binary and 
+push the tag to the remote repository, which will trigger the GitHub Action to create a new release with the content of the ``CHANGELOG.md`` file, build the binary and
 deploy the project to the server.
 
 

@@ -1,4 +1,4 @@
-:image: https://raw.githubusercontent.com/Tobi-De/falco/main/assets/og-image.jpg
+:image: https://raw.githubusercontent.com/Tobi-De/falco/main/docs/images/og-image.jpg
 :description: Start a new django app that's automatically registered to your installed apps.
 
 Start Application
@@ -13,6 +13,6 @@ This command executes Django's ``startapp``, along with a few additional tasks:
 - It registers the new app in your settings under ``INSTALLED_APP``.
 - It add a basic empty model to your ``models.py`` file.
 
-These are tasks I always perform when generating a new app with Django. Now, I can reclaim those precious seconds I would have 
+These are tasks I always perform when generating a new app with Django. Now, I can reclaim those precious seconds I would have
 spent doing this manually.
 

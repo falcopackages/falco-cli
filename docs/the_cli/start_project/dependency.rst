@@ -1,4 +1,4 @@
-:image: https://raw.githubusercontent.com/Tobi-De/falco/main/assets/og-image.jpg
+:image: https://raw.githubusercontent.com/Tobi-De/falco/main/docs/images/og-image.jpg
 :description: Virtualenv and dependencies management with a project generated with falco.
 
 Virtualenv and dependencies

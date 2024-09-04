@@ -1,4 +1,4 @@
-:image: https://raw.githubusercontent.com/Tobi-De/falco/main/assets/og-image.jpg
+:image: https://raw.githubusercontent.com/Tobi-De/falco/main/docs/images/og-image.jpg
 :description: A guide on some common database pattern and strategies and how to use them with django.
 
 Database Tips: Backup, Scaling, Triggers, and More

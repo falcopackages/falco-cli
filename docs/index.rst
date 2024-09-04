@@ -1,11 +1,11 @@
 :layout: landing
-:image: https://raw.githubusercontent.com/Tobi-De/falco/main/assets/og-image.jpg
+:image: https://raw.githubusercontent.com/Tobi-De/falco/main/docs/images/og-image.jpg
 :description: Falco is an opinionated toolkit for a modern Django development experience.
 
 .. container::
     :name: home-head
 
-    .. image:: https://raw.githubusercontent.com/Tobi-De/falco/main/assets/falco-logo.svg
+    .. image:: https://raw.githubusercontent.com/Tobi-De/falco/main/docs/images/falco-logo.svg
         :alt: Falco
         :width: 400
         :height: 400
@@ -61,7 +61,7 @@
     .. grid-item-card:: :octicon:`terminal` The CLI
       :link: the_cli/index
       :link-type: doc
- 
+
       The documentation for the falco command line interface (CLI).
 
     .. grid-item-card:: :octicon:`book` Guides

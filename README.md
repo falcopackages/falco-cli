@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://falco.oluwatobi.dev/"><img src="https://raw.githubusercontent.com/Tobi-De/falco/main/assets/falco-logo.svg" alt="falco logo" height="200"/></a>
+  <a href="https://falco.oluwatobi.dev/"><img src="https://raw.githubusercontent.com/Tobi-De/falco/main/docs/images/falco-logo.svg" alt="falco logo" height="200"/></a>
 </p>
 
 <h1 align="center">

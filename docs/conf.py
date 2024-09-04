@@ -70,13 +70,13 @@ html_css_files = [
     "custom.css",
 ]
 html_sidebars = {
-  "**": [
-    "sidebars/localtoc.html",
-    "sidebars/repo-stats.html",
-    "sidebars/edit-this-page.html",
-    "sidebars/consulting.html",
-    # "sidebars/buy-me-a-coffee.html",
-  ]
+    "**": [
+        "sidebars/localtoc.html",
+        "sidebars/repo-stats.html",
+        "sidebars/edit-this-page.html",
+        "sidebars/consulting.html",
+        # "sidebars/buy-me-a-coffee.html",
+    ]
 }
 
 html_js_files = [
@@ -99,7 +99,6 @@ html_js_files = [
             "data-y_margin": "18",
         },
     ),
-
 ]
 
 # Jupyter sphinx configs

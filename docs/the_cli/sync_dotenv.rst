@@ -1,4 +1,4 @@
-:image: https://raw.githubusercontent.com/Tobi-De/falco/main/assets/og-image.jpg
+:image: https://raw.githubusercontent.com/Tobi-De/falco/main/docs/images/og-image.jpg
 :description: Keep your .env and .env.template files in sync.
 
 Sync Dotenv files
@@ -35,7 +35,7 @@ When you run the ``sync-dotenv`` command, it performs the following steps:
 
 **Default values for production environments**
 
-If you run the command with ``DEBUG=False`` it will try to fill in some default values for variables, such as the 
+If you run the command with ``DEBUG=False`` it will try to fill in some default values for variables, such as the
 ``SECRET_KEY``, ``DJANGO_SUPERUSER_EMAIL``, ``DJANGO_SUPERUSER_PASSWORD``, etc, where it makes sense.
 
 .. code-block:: shell
