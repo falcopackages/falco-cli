@@ -10,12 +10,9 @@ please create a `new issue <https://github.com/Tobi-De/falco/issues/new>`_.
 
 
 .. admonition:: Pre-requisites
-    :class: note
+    :class: important
 
-    This tutorial assumes that you have installed:
-
-    - hatch: https://hatch.pypa.io/latest/install/
-    - just: https://just.systems/man/en/chapter_5.html
+    Make sure you have all the required tools installed as mentioned in the `installation page </install.html>`_.
 
 Let's create a new project called **myjourney**. This will be a journaling app and its main app will be **entries**.
 Each **entry** represents a journal entry within the **myjourney** app.
@@ -86,6 +83,8 @@ you have a fully functional ready to deploy django project. If you update the co
 .. code-block:: bash
 
     just falco crud entries.entry --entry-point --skip-git-check
+
+Without the ``--skip-git-check`` option, the command will fail since we currently have some uncommitted changes in our repository.
 
 **8. Run the project**
 

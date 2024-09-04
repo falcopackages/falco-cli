@@ -4,12 +4,45 @@ default := "blueprints/falco_tailwind"
 _default:
     @just --list
 
+
+# Install dependencies
+@bootstrap:
+    hatch env create
+    hatch env create docs
+
+@clean:
+    hatch env prune
+
+# Ugrade dependencies
+upgrade:
+    hatch run hatch-pip-compile --upgrade --all
+
+# Run sphinx autobuild
+@docs-serve:
+    hatch run docs:sphinx-autobuild docs docs/_build/html --port 8002
+
+@test:
+    hatch run pytest
+
+# Run all formatters
+@fmt:
+    just --fmt --unstable
+    hatch fmt --formatter
+    hatch run pyproject-fmt pyproject.toml
+    hatch run pre-commit run reorder-python-imports -a
+
+# Bump project version and update changelog
+@bumpver version:
+    hatch run bump-my-version bump {{ version }}
+    git push
+    git push --tags
+
 # ----------------------------------------------------------------------
 # Blueprints
 # ----------------------------------------------------------------------
 
 # Initialze / update submodules
-init:
+submodule-init:
     git submodule update --init --recursive
 
 # Checkout all blueprints on main
@@ -92,37 +125,10 @@ push:
       fi
     done
 
-# ----------------------------------------------------------------------
-# UTILS
-# ----------------------------------------------------------------------
-
-# Ugrade dependencies
-upgrade:
-    hatch run hatch-pip-compile --upgrade --all
-
-# Run sphinx autobuild
-@docs-serve:
-    hatch run docs:sphinx-autobuild docs docs/_build/html --port 8002
 
 # ----------------------------------------------------------------------
 # UTILS
 # ----------------------------------------------------------------------
-
-@test:
-    hatch run pytest
-
-# Run all formatters
-@fmt:
-    just --fmt --unstable
-    hatch fmt --formatter
-    hatch run pyproject-fmt pyproject.toml
-    hatch run pre-commit run reorder-python-imports -a
-
-# Bump project version and update changelog
-@bumpver version:
-    hatch run bump-my-version bump {{ version }}
-    git push
-    git push --tags
 
 # Publish falco to pypi
 @publish:

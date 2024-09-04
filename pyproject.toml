@@ -18,7 +18,7 @@ license = "MIT"
 authors = [
   { name = "Tobi DEGNON", email = "tobidegnon@proton.me" },
 ]
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 classifiers = [
   "Development Status :: 4 - Beta",
   "Framework :: Django :: 4",
@@ -59,7 +59,7 @@ urls.Source = "https://github.com/tobi-de/falco"
 
 scripts.falco = "falco.__main__:main"
 
-optional-dependencies = { just = ["just-bin"] }
+optional-dependencies = { just = ["just-bin"], hatch = ["hatch"] }
 
 [tool.hatch.build.targets.wheel]
 packages = [

@@ -10,28 +10,33 @@ Falco is available on PyPI and can be installed with pip or your favorite Python
 
     pip install falco-cli
 
-You can also automatically install just with falco by running:
+You can also automatically install and hatch with falco by running:
 
 .. tabs::
 
-  .. tab:: PIP
+  .. tab:: pipx
 
     .. code-block:: shell
 
-        pip install "falco-cli[just]"
+        pipx install "falco-cli[just,hatch]"
 
-  .. tab:: PIPX
-
-    .. code-block:: shell
-
-        pipx install "falco-cli[just]"
-
-  .. tab:: UV
+  .. tab:: uv
 
     .. code-block:: shell
 
-        uv tool install "falco-cli[just]"
+        uv tool install "falco-cli[just,hatch]"
 
+  .. tab:: pip
+
+    .. code-block:: shell
+
+        pip install "falco-cli[just,hatch]"
+
+
+.. important::
+
+  I highly recommend installing Falco, Just, and Hatch using `uv <https://docs.astral.sh/uv/getting-started/installation/>`_ or `pipx <https://pipx.pypa.io/stable/installation/>`_ as suggested above. 
+  This will avoid conflicts with your system packages, as these tools install applications in their own isolated environments and make them available in your shell.
 
 .. note::
 
