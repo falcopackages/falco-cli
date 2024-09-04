@@ -8,12 +8,13 @@ Additionally, there is a ``.github/dependabot.yml`` file. It is a config file fo
 check weekly for dependency upgrades in your requirements files and create pull requests for them.
 
 .. admonition:: Replacing hatch
-    :class: tip dropdown
+   :class: tip dropdown
 
-    The project is set up in a way that the underlying environment and dependencies tool should be quite transparent to you. Most of the commands you will run
-    will happen through the ``just`` script runner, which will automatically run the command in the appropriate virtual environment. If I ever change the
-    underlying tool to use `uv` or just plain old pip, for example, it should not affect your workflow. You can even do it yourself if you feel like it; the main
-    thing you'll have to do is update the ``justfile``.
+   The project is set up in a way that the underlying environment and dependencies tool should be quite transparent to you. Most of the commands you will run
+   will happen through the ``just`` script runner, which will automatically run the command in the appropriate virtual environment.
+    
+   If I ever change the underlying tool to use ``uv`` or just plain old ``pip``, for example, it should not affect your workflow. You can even do it yourself 
+   if you feel like it, the main thing you'll have to do is update the ``justfile``.
 
 The pyproject.toml File
 -----------------------

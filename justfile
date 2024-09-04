@@ -20,6 +20,41 @@ upgrade:
 @docs-serve:
     hatch run docs:sphinx-autobuild docs docs/_build/html --port 8002
 
+# Generate demo project
+generate-demo *OVERWRITE:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    [[ "{{ OVERWRITE }}" == "--overwrite" ]] && rm -rf demo/myjourney
+    [[ -d demo/myjourney ]] && { echo "Directory demo/myjourney already exists. Use --overwrite to recreate it."; exit 0; }
+    hatch run falco start-project myjourney demo -b blueprints/tailwind
+    cd demo/myjourney
+    just bootstrap
+    just falco start-app entries
+    cp ../../docs/_static/snippets/entry_model.py myjourney/entries/models.py
+    just mm && just migrate
+    just falco crud entries.entry --skip-git-check
+
+# Generate documents assets
+generate-docs-assets: generate-demo
+    just tree
+    cp demo/myjourney/myjourney/core/utils.py docs/_static/snippets/utils.py
+    cp demo/myjourney/myjourney/core/types.py docs/_static/snippets/types.py
+    cp demo/myjourney/myjourney/entries/urls.py docs/_static/snippets/urls.py
+
+# Generate project tree files
+tree: generate-demo
+    #!/usr/bin/env bash
+    set -euo pipefail
+    levels=(1 2 3)
+    SED_CMD=$( [[ "$OSTYPE" == "darwin"* ]] && echo "sed -i ''" || echo "sed -i" )
+    for level in "${levels[@]}"; do
+      tree "demo/myjourney" -L $level --dirsfirst -o tree.txt --noreport -a -n -I '.env|requirements*'
+      $SED_CMD 's|{{{{ cookiecutter.project_name }}|demo|g' tree.txt
+      $SED_CMD 's|demo/myjourney|myjourney|g' tree.txt
+      mv tree.txt docs/_static/snippets/tree-$level.txt
+    done
+    rm tree.txt\'\' || true
+
 @test:
     hatch run pytest
 
@@ -123,25 +158,3 @@ push:
         cd -
       fi
     done
-
-# ----------------------------------------------------------------------
-# UTILS
-# ----------------------------------------------------------------------
-
-# Publish falco to pypi
-@publish:
-    hatch build
-    hatch publish
-
-tree:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    levels=(1 2 3)
-    SED_CMD=$( [[ "$OSTYPE" == "darwin"* ]] && echo "sed -i ''" || echo "sed -i" )
-    for level in "${levels[@]}"; do
-      tree "blueprints/tailwind/{{{{ cookiecutter.project_name }}" -L $level --dirsfirst -o tree.txt --noreport -a -n
-      $SED_CMD 's|blueprints/tailwind/||g' tree.txt
-      $SED_CMD 's|{{{{ cookiecutter.project_name }}|demo|g' tree.txt
-      mv tree.txt docs/_static/tree-$level.txt
-    done
-    rm tree.txt\'\'

@@ -50,13 +50,7 @@ you have a fully functional ready to deploy django project. If you update the co
 
 **5. Add some fields to your Entry model**
 
-.. code-block:: python
-
-    class Entry(TimeStampedModel):
-        # the TimeStampedModel adds the fields `created` and `modified` so we don't need to add them
-        title = models.CharField(max_length=255)
-        content = models.TextField()
-        created_by = models.ForeignKey("users.User", on_delete=models.CASCADE, related_name="entries")
+.. literalinclude:: /_static/snippets/entry_model.py
 
 **6.  Make migrations for the new model and run them**
 

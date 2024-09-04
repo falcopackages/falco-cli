@@ -1,9 +1,11 @@
-demo
+myjourney
 ├── .github
 │   ├── workflows
 │   │   ├── cd.yml
 │   │   └── ci.yml
 │   └── dependabot.yml
+├── __pycache__
+│   └── manage.cpython-311.pyc
 ├── deploy
 │   ├── etc
 │   │   └── s6-overlay
@@ -16,21 +18,35 @@ demo
 │   ├── changelog.rst
 │   ├── conf.py
 │   └── index.rst
-├── tests
-│   ├── __init__.py
-│   ├── conftest.py
-│   └── test_assert_true.py
-├── demo
+├── myjourney
+│   ├── __pycache__
+│   │   ├── __init__.cpython-311.pyc
+│   │   ├── settings.cpython-311.pyc
+│   │   └── urls.cpython-311.pyc
 │   ├── core
+│   │   ├── __pycache__
 │   │   ├── __init__.py
 │   │   ├── apps.py
 │   │   ├── sentry.py
+│   │   ├── types.py
+│   │   ├── urls.py
+│   │   ├── utils.py
+│   │   └── views.py
+│   ├── entries
+│   │   ├── __pycache__
+│   │   ├── migrations
+│   │   ├── __init__.py
+│   │   ├── admin.py
+│   │   ├── apps.py
+│   │   ├── forms.py
+│   │   ├── models.py
 │   │   ├── urls.py
 │   │   └── views.py
 │   ├── static
 │   │   └── vendors
 │   ├── templates
 │   │   ├── .well-known
+│   │   ├── entries
 │   │   ├── pages
 │   │   ├── 403.html
 │   │   ├── 403_csrf.html
@@ -45,6 +61,10 @@ demo
 │   ├── settings.py
 │   ├── urls.py
 │   └── wsgi.py
+├── tests
+│   ├── __init__.py
+│   ├── conftest.py
+│   └── test_assert_true.py
 ├── .dockerignore
 ├── .editorconfig
 ├── .env.template
@@ -52,6 +72,7 @@ demo
 ├── .pre-commit-config.yaml
 ├── CHANGELOG.md
 ├── README.md
+├── db.sqlite3
 ├── justfile
 ├── manage.py
 ├── playground.ipynb

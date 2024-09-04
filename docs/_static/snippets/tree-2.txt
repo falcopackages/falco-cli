@@ -1,7 +1,9 @@
-demo
+myjourney
 ├── .github
 │   ├── workflows
 │   └── dependabot.yml
+├── __pycache__
+│   └── manage.cpython-311.pyc
 ├── deploy
 │   ├── etc
 │   ├── Dockerfile
@@ -11,12 +13,10 @@ demo
 │   ├── changelog.rst
 │   ├── conf.py
 │   └── index.rst
-├── tests
-│   ├── __init__.py
-│   ├── conftest.py
-│   └── test_assert_true.py
-├── demo
+├── myjourney
+│   ├── __pycache__
 │   ├── core
+│   ├── entries
 │   ├── static
 │   ├── templates
 │   ├── __init__.py
@@ -25,6 +25,10 @@ demo
 │   ├── settings.py
 │   ├── urls.py
 │   └── wsgi.py
+├── tests
+│   ├── __init__.py
+│   ├── conftest.py
+│   └── test_assert_true.py
 ├── .dockerignore
 ├── .editorconfig
 ├── .env.template
@@ -32,6 +36,7 @@ demo
 ├── .pre-commit-config.yaml
 ├── CHANGELOG.md
 ├── README.md
+├── db.sqlite3
 ├── justfile
 ├── manage.py
 ├── playground.ipynb

@@ -22,17 +22,17 @@ Let's go through the basics of the file structure and folders, We won't cover th
 
    .. tab:: L1
 
-      .. include:: /_static/tree-1.txt
+      .. include:: /_static/snippets/tree-1.txt
          :literal:
 
    .. tab:: L2
 
-      .. include:: /_static/tree-2.txt
+      .. include:: /_static/snippets/tree-2.txt
          :literal:
 
    .. tab:: L3
 
-    .. include:: /_static/tree-3.txt
+    .. include:: /_static/snippets/tree-3.txt
        :literal:
 
 

@@ -1,10 +1,8 @@
 from functools import wraps
 
-from django.core.paginator import InvalidPage
-from django.core.paginator import Paginator
+from django.core.paginator import InvalidPage, Paginator
 from django.db.models import QuerySet
-from django.http import Http404
-from django.http import HttpResponse
+from django.http import Http404, HttpResponse
 from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy as _
 
@@ -49,7 +47,9 @@ def for_htmx(
     for this decorator to be applied.
     """
     if len([p for p in [use_partial, use_template, use_partial_from_params] if p]) != 1:
-        raise ValueError("You must pass exactly one of 'use_template', 'use_partial' or 'use_partial_from_params=True'")
+        raise ValueError(
+            "You must pass exactly one of 'use_template', 'use_partial' or 'use_partial_from_params=True'"
+        )
 
     def decorator(view):
         @wraps(view)
@@ -59,7 +59,10 @@ def for_htmx(
             if not request.htmx:
                 return resp
 
-            apply_decorator = if_hx_target is None or request.headers.get("Hx-Target", None) == if_hx_target
+            apply_decorator = (
+                if_hx_target is None
+                or request.headers.get("Hx-Target", None) == if_hx_target
+            )
             if not apply_decorator:
                 return resp
 
@@ -77,12 +80,18 @@ def for_htmx(
                     # This is a special case response, it doesn't need modifying:
                     return resp
 
-                raise ValueError("Cannot modify a response that isn't a TemplateResponse")
+                raise ValueError(
+                    "Cannot modify a response that isn't a TemplateResponse"
+                )
             if resp.is_rendered:
-                raise ValueError("Cannot modify a response that has already been rendered")
+                raise ValueError(
+                    "Cannot modify a response that has already been rendered"
+                )
 
             if use_partial_from_params:
-                use_partial_from_params_val = _get_param_from_request(request, "use_partial")
+                use_partial_from_params_val = _get_param_from_request(
+                    request, "use_partial"
+                )
                 if use_partial_from_params_val is not None:
                     partials_to_use = use_partial_from_params_val
 
@@ -93,7 +102,11 @@ def for_htmx(
                     partials_to_use = [partials_to_use]
 
                 rendered_partials = [
-                    render_to_string(f"{resp.template_name}#{b}", context=resp.context_data, request=request)
+                    render_to_string(
+                        f"{resp.template_name}#{b}",
+                        context=resp.context_data,
+                        request=request,
+                    )
                     for b in partials_to_use
                 ]
                 # Create new simple HttpResponse as replacement

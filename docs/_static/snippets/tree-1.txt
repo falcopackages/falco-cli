@@ -1,9 +1,10 @@
-demo
+myjourney
 ├── .github
+├── __pycache__
 ├── deploy
 ├── docs
+├── myjourney
 ├── tests
-├── demo
 ├── .dockerignore
 ├── .editorconfig
 ├── .env.template
@@ -11,6 +12,7 @@ demo
 ├── .pre-commit-config.yaml
 ├── CHANGELOG.md
 ├── README.md
+├── db.sqlite3
 ├── justfile
 ├── manage.py
 ├── playground.ipynb

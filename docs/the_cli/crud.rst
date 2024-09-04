@@ -29,7 +29,7 @@ accessible and you can update it as you see fit. The idea is to accelerate proje
     I think class-based views get complex faster than function-based views. Both have their use cases, but function-based views
     stay simpler to manage longer in my experience. There is an excellent document on the topic, read `django views the right way <https://spookylukey.github.io/django-views-the-right-way/>`_.
 
-If you want to see an example of the generated code, check out the `source code of the demo project <https://github.com/Tobi-De/falco/tree/main/demo/demo/products>`_.
+.. If you want to see an example of the generated code, check out the `source code of the demo project <https://github.com/Tobi-De/falco/tree/main/demo/myjourney/entries>`_.
 
 Configuration
 ^^^^^^^^^^^^^
@@ -85,33 +85,34 @@ Instead, it will add code at the end or create the files if they are missing. Th
 are ``forms.py``, ``urls.py``, ``admin.py`` (if you have `django-extension <https://django-extensions.readthedocs.io/en/latest/index.html>`_ installed),
 ``views.py`` and your project root ``urls.py``.
 
-For the sake brevity, I'll only show an example of what the ``urls.py`` file might look like for a model named ``Product`` in a django app named ``products``.
+For the sake brevity, I'll only show an example of what the ``urls.py`` file might look like for a model named ``Entry`` in a django app named ``entries``.
 
 .. code-block::bash
 
-    falco crud product.products
+    falco crud entry.entries
 
-.. literalinclude:: ../../demo/demo/products/urls.py
+.. literalinclude:: /_static/snippets/urls.py
 
 As you can see, the convention is quite simple: ``<model_name_lower>_<operation>``. Note that if you don't specify the model name and run
-``falco crud products``, the same code with the described conventions will be generated for all the models in the ``products`` app.
-Now, if you're anything like me, the code above might have made you cringe due to the excessive repetitions of the word ``product``.
+``falco crud entries``, the same code with the described conventions will be generated for all the models in the ``entries`` app.
+
+Now, if you're anything like me, the code above might have made you cringe due to the excessive repetitions of the word ``entry``.
 This wouldn't have been the case if the model was called ``Category``, for example. For these specific cases, there is an ``--entry-point`` option.
 
 Let's try it.
 
 .. code-block:: bash
 
-    falco crud product.products --entry-point
+    falco crud entries.entry --entry-point
 
 .. code-block:: python
-    :caption: products/urls.py
+    :caption: entries/urls.py
 
     from django.urls import path
 
     from . import views
 
-    app_name = "products"
+    app_name = "entries"
 
     urlpatterns = [
         path("", views.index, name="index"),
@@ -121,14 +122,14 @@ Let's try it.
         path("<int:pk>/delete/", views.delete, name="delete"),
     ]
 
-Much cleaner, specifying that option means you consider the ``Product`` model as the entry point of your ``products`` app.
-So, instead of the base URL of the app looking like ``products/products/``, it will just be ``products/``.
+Much cleaner, specifying that option means you consider the ``Entry`` model as the entry point of your ``entries`` app.
+So, instead of the base URL of the app looking like ``entries/entries/``, it will just be ``entries/``.
 
 As previously mentioned, the command will also register your app in your project root URLs configuration. This occurs when
 you generate ``crud`` views for a model and there is no existing ``urls.py`` file for the app. In such cases, it is assumed
 that you haven't already registered the URLs for your app since the command just created the file.
 
-Here is an example of how the ``products`` app will be registered.
+Here is an example of how the ``entries`` app will be registered.
 
 .. code-block:: python
     :caption: config/urls.py
@@ -138,7 +139,7 @@ Here is an example of how the ``products`` app will be registered.
     urlpatterns = [
     path("admin/", admin.site.urls),
     ...
-    path("products/", include("products.urls", namespace="products"))
+    path("entries/", include("entries.urls", namespace="entries"))
     ]
 
 
@@ -167,8 +168,9 @@ your templates directory.
 
 To determine where to place the generated files, we check the ``DIRS`` key in the ``TEMPLATES`` settings of your Django project.
 If it is populated, we take the first value in the list and generate the template files in ``<templates_dir>/<app_label>``.
-If it is not populated, we use the classic Django layout, which is ``<app_label>/templates/<app_label>``. If you want an overview
-of what the templates look like, check out the `demo project <https://github.com/Tobi-De/falco/tree/main/demo/templates/products>`_.
+If it is not populated, we use the classic Django layout, which is ``<app_label>/templates/<app_label>``.
+
+.. If you want an overview of what the templates look like, check out the `demo project <https://github.com/Tobi-De/falco/tree/main/demo/templates/entries>`_.
 
 Custom Templates
 ****************
@@ -190,19 +192,19 @@ Below is an example of the context each template will receive.
     from pprint import pprint
 
     dj_model = DjangoModel(
-        name = "Product",
-        name_plural = "Products",
-        verbose_name = "Product",
-        verbose_name_plural = "Products",
+        name = "Entry",
+        name_plural = "Entries",
+        verbose_name = "Entry",
+        verbose_name_plural = "Entries",
         has_file_field = False,
         has_editable_date_field = False,
         fields = {
-            "name": {"verbose_name": "Name", "editable": True, "class_name": "CharField", "accessor": "{{product.name}}"},
-            "price": {"verbose_name": "Price", "editable": True, "class_name": "DecimalField", "accessor": "{{product.price}}"},
+            "name": {"verbose_name": "Name", "editable": True, "class_name": "CharField", "accessor": "{{entry.name}}"},
+            "price": {"verbose_name": "Price", "editable": True, "class_name": "DecimalField", "accessor": "{{entry.price}}"},
         }
     )
 
-    pprint(get_html_blueprint_context(app_label="products", django_model=dj_model), sort_dicts=False, compact=True, width=120)
+    pprint(get_html_blueprint_context(app_label="entries", django_model=dj_model), sort_dicts=False, compact=True, width=120)
 
 
 Examples
@@ -212,14 +214,14 @@ Some usage examples.
 
 .. code:: bash
 
-    $ falco crud products.product
-    $ falco crud products
-    $ falco crud products.product -e="secret_field1" -e="secret_field2"
-    $ falco crud products.product --only-html
-    $ falco crud products.product --only-python
-    $ falco crud products.product --entry-point
-    $ falco crud products.product --entry-point --login
-    $ falco crud products.product --blueprints /path/to/blueprints
+    $ falco crud entries.entry
+    $ falco crud entries
+    $ falco crud entries.entry -e="secret_field1" -e="secret_field2"
+    $ falco crud entries.entry --only-html
+    $ falco crud entries.entry --only-python
+    $ falco crud entries.entry --entry-point
+    $ falco crud entries.entry --entry-point --login
+    $ falco crud entries.entry --blueprints /path/to/blueprints
 
 
 install-crud-utils
@@ -258,8 +260,8 @@ Here is an example of the output of the ``install-crud-utils`` command.
 
     .. tab:: utils.py
 
-        .. literalinclude:: ../../demo/demo/core/utils.py
+        .. literalinclude:: /_static/snippets/utils.py
 
     .. tab:: types.py
 
-        .. literalinclude:: ../../demo/demo/core/types.py
+        .. literalinclude:: /_static/snippets/types.py

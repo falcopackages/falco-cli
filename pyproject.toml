@@ -126,6 +126,7 @@ extend-exclude = [
   "blueprints/*",
   "demo/*",
   "demo/demo/*/migrations/*",
+  "docs/*",
 ]
 lint.extend-ignore = [
   "EM101",
