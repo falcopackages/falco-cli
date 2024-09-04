@@ -1,4 +1,4 @@
-:image: https://raw.githubusercontent.com/Tobi-De/falco/main/docs/images/og-image.jpg
+:description: Learn how to manage your Django migrations with Falco.
 
 Remove / Reset your migrations
 ==============================

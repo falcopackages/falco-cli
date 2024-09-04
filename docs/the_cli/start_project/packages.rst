@@ -1,4 +1,3 @@
-:image: https://raw.githubusercontent.com/Tobi-De/falco/main/docs/images/og-image.jpg
 :description: The packages and tools that comes included with a project generated with falco.
 
 Packages and Tools

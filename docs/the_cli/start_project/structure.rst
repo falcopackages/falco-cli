@@ -1,4 +1,3 @@
-:image: https://raw.githubusercontent.com/Tobi-De/falco/main/docs/images/og-image.jpg
 :description: Files and forlder structure of project generated with falco.
 
 

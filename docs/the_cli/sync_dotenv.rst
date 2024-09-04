@@ -1,4 +1,3 @@
-:image: https://raw.githubusercontent.com/Tobi-De/falco/main/docs/images/og-image.jpg
 :description: Keep your .env and .env.template files in sync.
 
 Sync Dotenv files

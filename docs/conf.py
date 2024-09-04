@@ -63,9 +63,10 @@ html_theme_options = {
     "discussion_url": "https://github.com/tobi-de/falco/discussions",
     "accent_color": "blue",
     "globaltoc_expand_depth": 1,
+    "og_image_url": "https://raw.githubusercontent.com/Tobi-De/falco/main/docs/images/og-image.jpg",
 }
-html_logo = "images/logo_with_text.svg"
-html_favicon = "../assets/falco-logo.svg"
+html_logo = "_static/logo_with_text.svg"
+html_favicon = "_static/falco-logo.svg"
 html_css_files = [
     "custom.css",
 ]

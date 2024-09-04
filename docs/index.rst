@@ -1,11 +1,10 @@
 :layout: landing
-:image: https://raw.githubusercontent.com/Tobi-De/falco/main/docs/images/og-image.jpg
 :description: Falco is an opinionated toolkit for a modern Django development experience.
 
 .. container::
     :name: home-head
 
-    .. image:: https://raw.githubusercontent.com/Tobi-De/falco/main/docs/images/falco-logo.svg
+    .. image:: /_static/falco-logo.svg
         :alt: Falco
         :width: 400
         :height: 400

@@ -1,4 +1,3 @@
-:image: https://raw.githubusercontent.com/Tobi-De/falco/main/docs/images/og-image.jpg
 :description: Faster prototyping with basic CRUD (Create, Read, Update, Delete) python views and HTML templates for your django models.
 
 CRUD for your model

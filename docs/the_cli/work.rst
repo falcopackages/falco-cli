@@ -1,4 +1,3 @@
-:image: https://raw.githubusercontent.com/Tobi-De/falco/main/docs/images/og-image.jpg
 :description: Run multiple commands in parallel to start your django project.
 
 Work - Running multiple process in one session

@@ -1,5 +1,4 @@
-:image: https://raw.githubusercontent.com/Tobi-De/falco/main/docs/images/og-image.jpg
-:description: Deployment concepts, plateforms and strategies for django projects.
+:description: Deployment concepts, platforms and strategies for django projects.
 
 The ultimate deployment guide
 =============================
@@ -412,7 +411,7 @@ Summary
 
 .. container:: image-2
 
-   .. image:: ../images/deployment.png
+   .. image:: /_static/deployment.png
 
 
 If there is one key takeaway from this guide, it's the diagram above. It illustrates the essential components of any deployment process:

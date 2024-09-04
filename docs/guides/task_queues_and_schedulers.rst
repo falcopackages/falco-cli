@@ -1,4 +1,3 @@
-:image: https://raw.githubusercontent.com/Tobi-De/falco/main/docs/images/og-image.jpg
 :description: Offload tasks in django using task queues and periodic tasks using schedulers.
 
 Task Queues and Schedulers
@@ -15,7 +14,7 @@ functioning normally and serving your clients. Once the assistant completes the 
 
 .. admonition:: Example
 
-        .. image:: ../images/task_queue.png
+        .. image:: /_static/task_queue.png
 
 
         1. A user uploads a large excel file to your web application for processing.

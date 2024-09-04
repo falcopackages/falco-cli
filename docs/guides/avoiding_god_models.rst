@@ -1,4 +1,3 @@
-:image: https://raw.githubusercontent.com/Tobi-De/falco/main/docs/images/og-image.jpg
 :description: A guide on how to avoid the god object or god class anti-pattern and organize your business logic in django.
 
 Business logic in django

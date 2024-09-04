@@ -1,5 +1,4 @@
-:image: https://raw.githubusercontent.com/Tobi-De/falco/main/docs/images/og-image.jpg
-:description:
+:description: Running your project in a single container using s6-overlay
 
 Running your project in a single container
 ==========================================

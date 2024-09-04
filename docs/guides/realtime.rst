@@ -1,4 +1,3 @@
-:image: https://raw.githubusercontent.com/Tobi-De/falco/main/docs/images/og-image.jpg
 :description: Different strategies to implement realtime in Django.
 
 Realtime in Django: Websockets, SSE, Polling
