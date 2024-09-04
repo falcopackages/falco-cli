@@ -68,7 +68,7 @@ packages = [
 
 [tool.hatch.env]
 requires = [
-  "hatch-pip-compile>=1.11.1",
+  "hatch-pip-compile>=1.11.2",
 ]
 
 [[tool.hatch.envs.all.matrix]]
@@ -97,23 +97,7 @@ pip-compile-constraint = "default"
 pip-compile-installer = "uv"
 pip-compile-resolver = "uv"
 type = "pip-compile"
-
-[tool.hatch.envs.default.scripts]
-cov = [
-  "test-cov",
-  "cov-report",
-]
-cov-report = [
-  "- coverage combine",
-  "coverage report",
-]
-make-blueprints = "python scripts/make_blueprints_from_demo.py"
-test = "pytest {args:tests}"
-test-cov = "coverage run -m pytest {args:tests}"
-upgrade-deps = [
-  "rm requirements.txt",
-  "hatch env run --env default -- python --version",
-]
+lock-filename = "requirements.txt"
 
 [tool.hatch.envs.docs]
 dependencies = [
@@ -132,23 +116,6 @@ dependencies = [
   "sphinx-docsearch",
 ]
 lock-filename = "docs/requirements.txt"
-
-[tool.hatch.envs.docs.scripts]
-prepare-deploy = [
-  "update-readme-guides",
-  "project-tree",
-]
-project-tree = "python scripts/project_tree.py"
-serve = "sphinx-autobuild docs docs/_build/html --port 8002"
-update-readme-guides = "python scripts/update_readme_guides.py"
-
-[tool.hatch.envs.types]
-dependencies = [
-  "mypy>=1.0.0",
-]
-
-[tool.hatch.envs.types.scripts]
-check = "mypy --install-types --non-interactive {args:src/falco tests}"
 
 [tool.hatch.metadata]
 allow-direct-references = true

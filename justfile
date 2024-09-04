@@ -96,6 +96,10 @@ push:
 # UTILS
 # ----------------------------------------------------------------------
 
+# Ugrade dependencies
+upgrade:
+    hatch run hatch-pip-compile --upgrade --all
+
 # Run sphinx autobuild
 @docs-serve:
     hatch run docs:sphinx-autobuild docs docs/_build/html --port 8002
