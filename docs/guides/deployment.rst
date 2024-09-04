@@ -534,7 +534,7 @@ Resources
 - `django-up <https://github.com/sesh/django-up>`_ : django-up is a tool to quickly deploy your Django application to a Ubuntu 22.04 server with almost zero configuration.
 - `django-production <https://github.com/lincolnloop/django-production>`_ : Opinionated one-size-fits-most defaults for running Django to production (or any other deployed environment).
 - `ansible-django-stack  <https://github.com/jcalazan/ansible-django-stack>`_: Ansible Playbook for setting up a Django production server with Nginx, Gunicorn, PostgreSQL, Celery, RabbitMQ, Supervisor, Virtualenv, and Memcached.
-- `django-flyio <https://github.com/avencera/rustywind?tab=readme-ov-file>`_: A set of simple utilities for Django apps running on Fly.io.
+- `django-flyio <https://github.com/westerveltco/django-flyio>`_: A set of simple utilities for Django apps running on Fly.io.
 
 
 Alternative strategies
