@@ -49,12 +49,12 @@ Here are some alternative project starters that you can consider if the falco st
 
 
 .. toctree::
-   :hidden:
+    :hidden:
 
-   structure
-   packages
-   dependency
-   deploy
-   issues
+    structure
+    dependency
+    packages
+    deploy
+    issues
 
 
