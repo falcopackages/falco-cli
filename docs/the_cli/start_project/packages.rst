@@ -38,6 +38,21 @@ If you are using the Bootstrap template, the following additional packages are i
 - `crispy-bootstrap5 <https://github.com/django-crispy-forms/crispy-bootstrap5>`_: Bootstrap 5 Template pack for ``django-crispy-forms``.
 
 
+Settings
+--------
+
+There is a single ``settings.py`` file located in your project package directory. As suggested in the `Twelve-Factor App <https://12factor.net/config>`_ methodology, the settings values are pulled from environment variables 
+using `django-environ <https://github.com/sloria/environs>`_. Most settings are configured with default values or are made optional so that the project can be easily set up in development, production, or even a staging environment. 
+The settings are organized following recommendations from `Boost Your Django DX <https://adamchainz.gumroad.com/l/byddx>`_.
+
+There is no specific environment variable to distinguish between development and production environments. You can add that if you want, but I keep it simple:
+
+- ``DEBUG=True`` means development
+- ``DEBUG=False`` means production
+
+You won't even be able to set ``DEBUG=True`` in production since the development requirements will be missing. They are not included in the provided methods of building the project for production.
+
+
 Login via email instead of username
 ------------------------------------
 
