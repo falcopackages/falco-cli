@@ -30,8 +30,6 @@ classifiers = [
   "Natural Language :: English",
   "Programming Language :: Python",
   "Programming Language :: Python :: 3 :: Only",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: Implementation :: CPython",
   "Programming Language :: Python :: Implementation :: PyPy",
@@ -52,14 +50,14 @@ dependencies = [
   "rich",
   "tomlkit",
 ]
+optional-dependencies = { just = [ "just-bin" ], hatch = [ "hatch" ] }
+
 urls.Documentation = "https://falco.oluwatobi.dev/"
 urls.Homepage = "https://falco.oluwatobi.dev/"
 urls.Issues = "https://github.com/tobi-de/falco/issues"
 urls.Source = "https://github.com/tobi-de/falco"
 
 scripts.falco = "falco.__main__:main"
-
-optional-dependencies = { just = ["just-bin"], hatch = ["hatch"] }
 
 [tool.hatch.build.targets.wheel]
 packages = [
