@@ -1,29 +1,9 @@
 demo
-├── demo
-│   ├── core
-│   │   ├── apps.py
-│   │   ├── __init__.py
-│   │   ├── sentry.py
-│   │   ├── urls.py
-│   │   └── views.py
-│   ├── static
-│   │   └── vendors
-│   ├── templates
-│   │   ├── pages
-│   │   ├── .well-known
-│   │   ├── 403_csrf.html
-│   │   ├── 403.html
-│   │   ├── 404.html
-│   │   ├── 500.html
-│   │   ├── base_email.html
-│   │   ├── base.html
-│   │   └── robots.txt
-│   ├── asgi.py
-│   ├── __init__.py
-│   ├── __main__.py
-│   ├── settings.py
-│   ├── urls.py
-│   └── wsgi.py
+├── .github
+│   ├── workflows
+│   │   ├── cd.yml
+│   │   └── ci.yml
+│   └── dependabot.yml
 ├── deploy
 │   ├── etc
 │   │   └── s6-overlay
@@ -36,23 +16,43 @@ demo
 │   ├── changelog.rst
 │   ├── conf.py
 │   └── index.rst
-├── .github
-│   ├── workflows
-│   │   ├── cd.yml
-│   │   └── ci.yml
-│   └── dependabot.yml
 ├── tests
-│   ├── conftest.py
 │   ├── __init__.py
+│   ├── conftest.py
 │   └── test_assert_true.py
-├── CHANGELOG.md
+├── demo
+│   ├── core
+│   │   ├── __init__.py
+│   │   ├── apps.py
+│   │   ├── sentry.py
+│   │   ├── urls.py
+│   │   └── views.py
+│   ├── static
+│   │   └── vendors
+│   ├── templates
+│   │   ├── .well-known
+│   │   ├── pages
+│   │   ├── 403.html
+│   │   ├── 403_csrf.html
+│   │   ├── 404.html
+│   │   ├── 500.html
+│   │   ├── base.html
+│   │   ├── base_email.html
+│   │   └── robots.txt
+│   ├── __init__.py
+│   ├── __main__.py
+│   ├── asgi.py
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
 ├── .dockerignore
 ├── .editorconfig
 ├── .env.template
 ├── .gitignore
+├── .pre-commit-config.yaml
+├── CHANGELOG.md
+├── README.md
 ├── justfile
 ├── manage.py
 ├── playground.ipynb
-├── .pre-commit-config.yaml
-├── pyproject.toml
-└── README.md
+└── pyproject.toml

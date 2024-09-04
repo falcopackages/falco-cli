@@ -137,11 +137,13 @@ push:
 
 tree:
   #!/usr/bin/env bash
+  set -euo pipefail
   levels=(1 2 3)
   SED_CMD=$( [[ "$OSTYPE" == "darwin"* ]] && echo "sed -i ''" || echo "sed -i" )
   for level in "${levels[@]}"; do
     tree "blueprints/tailwind/{{{{ cookiecutter.project_name }}" -L $level --dirsfirst -o tree.txt --noreport -a -n
     $SED_CMD 's|blueprints/tailwind/||g' tree.txt
     $SED_CMD 's|{{{{ cookiecutter.project_name }}|demo|g' tree.txt
-    mv tree.txt docs/images/tree-$level.txt
+    mv tree.txt docs/_static/tree-$level.txt
   done
+  rm tree.txt\'\'

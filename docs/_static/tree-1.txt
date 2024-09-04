@@ -1,17 +1,17 @@
 demo
-├── demo
+├── .github
 ├── deploy
 ├── docs
-├── .github
 ├── tests
-├── CHANGELOG.md
+├── demo
 ├── .dockerignore
 ├── .editorconfig
 ├── .env.template
 ├── .gitignore
+├── .pre-commit-config.yaml
+├── CHANGELOG.md
+├── README.md
 ├── justfile
 ├── manage.py
 ├── playground.ipynb
-├── .pre-commit-config.yaml
-├── pyproject.toml
-└── README.md
+└── pyproject.toml
