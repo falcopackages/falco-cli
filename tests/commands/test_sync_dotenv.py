@@ -13,7 +13,7 @@ def test_sync_dotenv(runner: CommandRunner, pyproject_toml):
     env_template_file = Path(".env.template")
     assert env_file.exists()
     assert env_template_file.exists()
-    assert "DEBUG=False" in env_file.read_text()
+    assert "DEBUG=True" in env_file.read_text()
     assert "DEBUG=" in env_template_file.read_text()
 
 
