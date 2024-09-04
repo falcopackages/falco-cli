@@ -48,7 +48,7 @@ tree: generate-demo
     levels=(1 2 3)
     SED_CMD=$( [[ "$OSTYPE" == "darwin"* ]] && echo "sed -i ''" || echo "sed -i" )
     for level in "${levels[@]}"; do
-      tree "demo/myjourney" -L $level --dirsfirst -o tree.txt --noreport -a -n -I '.env|requirements*'
+      tree "demo/myjourney" -L $level --dirsfirst -o tree.txt --noreport -a -n -I '.env|requirements*|__pycache__'
       $SED_CMD 's|{{{{ cookiecutter.project_name }}|demo|g' tree.txt
       $SED_CMD 's|demo/myjourney|myjourney|g' tree.txt
       mv tree.txt docs/_static/snippets/tree-$level.txt

@@ -2,8 +2,6 @@ myjourney
 ├── .github
 │   ├── workflows
 │   └── dependabot.yml
-├── __pycache__
-│   └── manage.cpython-311.pyc
 ├── deploy
 │   ├── etc
 │   ├── Dockerfile
@@ -14,7 +12,6 @@ myjourney
 │   ├── conf.py
 │   └── index.rst
 ├── myjourney
-│   ├── __pycache__
 │   ├── core
 │   ├── entries
 │   ├── static

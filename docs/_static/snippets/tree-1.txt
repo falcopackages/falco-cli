@@ -1,6 +1,5 @@
 myjourney
 ├── .github
-├── __pycache__
 ├── deploy
 ├── docs
 ├── myjourney

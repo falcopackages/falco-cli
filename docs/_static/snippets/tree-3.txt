@@ -4,8 +4,6 @@ myjourney
 │   │   ├── cd.yml
 │   │   └── ci.yml
 │   └── dependabot.yml
-├── __pycache__
-│   └── manage.cpython-311.pyc
 ├── deploy
 │   ├── etc
 │   │   └── s6-overlay
@@ -19,12 +17,7 @@ myjourney
 │   ├── conf.py
 │   └── index.rst
 ├── myjourney
-│   ├── __pycache__
-│   │   ├── __init__.cpython-311.pyc
-│   │   ├── settings.cpython-311.pyc
-│   │   └── urls.cpython-311.pyc
 │   ├── core
-│   │   ├── __pycache__
 │   │   ├── __init__.py
 │   │   ├── apps.py
 │   │   ├── sentry.py
@@ -33,7 +26,6 @@ myjourney
 │   │   ├── utils.py
 │   │   └── views.py
 │   ├── entries
-│   │   ├── __pycache__
 │   │   ├── migrations
 │   │   ├── __init__.py
 │   │   ├── admin.py

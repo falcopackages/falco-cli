@@ -41,7 +41,16 @@ If you are using the Bootstrap template, the following additional packages are i
 Settings
 --------
 
-There is a single ``settings.py`` file located in your project package directory. As suggested in the `Twelve-Factor App <https://12factor.net/config>`_ methodology, the settings values are pulled from environment variables 
+There is a single ``settings.py`` file located in your project package directory. 
+
+.. code-block:: text
+
+   myjourney
+   ├── myjourney
+   │  ├── settings.py
+   │  ...
+
+As suggested in the `Twelve-Factor App <https://12factor.net/config>`_ methodology, the settings values are pulled from environment variables 
 using `django-environ <https://github.com/sloria/environs>`_. Most settings are configured with default values or are made optional so that the project can be easily set up in development, production, or even a staging environment. 
 The settings are organized following recommendations from `Boost Your Django DX <https://adamchainz.gumroad.com/l/byddx>`_.
 
