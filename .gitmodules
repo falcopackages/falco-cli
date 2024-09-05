@@ -1,6 +1,3 @@
-[submodule "blueprints/falco_tailwind"]
-	path = blueprints/falco_tailwind
-	url = git@github.com:tobi-de/falco_tailwind.git
 [submodule "blueprints/tailwind"]
 	path = blueprints/tailwind
 	url = git@github.com:tobi-de/falco_tailwind.git
