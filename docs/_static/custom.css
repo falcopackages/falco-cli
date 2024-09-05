@@ -23,11 +23,6 @@
         flex-wrap: wrap;
         justify-content: center;
     }
-
-    #home-head a img {
-        width: 250px;
-        height: 250px;
-    }
 }
 
 #home-head h1 {

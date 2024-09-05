@@ -6,8 +6,8 @@
 
     .. image:: /_static/falco-logo.svg
         :alt: Falco
-        :width: 400
-        :height: 400
+        :width: 350
+    
 
     .. container::
 
@@ -19,37 +19,48 @@
            :name: badges
 
            .. image:: https://github.com/Tobi-De/falco/actions/workflows/ci.yml/badge.svg
+              :alt: Github Actions Continuous Integration Status
 
            .. image:: https://github.com/Tobi-De/falco/actions/workflows/publish.yml/badge.svg
+              :alt: Github Actions Publish Status
 
            .. image:: https://readthedocs.org/projects/falco-cli/badge/?version=latest&style=flat
+              :alt: Documentation Status
 
            .. image:: https://badge.fury.io/py/falco-cli.svg
+              :alt: PyPI Version
 
            .. image:: https://img.shields.io/badge/%F0%9F%A5%9A-Hatch-4051b5.svg
+              :alt: Hatch Version
 
            .. image:: https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json
+              :alt: Ruff Version
 
            .. image:: https://img.shields.io/badge/license-MIT-blue.svg
+              :alt: MIT License
 
            .. image:: https://img.shields.io/pypi/pyversions/falco-cli
+              :alt: Supported Python Versions
 
            .. image:: https://img.shields.io/pypi/frameworkversions/django/falco-cli
+              :alt: Supported Django Versions
 
            .. image:: https://img.shields.io/pypi/dm/falco-cli
+              :alt: PyPI Downloads
 
 
 
 .. rst-class:: lead
 
-    Falco is a Django toolkit that improves development with commands for project initiation, CRUD view generation, and
-    guides addressing common web development issues tailored to Django.
-
+    Falco is your Django toolkit for faster prototyping and deployment of your Django projects. It offers commands for :doc:`project generation <the_cli/start_project/index>`,
+    :doc:`CRUD view generation <the_cli/crud>`, :doc:`guides <guides/index>` that address common web development challenges tailored to Django and much more.
 
 .. container:: buttons
 
     :doc:`Docs <install>`
+    `Usage / Overview <the_cli/usage.html>`_
     `GitHub <https://github.com/tobi-de/falco>`_
+
 
 
 .. grid:: 1 1 2 3

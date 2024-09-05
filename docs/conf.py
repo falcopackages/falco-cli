@@ -64,6 +64,33 @@ html_theme_options = {
     "accent_color": "blue",
     "globaltoc_expand_depth": 1,
     "og_image_url": "https://raw.githubusercontent.com/Tobi-De/falco/main/docs/images/og-image.jpg",
+    "nav_links": [
+        {"title": "Home", "url": "index"},
+         {
+            "title": "Community",
+            "children": [
+                {
+                    "title": "GitHub Discussions",
+                    "summary": "GitHub Discussions",
+                    "url": "https://github.com/tobi-de/falco/discussions",
+                    "icon": "coc",
+                },
+                {
+                    "title": "Contributing",
+                    "summary": "Learn how to contribute to the falco project",
+                    "url": "contributing",
+                    "icon": "contributing",
+                },
+                {
+                    "title": "Code of Conduct",
+                    "summary": "Review the etiquette for interacting with the falco community",
+                    "url": "codeofconduct",
+                    "icon": "coc",
+                },
+            ],
+        },
+        {"title": "Support", "url": "https://buymeacoffee.com/oluwa.tobi", "icon": "heart"},
+    ]
 }
 html_logo = "_static/logo_with_text.svg"
 html_favicon = "_static/falco-logo.svg"
