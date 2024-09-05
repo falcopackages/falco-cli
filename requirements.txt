@@ -17,6 +17,7 @@
 # - black
 # - cappa
 # - cookiecutter
+# - cruft
 # - djlint
 # - honcho
 # - httpx
@@ -66,15 +67,20 @@ click==8.1.7
     #   black
     #   bump-my-version
     #   cookiecutter
+    #   cruft
     #   djlint
     #   rich-click
+    #   typer
 colorama==0.4.6
     # via djlint
 cookiecutter==2.6.0
     # via
     #   hatch.envs.default
+    #   cruft
     #   pytest-cookies
 coverage==7.6.1
+    # via hatch.envs.default
+cruft==2.15.0
     # via hatch.envs.default
 cssbeautifier==1.15.1
     # via djlint
@@ -106,6 +112,10 @@ executing==2.1.0
     # via stack-data
 filelock==3.15.4
     # via virtualenv
+gitdb==4.0.11
+    # via gitpython
+gitpython==3.1.43
+    # via cruft
 h11==0.14.0
     # via httpcore
 honcho==1.1.0
@@ -236,14 +246,19 @@ rich==13.8.0
     #   cappa
     #   cookiecutter
     #   rich-click
+    #   typer
 rich-click==1.8.3
     # via bump-my-version
+shellingham==1.5.4
+    # via typer
 six==1.16.0
     # via
     #   asttokens
     #   cssbeautifier
     #   jsbeautifier
     #   python-dateutil
+smmap==5.0.1
+    # via gitdb
 sniffio==1.3.1
     # via
     #   anyio
@@ -264,6 +279,8 @@ traitlets==5.14.3
     # via
     #   ipython
     #   matplotlib-inline
+typer==0.12.5
+    # via cruft
 types-python-dateutil==2.9.0.20240821
     # via arrow
 typing-extensions==4.12.2
@@ -272,6 +289,7 @@ typing-extensions==4.12.2
     #   pydantic
     #   pydantic-core
     #   rich-click
+    #   typer
     #   typing-inspect
 typing-inspect==0.9.0
     # via cappa

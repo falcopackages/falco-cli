@@ -32,6 +32,18 @@ can still bring you value.
    configuration. If you haven't set it yet, `see this page <https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup#_your_identity>`_.
 
 
+.. admonition:: Experimental
+  :class: important
+
+  You can update your project to stay current with the latest changes in the project starter. Please note that this is an experimental feature. Ensure you commit your 
+  changes before running the command. If there are conflicts, `.rej` files will be generated, which you will need to review and manually update the corresponding files 
+  if necessary.
+
+  .. code-block:: shell
+
+    falco update-project  
+
+
 The subsequent sections will delve deeper into the folder structure, package choices, and provide guidance on deploying your project.
 
 Alternative starters
