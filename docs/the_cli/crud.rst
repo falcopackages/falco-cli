@@ -87,7 +87,7 @@ are ``forms.py``, ``urls.py``, ``admin.py`` (if you have `django-extension <http
 
 For the sake brevity, I'll only show an example of what the ``urls.py`` file might look like for a model named ``Entry`` in a django app named ``entries``.
 
-.. code-block::bash
+.. code-block:: bash
 
     falco crud entry.entries
 
@@ -104,6 +104,17 @@ Let's try it.
 .. code-block:: bash
 
     falco crud entries.entry --entry-point
+
+.. admonition:: Oops, I made a mistake
+    :class: tip dropdown
+
+    If you made a mistake when running CRUD commands and want to discard the changes and restart, you can use the following commands instead of manually deleting all changes. 
+    Note that the commands below will discard all current changes. You can also specify a specific path to remove only a subset of the changes.
+
+    .. code-block:: shell
+
+        git checkout -- . # Remove changes in the working tree
+        git clean -fd # Remove untracked files and directories from the working tree
 
 .. code-block:: python
     :caption: entries/urls.py
