@@ -36,7 +36,7 @@ can still bring you value.
   :class: important
 
   You can update your project to stay current with the latest changes in the project starter. Please note that this is an experimental feature. Ensure you commit your 
-  changes before running the command. If there are conflicts, `.rej` files will be generated, which you will need to review and manually update the corresponding files 
+  changes before running the command. If there are conflicts, ``.rej`` files will be generated, which you will need to review and manually update the corresponding files 
   if necessary.
 
   .. code-block:: shell
