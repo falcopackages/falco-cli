@@ -3,7 +3,20 @@
 Known issues
 ============
 
-Here is a collection of known issues and their solutions that you may encounter when using the project starter.
+Here is a collection of known issues and their solutions that you may encounter when running a falco project.
+
+
+Permission denied on Tailwind CLI
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If you encounter an error similar to the one below when trying to run the server:
+
+.. code-block:: bash
+
+    08:12:38 tailwind | PermissionError: [Errno 13] Permission denied:
+    08:12:38 tailwind | '/home/tobi/.local/bin/tailwindcss-linux-x64-3.4.10'
+
+The simplest solution is to delete the file and re-run the server. The file will be re-downloaded, and the error should be resolved.
 
 hatch-pip-compile
 ^^^^^^^^^^^^^^^^^
