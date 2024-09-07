@@ -527,7 +527,6 @@ Personally, I've never reached that level of traffic, so I'm still managing all 
 Resources
 ---------
 
-- `myjourney github repository <https://github.com/Tobi-De/myjourney>`_: The source code for myjourney + some more deployment ressources.
 - `Django Deployment Checklist <https://docs.djangoproject.com/en/dev/howto/deployment/checklist/>`_ : The official django deployment checklist.
 - `django-simple-deploy <https://github.com/ehmatthes/django-simple-deploy>`_ : A reusable Django app that configures your project for deployment
 - `django-up <https://github.com/sesh/django-up>`_ : django-up is a tool to quickly deploy your Django application to a Ubuntu 22.04 server with almost zero configuration.
@@ -591,6 +590,13 @@ The main goal of this guide was not to showcase specific deployment strategies, 
 an application server, and a database. Some components may be hidden or abstracted away, but they are typically present in some form. Understanding these key concepts will help you navigate the landscape of deployment more easily.
 
 .. admonition:: What should I do now?
-   :class: hint dropdown
+    :class: hint dropdown
 
-   If you're a beginner and unsure of what to do next, head over to `myjourney <https://github.com/Tobi-De/myjourney>`_ and try to deploy it :)
+    If you're a beginner and unsure of what to do next, try to deploy the ``myjourney`` project.
+    To get the source of the project, fork the `falco repository <https://github.com/tobi-de/falco>`_ and clone it to your local machine.
+    The at the root of the project, run the following command:
+
+    .. code-block:: bash
+
+       just generate-demo
+
