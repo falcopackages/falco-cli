@@ -12,7 +12,6 @@ import cappa
 from cookiecutter.config import get_user_config
 from cookiecutter.exceptions import CookiecutterException
 from cookiecutter.main import cookiecutter
-from falco.commands import InstallCrudUtils
 from falco.commands.crud.utils import run_html_formatters
 from falco.config import write_falco_config
 from falco.utils import clean_project_name
@@ -101,14 +100,11 @@ class StartProject:
         project_dir = self.init_project()
         with change_directory(project_dir):
             pyproject_path = Path("pyproject.toml")
-            crud_utils = InstallCrudUtils().install(project_name=self.project_name, falco_config={})
-
             env_file = Path(".env")
             env_file.touch()
             env_file.write_text("DEBUG=True")
 
             config = {
-                "crud": {"utils-path": str(crud_utils)},
                 "revision": revision,
                 "skip": DEFAULT_SKIP,
                 "blueprint": self.blueprint,

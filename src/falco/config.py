@@ -1,9 +1,9 @@
 from pathlib import Path
 from typing import cast
 from typing import TypedDict
+from typing import Unpack
 
 import tomlkit
-from typing_extensions import Unpack
 
 
 class FalcoConfig(TypedDict, total=False):
@@ -17,7 +17,6 @@ class FalcoConfig(TypedDict, total=False):
 
 class CRUDConfig(TypedDict):
     blueprints: str
-    utils_path: str
     login_required: bool
     skip_git_check: bool
     always_migrate: bool

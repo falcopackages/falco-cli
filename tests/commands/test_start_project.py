@@ -42,7 +42,6 @@ def test_start_project(blueprint_path, runner: CommandRunner):
     assert Path("dotfm").exists()
     config = read_falco_config(Path("dotfm/pyproject.toml"))
     config_keys = config.keys()
-    assert "utils_path" in config.get("crud")
     assert "blueprint" in config_keys
     assert "revision" in config_keys
     assert "work" in config_keys
@@ -61,7 +60,6 @@ def test_start_project(blueprint_path, runner: CommandRunner):
 #     assert Path("dotfm").exists()
 #     config = read_falco_config(Path("dotfm/pyproject.toml"))
 #     config_keys = config.keys()
-#     assert "utils_path" in config.get("crud")
 #     assert "blueprint" in config_keys
 #     assert "revision" in config_keys
 #     assert "work" in config_keys

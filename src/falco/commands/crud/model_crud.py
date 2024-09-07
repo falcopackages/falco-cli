@@ -10,13 +10,11 @@ from falco.config import CRUDConfig
 from falco.config import read_falco_config
 from falco.utils import get_project_name
 from falco.utils import RICH_ERROR_MARKER
-from falco.utils import RICH_INFO_MARKER
 from falco.utils import RICH_SUCCESS_MARKER
 from falco.utils import run_in_shell
 from falco.utils import simple_progress
 from rich import print as rich_print
 
-from .install_crud_utils import InstallCrudUtils
 from .utils import extract_python_file_templates
 from .utils import get_crud_blueprints_path
 from .utils import render_to_string
@@ -51,7 +49,6 @@ class PythonBlueprintContext(TypedDict):
     model_has_file_fields: bool
     model_has_editable_date_fields: bool
     model_fields: dict[str, DjangoField]
-    crud_utils_import: str
     entry_point: bool
 
 
@@ -192,11 +189,6 @@ class ModelCRUD:
 
         python_blueprint_context: list[PythonBlueprintContext] = []
         html_blueprint_context: list[HtmlBlueprintContext] = []
-        install_path, crud_utils_installed = InstallCrudUtils.get_install_path(
-            project_name=project_name,
-            falco_config=falco_config,
-        )
-        crud_utils_import = str(install_path).replace("/", ".")
 
         for django_model in django_models:
             python_blueprint_context.append(
@@ -204,7 +196,6 @@ class ModelCRUD:
                     project_name=project_name,
                     app_label=app_label,
                     django_model=django_model,
-                    crud_utils_import=crud_utils_import,
                     login_required=self.login_required,
                     entry_point=self.entry_point,
                 )
@@ -260,11 +251,6 @@ class ModelCRUD:
 
         display_names = ", ".join(m.get("name") for m in django_models)
         rich_print(f"{RICH_SUCCESS_MARKER}CRUD views generated for: {display_names}[/green]")
-        if not crud_utils_installed:
-            rich_print(
-                f"{RICH_INFO_MARKER}It appears that your CRUD utilities have not been installed yet. "
-                f"Please execute the command 'falco install-crud-utils' to install them."
-            )
 
     @simple_progress("Generating python code")
     def generate_python_code(
@@ -496,7 +482,6 @@ def get_python_blueprint_context(
     project_name: str,
     app_label: str,
     django_model: DjangoModel,
-    crud_utils_import: str,
     *,
     login_required: bool,
     entry_point: bool,
@@ -511,7 +496,6 @@ def get_python_blueprint_context(
         "model_name_plural": django_model["name_plural"],
         "model_verbose_name_plural": django_model["verbose_name_plural"],
         "model_fields": model_fields,
-        "crud_utils_import": crud_utils_import,
         "model_has_editable_date_fields": django_model["has_editable_date_field"],
         "model_has_file_fields": django_model["has_file_field"],
         "entry_point": entry_point,

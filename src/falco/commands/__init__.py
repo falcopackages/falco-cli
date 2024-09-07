@@ -1,4 +1,3 @@
-from .crud import InstallCrudUtils  # noqa
 from .crud import ModelCRUD  # noqa
 from .htmx import Htmx  # noqa
 from .htmx_extension import HtmxExtension  # noqa
