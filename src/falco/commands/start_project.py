@@ -126,6 +126,10 @@ class StartProject:
         author_name, author_email = get_authors_info()
         with simple_progress("Initializing your new django project... :sunglasses:"):
             try:
+                try:
+                    username = os.getlogin()
+                except OSError:
+                    username = "tobi"
                 project_dir = cookiecutter(
                     self.blueprint,
                     no_input=True,
@@ -135,7 +139,7 @@ class StartProject:
                         "project_name": self.project_name,
                         "author_name": author_name,
                         "author_email": author_email,
-                        "username": os.getlogin(),
+                        "username": username,
                         "secret_key": f"django-insecure-{secrets.token_urlsafe(32)}",
                     },
                 )
