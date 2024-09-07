@@ -4,3 +4,9 @@
 [submodule "blueprints/bootstrap"]
 	path = blueprints/bootstrap
 	url = git@github.com:tobi-de/falco_bootstrap.git
+[submodule "packages/ui"]
+	path = packages/ui
+	url = git@github.com:Tobi-De/falco-ui.git
+[submodule "packages/toolbox"]
+	path = packages/toolbox
+	url = git@github.com:Tobi-De/falco-toolbox.git
