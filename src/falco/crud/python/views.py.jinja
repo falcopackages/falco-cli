@@ -1,10 +1,10 @@
 # IMPORTS:START
-from {{crud_utils_import}}.utils import for_htmx
-from {{crud_utils_import}}.utils import paginate_queryset
+from falco_toolbox.htmx import for_htmx
+from falco_toolbox.pagination import paginate_queryset
 {% if login_required %}
-from {{crud_utils_import}}.types import AuthenticatedHttpRequest
+from falco_toolbox.types import AuthenticatedHttpRequest
 {% else %}
-from {{crud_utils_import}}.types import HttpRequest
+from falco_toolbox.types import HttpRequest
 {% endif %}
 
 from django.http import HttpResponse

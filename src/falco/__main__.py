@@ -1,7 +1,6 @@
 import cappa
 from falco.commands import Htmx
 from falco.commands import HtmxExtension
-from falco.commands import InstallCrudUtils
 from falco.commands import ModelCRUD
 from falco.commands import ResetMigrations
 from falco.commands import RmMigrations
@@ -21,7 +20,6 @@ class Falco:
         | UpdateProject
         | StartApp
         | ModelCRUD
-        | InstallCrudUtils
         | Htmx
         | HtmxExtension
         | Work

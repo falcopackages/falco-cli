@@ -54,9 +54,9 @@ class StartApp:
             models_file.write_text(
                 f"""
 from django.db import models
-from model_utils.models import TimeStampedModel
+from falco_toolbox.models import TimeStamped
 
-class {model_name}(TimeStampedModel):
+class {model_name}(TimeStamped):
     name=models.CharField(max_length=255)
 
     def __str__(self):
