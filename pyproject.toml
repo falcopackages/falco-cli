@@ -123,7 +123,7 @@ allow-direct-references = true
 path = "src/falco/__about__.py"
 
 [tool.ruff]
-extend-exclude = [
+exclude = [
   "blueprints/*",
   "demo/*",
   "demo/demo/*/migrations/*",
@@ -147,6 +147,9 @@ lint.extend-per-file-ignores."demo/demo/orders/migrations/*.py" = [
 ]
 lint.extend-per-file-ignores."docs/conf.py" = [
   "A001",
+  "INP001",
+]
+lint.extend-per-file-ignores."docs/_static/snippets/entry_model.py" = [
   "INP001",
 ]
 lint.extend-per-file-ignores."src/falco/commands/crud/model_crud.py" = [

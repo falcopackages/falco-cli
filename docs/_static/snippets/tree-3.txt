@@ -19,26 +19,11 @@ myjourney
 ├── myjourney
 │   ├── core
 │   │   ├── __init__.py
-│   │   ├── apps.py
-│   │   ├── sentry.py
-│   │   ├── types.py
-│   │   ├── urls.py
-│   │   ├── utils.py
-│   │   └── views.py
-│   ├── entries
-│   │   ├── migrations
-│   │   ├── __init__.py
-│   │   ├── admin.py
-│   │   ├── apps.py
-│   │   ├── forms.py
-│   │   ├── models.py
-│   │   ├── urls.py
-│   │   └── views.py
+│   │   └── apps.py
 │   ├── static
 │   │   └── vendors
 │   ├── templates
 │   │   ├── .well-known
-│   │   ├── entries
 │   │   ├── pages
 │   │   ├── 403.html
 │   │   ├── 403_csrf.html

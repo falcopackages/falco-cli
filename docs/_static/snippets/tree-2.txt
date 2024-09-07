@@ -13,7 +13,6 @@ myjourney
 │   └── index.rst
 ├── myjourney
 │   ├── core
-│   ├── entries
 │   ├── static
 │   ├── templates
 │   ├── __init__.py

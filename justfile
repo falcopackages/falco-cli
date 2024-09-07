@@ -40,8 +40,6 @@ generate-demo *OVERWRITE:
 # Generate documents assets
 generate-docs-assets: generate-demo
     just tree
-    cp demo/myjourney/myjourney/core/utils.py docs/_static/snippets/utils.py
-    cp demo/myjourney/myjourney/core/types.py docs/_static/snippets/types.py
     cp demo/myjourney/myjourney/entries/urls.py docs/_static/snippets/urls.py
 
 # Generate project tree files
@@ -51,7 +49,7 @@ tree: generate-demo
     levels=(1 2 3)
     SED_CMD=$( [[ "$OSTYPE" == "darwin"* ]] && echo "sed -i ''" || echo "sed -i" )
     for level in "${levels[@]}"; do
-      tree "demo/myjourney" -L $level --dirsfirst -o tree.txt --noreport -a -n -v -I '.env|requirements*|__pycache__'
+      tree "demo/myjourney" -L $level --dirsfirst -o tree.txt --noreport -a -n -v -I '.env|requirements*|__pycache__|entries'
       $SED_CMD 's|{{{{ cookiecutter.project_name }}|demo|g' tree.txt
       $SED_CMD 's|demo/myjourney|myjourney|g' tree.txt
       mv tree.txt docs/_static/snippets/tree-$level.txt
