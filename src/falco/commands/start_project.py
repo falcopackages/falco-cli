@@ -135,6 +135,7 @@ class StartProject:
                         "project_name": self.project_name,
                         "author_name": author_name,
                         "author_email": author_email,
+                        "username": os.getlogin(),
                         "secret_key": f"django-insecure-{secrets.token_urlsafe(32)}",
                     },
                 )
