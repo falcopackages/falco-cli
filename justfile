@@ -82,41 +82,48 @@ tree: generate-demo
 submodule-init:
     git submodule update --init --recursive
 
-# Checkout all blueprints on main
+# Checkout all submodules on main
 checkout:
     #!/usr/bin/env sh
-    for dir in blueprints/*; do
-      if [ -d "$dir" ]; then
-        echo "$(basename $dir)"
-        cd "$dir"
-        git checkout main
-        cd -
-      fi
+    for parent_dir in blueprints packages; do
+      for dir in $parent_dir/*; do
+        if [ -d "$dir" ]; then
+          echo "$(basename $dir)"
+          cd "$dir"
+          git checkout main
+          cd -
+        fi
+      done
     done
 
-# Run git pull in all blueprints
+# Run git pull in all submodules
 pull:
     #!/usr/bin/env sh
     git pull
-    for dir in blueprints/*; do
-      if [ -d "$dir" ]; then
-        echo "$(basename $dir)"
-        cd "$dir"
-        git pull
-        cd -
-      fi
+    for parent_dir in blueprints packages; do
+      for dir in $parent_dir/*; do
+        if [ -d "$dir" ]; then
+          echo "$(basename $dir)"
+          cd "$dir"
+          git pull
+          cd -
+        fi
+      done
     done
 
-# Run git fetch in all blueprints
+# Run git fetch in all submodules
 fetch:
     #!/usr/bin/env sh
-    for dir in blueprints/*; do
-      if [ -d "$dir" ]; then
-        echo "$(basename $dir)"
-        cd "$dir"
-        git fetch --all
-        cd -
-      fi
+    git fetch --all
+    for parent_dir in blueprints packages; do
+      for dir in $parent_dir/*; do
+        if [ -d "$dir" ]; then
+          echo "$(basename $dir)"
+          cd "$dir"
+          git fetch --all
+          cd -
+        fi
+      done
     done
 
 # Set the upstream remote for alternative blueprints
