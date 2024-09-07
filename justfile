@@ -126,43 +126,25 @@ fetch:
 
 # Set the upstream remote for alternative blueprints
 set-remote:
-    #!/usr/bin/env sh
-    for dir in blueprints/*; do
-      if [ -d "$dir" ]; then
-        if [ "$dir" = "{{ default }}" ]; then
-          continue
-        fi
-        echo "$(basename $dir)"
-        cd "$dir"
-        git remote add upstream "git@github.com:Tobi-De/falco_tailwind.git"
-        cd -
-      fi
-    done
+    cd blueprints/bootstrap
+    git remote add upstream "git@github.com:Tobi-De/falco_tailwind.git"
 
 # Merge change from the upstream in all blueprints
 merge:
-    #!/usr/bin/env sh
-    for dir in blueprints/*; do
-      if [ -d "$dir" ]; then
-        if [ "$dir" = "{{ default }}" ]; then
-          continue
-        fi
-        echo "$(basename $dir)"
-        cd "$dir"
-        git merge upstream/main
-        cd -
-      fi
-    done
+    cd blueprints/bootstrap
+    git fetch upstream
+    git merge upstream/main
 
-# Push all changes in all blueprints
+# Push all changes in all submodules
 push:
     #!/usr/bin/env sh
-    for dir in blueprints/*; do
-      if [ -d "$dir" ]; then
-        echo "$(basename $dir)"
-        cd "$dir"
-        git pull
-        git push
-        cd -
-      fi
+    for parent_dir in blueprints packages; do
+        for dir in $parent_dir/*; do
+          if [ -d "$dir" ]; then
+            echo "$(basename $dir)"
+            cd "$dir"
+            git pull
+            git push
+            cd -
+          fi
     done
