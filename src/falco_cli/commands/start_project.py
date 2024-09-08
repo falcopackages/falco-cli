@@ -27,6 +27,7 @@ from rich.prompt import Prompt
 DEFAULT_SKIP = [
     "playground.ipynb",
     "README.md",
+    "*/static/*"
 ]
 
 
