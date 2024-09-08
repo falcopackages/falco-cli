@@ -3,7 +3,7 @@
 Start Application
 =================
 
-.. cappa:: falco.commands.StartApp
+.. cappa:: falco_cli.commands.StartApp
 
 This command executes Django's ``startapp``, along with a few additional tasks:
 

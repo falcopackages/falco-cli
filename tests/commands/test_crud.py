@@ -4,7 +4,7 @@ from pathlib import Path
 import cappa
 import pytest
 from cappa.testing import CommandRunner
-from falco.config import write_falco_config
+from falco_cli.config import write_falco_config
 
 views_functions = ["post_list", "post_detail", "post_update", "post_create"]
 html_templates = [

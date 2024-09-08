@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import Annotated
 
 import cappa
-from falco.config import read_falco_config
+from falco_cli.config import read_falco_config
 from honcho.manager import Manager
 
 from .sync_dotenv import parse as parse_dotenv
@@ -15,7 +15,9 @@ default_address = "127.0.0.1:8000"
 
 @cappa.command(help="Run your whole django projects in one command.")
 class Work:
-    address: Annotated[str, cappa.Arg(default=default_address, help="Django server address")] = default_address
+    address: Annotated[
+        str, cappa.Arg(default=default_address, help="Django server address")
+    ] = default_address
 
     def __call__(self) -> None:
         commands = self.get_commands()
@@ -51,7 +53,9 @@ class Work:
         pyproject_file = Path("pyproject.toml")
 
         if pyproject_file.exists():
-            user_commands = read_falco_config(pyproject_path=pyproject_file).get("work", {})
+            user_commands = read_falco_config(pyproject_path=pyproject_file).get(
+                "work", {}
+            )
         else:
             user_commands = {}
 

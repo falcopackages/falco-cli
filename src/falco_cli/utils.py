@@ -9,7 +9,7 @@ from typing import TypeVar
 import cappa
 import httpx
 import tomlkit
-from falco import falco_version
+from falco_cli import falco_cli_version
 from rich.progress import Progress
 from rich.progress import SpinnerColumn
 from rich.progress import TextColumn
@@ -92,7 +92,7 @@ def is_new_falco_cli_available() -> bool:
             "Checking for new falco version...",
         ) as response:
             latest_version = response.json()["info"]["version"]
-            current_version = falco_version
+            current_version = falco_cli_version
             return latest_version != current_version
     except cappa.Exit:
         return False

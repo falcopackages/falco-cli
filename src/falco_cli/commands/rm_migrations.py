@@ -2,10 +2,10 @@ from pathlib import Path
 from typing import Annotated
 
 import cappa
-from falco import checks
-from falco.utils import get_project_name
-from falco.utils import run_in_shell
-from falco.utils import simple_progress
+from falco_cli import checks
+from falco_cli.utils import get_project_name
+from falco_cli.utils import run_in_shell
+from falco_cli.utils import simple_progress
 from rich import print as rich_print
 
 
@@ -15,7 +15,9 @@ def get_django_debug_value() -> bool:
     return settings.DEBUG
 
 
-@cappa.command(help="Remove all migrations for the specified applications directory, intended only for development.")
+@cappa.command(
+    help="Remove all migrations for the specified applications directory, intended only for development."
+)
 class RmMigrations:
     apps_dir: Annotated[
         Path | None,

@@ -3,9 +3,9 @@ from unittest.mock import patch
 
 import pytest
 from cappa.testing import CommandRunner
-from falco.commands.htmx import Htmx
-from falco.config import read_falco_config
-from falco.config import write_falco_config
+from falco_cli.commands.htmx import Htmx
+from falco_cli.config import read_falco_config
+from falco_cli.config import write_falco_config
 
 
 @pytest.fixture(autouse=True)
@@ -13,7 +13,7 @@ def mock_latest_tag_getter():
     def _get_latest_tag():
         return "1.9.10"
 
-    with patch("falco.commands.htmx.get_latest_tag", new=_get_latest_tag):
+    with patch("falco_cli.commands.htmx.get_latest_tag", new=_get_latest_tag):
         yield
 
 

@@ -4,10 +4,10 @@ from pathlib import Path
 from typing import Annotated
 
 import cappa
-from falco.config import read_falco_config
-from falco.config import write_falco_config
-from falco.utils import get_pyproject_file
-from falco.utils import network_request_with_progress
+from falco_cli.config import read_falco_config
+from falco_cli.config import write_falco_config
+from falco_cli.utils import get_pyproject_file
+from falco_cli.utils import network_request_with_progress
 from httpx import codes
 from rich import print as rich_print
 from rich.panel import Panel

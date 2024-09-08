@@ -4,7 +4,7 @@ Sync Dotenv files
 =================
 
 
-.. cappa:: falco.commands.SyncDotenv
+.. cappa:: falco_cli.commands.SyncDotenv
 
 
 Any Django project created with the `start-project </guides/start_project.html>`_ command comes with a ``.env.template`` file. It serves as an example for the environment variables that

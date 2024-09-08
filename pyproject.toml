@@ -58,11 +58,11 @@ urls.Homepage = "https://falco.oluwatobi.dev/"
 urls.Issues = "https://github.com/tobi-de/falco/issues"
 urls.Source = "https://github.com/tobi-de/falco"
 
-scripts.falco = "falco.__main__:main"
+scripts.falco = "falco_cli.__main__:main"
 
 [tool.hatch.build.targets.wheel]
 packages = [
-  "src/falco",
+  "src/falco_cli",
 ]
 
 [tool.hatch.env]
@@ -120,7 +120,7 @@ lock-filename = "docs/requirements.txt"
 allow-direct-references = true
 
 [tool.hatch.version]
-path = "src/falco/__about__.py"
+path = "src/falco_cli/__about__.py"
 
 [tool.ruff]
 exclude = [
@@ -145,11 +145,11 @@ lint.extend-per-file-ignores."demo/config/settings.py" = [
 lint.extend-per-file-ignores."demo/demo/orders/migrations/*.py" = [
   "RUF012",
 ]
-lint.extend-per-file-ignores."docs/conf.py" = [
-  "A001",
+lint.extend-per-file-ignores."docs/_static/snippets/entry_model.py" = [
   "INP001",
 ]
-lint.extend-per-file-ignores."docs/_static/snippets/entry_model.py" = [
+lint.extend-per-file-ignores."docs/conf.py" = [
+  "A001",
   "INP001",
 ]
 lint.extend-per-file-ignores."src/falco/commands/crud/model_crud.py" = [
@@ -178,11 +178,11 @@ testpaths = [
 [tool.coverage.paths]
 falco = [
   "src/falco",
-  "*/falco/src/falco",
+  "*/falco_cli/src/falco",
 ]
 tests = [
   "tests",
-  "*/falco/tests",
+  "*/falco_cli/tests",
 ]
 
 [tool.coverage.report]
@@ -195,7 +195,7 @@ exclude_lines = [
 [tool.coverage.run]
 branch = true
 omit = [
-  "src/falco/__about__.py",
+  "src/falco_cli/__about__.py",
 ]
 parallel = true
 source_pkgs = [
@@ -224,6 +224,6 @@ tag_message = "Bump version: {current_version} → {new_version}"
 tag_name = "v{new_version}"
 
 [[tool.bumpversion.files]]
-filename = "src/falco/__about__.py"
+filename = "src/falco_cli/__about__.py"
 replace = '__version__ = "{new_version}"'
 search = '__version__ = "{current_version}"'

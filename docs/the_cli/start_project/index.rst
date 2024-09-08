@@ -3,7 +3,7 @@
 Start project
 =============
 
-.. cappa:: falco.commands.StartProject
+.. cappa:: falco_cli.commands.StartProject
 
 Initialize a new django project the falco way. This project-starter makes several assumptions; we'll go through the most important choices I made in the next couples of sections.
 I'll list some alternatives below in case you don't agree with my choices. But even if you choose to use an alternative, most commands
@@ -35,13 +35,13 @@ can still bring you value.
 .. admonition:: Experimental
   :class: important
 
-  You can update your project to stay current with the latest changes in the project starter. Please note that this is an experimental feature. Ensure you commit your 
-  changes before running the command. If there are conflicts, ``.rej`` files will be generated, which you will need to review and manually update the corresponding files 
+  You can update your project to stay current with the latest changes in the project starter. Please note that this is an experimental feature. Ensure you commit your
+  changes before running the command. If there are conflicts, ``.rej`` files will be generated, which you will need to review and manually update the corresponding files
   if necessary.
 
   .. code-block:: shell
 
-    falco update-project  
+    falco update-project
 
 
 The subsequent sections will delve deeper into the folder structure, package choices, and provide guidance on deploying your project.

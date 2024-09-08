@@ -3,7 +3,7 @@
 Work - Running multiple process in one session
 ==============================================
 
-.. cappa:: falco.commands.Work
+.. cappa:: falco_cli.commands.Work
 
 
 This command allows you to run multiple commands simultaneously. Typically, when working with a large or growing django project, you

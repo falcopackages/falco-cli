@@ -3,10 +3,10 @@ from typing import Annotated
 
 import cappa
 import httpx
-from falco.config import read_falco_config
-from falco.utils import get_pyproject_file
-from falco.utils import network_request_with_progress
-from falco.utils import simple_progress
+from falco_cli.config import read_falco_config
+from falco_cli.utils import get_pyproject_file
+from falco_cli.utils import network_request_with_progress
+from falco_cli.utils import simple_progress
 from rich import print as rich_print
 from rich.console import Console
 from rich.panel import Panel

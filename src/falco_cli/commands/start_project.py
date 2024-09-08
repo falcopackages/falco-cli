@@ -12,13 +12,13 @@ import cappa
 from cookiecutter.config import get_user_config
 from cookiecutter.exceptions import CookiecutterException
 from cookiecutter.main import cookiecutter
-from falco.commands.crud.utils import run_html_formatters
-from falco.config import write_falco_config
-from falco.utils import clean_project_name
-from falco.utils import is_new_falco_cli_available
-from falco.utils import RICH_INFO_MARKER
-from falco.utils import RICH_SUCCESS_MARKER
-from falco.utils import simple_progress
+from falco_cli.commands.crud.utils import run_html_formatters
+from falco_cli.config import write_falco_config
+from falco_cli.utils import clean_project_name
+from falco_cli.utils import is_new_falco_cli_available
+from falco_cli.utils import RICH_INFO_MARKER
+from falco_cli.utils import RICH_SUCCESS_MARKER
+from falco_cli.utils import simple_progress
 from rich import print as rich_print
 from rich.prompt import Prompt
 

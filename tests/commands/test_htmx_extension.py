@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from cappa.testing import CommandRunner
-from falco.config import write_falco_config
+from falco_cli.config import write_falco_config
 
 
 def test_htmx_ext_download(runner: CommandRunner):

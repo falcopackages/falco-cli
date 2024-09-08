@@ -10,7 +10,7 @@ Remove / Reset your migrations
 rm-migrations
 -------------
 
-.. cappa:: falco.commands.RmMigrations
+.. cappa:: falco_cli.commands.RmMigrations
 
 .. warning::
    This command will delete all your migrations files, be sure to commit your changes before running this command.
@@ -41,7 +41,7 @@ then the following command might be a better option than running ``rm-migrations
 reset-migrations
 ----------------
 
-.. cappa:: falco.commands.ResetMigrations
+.. cappa:: falco_cli.commands.ResetMigrations
 
 .. note::
     Before running this command, make sure you have applied any pending migrations, ``makemigrations && migrate``. The idea is to reset the migrations while keeping the data. If your current database does not have up to date migrations, it will fail.

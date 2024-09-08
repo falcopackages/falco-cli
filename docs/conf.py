@@ -1,4 +1,4 @@
-import falco
+import falco_cli
 
 # Configuration file for the Sphinx documentation builder.
 #
@@ -11,7 +11,7 @@ import falco
 project = "Falco"
 copyright = "Copyright &copy; 2023, Tobi DEGNON"
 author = "Tobi DEGNON"
-version = falco.falco_version
+version = falco_cli.falco_cli_version
 release = version
 
 # -- General configuration ---------------------------------------------------
@@ -66,7 +66,7 @@ html_theme_options = {
     "og_image_url": "https://raw.githubusercontent.com/Tobi-De/falco/main/docs/images/og-image.jpg",
     "nav_links": [
         {"title": "Home", "url": "index"},
-         {
+        {
             "title": "Community",
             "children": [
                 {
@@ -89,8 +89,12 @@ html_theme_options = {
                 },
             ],
         },
-        {"title": "Support", "url": "https://buymeacoffee.com/oluwa.tobi", "icon": "heart"},
-    ]
+        {
+            "title": "Support",
+            "url": "https://buymeacoffee.com/oluwa.tobi",
+            "icon": "heart",
+        },
+    ],
 }
 html_logo = "_static/logo_with_text.svg"
 html_favicon = "_static/falco-logo.svg"

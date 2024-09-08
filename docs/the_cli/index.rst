@@ -24,7 +24,7 @@ Additionally, these commands require acces to your virtual environment, so make 
     experienced it a few times myself. The simplest solution for now is to install the ``falco-cli`` in the same virtual environment as your project.
     This should resolve the issue.
 
-.. cappa:: falco.__main__.Falco
+.. cappa:: falco_cli.__main__.FalcoCLI
 
 .. toctree::
    :hidden:

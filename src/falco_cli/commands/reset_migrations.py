@@ -3,9 +3,9 @@ from pathlib import Path
 from typing import Annotated
 
 import cappa
-from falco.utils import get_project_name
-from falco.utils import run_in_shell
-from falco.utils import simple_progress
+from falco_cli.utils import get_project_name
+from falco_cli.utils import run_in_shell
+from falco_cli.utils import simple_progress
 from rich import print as rich_print
 
 from .rm_migrations import RmMigrations

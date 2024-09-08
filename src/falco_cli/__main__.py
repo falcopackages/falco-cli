@@ -1,20 +1,20 @@
 import cappa
-from falco.commands import Htmx
-from falco.commands import HtmxExtension
-from falco.commands import ModelCRUD
-from falco.commands import ResetMigrations
-from falco.commands import RmMigrations
-from falco.commands import StartApp
-from falco.commands import StartProject
-from falco.commands import SyncDotenv
-from falco.commands import UpdateProject
-from falco.commands import Work
+from falco_cli.commands import Htmx
+from falco_cli.commands import HtmxExtension
+from falco_cli.commands import ModelCRUD
+from falco_cli.commands import ResetMigrations
+from falco_cli.commands import RmMigrations
+from falco_cli.commands import StartApp
+from falco_cli.commands import StartProject
+from falco_cli.commands import SyncDotenv
+from falco_cli.commands import UpdateProject
+from falco_cli.commands import Work
 
 
 @cappa.command(
     help="Enhance your Django developer experience: CLI and Guides for the Modern Django Developer.",
 )
-class Falco:
+class FalcoCLI:
     subcommand: cappa.Subcommands[
         StartProject
         | UpdateProject
@@ -30,7 +30,7 @@ class Falco:
 
 
 def main():
-    cappa.invoke(Falco)
+    cappa.invoke(FalcoCLI)
 
 
 if __name__ == "__main__":

@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 from cappa.testing import CommandRunner
-from falco.config import read_falco_config
+from falco_cli.config import read_falco_config
 
 
 def all_files_are_correctly_generated(project_name, project_dir: Path) -> bool:

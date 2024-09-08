@@ -3,7 +3,7 @@ import subprocess
 from pathlib import Path
 
 import cappa
-from falco.utils import simple_progress
+from falco_cli.utils import simple_progress
 from jinja2 import Template
 
 
@@ -18,7 +18,7 @@ def render_to_string(template_content: str, context: dict):
 
 
 def get_crud_blueprints_path() -> Path:
-    package = importlib.util.find_spec("falco")
+    package = importlib.util.find_spec("falco_cli")
     if package is None:
         raise cappa.Exit("The falco base install path could not be found.", code=1)
     return Path(package.submodule_search_locations[0]) / "crud"

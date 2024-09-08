@@ -4,10 +4,10 @@ from typing import Annotated
 
 import cappa
 import parso
-from falco.commands.crud.utils import run_python_formatters
-from falco.utils import get_project_name
-from falco.utils import run_in_shell
-from falco.utils import simple_progress
+from falco_cli.commands.crud.utils import run_python_formatters
+from falco_cli.utils import get_project_name
+from falco_cli.utils import run_in_shell
+from falco_cli.utils import simple_progress
 
 
 def get_settings_file_path() -> str:

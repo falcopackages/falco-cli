@@ -8,7 +8,7 @@ A set of handy utilities for easily obtaining the htmx library and its extension
 htmx
 ----
 
-.. cappa:: falco.commands.Htmx
+.. cappa:: falco_cli.commands.Htmx
 
 Download the htmx javascript library. You won’t have to download htmx or its extensions often but at least if you need it, I think this
 is an easy way to get the file available locally.
@@ -42,7 +42,7 @@ the command without specifying any arguments, it will list all the available ext
 Similar to the `htmx` commands, this will also use your ``pyproject.toml`` file if it's found. However,
 it's solely for downloading the extensions file next to your ``htmx.min.js`` file, in case no path was specified in the command.
 
-.. cappa:: falco.commands.HtmxExtension
+.. cappa:: falco_cli.commands.HtmxExtension
 
 **Example**
 

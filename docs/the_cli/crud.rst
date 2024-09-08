@@ -8,7 +8,7 @@ Accelerate prototyping with basic CRUD (Create, Read, Update, Delete) python vie
 CRUD
 ----
 
-.. cappa:: falco.commands.ModelCRUD
+.. cappa:: falco_cli.commands.ModelCRUD
 
 .. warning::
 
@@ -196,9 +196,9 @@ Below is an example of the context each template will receive.
 .. jupyter-execute::
     :hide-code:
 
-    from falco.commands.crud.model_crud import HtmlBlueprintContext
-    from falco.commands.crud.model_crud import get_html_blueprint_context
-    from falco.commands.crud.model_crud import DjangoModel
+    from falco_cli.commands.crud.model_crud import HtmlBlueprintContext
+    from falco_cli.commands.crud.model_crud import get_html_blueprint_context
+    from falco_cli.commands.crud.model_crud import DjangoModel
     from pprint import pprint
 
     dj_model = DjangoModel(

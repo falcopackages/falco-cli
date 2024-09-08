@@ -4,9 +4,6 @@ from contextlib import contextmanager
 from pathlib import Path
 from typing import Annotated
 from typing import Any
-from typing import Dict
-from typing import Optional
-from typing import Set
 
 import cappa
 import tomlkit
@@ -15,11 +12,11 @@ from cruft import diff as cruft_diff
 from cruft._commands import utils
 from cruft._commands.update import _apply_project_updates
 from cruft._commands.utils.iohelper import AltTemporaryDirectory
-from falco import checks
-from falco.config import FalcoConfig
-from falco.utils import get_project_name
-from falco.utils import RICH_INFO_MARKER
-from falco.utils import RICH_SUCCESS_MARKER
+from falco_cli import checks
+from falco_cli.config import FalcoConfig
+from falco_cli.utils import get_project_name
+from falco_cli.utils import RICH_INFO_MARKER
+from falco_cli.utils import RICH_SUCCESS_MARKER
 from rich import print as rich_print
 
 
@@ -33,7 +30,9 @@ def cruft_file(cruft_state: dict):
         file_path.unlink()
 
 
-def cruft_state_from(config: FalcoConfig, project_name: str, author_name: str, author_email: str) -> dict:
+def cruft_state_from(
+    config: FalcoConfig, project_name: str, author_name: str, author_email: str
+) -> dict:
     return {
         "template": config["blueprint"],
         "commit": config["revision"],
@@ -56,10 +55,14 @@ def cruft_state_from(config: FalcoConfig, project_name: str, author_name: str, a
 class UpdateProject:
     diff: Annotated[
         bool,
-        cappa.Arg(default=False, short="-d", long="--diff", help="Show diff of changes."),
+        cappa.Arg(
+            default=False, short="-d", long="--diff", help="Show diff of changes."
+        ),
     ]
 
-    def __call__(self, project_name: Annotated[str, cappa.Dep(get_project_name)]) -> None:
+    def __call__(
+        self, project_name: Annotated[str, cappa.Dep(get_project_name)]
+    ) -> None:
         # if is_new_falco_cli_available(fail_on_error=True):
         #     raise cappa.Exit(
         #         "You need have the latest version of falco-cli to update.", code=1
@@ -71,7 +74,9 @@ class UpdateProject:
         try:
             pyproject = tomlkit.parse(pyproject_path.read_text())
         except FileNotFoundError as e:
-            raise cappa.Exit("Could not find a pyproject.toml file in the current directory.", code=1) from e
+            raise cappa.Exit(
+                "Could not find a pyproject.toml file in the current directory.", code=1
+            ) from e
 
         cruft_state = cruft_state_from(
             config=pyproject["tool"]["falco"],
@@ -88,11 +93,15 @@ class UpdateProject:
         with cruft_file(cruft_state):
             last_commit = cruft_update(allow_untracked_files=True)
         if last_commit is None:
-            rich_print(f"{RICH_INFO_MARKER} Nothing to do, project is already up to date!")
+            rich_print(
+                f"{RICH_INFO_MARKER} Nothing to do, project is already up to date!"
+            )
             raise cappa.Exit(code=0)
         pyproject["tool"]["falco"]["revision"] = last_commit
         pyproject_path.write_text(tomlkit.dumps(pyproject))
-        rich_print(f"{RICH_SUCCESS_MARKER} Great! Your project has been updated to the latest version!")
+        rich_print(
+            f"{RICH_SUCCESS_MARKER} Great! Your project has been updated to the latest version!"
+        )
 
 
 def cruft_update(
@@ -101,11 +110,11 @@ def cruft_update(
     refresh_private_variables: bool = False,
     skip_apply_ask: bool = False,
     skip_update: bool = False,
-    checkout: Optional[str] = None,
+    checkout: str | None = None,
     strict: bool = True,
     allow_untracked_files: bool = False,
-    extra_context: Optional[Dict[str, Any]] = None,
-    extra_context_file: Optional[Path] = None,
+    extra_context: dict[str, Any] | None = None,
+    extra_context_file: Path | None = None,
 ) -> bool:
     """Update specified project's cruft to the latest and greatest release."""
     cruft_file = utils.cruft.get_cruft_file(project_dir)
@@ -123,7 +132,7 @@ def cruft_update(
             return False
 
         extra_context_from_cli = extra_context
-        with open(extra_context_file, "r") as extra_context_fp:
+        with open(extra_context_file) as extra_context_fp:
             extra_context = json.load(extra_context_fp) or {}
         extra_context = extra_context.get("context") or {}
         extra_context = extra_context.get("cookiecutter") or {}
@@ -154,15 +163,19 @@ def cruft_update(
         repo_dir = tmpdir / "repo"
         current_template_dir = tmpdir / "current_template"
         new_template_dir = tmpdir / "new_template"
-        deleted_paths: Set[Path] = set()
+        deleted_paths: set[Path] = set()
         # Clone the template
-        with utils.cookiecutter.get_cookiecutter_repo(cruft_state["template"], repo_dir, checkout) as repo:
+        with utils.cookiecutter.get_cookiecutter_repo(
+            cruft_state["template"], repo_dir, checkout
+        ) as repo:
             last_commit = repo.head.object.hexsha
 
             # Bail early if the repo is already up to date and no inputs are asked
             if not (
                 extra_context or cookiecutter_input or refresh_private_variables
-            ) and utils.cruft.is_project_updated(repo, cruft_state["commit"], last_commit, strict):
+            ) and utils.cruft.is_project_updated(
+                repo, cruft_state["commit"], last_commit, strict
+            ):
                 typer.secho(
                     "Nothing to do, project's cruft is already up to date!",
                     fg=typer.colors.GREEN,
