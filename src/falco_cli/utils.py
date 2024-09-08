@@ -1,4 +1,5 @@
 import ast
+import os
 import inspect
 import subprocess
 from collections.abc import Callable
@@ -26,11 +27,20 @@ def clean_project_name(val: str) -> str:
     return val.strip().replace(" ", "_").replace("-", "_")
 
 
+def get_username() -> str:
+    try:
+        return os.getlogin()
+    except OSError:
+        return "tobi"
+
+
 def get_pyproject_file() -> Path:
     pyproject_path = Path("pyproject.toml")
     if pyproject_path.exists():
         return pyproject_path
-    raise cappa.Exit("Could not find a pyproject.toml file in the current directory.", code=1)
+    raise cappa.Exit(
+        "Could not find a pyproject.toml file in the current directory.", code=1
+    )
 
 
 def get_project_name() -> str:
@@ -39,7 +49,9 @@ def get_project_name() -> str:
 
 
 @contextmanager
-def simple_progress(description: str, display_text="[progress.description]{task.description}"):
+def simple_progress(
+    description: str, display_text="[progress.description]{task.description}"
+):
     progress = Progress(SpinnerColumn(), TextColumn(display_text), transient=True)
     progress.add_task(description=description, total=None)
     try:
@@ -62,7 +74,9 @@ class ShellCodeError(Exception):
     pass
 
 
-def run_in_shell(func: Callable[..., ReturnType], *, eval_result: bool = True, **kwargs) -> ReturnType:
+def run_in_shell(
+    func: Callable[..., ReturnType], *, eval_result: bool = True, **kwargs
+) -> ReturnType:
     source = inspect.getsource(func)
     arguments_list = []
     for k, v in kwargs.items():

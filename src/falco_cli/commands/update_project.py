@@ -15,6 +15,7 @@ from cruft._commands.utils.iohelper import AltTemporaryDirectory
 from falco_cli import checks
 from falco_cli.config import FalcoConfig
 from falco_cli.utils import get_project_name
+from falco_cli.utils import get_username
 from falco_cli.utils import RICH_INFO_MARKER
 from falco_cli.utils import RICH_SUCCESS_MARKER
 from rich import print as rich_print
@@ -43,6 +44,7 @@ def cruft_state_from(
                 "project_name": project_name,
                 "author_name": author_name,
                 "author_email": author_email,
+                "username": get_username(),
                 "secret_key": secrets.token_hex(24),
                 "_template": config["blueprint"],
             }
@@ -59,15 +61,16 @@ class UpdateProject:
             default=False, short="-d", long="--diff", help="Show diff of changes."
         ),
     ]
+    interactive: Annotated[
+        bool,
+        cappa.Arg(
+            default=False, short="-i", long="--interactive", help="Interactive mode"
+        ),
+    ]
 
     def __call__(
         self, project_name: Annotated[str, cappa.Dep(get_project_name)]
     ) -> None:
-        # if is_new_falco_cli_available(fail_on_error=True):
-        #     raise cappa.Exit(
-        #         "You need have the latest version of falco-cli to update.", code=1
-        #     )
-
         checks.clean_git_repo()
 
         pyproject_path = Path("pyproject.toml")
@@ -91,7 +94,9 @@ class UpdateProject:
             raise cappa.Exit(code=0)
 
         with cruft_file(cruft_state):
-            last_commit = cruft_update(allow_untracked_files=True)
+            last_commit = cruft_update(
+                allow_untracked_files=True, skip_apply_ask=not self.interactive
+            )
         if last_commit is None:
             rich_print(
                 f"{RICH_INFO_MARKER} Nothing to do, project is already up to date!"
@@ -108,7 +113,7 @@ def cruft_update(
     project_dir: Path = Path("."),
     cookiecutter_input: bool = False,
     refresh_private_variables: bool = False,
-    skip_apply_ask: bool = False,
+    skip_apply_ask: bool = True,
     skip_update: bool = False,
     checkout: str | None = None,
     strict: bool = True,

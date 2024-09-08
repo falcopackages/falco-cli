@@ -19,6 +19,7 @@ from falco_cli.utils import is_new_falco_cli_available
 from falco_cli.utils import RICH_INFO_MARKER
 from falco_cli.utils import RICH_SUCCESS_MARKER
 from falco_cli.utils import simple_progress
+from falco_cli.utils import get_username
 from rich import print as rich_print
 from rich.prompt import Prompt
 
@@ -27,6 +28,8 @@ DEFAULT_SKIP = [
     "playground.ipynb",
     "README.md",
 ]
+
+
 
 
 @cappa.command(help="Initialize a new django project the falco way.")
@@ -126,10 +129,6 @@ class StartProject:
         author_name, author_email = get_authors_info()
         with simple_progress("Initializing your new django project... :sunglasses:"):
             try:
-                try:
-                    username = os.getlogin()
-                except OSError:
-                    username = "tobi"
                 project_dir = cookiecutter(
                     self.blueprint,
                     no_input=True,
@@ -139,7 +138,7 @@ class StartProject:
                         "project_name": self.project_name,
                         "author_name": author_name,
                         "author_email": author_email,
-                        "username": username,
+                        "username": get_username(),
                         "secret_key": f"django-insecure-{secrets.token_urlsafe(32)}",
                     },
                 )
