@@ -446,7 +446,7 @@ I can recommend, some of which even offer some kind of free usage to reduce your
 
 
 Managed solutions
-^^^^^^^^^^^^^^^^^
+*****************
 
 These are the platforms that handle much of the infrastructure for you, in exchange for a higher cost. Typically, these require the least amount of work once you become familiar with how they work.
 Even though my experience with these platforms is limited, they are generally similarly priced and quite user-friendly. The descriptions provided below are directly sourced from their respective websites.
@@ -466,7 +466,7 @@ Even though my experience with these platforms is limited, they are generally si
 
 
 Self-Managed solutions
-^^^^^^^^^^^^^^^^^^^^^^
+**********************
 
 If you're new to the concept, the term **self-hosting** might be misleading. Typically, **self-hosting** is used to refer to the practice of renting a Virtual Private Server (VPS)
 and handling all the work yourself, rather than paying someone else to do it for you. While this method might be cheaper, true **self-hosting** technically requires owning your
@@ -475,7 +475,7 @@ encourage you to do your own research. If your budget allows, consider trying bo
 
 
 Self-hostable P.A.A.S
-*********************
+^^^^^^^^^^^^^^^^^^^^^
 
 These P.A.A.S solutions necessitate the purchase of your own server (unless you utilize their offerings), but they simplify your tasks by providing an experience akin to that of a managed solution.
 
@@ -493,7 +493,7 @@ In case it wasn't clear, caprover is my PaaS of choice.
 
 
 Bare-bone VPS
-*************
+^^^^^^^^^^^^^
 
 This section introduces bare-metal solutions: a list of Virtual Private Servers (VPS) providers. This is likely the most affordable option, but it also requires the most effort on your part.
 The offerings in this category are diverse in range and price, so you have plenty of choices. However, be prepared to invest more time unless you opt to automate some processes,
@@ -511,7 +511,7 @@ for instance, by using a tool like `ansible <https://www.ansible.com>`_.
 * `Contabo <https://contabo.com/>`_
 
 Personal Recommendations
-^^^^^^^^^^^^^^^^^^^^^^^^
+************************
 
 If you're feeling a bit overwhelmed by the options provided above, here are my personal recommendations:
 
@@ -541,7 +541,7 @@ Alternative strategies
 The web is not the only medium to distribute your app. It's the most popular one, but certainly not the sole option.
 
 Serverless
-^^^^^^^^^^
+**********
 
 The serverless trend appears to have slowed down lately, but there are still use cases. I have almost no experience with this approach, but it promises to run
 your app without constantly active servers at the lowest possible cost.
@@ -552,7 +552,7 @@ and then the server is stopped. A server is still involved, but it is not runnin
 The most popular solution in the Python ecosystem seems to be `zappa <https://github.com/zappa/Zappa>`_.
 
 Desktop / Mobile app
-^^^^^^^^^^^^^^^^^^^^
+*********************
 
 Packaging your apps as mobile or desktop applications remains an option, though the use cases for this are quite niche. If your project was better suited as a desktop app from the outset,
 perhaps Django wasn't the appropriate tool to begin with.
