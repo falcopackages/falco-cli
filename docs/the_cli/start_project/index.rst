@@ -23,7 +23,7 @@ can still bring you value.
 
     .. code-block:: shell
 
-        falco start-project myproject -b boostrap
+        falco start-project myproject -b bootstrap
 
 
 .. note::

@@ -7,7 +7,7 @@ from unittest.mock import patch
 
 import pytest
 from cappa.testing import CommandRunner
-from falco_cli.__main__ import FalcoCLI
+from falco_cli.__main__ import Falco
 
 
 @pytest.fixture(autouse=True)
@@ -17,7 +17,7 @@ def change_test_dir(monkeypatch, tmp_path):
 
 @pytest.fixture
 def runner():
-    return CommandRunner(FalcoCLI)
+    return CommandRunner(Falco)
 
 
 toolbox = Path(__file__).parent.parent / "packages" / "toolbox/src/falco_toolbox"

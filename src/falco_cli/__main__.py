@@ -14,7 +14,7 @@ from falco_cli.commands import Work
 @cappa.command(
     help="Enhance your Django developer experience: CLI and Guides for the Modern Django Developer.",
 )
-class FalcoCLI:
+class Falco:
     subcommand: cappa.Subcommands[
         StartProject
         | UpdateProject
@@ -30,7 +30,7 @@ class FalcoCLI:
 
 
 def main():
-    cappa.invoke(FalcoCLI)
+    cappa.invoke(Falco)
 
 
 if __name__ == "__main__":
