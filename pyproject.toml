@@ -18,7 +18,7 @@ license = "MIT"
 authors = [
   { name = "Tobi DEGNON", email = "tobidegnon@proton.me" },
 ]
-requires-python = ">=3.12"
+requires-python = ">=3.10"
 classifiers = [
   "Development Status :: 4 - Beta",
   "Framework :: Django :: 4",
