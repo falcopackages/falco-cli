@@ -15,15 +15,11 @@ def test_env_resolution_with_env(tmp_path):
 
 
 def test_without_pyproject_file():
-    assert Work().get_commands() == {
-        "server": default_server_cmd.format(address=default_address)
-    }
+    assert Work().get_commands() == {"server": default_server_cmd.format(address=default_address)}
 
 
 def test_with_pyproject_file(pyproject_toml):
-    write_falco_config(
-        pyproject_path=pyproject_toml, work={"qcluster": "python manage.py qcluster"}
-    )
+    write_falco_config(pyproject_path=pyproject_toml, work={"qcluster": "python manage.py qcluster"})
     assert Work().get_commands() == {
         "server": default_server_cmd.format(address=default_address),
         "qcluster": "python manage.py qcluster",
@@ -41,15 +37,11 @@ def test_override_server(pyproject_toml):
 
 @pytest.mark.parametrize("address", ["8000", "localhost:8000", "8001", "127.0.0.1"])
 def test_override_server_through_arg(address):
-    assert Work(address=address).get_commands() == {
-        "server": default_server_cmd.format(address=address)
-    }
+    assert Work(address=address).get_commands() == {"server": default_server_cmd.format(address=address)}
 
 
 @pytest.mark.parametrize("address", ["8000", "localhost:8000", "8001", "127.0.0.1"])
 def test_override_server_through_arg_by_pyproject(pyproject_toml, address):
     work = {"server": "python manage.py runserver {address}"}
     write_falco_config(pyproject_path=pyproject_toml, work=work)
-    assert Work(address=address).get_commands() == {
-        "server": work["server"].format(address=address)
-    }
+    assert Work(address=address).get_commands() == {"server": work["server"].format(address=address)}

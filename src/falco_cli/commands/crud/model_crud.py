@@ -70,9 +70,7 @@ class HtmlBlueprintContext(UrlsForContext):
     model_fields: dict[str, DjangoField]
 
 
-@cappa.command(
-    help="Generate CRUD (Create, Read, Update, Delete) views for a model.", name="crud"
-)
+@cappa.command(help="Generate CRUD (Create, Read, Update, Delete) views for a model.", name="crud")
 class ModelCRUD:
     model_path: Annotated[
         str,
@@ -99,9 +97,7 @@ class ModelCRUD:
     ]
     only_python: Annotated[
         bool,
-        cappa.Arg(
-            default=False, long="--only-python", help="Generate only python code."
-        ),
+        cappa.Arg(default=False, long="--only-python", help="Generate only python code."),
     ]
     only_html: Annotated[
         bool,
@@ -135,11 +131,7 @@ class ModelCRUD:
 
     def __call__(self, project_name: Annotated[str, cappa.Dep(get_project_name)]):
         pyproject_path = Path("pyproject.toml")
-        falco_config = (
-            read_falco_config(pyproject_path=pyproject_path)
-            if pyproject_path.exists()
-            else {}
-        )
+        falco_config = read_falco_config(pyproject_path=pyproject_path) if pyproject_path.exists() else {}
         crud_config: CRUDConfig = falco_config.get("crud", {})
 
         self.blueprints = crud_config.get("blueprints", self.blueprints)
@@ -164,18 +156,14 @@ class ModelCRUD:
             ]
             with simple_progress("Running migrations"):
                 for cmd in commands:
-                    result = subprocess.run(
-                        cmd.split(), capture_output=True, check=False, text=True
-                    )
+                    result = subprocess.run(cmd.split(), capture_output=True, check=False, text=True)
 
                     if result.returncode != 0:
                         msg = result.stderr
                         raise cappa.Exit("migrations step failed\n" + msg, code=1)
 
         if self.entry_point and not name:
-            raise cappa.Exit(
-                "The --entry-point option requires a full model path.", code=1
-            )
+            raise cappa.Exit("The --entry-point option requires a full model path.", code=1)
 
         with simple_progress("Getting models info"):
             all_django_models = run_in_shell(
@@ -193,9 +181,7 @@ class ModelCRUD:
             templates_dir = Path(templates_dir_str)
 
         django_models = (
-            [m for m in all_django_models if m["name"].lower() == name.lower()]
-            if name
-            else all_django_models
+            [m for m in all_django_models if m["name"].lower() == name.lower()] if name else all_django_models
         )
         if name and not django_models:
             msg = f"Model {name} not found in app {app_label}"
@@ -214,11 +200,7 @@ class ModelCRUD:
                     entry_point=self.entry_point,
                 )
             )
-            html_blueprint_context.append(
-                get_html_blueprint_context(
-                    app_label=app_label, django_model=django_model
-                )
-            )
+            html_blueprint_context.append(get_html_blueprint_context(app_label=app_label, django_model=django_model))
 
         updated_python_files = set()
 
@@ -268,9 +250,7 @@ class ModelCRUD:
             run_html_formatters(str(file))
 
         display_names = ", ".join(m.get("name") for m in django_models)
-        rich_print(
-            f"{RICH_SUCCESS_MARKER}CRUD views generated for: {display_names}[/green]"
-        )
+        rich_print(f"{RICH_SUCCESS_MARKER}CRUD views generated for: {display_names}[/green]")
 
     @simple_progress("Generating python code")
     def generate_python_code(
@@ -285,9 +265,7 @@ class ModelCRUD:
         updated_files = []
 
         for blueprint in blueprints:
-            imports_template, code_template = extract_python_file_templates(
-                blueprint.read_text()
-            )
+            imports_template, code_template = extract_python_file_templates(blueprint.read_text())
             # blueprints python files end in .py.jinja
             file_name_without_jinja = ".".join(blueprint.name.split(".")[:-1])
             file_to_write_to = app_folder_path / file_name_without_jinja
@@ -304,9 +282,7 @@ class ModelCRUD:
                     code_content = code_content.replace(f"{model_name_lower}_", "")
                     code_content = code_content.replace("list", "index")
 
-            file_to_write_to.write_text(
-                imports_content + file_to_write_to.read_text() + code_content
-            )
+            file_to_write_to.write_text(imports_content + file_to_write_to.read_text() + code_content)
             updated_files.append(file_to_write_to)
 
         model_name = contexts[0]["model_name"] if len(contexts) == 1 else None
@@ -332,17 +308,13 @@ class ModelCRUD:
         urls_content = ""
         for django_model in django_models:
             model_name_lower = django_model["name"].lower()
-            urlsafe_model_verbose_name_plural = (
-                django_model["verbose_name_plural"].lower().replace(" ", "-")
-            )
+            urlsafe_model_verbose_name_plural = django_model["verbose_name_plural"].lower().replace(" ", "-")
             urls_content += get_urls(
                 model_name_lower=model_name_lower,
                 urlsafe_model_verbose_name_plural=urlsafe_model_verbose_name_plural,
             )
             if entry_point:
-                urls_content = urls_content.replace(
-                    f"{urlsafe_model_verbose_name_plural}/", ""
-                )
+                urls_content = urls_content.replace(f"{urlsafe_model_verbose_name_plural}/", "")
                 urls_content = urls_content.replace("list", "index")
                 urls_content = urls_content.replace(f"{model_name_lower}_", "")
 
@@ -354,9 +326,7 @@ class ModelCRUD:
         else:
             app_urls.touch()
             app_urls.write_text(initial_urls_content(app_label, urls_content))
-            updated_files.append(
-                register_app_urls(app_label=app_label, app_name=app_name)
-            )
+            updated_files.append(register_app_urls(app_label=app_label, app_name=app_name))
         return updated_files
 
     @simple_progress("Generating html templates")
@@ -375,9 +345,7 @@ class ModelCRUD:
 
             for context in contexts:
                 model_name_lower = context["model_name"].lower()
-                new_filename = (
-                    f"{model_name_lower}_{blueprint.name.replace('.jinja', '')}"
-                )
+                new_filename = f"{model_name_lower}_{blueprint.name.replace('.jinja', '')}"
                 if entry_point:
                     new_filename = blueprint.name.replace(".jinja", "")
                 if new_filename.startswith("list"):
@@ -434,9 +402,7 @@ def register_app_urls(app_label: str, app_name: str) -> Path:
     root_url = root_url.strip().replace(".", "/")
     rool_url_path = Path(f"{root_url}.py")
     module = parso.parse(rool_url_path.read_text())
-    new_path = parso.parse(
-        f"path('{app_label}/', include('{app_name}.urls', namespace='{app_label}'))"
-    )
+    new_path = parso.parse(f"path('{app_label}/', include('{app_name}.urls', namespace='{app_label}'))")
 
     for node in module.children:
         try:
@@ -457,9 +423,7 @@ def register_app_urls(app_label: str, app_name: str) -> Path:
     return rool_url_path
 
 
-def register_models_in_admin(
-    app_folder_path: Path, app_label: str, model_name: str | None = None
-) -> Path:
+def register_models_in_admin(app_folder_path: Path, app_label: str, model_name: str | None = None) -> Path:
     admin_file = app_folder_path / "admin.py"
 
     # Skip further processing if model_name is not specified and file is non-empty
@@ -538,9 +502,7 @@ def get_python_blueprint_context(
     }
 
 
-def get_html_blueprint_context(
-    app_label: str, django_model: DjangoModel
-) -> HtmlBlueprintContext:
+def get_html_blueprint_context(app_label: str, django_model: DjangoModel) -> HtmlBlueprintContext:
     return {
         "app_label": app_label,
         "model_name": django_model["name"],
@@ -562,9 +524,7 @@ def get_html_blueprint_context(
 
 # TODO: the django checks could be disabled with the --skip-checks commands, may be run them once, and then disabled
 # to avoid them be run each time the shell command is called
-def get_models_data(
-    app_label: str, excluded_fields: list[str], *, entry_point: bool
-) -> "list[DjangoModel]":
+def get_models_data(app_label: str, excluded_fields: list[str], *, entry_point: bool) -> "list[DjangoModel]":
     from django.apps import apps
 
     models = apps.get_app_config(app_label).get_models()
@@ -577,9 +537,7 @@ def get_models_data(
         if entry_point:
             name_plural = app_label.lower()
         else:
-            name_plural = (
-                f"{name.replace('y', 'ies')}" if name.endswith("y") else f"{name}s"
-            )
+            name_plural = f"{name.replace('y', 'ies')}" if name.endswith("y") else f"{name}s"
 
         verbose_name = model._meta.verbose_name
         verbose_name_plural = model._meta.verbose_name_plural
@@ -589,8 +547,7 @@ def get_models_data(
                 "editable": field.editable,
                 "class_name": field.__class__.__name__,
                 "accessor": "{{"
-                f"{name_lower}.{field.name}"
-                + (".url }}" if field.__class__.__name__ in file_fields else "}}"),
+                f"{name_lower}.{field.name}" + (".url }}" if field.__class__.__name__ in file_fields else "}}"),
             }
             for field in model._meta.fields
             if field.name not in excluded_fields
@@ -601,13 +558,8 @@ def get_models_data(
             "fields": fields,
             "verbose_name": verbose_name,
             "verbose_name_plural": verbose_name_plural,
-            "has_file_field": any(
-                f["class_name"] in file_fields for f in fields.values()
-            ),
-            "has_editable_date_field": any(
-                f["class_name"] in dates_fields and f["editable"]
-                for f in fields.values()
-            ),
+            "has_file_field": any(f["class_name"] in file_fields for f in fields.values()),
+            "has_editable_date_field": any(f["class_name"] in dates_fields and f["editable"] for f in fields.values()),
         }
 
     return [get_model_dict(model) for model in models]

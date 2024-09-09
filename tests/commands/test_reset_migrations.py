@@ -16,9 +16,7 @@ def change_model_attribute(django_project_dir):
     models_file = django_project_dir / "blog" / "models.py"
     models_file_content = models_file.read_text()
     models_file.write_text(
-        models_file_content
-        + "\n"
-        + "    new_attribute = models.CharField(max_length=200, default='v')\n"
+        models_file_content + "\n" + "    new_attribute = models.CharField(max_length=200, default='v')\n"
     )
 
 
@@ -36,9 +34,7 @@ def count_nbr_of_posts() -> int:
 
 def count_migrations(django_project_dir):
     migrations_folder = django_project_dir / "blog" / "migrations"
-    return len(
-        [file for file in migrations_folder.iterdir() if file.name.startswith("000")]
-    )
+    return len([file for file in migrations_folder.iterdir() if file.name.startswith("000")])
 
 
 def test_reset_migrations(django_project, runner: CommandRunner, set_git_repo_to_clean):

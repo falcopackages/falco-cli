@@ -15,9 +15,7 @@ default_address = "127.0.0.1:8000"
 
 @cappa.command(help="Run your whole django projects in one command.")
 class Work:
-    address: Annotated[
-        str, cappa.Arg(default=default_address, help="Django server address")
-    ] = default_address
+    address: Annotated[str, cappa.Arg(default=default_address, help="Django server address")] = default_address
 
     def __call__(self) -> None:
         commands = self.get_commands()
@@ -53,9 +51,7 @@ class Work:
         pyproject_file = Path("pyproject.toml")
 
         if pyproject_file.exists():
-            user_commands = read_falco_config(pyproject_path=pyproject_file).get(
-                "work", {}
-            )
+            user_commands = read_falco_config(pyproject_path=pyproject_file).get("work", {})
         else:
             user_commands = {}
 
