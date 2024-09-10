@@ -6,25 +6,51 @@ Packages and Tools
 This section provides an overview of the primary packages and tools, along with some of the design choices incorporated
 into a project generated with **Falco**.
 
+Overview
+--------
+
+System Requirements
 
 - `hatch <https://hatch.pypa.io/latest/>`_: Used for managing the project's virtual environment and dependencies, more details can be found in the `dependency management guide </guides/dependency_management.html>`_.
 - `just <https://just.system>`_: A script runner that simplifies the execution of common tasks, such as setting up the project, running the server, and running tests, run ``just`` to see all available commands.
+
+Base Dependencies
+
 - `environs <https://github.com/sloria/environs>`_: Used for configuring settings via environment variables.
 - `django-allauth <https://github.com/pennersr/django-allauth>`_: Handles login and signup processes.
-- `django-debug-toolbar <https://django-debug-toolbar.readthedocs.io/en/latest/>`_: Of course, a must.
+- `django-template-partials <https://github.com/carltongibson/django-template-partials>`_: Used for defining reusable fragments of HTML.
+- `django-htmx <https://github.com/adamchainz/django-htmx>`_: Used for making AJAX requests and updating the DOM.
+- `django-lifecycle <https://github.com/rsinger86/django-lifecycle>`_: Provides an alternative to signals for hooking into your model's lifecycle.
 - `django-heath-check <https://github.com/revsys/django-health-check>`_: Provides a ``/health`` endpoint for application, database, storage, and other health checks.
-- `django-browser-reload <https://github.com/adamchainz/django-browser-reload>`_: Automatically reloads your browser on code changes in development.
-- `django-model-utils <https://django-model-utils.readthedocs.io/en/latest/>`_: Provides useful mixins for Django models, my favorite being the ``TimeStampedModel``.
 - `django-extensions <https://django-extensions.readthedocs.io/en/latest/>`_: Adds some useful management commands to Django, such as ``shell_plus`` and ``show_urls``.
 - `django-anymail <https://github.com/anymail/django-anymail>`_: `Amazon SES <https://aws.amazon.com/ses/?nc1=h_ls>`_ is used for production email, facilitated by Anymail.
+- `django-unique-user-email <https://github.com/carltongibson/django-unique-user-email>`_: Adds a unique constraint to the email field of the Django ``User`` model.
+- `django-q2 <https://github.com/django-q2/django-q2>`_: Used for background task queue processing and scheduling.
+- `django-q-registry <https://github.com/westerveltco/django-q-registry>`_: Used for easily registering scheduled jobs.
 - `django-storages <https://django-storages.readthedocs.io/en/latest/>`_: Used for storing media files on AWS S3.
-- `django-compressor <https://django-compressor.readthedocs.io/en/latest/>`_: Compresses CSS and JavaScript files.
+- `django-compressor <https://github.com/django-compressor/django-compressor>`_: Compresses CSS and JavaScript files.
 - `refreshcss <https://github.com/adamghill/refreshcss>`_: Removes unused classes, ids, and element selectors from CSS, configured as a ``django-compressor`` filter.
 - `diskcache <https://github.com/grantjenks/python-diskcache>`_: A simple and fast cache solution based on ``sqlite3``, just add a ``LOCATION`` environnment folder for the cache location and you are good to go.
 - `Docker <https://www.docker.com/>`_ and `s6-overlay <https://github.com/just-containers/s6-overlay>`_: Docker is configured for production, with s6-overlay enabling running both the web server process (via ``gunicorn``) and the background worker process (via ``django-q2``) within a single container.
 - `Sentry <https://sentry.io/welcome/>`_: Utilized for performance and error monitoring.
 - `Whitenoise <https://whitenoise.evans.io/en/latest/>`_: Used to serve static files.
 - `heroicons <https://heroicons.com/>`_: Easy access to `heroicons <https://heroicons.com/>`_ in your Django templates.
+
+Development-Only packages
+
+- `django-debug-toolbar <https://django-debug-toolbar.readthedocs.io/en/latest/>`_: Of course, a must.
+- `django-browser-reload <https://github.com/adamchainz/django-browser-reload>`_: Automatically reloads your browser on code changes in development.
+- `django-watchfiles <https://github.com/adamchainz/django-watchfiles>`_: Faster and more efficient development server reloading.
+- `django-fastdev <https://github.com/boxed/django-fastdev>`_: Helps catch small mistakes early in your project.
+- `dj-notebook <https://github.com/pydanny/dj-notebook>`_: Allows you to use your shell_plus in a Jupyter notebook.
+- `hatch-pip-compile <https://github.com/juftin/hatch-pip-compile>`_: ``hatch`` plugin to compile requirements files.
+- `git-cliff <https://git-cliff.org/>`_: Generates a changelog based on your commit messages.
+- `bump-my-version <https://github.com/callowayproject/bump-my-version>`_: Bumps the version of your project following the `semver <https://semver.org/>`_ format.
+- `pytest <https://docs.pytest.org/en/7.0.x/>`_: Used for running tests
+- `pytest-django <https://pytest-django.readthedocs.io/en/latest/>`_: Pytest plugin for Django.
+- `pytest-sugar <https://github.com/Teemu/pytest-sugar>`_: Better looking pytest output.
+- `pytest-xdist <https://github.com/pytest-dev/pytest-xdist>`_: Run tests in parallel.
+- `Werkzeug <https://werkzeug.palletsprojects.com/en/2.1.x/>`_: Enable the Werkzeug debugger when running `manage.py runserver_plus`.
 - `pre-commit <https://github.com/pre-commit/pre-commit>`_: Integrated by default to identify simple issues before pushing code to remote.
 
 If you are using the default template, the following additional packages are included:
@@ -41,7 +67,7 @@ If you are using the Bootstrap template, the following additional packages are i
 Settings
 --------
 
-There is a single ``settings.py`` file located in your project package directory. 
+There is a single ``settings.py`` file located in your project directory. 
 
 .. code-block:: text
 
@@ -63,7 +89,7 @@ You won't even be able to set ``DEBUG=True`` in production since the development
 
 
 Login via email instead of username
-------------------------------------
+-----------------------------------
 
 The ``email`` field is configured as the login field using `django-allauth <https://github.com/pennersr/django-allauth>`_. The ``username`` field is still present
 but is not required for login. Allauth automatically fills it with the part of the email before the ``@`` symbol.
