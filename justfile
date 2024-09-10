@@ -83,7 +83,7 @@ submodule-init:
 # Checkout all submodules on main
 checkout:
     #!/usr/bin/env sh
-    for parent_dir in blueprints packages; do
+    for parent_dir in blueprints; do
       for dir in $parent_dir/*; do
         if [ -d "$dir" ]; then
           echo "$(basename $dir)"
@@ -98,7 +98,7 @@ checkout:
 pull:
     #!/usr/bin/env sh
     git pull
-    for parent_dir in blueprints packages; do
+    for parent_dir in blueprints; do
       for dir in $parent_dir/*; do
         if [ -d "$dir" ]; then
           echo "$(basename $dir)"
@@ -113,7 +113,7 @@ pull:
 fetch:
     #!/usr/bin/env sh
     git fetch --all
-    for parent_dir in blueprints packages; do
+    for parent_dir in blueprints; do
       for dir in $parent_dir/*; do
         if [ -d "$dir" ]; then
           echo "$(basename $dir)"
@@ -138,13 +138,12 @@ merge:
 # Push all changes in all submodules
 push:
     #!/usr/bin/env sh
-    for parent_dir in blueprints packages; do
-        for dir in $parent_dir/*; do
-          if [ -d "$dir" ]; then
-            echo "$(basename $dir)"
-            cd "$dir"
-            git pull
-            git push
-            cd -
-          fi
+    for dir in blueprints/*; do
+      if [ -d "$dir" ]; then
+        echo "$(basename $dir)"
+        cd "$dir"
+        git pull
+        git push
+        cd -
+      fi
     done
