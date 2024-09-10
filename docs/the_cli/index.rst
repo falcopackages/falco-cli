@@ -16,14 +16,6 @@ The entrypoint for the CLI is the ``falco`` command. It is used to execute all o
 Most of these commands rely on the presence of the ``manage.py`` file, so ensure that you run them from the root directory of your Django project.
 Additionally, these commands require acces to your virtual environment, so make sure to activate it before executing any command.
 
-
-.. important::
-
-    There is a known issue where certain commands, which depend on your Django project environment to work, such as the ``work`` or the
-    ``crud`` commands, might occasionally fail to run. The exact cause of this issue is not entirely clear at the moment, and I've
-    experienced it a few times myself. The simplest solution for now is to install the ``falco-cli`` in the same virtual environment as your project.
-    This should resolve the issue.
-
 .. cappa:: falco_cli.__main__.Falco
 
 .. toctree::

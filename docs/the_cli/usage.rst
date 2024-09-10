@@ -23,13 +23,7 @@ Each **entry** represents a journal entry within the **myjourney** app.
 
     falco start-project myjourney && cd myjourney
 
-**2. Initialize a new git repository and add all the new files**
-
-.. code-block:: bash
-
-    git init && git add -A
-
-**3. Project setup**
+**2. Project setup**
 
 Refer to the ``justfile`` in the root of the project to understand the available commands. The command below sets up your
 virtual environment using ``hatch`` (default, dev, and docs), runs the project migrations, creates a superuser
@@ -42,17 +36,17 @@ with ``admin@localhost`` as the email and ``admin`` as the password, and runs pr
 At this point, you can run ``just server`` to start the project. While the UI may be basic (which I hope to improve in the future),
 you have a fully functional ready to deploy django project. If you update the content of the home page, your browser will automatically reload.
 
-**4. Create the new app, entries**
+**3. Create the new app, entries**
 
 .. code-block:: bash
 
     just falco start-app entries
 
-**5. Add some fields to your Entry model**
+**4. Add some fields to your Entry model**
 
 .. literalinclude:: /_static/snippets/entry_model.py
 
-**6.  Make migrations for the new model and run them**
+**5.  Make migrations for the new model and run them**
 
 .. code-block:: bash
 
@@ -72,7 +66,7 @@ you have a fully functional ready to deploy django project. If you update the co
         [tool.falco.crud]
         always-migrate = true
 
-**7. Generate CRUD views for the Entry model**
+**6. Generate CRUD views for the Entry model**
 
 .. code-block:: bash
 
@@ -80,7 +74,7 @@ you have a fully functional ready to deploy django project. If you update the co
 
 Without the ``--skip-git-check`` option, the command will fail since we currently have some uncommitted changes in our repository.
 
-**8. Run the project**
+**7. Run the project**
 
 .. code-block:: bash
 
