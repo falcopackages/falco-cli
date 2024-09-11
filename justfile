@@ -1,5 +1,3 @@
-default := "blueprints/falco_tailwind"
-
 # List all available commands
 _default:
     @just --list

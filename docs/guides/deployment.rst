@@ -110,6 +110,7 @@ automatic routing, blue-green deployment, etc. It is also considered simpler to 
 .. todo::
 
    Add an example of traefik config
+   Add note on ssl certificates
 
 WSGI server
 -----------
