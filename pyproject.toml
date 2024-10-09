@@ -52,6 +52,7 @@ dependencies = [
   "parso",
   "rich",
   "tomlkit",
+  "djlint",
 ]
 optional-dependencies = { just = [ "just-bin" ], hatch = [ "hatch" ] }
 
