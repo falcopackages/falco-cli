@@ -89,7 +89,7 @@ class StartProject:
             if response.lower() == "y":
                 rich_print(
                     f"{RICH_INFO_MARKER}To see the latest features and improvements, "
-                    f"visit https://github.com/Tobi-De/falco/releases."
+                    f"visit https://github.com/falcopackages/falco-cli/releases."
                 )
                 raise cappa.Exit(code=0)
 
@@ -115,7 +115,7 @@ class StartProject:
         msg = f"{RICH_SUCCESS_MARKER} Project initialized, keep up the good work!\n"
         msg += (
             f"{RICH_INFO_MARKER} If you like the project consider dropping a star at "
-            f"https://github.com/Tobi-De/falco"
+            f"https://github.com/falcopackages/falco-cli"
         )
 
         rich_print(msg)
@@ -168,8 +168,8 @@ def find_local_cookiecutter(repo: str) -> Path | None:
 
 def resolve_blueprint(blueprint: str, *, use_local: bool = False) -> tuple[str, str]:
     name_to_urls = {
-        "tailwind": "https://github.com/Tobi-De/falco_tailwind.git",
-        "bootstrap": "https://github.com/Tobi-De/falco_bootstrap.git",
+        "tailwind": "https://github.com/falcopackages/starter-template",
+        "bootstrap": "https://github.com/falcopackages/starter-template-bootstrap",
     }
     repo = name_to_urls.get(blueprint, blueprint)
 
