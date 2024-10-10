@@ -14,16 +14,6 @@ class FalcoConfig(TypedDict, total=False):
     revision: str
     blueprint: str
     skip: list[str]
-    work: dict[str, str]
-    htmx: str
-    crud: "CRUDConfig"
-
-
-class CRUDConfig(TypedDict):
-    blueprints: str
-    login_required: bool
-    skip_git_check: bool
-    always_migrate: bool
 
 
 def parse_crud_config_from_pyproject(values: dict) -> dict:
@@ -44,10 +34,8 @@ def write_falco_config(pyproject_path: Path, **kwargs: Unpack[TypedDict]) -> Non
     else:
         pyproject = {}
     existing_falco_config = pyproject.get("tool", {}).get("falco", {})
-    existing_crud_config = existing_falco_config.pop("crud", {})
 
-    existing_crud_config.update(new_crud_config)
-    existing_falco_config.update({**new_falco_config, "crud": existing_crud_config})
+    existing_falco_config.update(new_falco_config)
 
     tool = pyproject.get("tool", {})
     tool.update({"falco": existing_falco_config})

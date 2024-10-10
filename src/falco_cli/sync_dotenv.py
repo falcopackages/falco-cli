@@ -5,7 +5,7 @@ from typing import Annotated
 
 import cappa
 import tomlkit
-from falco_cli.utils import get_project_name
+from .utils import get_project_name
 from rich import print as rich_print
 from rich.prompt import Prompt
 

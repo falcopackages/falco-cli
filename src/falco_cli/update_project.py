@@ -12,12 +12,12 @@ from cruft import diff as cruft_diff
 from cruft._commands import utils
 from cruft._commands.update import _apply_project_updates
 from cruft._commands.utils.iohelper import AltTemporaryDirectory
-from falco_cli import checks
-from falco_cli.config import FalcoConfig
-from falco_cli.utils import get_project_name
-from falco_cli.utils import get_username
-from falco_cli.utils import RICH_INFO_MARKER
-from falco_cli.utils import RICH_SUCCESS_MARKER
+from . import checks
+from .config import FalcoConfig
+from .utils import get_project_name
+from .utils import get_username
+from .utils import RICH_INFO_MARKER
+from .utils import RICH_SUCCESS_MARKER
 from rich import print as rich_print
 
 
@@ -94,7 +94,7 @@ class UpdateProject:
 
 
 def cruft_update(
-    project_dir: Path = Path("."),
+    project_dir: Path = Path("commands"),
     cookiecutter_input: bool = False,
     refresh_private_variables: bool = False,
     skip_apply_ask: bool = True,
@@ -104,7 +104,7 @@ def cruft_update(
     allow_untracked_files: bool = False,
     extra_context: dict[str, Any] | None = None,
     extra_context_file: Path | None = None,
-) -> bool:
+) -> str:
     """Update specified project's cruft to the latest and greatest release."""
     cruft_file = utils.cruft.get_cruft_file(project_dir)
 
@@ -127,16 +127,6 @@ def cruft_update(
         extra_context = extra_context.get("cookiecutter") or {}
         if extra_context_from_cli:
             extra_context.update(extra_context_from_cli)
-
-    # If the project dir is a git repository, we ensure
-    # that the user has a clean working directory before proceeding.
-    # if not _is_project_repo_clean(project_dir, allow_untracked_files):
-    #     typer.secho(
-    #         "Cruft cannot apply updates on an unclean git project."
-    #         " Please make sure your git working tree is clean before proceeding.",
-    #         fg=typer.colors.RED,
-    #     )
-    #     return False
 
     cruft_state = json.loads(cruft_file.read_text())
 

@@ -17,7 +17,6 @@ from rich.progress import TextColumn
 
 ReturnType = TypeVar("ReturnType")
 
-
 RICH_SUCCESS_MARKER = "[green]SUCCESS:"
 RICH_ERROR_MARKER = "[red]ERROR:"
 RICH_INFO_MARKER = "[blue]INFO:"
@@ -104,3 +103,25 @@ def is_new_falco_cli_available() -> bool:
             return latest_version != current_version
     except cappa.Exit:
         return False
+
+
+@simple_progress("Running python formatters")
+def run_python_formatters(filepath: str | Path):
+    autoflake = [
+        "autoflake",
+        "--in-place",
+        "--remove-all-unused-imports",
+        filepath,
+    ]
+    black = ["black", filepath]
+    isort = ["isort", filepath]
+    subprocess.run(autoflake, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
+    subprocess.run(isort, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
+    subprocess.run(black, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
+
+
+@simple_progress("Running html formatters")
+def run_html_formatters(filepath: str | Path):
+    # add djlint config
+    djlint = ["djlint", filepath, "--reformat"]
+    subprocess.run(djlint, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
