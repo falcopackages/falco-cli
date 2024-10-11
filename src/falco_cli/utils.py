@@ -105,7 +105,6 @@ def is_new_falco_cli_available() -> bool:
         return False
 
 
-@simple_progress("Running python formatters")
 def run_python_formatters(filepath: str | Path):
     autoflake = [
         "autoflake",
@@ -120,7 +119,6 @@ def run_python_formatters(filepath: str | Path):
     subprocess.run(black, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
 
 
-@simple_progress("Running html formatters")
 def run_html_formatters(filepath: str | Path):
     # add djlint config
     djlint = ["djlint", filepath, "--reformat"]
