@@ -19,10 +19,8 @@
 # - cookiecutter
 # - cruft
 # - djlint
-# - honcho
 # - httpx
 # - isort
-# - parso
 # - rich
 # - tomlkit
 #
@@ -118,8 +116,6 @@ gitpython==3.1.43
     # via cruft
 h11==0.14.0
     # via httpcore
-honcho==1.1.0
-    # via hatch.envs.default
 html-tag-names==0.1.2
     # via djlint
 html-void-elements==0.1.0
@@ -170,9 +166,7 @@ packaging==24.1
     #   black
     #   pytest
 parso==0.8.4
-    # via
-    #   hatch.envs.default
-    #   jedi
+    # via jedi
 pathspec==0.12.1
     # via
     #   black

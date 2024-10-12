@@ -45,7 +45,6 @@ dependencies = [
   "cappa",
   "cookiecutter",
   "cruft",
-  "honcho",
   "httpx",
   "isort",
   "rich",

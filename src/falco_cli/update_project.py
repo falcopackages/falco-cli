@@ -12,13 +12,13 @@ from cruft import diff as cruft_diff
 from cruft._commands import utils
 from cruft._commands.update import _apply_project_updates
 from cruft._commands.utils.iohelper import AltTemporaryDirectory
-from . import checks
+from rich import print as rich_print
+
 from .config import FalcoConfig
-from .utils import get_project_name
-from .utils import get_username
 from .utils import RICH_INFO_MARKER
 from .utils import RICH_SUCCESS_MARKER
-from rich import print as rich_print
+from .utils import get_project_name
+from .utils import get_username
 
 
 @contextmanager
@@ -63,7 +63,8 @@ class UpdateProject:
     ]
 
     def __call__(self, project_name: Annotated[str, cappa.Dep(get_project_name)]) -> None:
-        checks.clean_git_repo()
+        if not clean_git_repo():
+            raise cappa.Exit("Make sure the repo si clean before running this command", code=1)
 
         pyproject_path = Path("pyproject.toml")
         try:
@@ -214,3 +215,8 @@ def cruft_update(
             #     fg=typer.colors.GREEN,
             # )
         return last_commit
+
+
+def clean_git_repo() -> bool:
+    result = subprocess.run(["git", "status", "--porcelain"], capture_output=True, text=True, check=False)  # noqa
+    return result.stdout.strip() == ""
