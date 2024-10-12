@@ -45,11 +45,11 @@ dependencies = [
   "cappa",
   "cookiecutter",
   "cruft",
+  "djlint",
   "httpx",
   "isort",
   "rich",
   "tomlkit",
-  "djlint",
 ]
 optional-dependencies = { just = [ "just-bin" ], hatch = [ "hatch" ] }
 

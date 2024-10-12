@@ -1,19 +1,12 @@
-import ast
-import inspect
 import os
 import subprocess
-from collections.abc import Callable
 from contextlib import contextmanager
 from pathlib import Path
 from typing import TypeVar
 
 import cappa
-import httpx
 import tomlkit
-from falco_cli import falco_cli_version
-from rich.progress import Progress
-from rich.progress import SpinnerColumn
-from rich.progress import TextColumn
+from rich.progress import Progress, SpinnerColumn, TextColumn
 
 ReturnType = TypeVar("ReturnType")
 
@@ -37,7 +30,9 @@ def get_pyproject_file() -> Path:
     pyproject_path = Path("pyproject.toml")
     if pyproject_path.exists():
         return pyproject_path
-    raise cappa.Exit("Could not find a pyproject.toml file in the current directory.", code=1)
+    raise cappa.Exit(
+        "Could not find a pyproject.toml file in the current directory.", code=1
+    )
 
 
 def get_project_name() -> str:
@@ -46,63 +41,15 @@ def get_project_name() -> str:
 
 
 @contextmanager
-def simple_progress(description: str, display_text="[progress.description]{task.description}"):
+def simple_progress(
+    description: str, display_text="[progress.description]{task.description}"
+):
     progress = Progress(SpinnerColumn(), TextColumn(display_text), transient=True)
     progress.add_task(description=description, total=None)
     try:
         yield progress.start()
     finally:
         progress.stop()
-
-
-@contextmanager
-def network_request_with_progress(url: str, description: str):
-    try:
-        with simple_progress(description):
-            yield httpx.get(url)
-    except httpx.ConnectError as e:
-        msg = f"Connection error, {url} is not reachable."
-        raise cappa.Exit(msg, code=1) from e
-
-
-class ShellCodeError(Exception):
-    pass
-
-
-def run_in_shell(func: Callable[..., ReturnType], *, eval_result: bool = True, **kwargs) -> ReturnType:
-    source = inspect.getsource(func)
-    arguments_list = []
-    for k, v in kwargs.items():
-        if isinstance(v, str):
-            arguments_list.append(f"{k}='{v}'")
-        else:
-            arguments_list.append(f"{k}={v}")
-    arguments = ",".join(arguments_list)
-    func_call = f"{func.__name__}({arguments})"
-    code = f"{source}\nprint({func_call})"
-
-    result = subprocess.run(
-        ["python", "manage.py", "shell", "-c", code],
-        capture_output=True,
-        text=True,
-        check=False,
-    )
-    if result.returncode != 0:
-        raise ShellCodeError(result.stderr)
-    return ast.literal_eval(result.stdout) if eval_result else result.stdout.strip()
-
-
-def is_new_falco_cli_available() -> bool:
-    try:
-        with network_request_with_progress(
-            "https://pypi.org/pypi/falco-cli/json",
-            "Checking for new falco version...",
-        ) as response:
-            latest_version = response.json()["info"]["version"]
-            current_version = falco_cli_version
-            return latest_version != current_version
-    except cappa.Exit:
-        return False
 
 
 def run_python_formatters(filepath: str | Path):
@@ -114,12 +61,51 @@ def run_python_formatters(filepath: str | Path):
     ]
     black = ["black", filepath]
     isort = ["isort", filepath]
-    subprocess.run(autoflake, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
-    subprocess.run(isort, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
-    subprocess.run(black, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
+    subprocess.run(
+        autoflake, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False
+    )
+    subprocess.run(
+        isort, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False
+    )
+    subprocess.run(
+        black, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False
+    )
 
 
 def run_html_formatters(filepath: str | Path):
-    # add djlint config
-    djlint = ["djlint", filepath, "--reformat"]
-    subprocess.run(djlint, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
+    """
+    The configuration I was using in the starter template directly
+    https://github.com/falcopackages/starter-template/commit/32c026d8150aba73bed545d063b97b54e8bc1829
+    """
+
+    djlint = [
+        "djlint",
+        "--custom-blocks",
+        "partialdef",
+        "--blank-line-after-tag",
+        "endblock,endpartialdef,extends,load",
+        "--blank-line-before-tag",
+        "block,partialdef",
+        "--close-void-tags",
+        "--format-css",
+        "--indent-css",
+        "2",
+        "--format-js",
+        "--indent-js",
+        "2",
+        "--ignore",
+        "H006,H030,H031,H021",
+        "--include",
+        "H017,H035",
+        "--indent",
+        "2",
+        "--max-line-length",
+        "120",
+        "--profile",
+        "django",
+        filepath,
+        "--reformat",
+    ]
+    subprocess.run(
+        djlint, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False
+    )

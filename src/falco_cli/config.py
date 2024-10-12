@@ -1,6 +1,5 @@
 from pathlib import Path
-from typing import cast
-from typing import TypedDict
+from typing import TypedDict, cast
 
 try:
     from typing import Unpack

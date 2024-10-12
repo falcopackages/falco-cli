@@ -2,6 +2,7 @@ from pathlib import Path
 
 import pytest
 from cappa.testing import CommandRunner
+
 from falco_cli.config import read_falco_config
 
 
@@ -96,7 +97,9 @@ def test_start_project_in_directory(blueprint_path, runner: CommandRunner, tmp_p
         Path("blueprints/bootstrap").resolve(strict=True),
     ],
 )
-def test_start_project_in_directory_with_root(blueprint_path, runner: CommandRunner, tmp_path):
+def test_start_project_in_directory_with_root(
+    blueprint_path, runner: CommandRunner, tmp_path
+):
     runner.invoke(
         "start-project",
         "dotfm",

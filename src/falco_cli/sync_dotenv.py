@@ -5,9 +5,10 @@ from typing import Annotated
 
 import cappa
 import tomlkit
-from .utils import get_project_name
 from rich import print as rich_print
 from rich.prompt import Prompt
+
+from .utils import get_project_name
 
 
 @cappa.command(help="Synchronize the .env file with the .env.template file.")
@@ -36,7 +37,9 @@ class SyncDotenv:
         dotenv_template_file = Path(".env.template")
 
         dotenv_content = dotenv_file.read_text() if dotenv_file.exists() else ""
-        dotenv_template_content = dotenv_template_file.read_text() if dotenv_template_file.exists() else ""
+        dotenv_template_content = (
+            dotenv_template_file.read_text() if dotenv_template_file.exists() else ""
+        )
 
         debug = os.getenv("DEBUG", "true").lower() == "true"
 
@@ -70,7 +73,9 @@ class SyncDotenv:
         dotenv_template_file.touch(exist_ok=True)
         dotenv_template_file.write_text(dotenv_template_content)
 
-        rich_print(f"[green] {dotenv_file} and {dotenv_template_file} synchronised [/green]")
+        rich_print(
+            f"[green] {dotenv_file} and {dotenv_template_file} synchronised [/green]"
+        )
 
     def get_prod_config(self, project_name: str) -> dict:
         return {
@@ -106,7 +111,9 @@ def parse(env_content: str) -> dict:
     return result
 
 
-def get_updated(env_content: str, config: dict, *, keep_original=False, keep_whitespace=False) -> str:
+def get_updated(
+    env_content: str, config: dict, *, keep_original=False, keep_whitespace=False
+) -> str:
     content_list = env_content.split("\n")
     content_dict = {line.split("=")[0]: line for line in content_list if "=" in line}
     new_content_list = content_list.copy()

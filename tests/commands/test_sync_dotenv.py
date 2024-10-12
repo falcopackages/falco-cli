@@ -49,7 +49,9 @@ def test_print_value(runner: CommandRunner, pyproject_toml):
 def test_prod_config(runner: CommandRunner, pyproject_toml):
     os.environ["DEBUG"] = "False"
     pyproject = tomlkit.parse(pyproject_toml.read_text())
-    pyproject["project"]["authors"] = [{"email": "tobidegnon@proton.me", "name": "Tobi DEGNON"}]
+    pyproject["project"]["authors"] = [
+        {"email": "tobidegnon@proton.me", "name": "Tobi DEGNON"}
+    ]
     pyproject_toml.write_text(tomlkit.dumps(pyproject))
     runner.invoke("sync-dotenv")
     assert "DEBUG=False" in Path(".env").read_text()

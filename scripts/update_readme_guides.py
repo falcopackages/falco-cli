@@ -24,7 +24,11 @@ def guides_files():
     def valid_line(line):
         return bool(line) and not line.strip().startswith(":")
 
-    lines = [line.strip() for line in index_content[start_index:].split("\n") if valid_line(line)]
+    lines = [
+        line.strip()
+        for line in index_content[start_index:].split("\n")
+        if valid_line(line)
+    ]
     return [guides / f"{line}.rst" for line in lines]
 
 

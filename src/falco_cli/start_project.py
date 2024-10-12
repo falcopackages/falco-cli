@@ -12,16 +12,16 @@ import cappa
 from cookiecutter.config import get_user_config
 from cookiecutter.exceptions import CookiecutterException
 from cookiecutter.main import cookiecutter
+from rich import print as rich_print
 
 from .config import write_falco_config
-from .utils import clean_project_name
-from .utils import is_new_falco_cli_available
-from .utils import get_username
-from .utils import RICH_INFO_MARKER
-from .utils import RICH_SUCCESS_MARKER
-from .utils import simple_progress
-from rich import print as rich_print
-from rich.prompt import Prompt
+from .utils import (
+    RICH_INFO_MARKER,
+    RICH_SUCCESS_MARKER,
+    clean_project_name,
+    get_username,
+    simple_progress,
+)
 
 DEFAULT_SKIP = ["playground.ipynb", "README.md", "*/static/*"]
 
@@ -29,7 +29,9 @@ DEFAULT_SKIP = ["playground.ipynb", "README.md", "*/static/*"]
 @simple_progress("Running html formatters")
 def run_html_formatters(filepath: str | Path):
     djlint = ["djlint", filepath, "--reformat"]
-    subprocess.run(djlint, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
+    subprocess.run(
+        djlint, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False
+    )
 
 
 @cappa.command(help="Initialize a new django project the falco way.")
@@ -38,7 +40,9 @@ class StartProject:
         str,
         cappa.Arg(parse=clean_project_name, help="Name of the project to create."),
     ]
-    directory: Annotated[Path | None, cappa.Arg(help="Directory to create project in.")] = None
+    directory: Annotated[
+        Path | None, cappa.Arg(help="Directory to create project in.")
+    ] = None
     is_root: Annotated[
         bool,
         cappa.Arg(
@@ -46,14 +50,6 @@ class StartProject:
             short="-r",
             long="--root",
             help="Consider the specified directory as the root directory.",
-        ),
-    ] = False
-    skip_new_version_check: Annotated[
-        bool,
-        cappa.Arg(
-            default=False,
-            long="--skip-new-version-check",
-            help="Do not check for new version.",
         ),
     ] = False
     blueprint: Annotated[
@@ -74,32 +70,20 @@ class StartProject:
             help="Use a local copy of the blueprint if it exists.",
         ),
     ] = False
-    checkout: Annotated[str | None, cappa.Arg(default=None, long="--checkout", short="-c", hidden=True)] = None
+    checkout: Annotated[
+        str | None, cappa.Arg(default=None, long="--checkout", short="-c", hidden=True)
+    ] = None
 
     def __call__(self) -> None:
         if self.is_root and not self.directory:
-            raise cappa.Exit("You need to specify a directory when using the --root flag.", code=1)
-        if not self.skip_new_version_check and is_new_falco_cli_available():
-            message = (
-                f"{RICH_INFO_MARKER} A new version of falco-cli is available. To upgrade, run "
-                f"[green]pip install -U falco-cli."
+            raise cappa.Exit(
+                "You need to specify a directory when using the --root flag.", code=1
             )
-            rich_print(message)
-
-            response = Prompt.ask(
-                f"{RICH_INFO_MARKER}Do you want to stop to upgrade your current falco-cli version? (Y/n)",
-                default="Y",
-            )
-
-            if response.lower() == "y":
-                rich_print(
-                    f"{RICH_INFO_MARKER}To see the latest features and improvements, "
-                    f"visit https://github.com/falcopackages/falco-cli/releases."
-                )
-                raise cappa.Exit(code=0)
 
         with simple_progress("Resolving blueprint..."):
-            self.blueprint, revision = resolve_blueprint(self.blueprint, use_local=self.local)
+            self.blueprint, revision = resolve_blueprint(
+                self.blueprint, use_local=self.local
+            )
         project_dir = self.init_project()
         with change_directory(project_dir):
             pyproject_path = Path("pyproject.toml")
@@ -203,8 +187,12 @@ def get_authors_info() -> tuple[str, str]:
     default_author_email = "tobidegnon@proton.me"
     git_config_cmd = ["git", "config", "--global", "--get"]
     try:
-        user_name_cmd = subprocess.run([*git_config_cmd, "user.name"], capture_output=True, text=True, check=False)
-        user_email_cmd = subprocess.run([*git_config_cmd, "user.email"], capture_output=True, text=True, check=False)
+        user_name_cmd = subprocess.run(
+            [*git_config_cmd, "user.name"], capture_output=True, text=True, check=False
+        )
+        user_email_cmd = subprocess.run(
+            [*git_config_cmd, "user.email"], capture_output=True, text=True, check=False
+        )
     except FileNotFoundError:
         return default_author_name, default_author_email
     if user_email_cmd.returncode != 0:

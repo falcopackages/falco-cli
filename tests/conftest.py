@@ -2,11 +2,11 @@ import os
 import shutil
 import subprocess
 from pathlib import Path
-from unittest.mock import MagicMock
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 import pytest
 from cappa.testing import CommandRunner
+
 from falco_cli.__main__ import Falco
 
 
@@ -47,7 +47,9 @@ class Post(models.Model):
     # Register the app in the project's settings
     settings_file = project_dir / "myproject" / "settings.py"
     settings_content = settings_file.read_text()
-    settings_file.write_text(settings_content + "\n" + "INSTALLED_APPS += ['blog', 'django_extensions']\n")
+    settings_file.write_text(
+        settings_content + "\n" + "INSTALLED_APPS += ['blog', 'django_extensions']\n"
+    )
 
     # create a pyproject.toml
     (project_dir / "pyproject.toml").write_text(
