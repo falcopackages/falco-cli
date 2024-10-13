@@ -87,10 +87,6 @@ class StartProject:
         project_dir = self.init_project()
         with change_directory(project_dir):
             pyproject_path = Path("pyproject.toml")
-            env_file = Path(".env")
-            env_file.touch()
-            env_file.write_text("DEBUG=True")
-
             config = {
                 "revision": revision,
                 "skip": DEFAULT_SKIP,
