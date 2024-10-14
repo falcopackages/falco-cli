@@ -1,4 +1,0 @@
-outputs:
-  - command: "tree -L 3 src/falco_blueprints/project_name"
-    img_paths:
-      - docs/images/project-tree.svg

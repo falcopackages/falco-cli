@@ -20,14 +20,11 @@ def runner():
     return CommandRunner(Falco)
 
 
-toolbox = Path(__file__).parent.parent / "packages" / "toolbox/src/falco_toolbox"
-
 
 @pytest.fixture
 def django_project(tmp_path):
     project_dir = tmp_path / "myproject"
     subprocess.run(["django-admin", "startproject", "myproject"], check=True)
-    shutil.copytree(toolbox, project_dir / "falco_toolbox")
     os.chdir(project_dir)
 
     # Create a new Django app

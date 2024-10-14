@@ -81,7 +81,6 @@ def test_start_project_in_directory(blueprint_path, runner: CommandRunner, tmp_p
         "start-project",
         "dotfm",
         "builds",
-        "--skip-new-version-check",
         "--blueprint",
         str(blueprint_path),
     )
@@ -105,7 +104,6 @@ def test_start_project_in_directory_with_root(
         "dotfm",
         "builds/special_project",
         "--root",
-        "--skip-new-version-check",
         "--blueprint",
         str(blueprint_path),
     )
