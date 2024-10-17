@@ -20,7 +20,6 @@ def runner():
     return CommandRunner(Falco)
 
 
-
 @pytest.fixture
 def django_project(tmp_path):
     project_dir = tmp_path / "myproject"

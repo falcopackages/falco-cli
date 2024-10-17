@@ -1,5 +1,6 @@
 import os
 import subprocess
+import sys
 from contextlib import contextmanager
 from pathlib import Path
 from typing import TypeVar
@@ -52,15 +53,18 @@ def simple_progress(
         progress.stop()
 
 
+exec_path = Path(sys.executable).parent
+
+
 def run_python_formatters(filepath: str | Path):
     autoflake = [
-        "autoflake",
+        exec_path / "autoflake",
         "--in-place",
         "--remove-all-unused-imports",
         filepath,
     ]
-    black = ["black", filepath]
-    isort = ["isort", filepath]
+    black = [exec_path / "black", filepath]
+    isort = [exec_path / "isort", filepath]
     subprocess.run(
         autoflake, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False
     )
@@ -79,7 +83,7 @@ def run_html_formatters(filepath: str | Path):
     """
 
     djlint = [
-        "djlint",
+        exec_path / "djlint",
         "--custom-blocks",
         "partialdef",
         "--blank-line-after-tag",
