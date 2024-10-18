@@ -21,17 +21,10 @@ from .utils import (
     clean_project_name,
     get_username,
     simple_progress,
+    run_html_formatters
 )
 
 DEFAULT_SKIP = ["playground.ipynb", "README.md", "*/static/*"]
-
-
-@simple_progress("Running html formatters")
-def run_html_formatters(filepath: str | Path):
-    djlint = ["djlint", filepath, "--reformat"]
-    subprocess.run(
-        djlint, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False
-    )
 
 
 @cappa.command(help="Initialize a new django project the falco way.")
@@ -95,7 +88,8 @@ class StartProject:
 
             write_falco_config(pyproject_path=pyproject_path, **config)
 
-        run_html_formatters(project_dir / self.project_name / "templates")
+        with simple_progress("Running html formatters"):
+            run_html_formatters(project_dir / self.project_name / "templates")
 
         msg = f"{RICH_SUCCESS_MARKER} Project initialized, keep up the good work!\n"
         msg += (
