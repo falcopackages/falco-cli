@@ -14,7 +14,8 @@ keywords = [
   "project-template",
   "python",
 ]
-license = "MIT"
+License-Expression = "MIT"
+License-File = "LICENSE"
 authors = [
   { name = "Tobi DEGNON", email = "tobidegnon@proton.me" },
 ]

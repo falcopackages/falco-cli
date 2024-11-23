@@ -24,7 +24,7 @@ def get_username() -> str:
     try:
         return os.getlogin()
     except OSError:
-        return "tobi"
+        return os.getenv("USERNAME", "tobi")
 
 
 def get_pyproject_file() -> Path:
