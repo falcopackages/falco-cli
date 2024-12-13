@@ -174,8 +174,8 @@ def resolve_blueprint(blueprint: str, *, use_local: bool = False) -> tuple[str, 
 
 
 def get_authors_info() -> tuple[str, str]:
-    default_author_name = os.getenv("AUTHOR_NAME", "Tobi DEGNON")
-    default_author_email = os.getenv("AUTHOR_EMAIL", "tobidegnon@proton.me")
+    default_author_name = os.getenv("AUTHOR_NAME", "") .strip() or "Tobi DEGNON"
+    default_author_email = os.getenv("AUTHOR_EMAIL", "").strip() or "tobidegnon@proton.me")
     git_config_cmd = ["git", "config", "--global", "--get"]
     try:
         user_name_cmd = subprocess.run(
