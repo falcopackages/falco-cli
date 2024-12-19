@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import TypeVar
 
 import cappa
+import ruff_api
 import tomlkit
 from rich.progress import Progress, SpinnerColumn, TextColumn
 
@@ -57,23 +58,20 @@ exec_path = Path(sys.executable).parent
 
 
 def run_python_formatters(filepath: str | Path):
-    autoflake = [
-        exec_path / "autoflake",
-        "--in-place",
-        "--remove-all-unused-imports",
-        filepath,
-    ]
-    black = [exec_path / "black", filepath]
-    isort = [exec_path / "isort", filepath]
-    subprocess.run(
-        autoflake, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False
-    )
-    subprocess.run(
-        isort, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False
-    )
-    subprocess.run(
-        black, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False
-    )
+    def format_code(fpath: Path):
+        code = fpath.read_text()
+        code = ruff_api.format_string(fpath.name, code)
+        code = ruff_api.isort_string(fpath.name, code)
+        fpath.write_text(code)
+
+    if filepath.is_dir():
+        for f in filepath.rglob("*.py"):
+            file_path = str(f)
+            if file_path.startswith(".") or "venv" in file_path:
+                continue
+            format_code(f)
+    else:
+        format_code(filepath)
 
 
 def run_html_formatters(filepath: str | Path):
