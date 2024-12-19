@@ -20,8 +20,8 @@ from .utils import (
     RICH_SUCCESS_MARKER,
     clean_project_name,
     get_username,
+    run_html_formatters,
     simple_progress,
-    run_html_formatters
 )
 
 DEFAULT_SKIP = ["playground.ipynb", "README.md", "*/static/*"]
@@ -174,8 +174,10 @@ def resolve_blueprint(blueprint: str, *, use_local: bool = False) -> tuple[str, 
 
 
 def get_authors_info() -> tuple[str, str]:
-    default_author_name = os.getenv("AUTHOR_NAME", "") .strip() or "Tobi DEGNON"
-    default_author_email = os.getenv("AUTHOR_EMAIL", "").strip() or "tobidegnon@proton.me")
+    default_author_name = os.getenv("AUTHOR_NAME", "").strip() or "Tobi DEGNON"
+    default_author_email = (
+        os.getenv("AUTHOR_EMAIL", "").strip() or "tobidegnon@proton.me"
+    )
     git_config_cmd = ["git", "config", "--global", "--get"]
     try:
         user_name_cmd = subprocess.run(

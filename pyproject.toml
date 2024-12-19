@@ -7,6 +7,7 @@ requires = [
 [project]
 name = "falco-cli"
 description = "Enhance your Django developer experience: CLI and Guides for the Modern Developer."
+version = "0.27.0a6"
 readme = "README.md"
 keywords = [
   "cookiecutter",
@@ -37,22 +38,16 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: CPython",
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
-dynamic = [
-  "version",
-]
 dependencies = [
-  "autoflake",
-  "black",
   "cappa",
   "cookiecutter",
   "cruft",
   "djlint",
   "httpx",
-  "isort",
   "rich",
   "tomlkit",
+  "ruff-api<=0.1.0",
 ]
-optional-dependencies = { just = [ "just-bin" ], hatch = [ "hatch" ] }
 
 urls.Documentation = "https://falco.oluwatobi.dev/"
 urls.Homepage = "https://falco.oluwatobi.dev/"
@@ -61,25 +56,8 @@ urls.Source = "https://github.com/tobi-de/falco"
 
 scripts.falco = "falco_cli.__main__:main"
 
-[tool.hatch.build.targets.wheel]
-packages = [
-  "src/falco_cli",
-]
-
-[tool.hatch.env]
-requires = [
-  "hatch-pip-compile>=1.11.2",
-]
-
-[[tool.hatch.envs.all.matrix]]
-python = [
-  "3.10",
-  "3.11",
-  "3.12",
-]
-
-[tool.hatch.envs.default]
-dependencies = [
+[dependency-groups]
+dev = [
   "coverage[toml]>=6.5",
   "pytest",
   "ipython",
@@ -93,14 +71,7 @@ dependencies = [
   "pytest-xdist",
   "pyproject-fmt",
 ]
-pip-compile-constraint = "default"
-pip-compile-installer = "uv"
-pip-compile-resolver = "uv"
-type = "pip-compile"
-lock-filename = "requirements.txt"
-
-[tool.hatch.envs.docs]
-dependencies = [
+docs = [
   "sphinx",
   "sphinx-autobuild",
   "myst-parser",
@@ -115,13 +86,6 @@ dependencies = [
   "sphinx-github-changelog",
   "sphinx-docsearch",
 ]
-lock-filename = "docs/requirements.txt"
-
-[tool.hatch.metadata]
-allow-direct-references = true
-
-[tool.hatch.version]
-path = "src/falco_cli/__about__.py"
 
 [tool.ruff]
 exclude = [
@@ -225,6 +189,6 @@ tag_message = "Bump version: {current_version} → {new_version}"
 tag_name = "v{new_version}"
 
 [[tool.bumpversion.files]]
-filename = "src/falco_cli/__about__.py"
-replace = '__version__ = "{new_version}"'
-search = '__version__ = "{current_version}"'
+filename = "pyproject.toml"
+replace = 'version = "{new_version}"'
+search = 'version = "{current_version}"'

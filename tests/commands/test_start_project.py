@@ -2,7 +2,6 @@ from pathlib import Path
 
 import pytest
 from cappa.testing import CommandRunner
-
 from falco_cli.config import read_falco_config
 
 

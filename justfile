@@ -3,23 +3,19 @@ _default:
     @just --list
 
 @install:
-    hatch run python --version
+    uv sync
 
 # Install dependencies
 @bootstrap:
-    hatch env create
-    hatch env create docs
+    uv sync
 
 @clean:
-    hatch env prune
-
-# Ugrade dependencies
-upgrade:
-    hatch run hatch-pip-compile --upgrade --all
+    rm -rf .venv
 
 # Run sphinx autobuild
 @docs-serve:
-    hatch run docs:sphinx-autobuild docs docs/_build/html --port 8002
+    uv sync --group docs
+    uv run docs:sphinx-autobuild docs docs/_build/html --port 8002
 
 # Generate demo project
 generate-demo *OVERWRITE:
@@ -27,7 +23,7 @@ generate-demo *OVERWRITE:
     set -euo pipefail
     [[ "{{ OVERWRITE }}" == "--overwrite" ]] && rm -rf demo/myjourney
     [[ -d demo/myjourney ]] && { echo "Directory demo/myjourney already exists. Use --overwrite to recreate it."; exit 0; }
-    hatch run falco start-project myjourney demo -b blueprints/tailwind
+    uv run falco start-project myjourney demo -b blueprints/tailwind
     cd demo/myjourney
     just bootstrap
     just falco start-app entries
@@ -55,18 +51,18 @@ tree: generate-demo
     rm -f tree.txt\'\'
 
 @test:
-    hatch run pytest
+    uv run pytest
 
 # Run all formatters
 @fmt:
     just --fmt --unstable
-    hatch fmt --formatter
-    hatch run pyproject-fmt pyproject.toml
-    hatch run pre-commit run reorder-python-imports -a
+    uvx ruff format
+    uv run pyproject-fmt pyproject.toml
+    uv run pre-commit run reorder-python-imports -a
 
 # Bump project version and update changelog
 @bumpver version:
-    hatch run bump-my-version bump {{ version }}
+    uvx bump-my-version bump {{ version }}
     git push
     git push --tags
 

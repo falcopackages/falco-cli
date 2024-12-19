@@ -6,7 +6,6 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 from cappa.testing import CommandRunner
-
 from falco_cli.__main__ import Falco
 
 
