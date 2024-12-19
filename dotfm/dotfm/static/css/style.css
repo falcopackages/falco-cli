@@ -1,0 +1,16 @@
+.bs-messages {
+    margin-top: 4.65rem !important
+}
+
+body {
+    min-height: 100vh;
+    min-height: 100dvh;
+
+    display: grid;
+
+    grid-template-rows: auto 1fr auto;
+}
+
+.mt-7 {
+    margin-top: 7rem !important
+}

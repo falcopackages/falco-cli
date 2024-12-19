@@ -1,0 +1,4 @@
+#!/command/with-contenv execlineb
+
+cd /app
+exec python dotfm/__main__.py qcluster

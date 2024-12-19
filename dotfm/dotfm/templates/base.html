@@ -1,0 +1,145 @@
+{% load static %}
+{% load django_htmx %}
+{% load django_bootstrap5 %}
+{% load compress %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="htmx-config" content='{"globalViewTransitions": "true"}' />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+
+    {% block title %}
+      <title>Dotfm</title>
+    {% endblock title %}
+
+    {% bootstrap_css %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    {% compress css %}
+
+      {% block css %}
+      {% endblock css %}
+
+    {% endcompress css %}
+    {% bootstrap_javascript %}
+    <script defer src="{% static 'vendors/htmx/htmx.min.js' %}"></script>
+    {% compress js %}
+
+      {% block javascript %}
+      {% endblock javascript %}
+
+    {% endcompress js %}
+  </head>
+  <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+
+    {% block header %}
+      <header class="px-3 py-2 text-bg-light border-bottom fixed-top">
+        <div class="container">
+          <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="{% url 'home' %}">dotfm</a>
+              <button class="navbar-toggler"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#navbarSupportedContent"
+                      aria-controls="navbarSupportedContent"
+                      aria-expanded="false"
+                      aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                {% if not user.is_authenticated %}
+                  <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item text-dark">
+                      <a href="{% url 'home' %}" class="nav-link px-2 text-secondary">Home</a>
+                    </li>
+                    <li class="nav-item text-dark">
+                      <a href="{% url 'about' %}" class="nav-link px-2 text-secondary">About</a>
+                    </li>
+                  </ul>
+                  <div class="text-end">
+                    <a role="button"
+                       href="{% url 'account_login' %}"
+                       class="btn btn-outline-secondary me-2">Login</a>
+                    <a role="button"
+                       href="{% url 'account_signup' %}"
+                       class="btn btn-primary">Sign-up</a>
+                  </div>
+                {% else %}
+                  <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <!-- app url link goes here -->
+                    <li class="nav-item">
+                      <a class="nav-link" href="#">Dashboard</a>
+                    </li>
+                  </ul>
+                  <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+                    <input type="search"
+                           class="form-control"
+                           placeholder="Search..."
+                           aria-label="Search" />
+                  </form>
+                  <div class="dropdown text-end">
+                    <a href="#"
+                       class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
+                       data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                      <img src="https://api.dicebear.com/7.x/thumbs/svg?seed={{ request.user.email }}"
+                           class="rounded-circle"
+                           width="32"
+                           height="32"
+                           alt="" />
+                    </a>
+                    <ul class="dropdown-menu text-small">
+                      <li>
+                        <a class="dropdown-item" href="#">Settings</a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="{% url 'account_email' %}">Change Email</a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="{% url 'account_change_password' %}">Change Password</a>
+                      </li>
+                      <li>
+                        <hr class="dropdown-divider" />
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="{% url 'account_logout' %}">Sign out</a>
+                      </li>
+                    </ul>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+          </nav>
+        </div>
+      </header>
+    {% endblock header %}
+
+    <main class="container mx-auto">
+      <div class="bs-messages">{% bootstrap_messages %}</div>
+
+      {% block content %}
+      {% endblock content %}
+
+    </main>
+
+    {% block footer %}
+      <div class="container-fluid footer mt-auto">
+        <footer class="d-flex flex-wrap justify-content-center align-items-center py-3 my-4 border-top">
+          <span class="mb-3 mb-md-0 text-body-secondary me-2">© 2024 Company, Inc</span>
+        </footer>
+      </div>
+    {% endblock footer %}
+
+    {% block modal %}
+    {% endblock modal %}
+
+    {% block inline_javascript %}
+    {% endblock inline_javascript %}
+
+    {% django_htmx_script %}
+  </body>
+</html>

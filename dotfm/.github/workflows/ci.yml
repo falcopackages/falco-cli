@@ -1,0 +1,79 @@
+name: CI
+
+on:
+  pull_request:
+    branches: ["master", "main"]
+    paths-ignore: ["docs/**"]
+
+  push:
+    branches: ["master", "main"]
+    paths-ignore: ["docs/**"]
+
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  types:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Hatch
+        uses: pypa/hatch@install
+
+      - name: Install just
+        uses: extractions/setup-just@v2
+
+      - name: Run type checking
+        run: just types
+
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Hatch
+        uses: pypa/hatch@install
+
+      - name: Install just
+        uses: extractions/setup-just@v2
+
+      - name: Run deployment checks
+        run: just deploy-checks
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Hatch
+        uses: pypa/hatch@install
+
+      - name: Install just
+        uses: extractions/setup-just@v2
+
+      - name: Build staticfiles
+        run: just collectstatic
+      - name: Test with pytest
+        run: just test

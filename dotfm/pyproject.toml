@@ -1,0 +1,259 @@
+[build-system]
+build-backend = "hatchling.build"
+requires = [
+  "hatchling",
+]
+
+[project]
+name = "dotfm"
+version = "0.0.1"
+description = ""
+readme = "README.md"
+authors = [{ name = "Tobi DEGNON", email = "tobidegnon@proton.me" }]
+requires-python = ">=3.11"
+classifiers = [
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+  "django[argon2]",
+  "django-allauth[socialaccount]",
+  "django-anymail[amazon-ses]",
+  "django-storages[s3]",
+  "django-compressor",
+  "django-bootstrap5",
+  "django-template-partials",
+  "django-lifecycle",
+  "django-q2",
+  "django-q-registry",
+  "django-health-check",
+  "django-unique-user-email",
+  "django-extensions",
+  "django-htmx",
+  "falco-toolbox",
+  "falco-ui",
+  "diskcache",
+  "environs[django]",
+  "heroicons[django]",
+  "gunicorn",
+  "boto3",
+  "crispy-bootstrap5",
+  "Pillow",
+  "psycopg[binary]",
+  "sentry-sdk",
+  "whitenoise",
+  "refreshcss",
+]
+
+scripts.dotfm = "dotfm.__main__:main"
+
+[tool.django-stubs]
+django_settings_module = "dotfm.settings"
+
+[tool.coverage.run]
+source_pkgs = ["dotfm", "tests"]
+branch = true
+parallel = true
+
+[tool.coverage.paths]
+dotfm = ["*/dotfm/dotfm"]
+tests = ["tests", "*/dotfm/tests"]
+
+[tool.coverage.report]
+exclude_lines = ["no cov", "if __name__ == .__main__.:", "if TYPE_CHECKING:"]
+
+[tool.falco]
+htmx = "dotfm/static/vendors/htmx/htmx.min.js:2.0.2"
+revision = "3c56c75993f8c9d8cc10d83c4bd2d945af4462b6"
+skip = ["playground.ipynb", "README.md", "*/static/*"]
+blueprint = "https://github.com/falcopackages/starter-template-bootstrap"
+
+[tool.falco.work]
+server = "python manage.py migrate && python manage.py runserver {address}"
+worker = "python manage.py qcluster"
+
+[tool.falco.crud]
+blueprints = "blueprints"
+
+
+[tool.hatch.env]
+requires = [
+  "hatch-pip-compile>=1.11.2"
+]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+exclude = [
+  "static",
+]
+artifacts = [
+  "staticfiles",
+]
+
+[tool.hatch.build.targets.binary]
+
+[[tool.hatch.envs.all.matrix]]
+python = ["3.11", "3.12"]
+
+[tool.hatch.envs.default]
+type = "pip-compile"
+pip-compile-constraint = "default"
+pip-compile-installer = "uv"
+pip-compile-resolver = "uv"
+lock-filename = "requirements.txt"
+
+[tool.hatch.envs.dev]
+dependencies = [
+    "django-browser-reload",
+    "django-debug-toolbar",
+    "dj-notebook>=0.6.1",
+    "Werkzeug[watchdog]>=3.0.1",
+    "django-stubs[compatible-mypy]",
+    "django-fastdev",
+    "coverage[toml]>=6.5",
+    "pre-commit",
+    "pytest",
+    "pytest-django",
+    "pytest-sugar",
+    "pytest-xdist",
+    "falco-cli",
+    "django-watchfiles",
+    "git-cliff",
+    "bump-my-version",
+    "hatch-pip-compile",
+]
+lock-filename = "requirements-dev.txt"
+
+[tool.hatch.envs.docs]
+template = "dev"
+extra-dependencies = [
+  "furo",
+  "sphinx",
+  "sphinx-autobuild",
+  "sphinx-copybutton",
+  "sphinx-design",
+  "myst-parser",
+]
+lock-filename = "docs/requirements.txt"
+
+[tool.mypy]
+python_version = "3.11"
+check_untyped_defs = true
+ignore_missing_imports = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+warn_unused_configs = true
+plugins = ["mypy_django_plugin.main"]
+
+[[tool.mypy.overrides]]
+ignore_errors = true
+module = [
+  "allauth.*",
+  "boto3.*",
+  "botocore.*",
+  "debug_toolbar.*",
+  "django_filters.*",
+  "django_q.*",
+  "djclick.*",
+  "gunicorn.*",
+  "health_check.*",
+  "*.migrations.*"
+]
+
+[tool.mypy_django_plugin]
+ignore_missing_model_attributes = true
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "dotfm.settings"
+addopts = "--reuse-db -n auto"
+norecursedirs = ".* bin build dist *.egg htmlcov logs node_modules static templates venv"
+python_files = "tests.py test_*.py *_tests.py"
+
+[tool.ruff.lint]
+extend-ignore = ["TID252", "RUF012", "TRY003", "EM101", "I001", "I002"]
+
+[tool.ruff.lint.extend-per-file-ignores]
+"deploy/*" = ["INP001"]
+"*/__main__.py" = [ "S104" ]
+"*/migrations/*" = ["E501"]
+"tests/**/*" = ["PLR2004", "S101", "TID252", "ARG001"]
+"docs/conf.py" = ["INP001", "A001"]
+
+[tool.bumpversion]
+current_version = "0.0.1"
+parse = "(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)"
+serialize = [
+  "{major}.{minor}.{patch}",
+]
+search = "{current_version}"
+replace = "{new_version}"
+regex = false
+ignore_missing_version = false
+ignore_missing_files = false
+tag = true
+sign_tags = false
+tag_name = "v{new_version}"
+tag_message = "Bump version: {current_version} → {new_version}"
+allow_dirty = false
+commit = true
+message = "Bump version: {current_version} → {new_version}"
+commit_args = "--no-verify"
+
+[[tool.bumpversion.files]]
+filename = "pyproject.toml"
+search = 'version = "{current_version}"'
+replace = 'version = "{new_version}"'
+
+[tool.git-cliff.changelog]
+header = """
+# Changelog\n
+All notable changes to this project will be documented in this file.\n
+"""
+body = """
+{% if version %}\
+    ## [{{ version | trim_start_matches(pat="v") }}] - {{ timestamp | date(format="%Y-%m-%d") }}
+{% else %}\
+    ## [unreleased]
+{% endif %}\
+{% for group, commits in commits | group_by(attribute="group") %}
+    ### {{ group | striptags | trim | upper_first }}
+    {% for commit in commits %}
+        - {% if commit.scope %}*({{ commit.scope }})* {% endif %}\
+            {% if commit.breaking %}[**breaking**] {% endif %}\
+            {{ commit.message | upper_first }}\
+    {% endfor %}
+{% endfor %}\n
+"""
+footer = """
+<!-- generated by git-cliff -->
+"""
+trim = true
+
+[tool.git-cliff.git]
+conventional_commits = true
+filter_unconventional = true
+split_commits = false
+commit_parsers = [
+  { message = "^feat", group = "<!-- 0 -->🚀 Features" },
+  { message = "^fix", group = "<!-- 1 -->🐛 Bug Fixes" },
+  { message = "^doc|^docs", group = "<!-- 3 -->📚 Documentation" },
+  { message = "^perf", group = "<!-- 4 -->⚡ Performance" },
+  { message = "^refactor", group = "<!-- 2 -->🚜 Refactor" },
+  { message = "^style", group = "<!-- 5 -->🎨 Styling" },
+  { message = "^test", group = "<!-- 6 -->🧪 Testing" },
+  { message = "^build", group = "<!-- 7 -->📦 Build" },
+  { message = "^chore\\(release\\): prepare for", skip = true },
+  { message = "^chore\\(deps.*\\)", skip = true },
+  { message = "^chore\\(pr\\)", skip = true },
+  { message = "^chore\\(pull\\)", skip = true },
+  { message = "^chore|^ci", group = "<!-- 8 -->⚙️ Miscellaneous Tasks" },
+  { body = ".*security", group = "<!-- 9 -->🛡️ Security" },
+  { message = "^revert", group = "<!-- 10 -->◀️ Revert" },
+]
+protect_breaking_commits = false
+filter_commits = false
+topo_order = false
+sort_commits = "oldest"

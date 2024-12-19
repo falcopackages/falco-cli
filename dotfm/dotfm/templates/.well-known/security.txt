@@ -1,0 +1,3 @@
+Contact: mailto:tobidegnon@proton.me
+Expires: {{ year }}-01-01T06:00:00.000Z
+Preferred-Languages: en

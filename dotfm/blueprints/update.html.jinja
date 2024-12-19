@@ -1,0 +1,24 @@
+{% raw %}
+{%  extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <section class="d-flex justify-content-between">
+        {% endraw %}
+        <h1 class="text-lg text-bold py-4 align-self-center"> {{ model_name}} Update - {% raw %}{{{% endraw %} {{ model_name|lower }} {% raw %}}}{% endraw %}</h1>
+
+        <a href="{{list_view_url|safe}}" role="button" class="btn btn-secondary align-self-center">
+            All {{model_verbose_name_plural|capitalize}}
+        </a>
+    </section>
+
+{% raw %}
+    <form method="post">
+        {% csrf_token %}
+        {{form | crispy}}
+        <button type="submit" class="cursor-pointer py-2 px-4 btn btn-primary rounded-lg">
+            Save
+        </button>
+    </form>
+{% endblock content %}
+{% endraw %}

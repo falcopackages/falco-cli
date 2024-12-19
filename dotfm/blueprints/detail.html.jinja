@@ -1,0 +1,27 @@
+{% raw %}
+{% extends "base.html" %}
+
+{% block content %}
+
+    <section class="d-flex justify-content-between">
+{% endraw %}
+        <h1 class="text-lg text-bold align-self-center py-4">{{ model_name}} - {% raw %}{{ {% endraw %} {{ model_name|lower }} {% raw %} }}{% endraw %} </h1>
+        <a href="{{list_view_url|safe}}" class="align-self-center btn btn-secondary">
+            All {{model_verbose_name_plural|capitalize}}
+        </a>
+    </section>
+
+    <ul class="py-5">
+        {% for field_verbose_name, field_accessor in fields_verbose_name_with_accessor.items() %}
+            <li>
+                <span class="text-bold">{{ field_verbose_name }}:</span> {{ field_accessor }}
+            </li>
+        {% endfor %}
+    </ul>
+
+
+    <a href="{{ update_view_url|safe }}" role="button" class="py-2 px-4 btn btn-primary rounded-lg">Edit</a>
+
+{% raw %}
+{% endblock content %}
+{% endraw %}
