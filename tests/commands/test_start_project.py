@@ -10,6 +10,7 @@ def test_start_project(tmp_path, blueprint: str, runner: CommandRunner):
     assert (tmp_path / "dotfm/dotfm/urls.py").exists()
     assert (tmp_path / "dotfm/dotfm/wsgi.py").exists()
 
+
 # def all_files_are_correctly_generated(project_name, project_dir: Path) -> bool:
 #     required_files = [
 #         "pyproject.toml",

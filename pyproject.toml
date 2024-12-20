@@ -172,7 +172,7 @@ source_pkgs = [
 allow_dirty = false
 commit = true
 commit_args = "--no-verify"
-current_version = "0.26.6"
+current_version = "0.27.0a6"
 ignore_missing_files = false
 ignore_missing_version = false
 message = "Bump version: {current_version} → {new_version}"
@@ -192,3 +192,9 @@ tag_name = "v{new_version}"
 filename = "pyproject.toml"
 replace = 'version = "{new_version}"'
 search = 'version = "{current_version}"'
+
+[[tool.bumpversion.files]]
+filename = "src/falco_cli/__main__.py"
+replace = 'version="{new_version}"'
+search = 'version="{current_version}"'
+

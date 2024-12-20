@@ -13,7 +13,7 @@ class Falco:
 
 
 def main():
-    cappa.invoke(Falco)
+    cappa.invoke(Falco, version="0.27.0a6")
 
 
 if __name__ == "__main__":
