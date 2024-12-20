@@ -701,14 +701,14 @@ docs = [
 
 [package.metadata]
 requires-dist = [
-    { name = "cappa" },
-    { name = "cookiecutter" },
-    { name = "cruft" },
-    { name = "djlint" },
-    { name = "httpx" },
-    { name = "rich" },
+    { name = "cappa", specifier = ">=0.26.0" },
+    { name = "cookiecutter", specifier = ">=2.6.0" },
+    { name = "cruft", specifier = ">=2.15.0" },
+    { name = "djlint", specifier = ">=1.36.3" },
+    { name = "httpx", specifier = ">=0.28.1" },
+    { name = "rich", specifier = ">=13.9.4" },
     { name = "ruff-api", specifier = "<=0.1.0" },
-    { name = "tomlkit" },
+    { name = "tomlkit", specifier = ">=0.13.2" },
 ]
 
 [package.metadata.requires-dev]

@@ -39,14 +39,14 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
 dependencies = [
-  "cappa",
-  "cookiecutter",
-  "cruft",
-  "djlint",
-  "httpx",
-  "rich",
-  "tomlkit",
+  "cappa>=0.26.0",
+  "cookiecutter>=2.6.0",
+  "cruft>=2.15.0",
+  "djlint>=1.36.3",
+  "httpx>=0.28.1",
+  "rich>=13.9.4",
   "ruff-api<=0.1.0",
+  "tomlkit>=0.13.2",
 ]
 
 urls.Documentation = "https://falco.oluwatobi.dev/"
