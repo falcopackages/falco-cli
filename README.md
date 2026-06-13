@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://falco.oluwatobi.dev/"><img src="https://raw.githubusercontent.com/falcopackages/falco/main/docs/_static/falco-logo.svg" alt="falco logo" height="200"/></a>
+  <a href="https://falco.oluwatobi.dev/"><img src="https://raw.githubusercontent.com/falcopackages/falco-cli/main/docs/_static/falco-logo.svg" alt="falco logo" height="200"/></a>
 </p>
 
 <h1 align="center">
@@ -7,19 +7,16 @@
   <p>An opinionated toolkit for a modern Django development experience</p>
 </h1>
 
-[![CI](https://github.com/Tobi-De/falco/actions/workflows/ci.yml/badge.svg)](https://github.com/Tobi-De/falco/actions/workflows/ci.yml)
-[![Publish Python Package](https://github.com/Tobi-De/falco/actions/workflows/publish.yml/badge.svg)](https://github.com/Tobi-De/falco/actions/workflows/publish.yml)
+[![CI](https://github.com/falcopackages/falco-cli/actions/workflows/ci.yml/badge.svg)](https://github.com/falcopackages/falco-cli/actions/workflows/ci.yml)
+[![Publish Python Package](https://github.com/falcopackages/falco-cli/actions/workflows/publish.yml/badge.svg)](https://github.com/falcopackages/falco-cli/actions/workflows/publish.yml)
 [![Documentation](https://readthedocs.org/projects/falco-cli/badge/?version=latest&style=flat)](https://beta.readthedocs.org/projects/falco-cli/builds/?version=latest)
 [![pypi](https://badge.fury.io/py/falco-cli.svg)](https://pypi.org/project/falco-cli/)
-[![Hatch project](https://img.shields.io/badge/%F0%9F%A5%9A-Hatch-4051b5.svg)](https://github.com/pypa/hatch)
+[![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
-[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Tobi-De/falco/blob/main/LICENSE)
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/falcopackages/falco-cli/blob/main/LICENSE)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/falco-cli)](https://pypi.org/project/falco-cli/)
 [![PyPI - Versions from Framework Classifiers](https://img.shields.io/pypi/frameworkversions/django/falco-cli)](https://pypi.org/project/falco-cli/)
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/falco-cli)](https://pypistats.org/packages/falco-cli)
-
-> [!WARNING]
-> The falco CLI isn't stable at the moment; stability is expected with the 1.0.0 release. I'm still making numerous changes quite frequently. If you're currently using it, remember to run `pip install --upgrade falco-cli` from time to time.
 
 Falco is a Django-centric toolkit designed to enhance the development experience. The CLI offers commands for initiating new projects, generating simple CRUD views for rapid prototyping, and more. Additionally, it provides a collection of guides to address common issues in web development specifically tailored to Django.
 
@@ -28,14 +25,14 @@ Falco is a Django-centric toolkit designed to enhance the development experience
 
 ## The CLI
 
-This is a set of commands to help you throughout the lifecycle of your django project development, from bootstrapping a new project using modern tools like [htmx](https://htmx.org), [hatch](https://github.com/pypa/hatch), [tailwindcss](https://tailwindcss.com/), to generating CRUD views for your models and a few utilities that might help during deployment.
+This is a set of commands to help you throughout the lifecycle of your django project development, from bootstrapping a new project using modern tools like [htmx](https://htmx.org), [uv](https://github.com/astral-sh/uv), [tailwindcss](https://tailwindcss.com/), to generating CRUD views for your models and a few utilities that might help during deployment.
 
 For a brief introduction to the user experience of the CLI, visit this [page](https://falco.oluwatobi.dev/the_cli/usage.html).
 <!-- [![The CLI full documentation](https://img.shields.io/badge/Read%20The%20CLI%20Documentation-blue?style=for-the-badge&logo=ReadTheDocs)](https://falco.oluwatobi.dev/the_cli/) -->
 
 
 ```sh
-pip install falco-cli
+uv tool install falco-cli
 ```
 
 - [start-project](https://falco.oluwatobi.dev/the_cli/start_project/index.html): Initialize a new django project the falco way.
@@ -53,7 +50,7 @@ pip install falco-cli
 
 **Templates**
 
-- [tailwind](https://github.com/Tobi-De/falco_tailwind) (default)
+- [tailwind](https://github.com/falcopackages/starter-template) (default)
 - [bootstrap](https://github.com/Tobi-De/falco_bootstrap)
 
 ## The guides
@@ -95,7 +92,6 @@ Falco is inspired by (and borrows elements from) some excellent open source proj
 
 - [cookiecutter-django](https://github.com/cookiecutter/cookiecutter-django)
 - [fuzzy-couscous](https://github.com/Tobi-De/fuzzy-couscous) (predecessor of falco)
-- [django-hatch-startproject](https://github.com/oliverandrich/django-hatch-startproject)
 - [django-unicorn](https://github.com/adamghill/django-unicorn) (Inspiration for the logo)
 - [neapolitan](https://github.com/carltongibson/neapolitan)
 - [django-base-site](https://github.com/epicserve/django-base-site)
