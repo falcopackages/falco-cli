@@ -66,6 +66,15 @@ class StartProject:
     checkout: Annotated[
         str | None, cappa.Arg(default=None, long="--checkout", short="-c", hidden=True)
     ] = None
+    pg: Annotated[
+        bool,
+        cappa.Arg(
+            default=False,
+            long="--pg",
+            short="-p",
+            help="Generate a PostgreSQL project instead of the default SQLite.",
+        ),
+    ] = False
 
     def __call__(self) -> None:
         if self.is_root and not self.directory:
@@ -115,6 +124,7 @@ class StartProject:
                         "username": get_username(),
                         "description": os.getenv("DESCRIPTION", ""),
                         "secret_key": f"django-insecure-{secrets.token_urlsafe(32)}",
+                        "use_postgres": self.pg,
                     },
                 )
             except CookiecutterException as e:

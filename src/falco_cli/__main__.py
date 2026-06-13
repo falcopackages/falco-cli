@@ -1,3 +1,5 @@
+from importlib.metadata import version
+
 import cappa
 
 from .fmt import Fmt
@@ -13,7 +15,7 @@ class Falco:
 
 
 def main():
-    cappa.invoke(Falco, version="0.28.1")
+    cappa.invoke(Falco, version=version("falco-cli"))
 
 
 if __name__ == "__main__":
