@@ -7,7 +7,7 @@ requires = [
 [project]
 name = "falco-cli"
 description = "Enhance your Django developer experience: CLI and Guides for the Modern Developer."
-version = "0.28.0"
+version = "0.28.1"
 readme = "README.md"
 keywords = [
   "cookiecutter",
@@ -173,7 +173,7 @@ source_pkgs = [
 allow_dirty = false
 commit = true
 commit_args = "--no-verify"
-current_version = "0.28.0"
+current_version = "0.28.1"
 ignore_missing_files = false
 ignore_missing_version = false
 message = "Bump version: {current_version} → {new_version}"
