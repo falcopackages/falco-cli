@@ -1,0 +1,39 @@
+<nav class="flex justify-end py-4">
+  <ul class="flex list-reset border border-grey-light rounded"
+      hx-boost="true"
+      hx-target="#table"
+      hx-swap="outerHTML"
+      hx-push-url="true">
+    {% with page_class="block px-3 py-2 hover:text-white hover:bg-blue-500 border-r border-grey-light" %}
+      {% if page.has_previous %}
+        <li>
+          <a class="{{ page_class }}" href="?page=1">First</a>
+        </li>
+        <li>
+          <a class="{{ page_class }}"
+             href="?page={{ page.previous_page_number }}">Previous</a>
+        </li>
+      {% endif %}
+      {% for num in page.paginator.page_range %}
+        {% if page.number == num %}
+          <li>
+            <a class="{{ page_class }} bg-blue-500" href="?page={{ num }}">{{ num }}</a>
+          </li>
+        {% elif num > page.number|add:'-3' and num < page.number|add:'3' %}
+          <li>
+            <a class="{{ page_class }}" href="?page={{ num }}">{{ num }}</a>
+          </li>
+        {% endif %}
+      {% endfor %}
+      {% if page.has_next %}
+        <li>
+          <a class="{{ page_class }}" href="?page={{ page.next_page_number }}">Next</a>
+        </li>
+        <li>
+          <a class="block px-3 py-2 hover:text-white hover:bg-blue-500"
+             href="?page={{ page.paginator.num_pages }}">Last</a>
+        </li>
+      {% endif %}
+    {% endwith %}
+  </ul>
+</nav>

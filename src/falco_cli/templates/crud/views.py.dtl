@@ -1,0 +1,77 @@
+# IMPORTS:START
+from falco_cli.htmx import for_htmx
+from falco_cli.pagination import paginate_queryset
+{% if login_required %}
+from django.http import HttpRequest as AuthenticatedHttpRequest
+{% else %}
+from django.http import HttpRequest
+{% endif %}
+from django.contrib import messages
+from django.urls import reverse
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
+from django.template.response import TemplateResponse
+from django.views.decorators.http import require_http_methods
+{% if login_required %}
+from django.contrib.auth.decorators import login_required
+{% endif %}
+
+from .forms import {{model.name}}Form
+from .models import {{model.name}}
+
+# IMPORTS:END
+
+
+# CODE:START
+{% if login_required %}
+@login_required
+@for_htmx(use_partial="table")
+def {{ list_view_name }}(request: AuthenticatedHttpRequest):{% else %}
+@for_htmx(use_partial="table")
+def {{list_view_name}}(request: HttpRequest):{% endif %}
+    {{model.name_plural|lower}} = {{model.name}}.objects.order_by("{{ ordering }}")
+    return TemplateResponse(
+        request,
+        "{{app_label}}/{{ list_view_name }}.html",
+        context={"{{model.name_plural|lower}}_page": paginate_queryset(request, {{model.name_plural|lower}}), "fields": {{ fields_tuple|safe }} },
+    )
+
+{% if login_required %}
+@login_required
+def {{detail_view_name}}(request: AuthenticatedHttpRequest, {{ model.lookup_field }}):{% else %}
+def {{detail_view_name}}(request: HttpRequest, {{ model.lookup_field }}):{% endif %}
+    {{model.name|lower}} = get_object_or_404({{model.name}}.objects, {{ model.lookup_field }} = {{ model.lookup_field }})
+    return TemplateResponse(
+        request,
+        "{{app_label}}/{{ detail_view_name }}.html",
+        context={"{{model.name_lower}}": {{model.name_lower}}},
+    )
+
+{% if login_required %}
+@login_required
+def process_{{ view_name_prefix }}form(request: AuthenticatedHttpRequest,  {{ model.lookup_field }}):{% else %}
+def process_{{ view_name_prefix }}form(request: HttpRequest, {{ model.lookup_field }} = None):{% endif %}
+    instance = get_object_or_404({{ model.name }}.objects, {{ model.lookup_field }}= {{ model.lookup_field }}) if {{ model.lookup_field }} else None {% if model.has_file_field %}
+    form = {{model.name}}Form(request.POST or None, request.FILES or None, instance=instance) {% else %}
+    form = {{model.name}}Form(request.POST or None, instance=instance) {% endif %}
+    if request.method == "POST" and form.is_valid():
+        form.save()
+        messages.success(request, "{{ model.verbose_name_plural|capfirst }} saved successfully")
+        return redirect(reverse("{{app_label}}:{{detail_view_name}}", args=({{ model.lookup_field }},)) if {{ model.lookup_field }} else reverse("{{app_label}}:{{ list_view_name }}"))
+    return TemplateResponse(
+        request,
+        {% if not entry_point %} "{{app_label}}/{{model.name|lower}}_form.html" {% else %} "{{app_label}}/form.html" {% endif %} ,
+        context={"instance": instance, "form": form},
+    )
+
+@require_http_methods(["DELETE", "POST"])
+{% if login_required %}
+@login_required
+def {{delete_view_name}}(request: AuthenticatedHttpRequest, {{ model.lookup_field }}):{% else %}
+def {{delete_view_name}}(request: HttpRequest, {{ model.lookup_field }}):{% endif %}
+    {{model.name}}.objects.filter({{ model.lookup_field }}={{ model.lookup_field }}).delete()
+    return HttpResponse() if request.htmx else redirect("{{ app_label }}:index")
+
+
+# CODE:END

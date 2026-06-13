@@ -1,0 +1,45 @@
+{% verbatim %}
+  {% extends "base.html" %}
+
+  {% block content %}
+  {% endverbatim %}
+  <section class="flex justify-between">
+    <h1 class="text-lg font-bold py-4">
+      {% verbatim %}
+        {% if instance %}
+          Edit {{ instance }}
+        {% else %}
+          Create
+        {% endverbatim %}
+        {{ model.verbose_name|capfirst }}
+        {% verbatim %}
+        {% endif %}
+      {% endverbatim %}
+    </h1>
+    <a href="{{ list_view_url|safe }}"
+       class="text-blue-600 hover:underline hover:text-blue-500">All {{ model.verbose_name_plural|capfirst }}</a>
+  </section>
+  <form method="post"
+        {% if model.has_file_field %}enctype="multipart/form-data"{% endif %}>
+    {% verbatim %}
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+      {% for field in form %}
+        <div class="mb-4">
+          {{ field.label_tag }}
+          {{ field }}
+          {% if field.errors %}
+            <div class="text-red-600 text-sm">{{ field.errors }}</div>
+          {% endif %}
+          {% if field.help_text %}
+            <div class="text-gray-500 text-sm">{{ field.help_text }}</div>
+          {% endif %}
+        </div>
+      {% endfor %}
+      <button type="submit"
+              class="cursor-pointer py-2 px-4 bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 focus:ring-offset-blue-200 text-white text-center text-base font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg">
+        Save
+      </button>
+    </form>
+  {% endblock content %}
+{% endverbatim %}

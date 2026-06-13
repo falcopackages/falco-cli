@@ -1,0 +1,30 @@
+# IMPORTS:START
+from django import forms
+
+from .models import {{model.name}}
+
+# IMPORTS:END
+
+
+# CODE:START
+class {{model.name}}Form(forms.ModelForm):
+    class Meta:
+        model = {{model.name}}
+        fields = {{ editable_fields_tuple|safe }} {% if model.has_editable_date_field %}
+        widgets = {
+            {% for field_name, field_data in model.fields.items %}
+               {% if field_data.editable %}
+                {% if field_data.class_name == "DateField" %}
+                    "{{ field_name }}": forms.DateInput(attrs={"type": "date"}),
+                {% elif field_data.class_name. == "DateTimeField" %}
+                    "{{ field_name }}": forms.DateTimeInput(attrs={"type": "datetime-local"}),
+                {% elif field_data.class_name == "TimeField" %}
+                    "{{ field_name }}": forms.TimeInput(attrs={"type": "time"}),
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+        }
+        {% endif %}
+
+
+# CODE:END
