@@ -27,7 +27,7 @@ from .utils import (
 DEFAULT_SKIP = ["playground.ipynb", "README.md", "*/static/*"]
 
 
-@cappa.command(help="Initialize a new django project the falco way.")
+@cappa.command(help="Initialize a new django project the falco way.", aliases=["new"])
 class StartProject:
     project_name: Annotated[
         str,

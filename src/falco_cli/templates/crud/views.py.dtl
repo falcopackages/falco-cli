@@ -1,6 +1,6 @@
 # IMPORTS:START
 from falco_cli.htmx import for_htmx
-from falco_cli.pagination import paginate_queryset
+from {{ project_name }}.core.utils import paginate_queryset
 {% if login_required %}
 from django.http import HttpRequest as AuthenticatedHttpRequest
 {% else %}

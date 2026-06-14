@@ -16,18 +16,10 @@
 
     {% partialdef table inline=True %}
       <div id="table">
-        <div class="flex flex-col">
-          <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
-              <div class="overflow-x-auto">
-              {% endverbatim %}
-              {{ table_block|safe }}
-            </div>
-          </div>
-        </div>
-      </div>
-      {{ pagination_block|safe }}
-      {% verbatim %}
+        {% endverbatim %}
+        {{ table_block|safe }}
+        {{ pagination_block|safe }}
+        {% verbatim %}
       </div>
     {% endpartialdef %}
 

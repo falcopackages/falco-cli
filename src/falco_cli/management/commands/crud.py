@@ -342,7 +342,7 @@ urlpatterns = [
             root_url = root_url.strip().replace(".", "/")
             root_url_path = Path(f"{root_url}.py")
             module = parso.parse(root_url_path.read_text())
-            new_path = parso.parse(f"path('{app.label}/', include('{app.name}.urls', namespace='{app.label}'))")
+            new_path = parso.parse(f",\n    path('{app.label}/', include('{app.name}.urls', namespace='{app.label}'))")
             for node in module.children:
                 try:
                     if (
@@ -453,11 +453,67 @@ def build_blueprint_context(
     delete_view_name = f"{view_name_prefix}delete"
     create_view_url = f"{{% url '{app_label}:{view_name_prefix}create' %}}"
     ordering = order_by or django_model["lookup_field"]
+    project_name = settings.ROOT_URLCONF.rsplit(".", 1)[0]
+
+    fields = django_model["fields"]
+    field_names = list(fields.keys())
+
+    table_headers = "".join(
+        f"<th>{fields[f]['verbose_name']}</th>" for f in field_names
+    )
+
+    table_cells = ""
+    for idx, f in enumerate(field_names):
+        klass = fields[f]["class_name"]
+        if idx == 0:
+            cell = (
+                f'<td><a class="font-medium hover:underline" href="'
+                f'{{% url \'{app_label}:{detail_view_name}\' object.{django_model["lookup_field"]} %}}">'
+                f'{{{{object.{f}}}}}</a></td>'
+            )
+        elif klass in ("BooleanField", "NullBooleanField"):
+            cell = (
+                f'<td class="text-center">'
+                f'{{% if object.{f} %}}'
+                f'{{% heroicon_solid "check-circle" size=19 class="text-green-500 mx-auto" %}}'
+                f'{{% else %}}'
+                f'{{% heroicon_solid "x-circle" size=19 class="text-red-500 mx-auto" %}}'
+                f'{{% endif %}}'
+                f'</td>'
+            )
+        elif klass in ("ImageField", "FileField"):
+            cell = (
+                f'<td>'
+                f'{{% if object.{f} %}}'
+                f'<a class="hover:underline" href="{{{{object.{f}.url}}}}">{{{{object.{f}.name}}}}</a>'
+                f'{{% endif %}}'
+                f'</td>'
+            )
+        else:
+            cell = f'<td>{{{{object.{f}}}}}</td>'
+        table_cells += cell
+
+    actions_cell = (
+        f'<td class="flex gap-3">'
+        f'<a class="hover:text-blue-500" href="{{% url \'{app_label}:{detail_view_name}\' object.{django_model["lookup_field"]} %}}">{{% heroicon_outline "eye" size=18 %}}</a>'
+        f'<a class="hover:text-blue-500" href="{{% url \'{app_label}:{update_view_name}\' object.{django_model["lookup_field"]} %}}">{{% heroicon_outline "pencil-square" size=18 %}}</a>'
+        f'<form hx-boost="true" hx-target="closest tr" hx-push-url="false" '
+        f'action="{{% url \'{app_label}:{delete_view_name}\' object.{django_model["lookup_field"]} %}}" class="cursor-pointer text-red-600 hover:text-red-500" '
+        f'method="post" onsubmit="return confirm(\'Do you really want to delete this element?\');">'
+        f'{{% csrf_token %}}'
+        f'<button type="submit">{{% heroicon_outline "trash" size=18 %}}</button>'
+        f'</form>'
+        f'</td>'
+    )
+
     return {
+        "project_name": project_name,
         "app_label": app_label,
         "model": django_model,
-        "fields_tuple": tuple(django_model["fields"].keys()),
-        "editable_fields_tuple": tuple(key for key, value in django_model["fields"].items() if value["editable"]),
+        "fields_tuple": tuple(field_names),
+        "editable_fields_tuple": tuple(
+            key for key, value in fields.items() if value["editable"]
+        ),
         "view_name_prefix": view_name_prefix,
         "list_view_name": list_view_name,
         "detail_view_name": detail_view_name,
@@ -470,18 +526,28 @@ def build_blueprint_context(
         "entry_point": entry_point,
         "login_required": login_required,
         "ordering": ordering,
-        "pagination_block": f"""
-        {{% if {model_name_lower}s_page.paginator.num_pages > 1 %}}
-            {{% include "partials/pagination.html" with page={model_name_lower}s_page %}}
-        {{% endif %}}
-        """,
-        "table_block": f"""
-        {{% if {model_name_lower}s_page.object_list %}}
-        {{% include "partials/table.html" with objects={model_name_lower}s_page.object_list fields=fields detail_view="{app_label}:{detail_view_name}" delete_view="{app_label}:{delete_view_name}" update_view="{app_label}:{update_view_name}" %}}
-        {{% else %}}
-        <p class="mt-8">There are no {django_model["verbose_name_plural"]}. <a class="hover:underline cursor-pointer" href="{create_view_url}">Create one now?</a> </p>
-        {{% endif %}}
-        """,
+        "pagination_block": (
+            f'{{% if {model_name_lower}s_page.paginator.num_pages > 1 %}}'
+            f'<c-pagination page={model_name_lower}s_page />'
+            f'{{% endif %}}'
+        ),
+        "table_block": (
+            f'{{% if {model_name_lower}s_page.object_list %}}'
+            f'<div class="overflow-x-auto">'
+            f'<table class="table">'
+            f'<caption>A list of {django_model["verbose_name_plural"]}.</caption>'
+            f'<thead><tr>{table_headers}</tr></thead>'
+            f'<tbody>'
+            f'{{% for object in {model_name_lower}s_page.object_list %}}'
+            f'<tr>{table_cells}{actions_cell}</tr>'
+            f'{{% endfor %}}'
+            f'</tbody>'
+            f'</table>'
+            f'</div>'
+            f'{{% else %}}'
+            f'<p class="mt-8">There are no {django_model["verbose_name_plural"]}. <a class="hover:underline cursor-pointer" href="{create_view_url}">Create one now?</a> </p>'
+            f'{{% endif %}}'
+        ),
     }
 
 

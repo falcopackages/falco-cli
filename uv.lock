@@ -656,7 +656,7 @@ wheels = [
 
 [[package]]
 name = "falco-cli"
-version = "0.28.0"
+version = "0.28.3"
 source = { editable = "." }
 dependencies = [
     { name = "cappa" },
