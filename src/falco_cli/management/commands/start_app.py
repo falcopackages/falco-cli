@@ -81,7 +81,7 @@ class {model_name}(models.Model):
                     apps = node.children[0].children[2]
                     elements = apps.children[1]
 
-                    elements.children.append(parso.parse(f"'{app_name}',"))
+                    elements.children.append(parso.parse(f",\n    '{app_name}',"))
                     new_content = module.get_code()
                     settings_file.write_text(new_content)
                     break
