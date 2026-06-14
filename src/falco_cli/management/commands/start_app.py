@@ -45,10 +45,11 @@ class Command(BaseCommand):
             models_file.write_text(
                 f"""
 from django.db import models
+from {final_app_name.rsplit('.', 1)[0]}.core.base import TimeStamped
 
 
-class {model_name}(models.Model):
-    name=models.CharField(max_length=255)
+class {model_name}(TimeStamped):
+    name = models.CharField(max_length=255)
 
     def __str__(self):
         return self.name

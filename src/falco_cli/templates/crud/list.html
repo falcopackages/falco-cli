@@ -1,8 +1,6 @@
 {% verbatim %}
   {% extends 'base.html' %}
 
-  {% load partials %}
-
   {% block content %}
   {% endverbatim %}
   <section class="flex justify-between">
@@ -14,7 +12,7 @@
   </section>
   {% verbatim %}
 
-    {% partialdef table inline=True %}
+    {% partialdef table inline %}
       <div id="table">
         {% endverbatim %}
         {{ table_block|safe }}

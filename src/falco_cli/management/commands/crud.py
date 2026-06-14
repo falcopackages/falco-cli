@@ -342,7 +342,7 @@ urlpatterns = [
             root_url = root_url.strip().replace(".", "/")
             root_url_path = Path(f"{root_url}.py")
             module = parso.parse(root_url_path.read_text())
-            new_path = parso.parse(f",\n    path('{app.label}/', include('{app.name}.urls', namespace='{app.label}'))")
+            new_path = parso.parse(f"\n    path('{app.label}/', include('{app.name}.urls', namespace='{app.label}')),")
             for node in module.children:
                 try:
                     if (

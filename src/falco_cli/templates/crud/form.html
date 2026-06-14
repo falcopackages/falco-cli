@@ -19,7 +19,7 @@
     <a href="{{ list_view_url|safe }}"
        class="text-blue-600 hover:underline hover:text-blue-500">All {{ model.verbose_name_plural|capfirst }}</a>
   </section>
-  <form method="post"
+  <form method="post" class="form"
         {% if model.has_file_field %}enctype="multipart/form-data"{% endif %}>
     {% verbatim %}
       {% csrf_token %}
