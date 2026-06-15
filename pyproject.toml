@@ -41,7 +41,7 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
 dependencies = [
-  "cappa>=0.26.0",
+  "cappa>=0.32.0",
   "cookiecutter>=2.6.0",
   "cruft>=2.15.0",
   "django>=4.2",
